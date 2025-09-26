@@ -1,0 +1,12 @@
+@charset "UTF-8";
+.ui-item{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &__label{
+        width:auto;
+    }
+    &__content{
+        width:100%;
+    }
+}

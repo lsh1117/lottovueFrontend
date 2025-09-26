@@ -1,0 +1,83 @@
+@charset "UTF-8";
+.popup{
+    &-container{
+        position: fixed;
+        display: none;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        z-index: 2000;
+        &.on{
+            display: block;
+        }
+
+        .popup-area{
+            position: relative;
+            display: block;
+            width:100%;
+            height:100%;
+            .popup-content{
+                &.popup-type-full{
+                    position:absolute;
+                    top:0;
+                    left:0;
+                    width:100%;
+                    height:100%;
+                    .popup-header{
+                        padding:20px;
+                    }
+                }
+                &.popup-type-dialog{
+                    position:absolute;
+                    top:50%;
+                    width:calc(100% - 40px);
+                    margin-left:20px;
+                    transform: translateY(-50%);
+                    border-radius:20px;
+                    padding-bottom:20px;
+                    .popup-header{
+                        padding:20px;
+                        padding-right:40px;
+                    }
+                    .popup-body{
+                        width:100%;
+                        .scroll-area{
+                            padding:0px 20px 20px 20px;
+                            max-height: 50dvh;
+                            overflow-y: auto;
+                        }
+                    }
+                    .popup-footer{
+                        position:absolute;
+                        top:5px;
+                        right:5px;
+                        width:40px;
+                        height:40px;
+                    }
+                }
+                @include themeProperty(background-color, color-bg-white-primary);
+                z-index: 1200;
+
+                span, label, p, strong{
+                    @include themeProperty(color, color-text-tertiary);
+                }
+                select{
+                    @include text-B1-Medium(color-text-tertiary);
+                    @include themeProperty(background-color, color-bg-white-primary);
+                }
+            }
+
+            .popup-overlay{
+                position:absolute;
+                top:0;
+                left:0;
+                width:100%;
+                height:100%;
+                @include themeProperty(background-color, color-bg-overlay);
+                z-index: 1100;
+            }
+        }
+    }
+    
+}

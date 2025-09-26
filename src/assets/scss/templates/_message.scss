@@ -1,0 +1,7 @@
+@charset "UTF-8";
+
+.message{
+    &-error{
+        @include text-B2-Regular(color-base-red-600);
+    }
+}

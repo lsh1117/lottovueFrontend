@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirecting...</title>
+  <script>
+    // 404 오류 발생 시 모든 경로를 index.html로 리다이렉트
+    const pathname = window.location.pathname;
+    const redirectUrl = `${window.location.origin}/`;
+
+    // 히스토리 API를 유지하기 위해 쿼리 문자열로 현재 경로를 전달
+    window.location.replace(`${redirectUrl}?redirect=${pathname}`);
+  </script>
+</head>
+<body>
+  <h1>Redirecting...</h1>
+</body>
+</html>

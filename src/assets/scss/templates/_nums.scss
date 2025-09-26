@@ -1,0 +1,35 @@
+@charset "UTF-8";
+.nums{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    >.num-win{
+        margin-top:2rem;
+        >.title-medium{
+            text-align: center;
+        }
+        >.ball-area{
+            margin-top:10px;
+        }
+    }
+    >.num-bonus{
+        position:relative;
+        margin-top:50px;
+
+        >.title-medium{
+            text-align: center;
+        }
+        >.ball-area{
+            margin-top:10px;
+        }
+        &::after{
+            position: absolute;
+            display: block;
+            left: 50%;
+            top: -40px;
+            content:'+';
+            transform: translateX(-50%);
+            @include text-H2-Bold(color-text-secondary)
+        }
+    }
+}

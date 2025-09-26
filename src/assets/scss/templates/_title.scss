@@ -1,0 +1,8 @@
+@charset "UTF-8";
+.title{
+    &-h3{
+        span{
+            @include text-H3-Bold(color-text-tertiary)
+        }
+    }
+}

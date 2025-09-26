@@ -1,0 +1,55 @@
+@charset "UTF-8";
+.btn{
+    // 버튼 종류
+    &-gnb{
+        display: block;
+        width:100%;
+        height:100%;
+        @include text-B1-Regular(color-text-primary);
+        line-height: 3.8rem;
+    }
+    &-primary{
+        display: block;
+        border-radius: 0.5rem;
+        @include themeProperty(background-color, color-bg-tertiary);
+    }
+    // 버튼 사이즈
+    &-small{
+        padding:0 2rem;
+        width:auto;
+        height:3.5rem;
+        @include text-B2-SemiBold(color-text-primary);
+    }
+    &-large{
+        width:100%;
+        height:3.5rem;
+        @include text-B1-SemiBold(color-text-primary);
+    }
+
+    &-close{
+        display: block;
+        width: 40px;
+        height:40px;
+        @include themeProperty(background-image ,ic_24_line_lg-close);
+        background-size: 20px 20px;
+        background-position: center;
+        background-repeat: no-repeat;
+        text-indent: -10000px;
+    }
+
+    &:disabled{
+        @include themeProperty(color, color-text-disabled);
+        @include themeProperty(background-color, color-button-gray-primary-disabled);
+        pointer-events: none;
+    }
+}
+
+.btn-area{
+    margin-top:20px;
+    padding:0;
+    &-center{
+        display: flex;
+        justify-content: center;
+        gap:10px;
+    }
+}

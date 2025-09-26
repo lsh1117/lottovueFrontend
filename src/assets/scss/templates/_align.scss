@@ -1,0 +1,9 @@
+@charset "UTF-8";
+
+.align{
+    &-horiz{
+        width:auto;
+        display: flex;
+        justify-content: center;
+    }
+}

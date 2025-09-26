@@ -1,0 +1,34 @@
+@charset "UTF-8";
+
+/* vendors */
+
+/* abstracts */
+@import './abstracts/_variables';
+@import './abstracts/_mixins';
+
+/* theme */
+//@import './theme/_light';
+// @import './theme/_dark';
+
+/* base */
+@import './base/_font';
+@import './base/_reset';
+@import './base/_typography';
+@import './base/_common';
+
+/* layout */
+@import './layout/_layout';
+
+
+/* components, templates, pages 각 항목들의 하위 파일목록 각각 import */
+@import '_components.scss';
+
+@import '_templates.scss';
+
+@import '_pages.scss';
+
+.example-area{
+    position:absolute;
+    top:-100000px;
+    left:0;
+}

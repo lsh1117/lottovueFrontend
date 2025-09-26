@@ -1,0 +1,624 @@
+@mixin position-full($position) {
+    position: $position;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/*
+ * clearfix
+ * @include clearfix;
+*/
+@mixin clearfix() {
+    &:after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+}
+
+/*
+* overflowScrolling
+* @include overflowScrolling;
+*/
+@mixin overflowScrolling() {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+
+/*
+* calc
+* @include calc('width', 250px)
+*/
+@mixin calc($property, $expression) {
+    #{$property}: calc(100% - #{$expression});
+}
+
+
+/*
+* calc
+* @include camobile-size-calc('width', 87px);
+*/
+@mixin mobile-size-calc($property, $expression) {
+    #{$property}: (#{$expression/2}px);
+}
+
+
+/*
+* textEllipsis 한 줄
+* @include textEllipsis;
+*/
+@mixin textEllipsis() {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+    overflow: hidden;
+}
+
+
+/*
+* textEllipsis 두 줄
+* @include textEllipsisClamp;
+*/
+@mixin textEllipsisClamp() {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+
+/*
+* translate3D
+* @include translate3D;
+*/
+@mixin translate3D () {
+    -webkit-transform: translate3D(0, 0, 0);
+    -ms-transform: translate3D(0, 0, 0);
+    -o-transform: translate3D(0, 0, 0);
+    transform: translate3D(0, 0, 0);
+}
+
+
+/*
+* scale
+* @include scale(-1, 1);
+*/
+@mixin scale ($sx, $sy) {
+    -webkit-transform: scale($sx, $sy);
+    -ms-transform: scale($sx, $sy);
+    -o-transform: scale($sx, $sy);
+    transform: scale($sx, $sy);
+}
+
+/*
+* transition
+* @include allTransition();
+*/
+@mixin allTransition () {
+    // 효과 수정 중
+    transition: all cubic-bezier(0.65, 0.05, 0.36, .5) .2s;
+}
+
+/*
+* transition
+* @include allTransition();
+*/
+@mixin transition ($property) {
+    // 효과 수정 중
+    transition: $property cubic-bezier(0.65, 0.05, 0.36, .5) .2s;
+}
+
+/* Typography */
+@mixin textClipClamp() {
+    overflow: hidden;
+    text-overflow: clip;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+/* info */
+@mixin info {
+    font-size: 0;
+
+    li {
+        position: relative;
+        display: inline-block;
+        @include body-210;
+
+        &+li {
+            margin-left: 0.8rem;
+            padding-left: 0.9rem;
+
+            &:before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 50%;
+                width: 1px;
+                height: 1.2rem;
+                background: #ddd;
+                transform: translateY(-50%);
+            }
+        }
+    }
+}
+
+/* 20240605 */
+.text-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: polygon(0 0, 0 0, 0 0);
+}
+
+@mixin hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: polygon(0 0, 0 0, 0 0);
+}
+/* font mixin
+ * - font size는 px 에서 단위만 제외하고 숫자만 적어 사용한다 (rem으로 계산 처리함)
+ * - line height는 단위 까지 적는다.
+ * - line height는 될수있으면 배수로 적는다.
+ * - 기본적용
+    {
+        font-size: 1.4rem;
+        line-height: 1.5;
+        font-weight: 400;
+        font-family: 'Pretendard'; 
+    }
+ * - 적용방법
+    @include font-rem-package($size: 폰트사이즈, $height: 폰트 높이 간격, $weight: 폰트 굵기, $family: 폰트 종류)
+ */
+@mixin font-rem-package($size: 14, $height: 1.5, $weight: 400, $color: color-text-gray-800, $pxType: false, $maxSize: false) {
+    $family: 'Pretendard';
+    @if($pxType){
+        font-size: ($size) + px;
+    } @else {
+        $size: ($size * 0.1) + rem;
+        @if($maxSize) {
+            font-size: min($size, $maxSize);
+        } @else {
+            font-size: $size;
+        }
+    }
+    line-height: $height;
+    font-weight: $weight;
+    font-family: $family;
+	// color: $color
+    @if($color == false) {
+        @warn 'none color';
+    } @else {
+        @include themeProperty(color, $color);
+    }
+}
+
+/* Typography 
+ *  Type : Pretendard
+ *  Weight : Bold, Semibold, Medium, Regular
+*/
+
+/* H1
+ * - 화면에서 예외적으로 크게 강조되어야 하는 타이틀이나 금액 등에서 사용
+ */
+@mixin text-H1-Bold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(29, 137.931%, 700, $color, $pxType, $maxSize); // line-height : 40px
+}
+
+@mixin text-H1-SemiBold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(29, 137.931%, 600, $color, $pxType, $maxSize); // line-height : 40px
+}
+
+@mixin text-H1-Medium($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(29, 137.931%, 500, $color, $pxType, $maxSize); // line-height : 40px
+}
+
+/* H2
+ * - 가장 큰 사이즈의 타이틀
+ * - 두 줄 이상의 문장형 텍스트에 스타일로 사용
+ */
+@mixin text-H2-Bold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(25, 140%, 700, $color, $pxType, $maxSize); // line-height : 35px
+}
+
+@mixin text-H2-SemiBold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(25, 140%, 600, $color, $pxType, $maxSize); // line-height : 35px
+}
+
+@mixin text-H2-Medium($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(25, 140%, 500, $color, $pxType, $maxSize); // line-height : 35px
+}
+
+/* H3
+ * - 큰 사이즈의 타이틀
+ * - 두 줄 이상의 문장형 텍스트에 스타일로 사용
+ */
+@mixin text-H3-Bold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(18, 136.364%, 700, $color, $pxType, $maxSize); // line-height : 30px
+}
+
+@mixin text-H3-SemiBold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(18, 136.364%, 600, $color, $pxType, $maxSize); // line-height : 30px
+}
+
+@mixin text-H3-Medium($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(18, 136.364%, 500, $color, $pxType, $maxSize); // line-height : 30px
+}
+
+/* H4
+ * - 보통 사이즈의 타이틀
+ * - 두 줄 이상의 문장형 텍스트에 스타일로 사용
+ */
+@mixin text-H4-Bold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(20, 140%, 700, $color, $pxType, $maxSize); // line-height : 28px
+}
+
+@mixin text-H4-SemiBold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(20, 140%, 600, $color, $pxType, $maxSize); // line-height : 28px
+}
+
+@mixin text-H4-Medium($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(20, 140%, 500, $color, $pxType, $maxSize); // line-height : 28px
+}
+
+@mixin text-H4-Regular($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(20, 140%, 400, $color, $pxType, $maxSize); // line-height : 28px
+}
+
+/* H5
+ * - 작은 사이즈의 타이틀, 짧은 레이블
+ * - H5 이하는 화면을 대표하는 타이틀로 사용할 수 없음
+ * - 주 사용 Weight는 SemiBold
+ */
+@mixin text-H5-Bold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(17, 1.412, 700, $color, $pxType, $maxSize); // line-height : 24px
+}
+
+@mixin text-H5-SemiBold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(17, 1.412, 600, $color, $pxType, $maxSize); // line-height : 24px
+}
+
+@mixin text-H5-Medium($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(17, 1.412, 500, $color, $pxType, $maxSize); // line-height : 24px
+}
+
+@mixin text-H5-Regular($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(17, 1.412, 400, $color, $pxType, $maxSize); // line-height : 24px
+}
+
+/* H6
+ * - 리스트, 카드 등 컴포넌트 항목의 타이틀로 사용
+ * - 두 줄 이상의 문장형 텍스트에 스타일로 사용
+ */
+@mixin text-H6-Bold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(16, 1.375, 700, $color, $pxType, $maxSize); // line-height : 22px
+}
+
+@mixin text-H6-SemiBold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(16, 1.375, 600, $color, $pxType, $maxSize); // line-height : 22px
+}
+
+@mixin text-H6-Medium($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(16, 1.375, 500, $color, $pxType, $maxSize); // line-height : 22px
+}
+
+@mixin text-H6-Regular($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(16, 1.375, 400, $color, $pxType, $maxSize); // line-height : 22px
+}
+
+/* B1 */
+@mixin text-B1-Bold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(14, 140%, 700, $color, $pxType, $maxSize); // line-height : 21px
+}
+
+@mixin text-B1-SemiBold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(14, 140%, 600, $color, $pxType, $maxSize); // line-height : 21px
+}
+
+@mixin text-B1-Medium($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(14, 140%, 500, $color, $pxType, $maxSize); // line-height : 21px
+}
+
+@mixin text-B1-Regular($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(14, 140%, 400, $color, $pxType, $maxSize); // line-height : 21px
+}
+
+/* B2 */
+@mixin text-B2-Bold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(12, 1.429, 700, $color, $pxType, $maxSize); // line-height : 20px
+}
+
+@mixin text-B2-SemiBold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(12, 1.429, 600, $color, $pxType, $maxSize); // line-height : 20px
+}
+
+@mixin text-B2-Medium($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(12, 1.429, 500, $color, $pxType, $maxSize); // line-height : 20px
+}
+
+@mixin text-B2-Regular($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(12, 1.429, 400, $color, $pxType, $maxSize); // line-height : 20px
+}
+
+/* D1 */
+@mixin text-D1-Bold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(12, 1.385, 700, $color, $pxType, $maxSize); // line-height : 18px
+}
+
+@mixin text-D1-SemiBold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(12, 1.385, 600, $color, $pxType, $maxSize); // line-height : 18px
+}
+
+@mixin text-D1-Medium($color, $pxType: false, $maxSize: false){
+    @include font-rem-package(12, 1.385, 500, $color, $pxType, $maxSize); // line-height : 18px
+}
+
+@mixin text-D1-Regular($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(12, 1.385, 400, $color, $pxType, $maxSize); // line-height : 18px
+}
+
+/* D2 */
+@mixin text-D2-Bold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(11, 1.334, 700, $color, $pxType, $maxSize); // line-height : 16px
+}
+
+@mixin text-D2-SemiBold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(11, 1.334, 600, $color, $pxType, $maxSize); // line-height : 16px
+}
+
+@mixin text-D2-Medium($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(11, 1.334, 500, $color, $pxType, $maxSize); // line-height : 16px
+}
+
+@mixin text-D2-Regular($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(11, 1.334, 400, $color, $pxType, $maxSize); // line-height : 16px
+}
+
+/* D3 */
+@mixin text-D3-Bold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(11, 136.364%, 700, $color, $pxType, $maxSize); // line-height : 15px
+}
+
+@mixin text-D3-SemiBold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(11, 136.364%, 600, $color, $pxType, $maxSize); // line-height : 15px
+}
+
+@mixin text-D3-Medium($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(11, 136.364%, 500, $color, $pxType, $maxSize); // line-height : 15px
+}
+
+@mixin text-D3-Regular($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(11, 136.364%, 400, $color, $pxType, $maxSize); // line-height : 15px
+}
+
+/* D4 */
+@mixin text-D4-Bold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(10, 140%, 700, $color, $pxType, $maxSize); // line-height : 14px
+}
+
+@mixin text-D4-SemiBold($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(10, 140%, 600, $color, $pxType, $maxSize); // line-height : 14px
+}
+
+@mixin text-D4-Medium($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(10, 140%, 500, $color, $pxType, $maxSize); // line-height : 14px
+}
+
+@mixin text-D4-Regular($color, $pxType: false, $maxSize: false) {
+    @include font-rem-package(10, 140%, 400, $color, $pxType, $maxSize); // line-height : 14px
+}
+
+@mixin box-bg-gray($color: 300, $size: normal) {
+    @if($color == 300) {
+        background-color:#f5f5f5;
+    }
+
+    @if($size == normal) {
+        padding:20px;
+        border-radius:20px;
+    }
+}
+
+// icon
+$img-url: '/asset/images/common/';
+
+// 테마 ================================================
+// _variable.scss에서 $theme 받아 적용
+@function get-property($key, $type: 'light') {
+    @each $name, $value in map-get($theme, $type) {
+        @if($key == $name) {
+            @return $value;
+        }
+        // @else { @warn "Property '#{$key}' not found in '#{$type}' theme."; }
+    }
+}
+
+
+// $property  : css의 속성 (color,background-color ...)
+// 실제사용    : @include themeProperty(property, text-default);
+@mixin themeProperty($property, $value, $imp: null, $body: null) {
+    @if($imp != null) {
+        #{$property}: get-property($value) !important;
+    } @else {
+        #{$property}: get-property($value);
+    }
+    @at-root body[data-color-mode='dark'] & { // 최상위 #app 할당
+        @if($imp != null) {
+            #{$property}: get-property($value, dark) !important;
+        } @else {
+            #{$property}: get-property($value, dark);
+        }
+    }
+    @if($body != null) {
+        #{$property}: get-property($value);
+        &[data-color-mode='dark'] {
+            #{$property}: get-property($value, dark);
+        }
+    }
+}
+
+
+/* 아이콘 사이즈가 고정(px) 인경우가 있고 큰글씨 적용시 아이콘도 같이 커져야 하는경우(rem)가 있음, 기본은 rem 방식 */
+@mixin icon-package($width: 20, $height: 20, $img: 'url()', $is-size: 'rem') {
+    overflow: hidden;
+    display: inline-block;
+    @if $is-size=='rem' {
+        width: calc($width / 10) + rem;
+        height: calc($height / 10) + rem;
+    }
+    @else {
+        width: $width + px;
+        height: $height + px;
+    }
+    font-size: 0;
+    vertical-align: middle;
+    text-indent:-9999px;
+	@include themeProperty(background-image, $img);
+    background-position: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+// 다크모드가 없는 이미지
+@mixin icon-package-nodark($width: 20, $height: 20, $img: 'url()', $is-size: 'rem') {
+    overflow: hidden;
+    display: inline-block;
+    @if $is-size=='rem' {
+        width: calc($width / 10) + rem;
+        height: calc($height / 10) + rem;
+    }
+    @else {
+        width: $width + px;
+        height: $height + px;
+    }
+    font-size: 0;
+    vertical-align: middle;
+    text-indent:-9999px;
+	background-image: $img;
+    background-position: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+// 완료화면 각 페이지 공통
+/*
+    @include endFeedback(
+        $con : 다음컨텐츠유무 (true false 선택}, 
+        $next: 다음태그 ('box', 'text'),
+        $value: 별도사용자사이즈입력;
+    )
+*/
+@mixin endFeedback ($con: true, $next: 'box', $value: false, $parent: false){
+    $nextTop-box: 24px; // section-start-box 간격
+    $nextTop-text: 16px; // section-start-text 간격
+    @if $parent {
+        .section-start-text {
+            .feedback-message {
+                padding-top: calc(80px - $nextTop-text);
+                // 다음 컨텐츠 : section-start-box
+                @if $con {
+                    $space : 40px; // 간격
+                    @if $con == 'box' {
+                        padding-bottom: calc($space - $nextTop-box);
+                    } @else if $next == 'text' {
+                        padding-bottom: calc($space - $nextTop-text);
+                    } @else {
+                        // 별도
+                        padding-bottom: $value;
+                    }
+                    
+                } @else {
+                    $space : 48px; // 간격
+                    @if $next == 'box' {
+                        padding-bottom: 0;
+                        // padding-bottom: calc($space - $nextTop-box);
+                    } @else if $next == 'text' {
+                        padding-bottom: 0;
+                        // padding-bottom: calc($space - $nextTop-text);
+                    } @else {
+                        // 별도
+                        padding-bottom: $value;
+                    }
+                }
+            }
+            @content
+        }
+    }
+    @else {
+        .section-start-box {
+            .feedback-message {
+                padding-top: calc(80px - $nextTop-box);
+                // 다음 컨텐츠 : section-start-box
+                @if $con {
+                    $space : 40px; // 간격
+                    @if $next == 'box' {
+                        padding-bottom: calc($space - $nextTop-box);
+                    } @else if $next == 'text' {
+                        padding-bottom: calc($space - $nextTop-text);
+                    } @else {
+                        // 별도
+                        padding-bottom: $value;
+                    }
+                    
+                } @else {
+                    $space : 48px; // 간격
+                    @if $next == 'box' {
+                        padding-bottom: calc($space - $nextTop-box);
+                    } @else if $next == 'text' {
+                        padding-bottom: calc($space - $nextTop-text);
+                    } @else {
+                        // 별도
+                        padding-bottom: $value;
+                    }
+                }
+            }
+            @content
+        }
+    }
+}
+
+@mixin endKnow ($con: true, $parent : 'text', $value: false) {
+    $nextTop-box: 24px; // section-start-box 간격
+    $nextTop-text: 16px; // section-start-text 간격
+    @if $con {
+        $space : 40px; // 간격
+        @if $parent == 'text' {
+            .bottom-know {
+                margin-top: calc($space - $nextTop-text);
+                padding-bottom: 0;
+            }
+        }
+        @else {
+            .bottom-know {
+                margin-top: calc($space - $nextTop-box);
+                padding-bottom: 0;
+            }
+        }
+    }
+    @else {
+        $space : 48px; // 간격
+        @if $parent == 'text' {
+            .bottom-know {
+                margin-top: calc($space - $nextTop-text);
+                padding-bottom: 0;
+            }
+        }
+        @else {
+            .bottom-know {
+                margin-top: calc($space - $nextTop-box);
+                padding-bottom: 0;
+            }
+        }
+    }
+    @content
+}

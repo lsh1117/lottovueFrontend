@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+.list{
+    &-basic{
+        width:auto;
+        display: flex;
+        justify-content: center;
+    }
+}
+.recommend-list{
+    max-height:160px;
+    overflow-y: auto;
+}

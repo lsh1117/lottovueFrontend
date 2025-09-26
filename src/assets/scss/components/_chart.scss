@@ -1,0 +1,47 @@
+@charset "UTF-8";
+.chart{
+    .chart-list{
+        .chart-item{
+
+        }
+    }
+
+    .chart-bar{
+        display: flex;
+		align-items: center;
+		margin-bottom: 10px;
+
+        .chart-bar-label{
+            width:4rem;
+            .ball-645{
+                @include text-D2-Regular(color-text-primary)
+            }
+        }
+        .chart-bar-volum {
+            position: relative;
+            width:100%;
+            text-align: right;
+            padding: 0 5px;
+            line-height: 20px;
+            height: 20px;
+            margin-left: 10px;
+            border-radius: 5px;
+            @include themeProperty(background-color,color-bg-primary);
+
+            span{
+                @include text-B1-Regular(color-text-primary);
+            }
+        }
+        .chart-bar-bg{
+            position: absolute;
+            display: block;
+            top:0;
+            left:0;
+            padding: 0 5px;
+            line-height: 20px;
+            height: 20px;
+            border-radius: 5px;
+            background-color: #4caf50;
+        }
+    }
+}

@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+.section-area{
+    margin-top:2rem;
+    .section-header{
+
+    }
+    .section-body{
+        margin-top:12px;
+    }
+
+    &+.section-area{
+        margin-top:4rem;
+    }
+}
+
+.fixed-bottom{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    z-index: 500;
+    @include themeProperty(background-color,color-bg-secondary);
+    .btn-area{
+        margin-top:0;
+        padding:20px;
+    }
+}

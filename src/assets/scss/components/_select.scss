@@ -1,0 +1,16 @@
+@charset "UTF-8";
+.select-area{
+    display: flex;
+    justify-content: space-between;
+    label{
+        width:50%;
+    }
+    select{
+        margin-left:10px;
+        padding:0 10px;
+        width:100%;
+        text-align: right;
+        @include text-B1-Medium(color-text-primary);
+        @include themeProperty(background-color, color-bg-primary);
+    }
+}

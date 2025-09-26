@@ -1,0 +1,74 @@
+@charset "UTF-8";
+
+.table{
+    &-list{
+        border-top:2px solid transparent;
+        @include themeProperty(border-color,color-border-gray-700);
+        tr{
+            th{
+                padding: 2px;
+                @include themeProperty(background-color,color-surface-gray-secondary-enabled);
+                border-bottom:1px solid transparent;
+                border-left:1px solid transparent;
+                &:last-child{
+                    border-right:1px solid transparent;
+                }
+                @include themeProperty(border-color,color-border-gray-600,!important);
+                span{
+                    @include text-B2-Bold(color-text-tertiary);
+                }
+                
+            }
+            td{
+                padding: 3px;
+                @include themeProperty(background-color,color-surface-gray-primary-enabled);
+                border-bottom:1px solid transparent;
+                border-left:1px solid transparent;
+                &:last-child{
+                    border-right:1px solid transparent;
+                }
+                @include themeProperty(border-color,color-border-gray-600,!important);
+                span,strong{
+                    @include text-D1-Regular(color-text-tertiary);
+                }
+                
+            }
+        }
+        
+    }
+    &-item{
+        border-top:2px solid transparent;
+        @include themeProperty(border-color,color-border-gray-700);
+        tr{
+            th{
+                padding: 2px;
+                @include themeProperty(background-color,color-surface-gray-secondary-enabled);
+                border-bottom:1px solid transparent;
+                border-left:1px solid transparent;
+                &:last-child{
+                    border-right:1px solid transparent;
+                }
+                @include themeProperty(border-color,color-border-gray-600,!important);
+                span{
+                    @include text-B2-Bold(color-text-tertiary);
+                }
+                
+            }
+            td{
+                padding: 3px;
+                @include themeProperty(background-color,color-surface-gray-primary-enabled);
+                border-bottom:1px solid transparent;
+                border-left:1px solid transparent;
+                &:last-child{
+                    border-right:1px solid transparent;
+                }
+                @include themeProperty(border-color,color-border-gray-600,!important);
+                span,strong{
+                    @include text-D1-Regular(color-text-tertiary);
+                }
+                
+            }
+        }
+        
+    }
+}

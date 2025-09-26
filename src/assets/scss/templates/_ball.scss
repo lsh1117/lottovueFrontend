@@ -1,0 +1,72 @@
+@charset "UTF-8";
+
+.ball-area{
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    >ul.ball-list{
+        display: flex;
+        gap:1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        >li{
+            display: block;
+        }
+    }
+}
+
+.ball-645{
+    position: relative;
+    display: block;
+    width:4rem;
+    height:4rem;
+    border-radius: 4rem;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    @include text-B1-Regular(color-text-primary);
+    text-shadow: 1px 1px 2px #222;
+    @include themeProperty(color, color-text-primary, !important);
+
+    &-medium{
+        width:3rem;
+        height:3rem;
+        border-radius: 3rem;
+        @include text-B1-Regular(color-text-primary);
+    }
+
+    &-small{
+        width:2rem;
+        height:2rem;
+        border-radius: 2rem;
+        @include text-D1-Regular(color-text-primary);
+    }
+
+    &-disable{
+        opacity: 0.3;
+    }
+}
+
+.ball-1{
+    @include themeProperty(background-color, color-ball-01);
+}
+.ball-2{
+    @include themeProperty(background-color, color-ball-02);
+}
+.ball-3{
+    @include themeProperty(background-color, color-ball-03);
+}
+.ball-4{
+    @include themeProperty(background-color, color-ball-04);
+}
+.ball-5{
+    @include themeProperty(background-color, color-ball-05);
+}
+.ball-odd{
+    @include themeProperty(background-color, color-ball-03);
+}
+.ball-even{
+    @include themeProperty(background-color, color-ball-02);
+}

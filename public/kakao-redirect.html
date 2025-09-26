@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Kakao Redirect</title>
+    <script>
+        // Redirect 처리 스크립트
+        const hash = window.location.hash;
+        const queryParams = new URLSearchParams(hash.replace('#', '?'));
+        const redirectTo = queryParams.get('state'); // 원하는 라우트로 이동
+        if (redirectTo) {
+            window.location.href = redirectTo;
+        } else {
+            window.location.href = '/#/login';
+        }
+    </script>
+</head>
+
+<body>
+    Redirecting...
+</body>
+
+</html>

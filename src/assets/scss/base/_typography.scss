@@ -1,0 +1,32 @@
+@charset "UTF-8";
+// h1 로고
+// h2 최상단 타이틀
+// h3 페이지 타이틀
+// h4 서브 타이틀
+h4{
+    &.title-big{
+        @include text-H3-Bold(color-text-primary);
+        strong{
+            @include text-H3-Bold(color-text-blue-basic-enabled);
+        }
+    }
+    &.title-medium{
+        @include text-H4-Bold(color-text-primary);
+    }
+}
+
+label{
+    &.label-big{
+        @include text-B1-Bold(color-text-primary);
+        strong{
+            @include text-B1-Bold(color-text-blue-basic-enabled);
+        }
+    }
+    &.label-medium{
+        @include text-B1-Bold(color-text-primary);
+    }
+}
+
+.text-description-medium{
+    @include text-D1-Medium(color-text-secondary);
+}

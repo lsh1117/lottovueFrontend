@@ -64,8 +64,22 @@
 	// 전체 저장 상태
 	const allSaved = ref(false);
 
-	// 추천 번호 갯수 정의
-	const _recommendCnt = 20;
+	// 추천 번호 갯수 정의 (안드로이드 앱에서 회차별로 가져오기, 웹에서는 기본값 2)
+	let _recommendCnt = 0;
+	if (window.AndroidBridge && typeof window.AndroidBridge.getRecommendCount === 'function') {
+		try {
+			// 현재 회차번호를 전달하여 해당 회차의 생성 개수 조회
+			_recommendCnt = window.AndroidBridge.getRecommendCount(_nextDrw);
+			
+			// 오래된 회차 설정값 정리 (선택사항)
+			if (typeof window.AndroidBridge.clearOldRecommendCounts === 'function') {
+				window.AndroidBridge.clearOldRecommendCounts(_nextDrw);
+			}
+		} catch (e) {
+			console.error('getRecommendCount error:', e);
+			_recommendCnt = 1; // 오류 시 기본값
+		}
+	}
 	
 	for( let j=0;j<_recommendCnt;j++){
 		let _list = [..._newTotalNumbers];

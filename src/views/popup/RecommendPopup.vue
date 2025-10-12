@@ -17,17 +17,39 @@
 			<button class="btn-primary btn-small" :disabled="allSaved" @click="saveAll">{{ allSaved ? '완료' : '전체저장' }}</button>
 			<button class="btn-primary btn-small" @click="$emit('close')">닫기</button>
 		</div>
+
+		<!-- Naive UI Modal: 생성 한도 초과 알림 -->
+		<n-modal
+			v-model:show="showLimitModal"
+			preset="dialog"
+			title="번호 생성 제한"
+			:positive-text="'확인'"
+			:closable="false"
+			@positive-click="handleModalClose"
+		>
+			<p style="line-height: 1.6;">
+				<strong>{{ _nextDrw }}회차</strong>는 이미 최대 <strong>2개</strong>의 번호 조합이 저장되어 있습니다.<br>
+				더 이상 번호를 생성할 수 없습니다.
+			</p>
+		</n-modal>
 	</div>
 </template>
 
 <script setup>
 	import { onMounted, ref } from "vue";
+	import { NModal } from "naive-ui";
 	import { useCalculateStore } from "@/stores/CalculateStore";
 	import { useExceptionStore } from "@/stores/ExceptionStore";
 	import { useFixedStore } from "@/stores/FixedStore";
 	import { useRecommendStore } from "@/stores/RecommendStore";
 	import { useMyPickStore } from "@/stores/MyPickStore";
 	import { useDrwStore } from "@/stores/DrwStore";
+
+	// emit 정의
+	const emit = defineEmits(['close']);
+
+	// 한도 초과 모달 표시 상태
+	const showLimitModal = ref(false);
 
 	// Pinia store 가져오기
 	const exceptionStore = useExceptionStore();
@@ -66,51 +88,68 @@
 
 	// 추천 번호 갯수 정의 (안드로이드 앱에서 회차별로 가져오기, 웹에서는 기본값 2)
 	let _recommendCnt = 0;
-	if (window.AndroidBridge && typeof window.AndroidBridge.getRecommendCount === 'function') {
-		try {
-			// 현재 회차번호를 전달하여 해당 회차의 생성 개수 조회
-			_recommendCnt = window.AndroidBridge.getRecommendCount(_nextDrw);
-			
-			// 오래된 회차 설정값 정리 (선택사항)
-			if (typeof window.AndroidBridge.clearOldRecommendCounts === 'function') {
-				window.AndroidBridge.clearOldRecommendCounts(_nextDrw);
+
+	function checkRecommendCount(){
+		if (window.AndroidBridge && typeof window.AndroidBridge.getRecommendCount === 'function') {
+			try {
+				// 현재 회차번호를 전달하여 해당 회차의 생성 개수 조회
+				// getRecommendCount는 이미 저장된 picks를 고려하여 생성 가능한 개수를 반환
+				_recommendCnt = window.AndroidBridge.getRecommendCount(_nextDrw);
+				
+				// 오래된 회차 설정값 정리 (선택사항)
+				if (typeof window.AndroidBridge.clearOldRecommendCounts === 'function') {
+					window.AndroidBridge.clearOldRecommendCounts(_nextDrw);
+				}
+			} catch (e) {
+				console.error('getRecommendCount error:', e);
+				_recommendCnt = 0; // 오류 시 기본값
 			}
-		} catch (e) {
-			console.error('getRecommendCount error:', e);
-			_recommendCnt = 1; // 오류 시 기본값
-		}
-	}
-	
-	for( let j=0;j<_recommendCnt;j++){
-		let _list = [..._newTotalNumbers];
-		let _numbers = [];
-		for(let i=0;i<_cnt;i++) {
-			let _number = getRandomElement(_list);
-			_list = _list.filter(item => item !== _number);
-			const _numberObj = {
-				number:_number,
-			}
-			_numbers.push(_numberObj);
 		}
 
-		// 고정 번호 추가.
-		_fixedNumber.forEach(item=>{
-			_numbers.push({
-				number:item
+		// 생성 가능한 번호 조합이 0개인 경우 모달 표시
+		if (_recommendCnt === 0) {
+			showLimitModal.value = true;
+		}
+	}
+
+	// 모달 닫기 및 팝업 닫기
+	function handleModalClose() {
+		showLimitModal.value = false;
+		emit('close');
+	}
+
+	function createRecommend(){
+		for( let j=0;j<_recommendCnt;j++){
+			let _list = [..._newTotalNumbers];
+			let _numbers = [];
+			for(let i=0;i<_cnt;i++) {
+				let _number = getRandomElement(_list);
+				_list = _list.filter(item => item !== _number);
+				const _numberObj = {
+					number:_number,
+				}
+				_numbers.push(_numberObj);
+			}
+
+			// 고정 번호 추가.
+			_fixedNumber.forEach(item=>{
+				_numbers.push({
+					number:item
+				})
 			})
-		})
-		_numbers.sort((a, b) => a.number - b.number);
+			_numbers.sort((a, b) => a.number - b.number);
 
-		const _recommend = {
-			"numbers":_numbers
-		};
+			const _recommend = {
+				"numbers":_numbers
+			};
 
-		recommends.value.push(_recommend);
-		recommendStore.addRecommend(_numbers,_nextDrw);
+			recommends.value.push(_recommend);
+			recommendStore.addRecommend(_numbers,_nextDrw);
+		}
+
+		// 저장 상태 초기화 (모두 미저장)
+		saved.value = Array(recommends.value.length).fill(false);
 	}
-
-	// 저장 상태 초기화 (모두 미저장)
-	saved.value = Array(recommends.value.length).fill(false);
 
 	
 
@@ -172,5 +211,10 @@
 
     onMounted(() => {
 		//console.log("###### 번호 뽑기 onMounted" );
+		checkRecommendCount();
+		// 생성 가능한 번호 조합이 0개인 경우 알럿 표시 후 팝업 닫기
+		if (_recommendCnt > 0) {
+			createRecommend();
+		}
 	});
 </script>

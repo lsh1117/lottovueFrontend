@@ -129,8 +129,13 @@
 		_max = _totalAppear[0];
 		_min = _totalAppear[44];
 
-		const _message = _exceptions.join() + " : 최근 100회동안 " + "20번 이상 등장으로 많이 나왔음.";
-		return _message;
+		if(_exceptions.length > 0 ){
+			_message = _exceptions.join() + " : 최근 100회동안 " + "20번 이상 등장으로 많이 나왔음.";
+			return _message;
+		}
+		else{
+			return null;
+		}
 	}
 
 	function onAllApply(){

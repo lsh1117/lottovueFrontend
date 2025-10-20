@@ -1,5 +1,10 @@
 <template>
 	<div>
+		<!-- 히스토리 표시 안내 메시지 -->
+		<div v-if="showingHistory" class="history-notice">
+			<p>{{ _nextDrw }}회차에 생성된 번호 목록 (총 {{ currentPickCount }}개)</p>
+		</div>
+		
         <div class="scroll-area">
             <article class="article-area" v-for="(recommend, idx) in recommends" :key="idx">
 				<div class="ball-area">
@@ -23,13 +28,14 @@
 			v-model:show="showLimitModal"
 			preset="dialog"
 			title="번호 생성 제한"
-			:positive-text="'확인'"
+			:positive-text="showingHistory ? '닫기' : '기존 생성 번호 보기'"
 			:closable="false"
 			@positive-click="handleModalClose"
 		>
 			<p style="line-height: 1.6;">
-				<strong>{{ _nextDrw }}회차</strong>는 이미 최대 <strong>2개</strong>의 번호 조합이 저장되어 있습니다.<br>
-				더 이상 번호를 생성할 수 없습니다.
+				<strong>{{ _nextDrw }}회차</strong>는 이미 최대 <strong>{{ maxPickCount }}개</strong> 중 <strong>{{ currentPickCount }}개</strong>의 번호 조합이 생성되어 있습니다.<br>
+				더 이상 번호를 생성할 수 없습니다.<br>
+				<span v-if="currentPickCount > 0">확인 버튼을 클릭하면 기존에 생성된 번호를 확인할 수 있습니다.</span>
 			</p>
 		</n-modal>
 	</div>
@@ -50,6 +56,15 @@
 
 	// 한도 초과 모달 표시 상태
 	const showLimitModal = ref(false);
+	
+	// 한도 초과 시 pickHistory 표시 여부
+	const showingHistory = ref(false);
+	
+	// 최대 생성 가능 개수
+	const maxPickCount = ref(2);
+	
+	// 현재 저장된 개수
+	const currentPickCount = ref(0);
 
 	// Pinia store 가져오기
 	const exceptionStore = useExceptionStore();
@@ -92,9 +107,23 @@
 	function checkRecommendCount(){
 		if (window.AndroidBridge && typeof window.AndroidBridge.getRecommendCount === 'function') {
 			try {
+				// 프리미엄 사용자인지 확인
+				const isPremium = window.AndroidBridge.isPremiumUser ? window.AndroidBridge.isPremiumUser() : false;
+				maxPickCount.value = isPremium ? 100 : 2;
+				
+				// pickHistory에서 현재 저장된 개수 조회
+				if (typeof window.AndroidBridge.getPickHistoryJson === 'function') {
+					const historyJson = window.AndroidBridge.getPickHistoryJson(_nextDrw);
+					const historyData = JSON.parse(historyJson);
+					currentPickCount.value = historyData.length;
+				}
+				
 				// 현재 회차번호를 전달하여 해당 회차의 생성 개수 조회
 				// getRecommendCount는 이미 저장된 picks를 고려하여 생성 가능한 개수를 반환
 				_recommendCnt = window.AndroidBridge.getRecommendCount(_nextDrw);
+
+				console.log('pickHistory에서 현재 저장된 개수 조회 currentPickCount:', currentPickCount.value);
+				console.log('현재 회차번호를 전달하여 해당 회차의 생성 개수 조회 _recommendCnt:', _recommendCnt);
 				
 				// 오래된 회차 설정값 정리 (선택사항)
 				if (typeof window.AndroidBridge.clearOldRecommendCounts === 'function') {
@@ -112,10 +141,55 @@
 		}
 	}
 
-	// 모달 닫기 및 팝업 닫기
+	// 모달 닫기 시 pickHistory 표시
 	function handleModalClose() {
-		showLimitModal.value = false;
-		emit('close');
+		if (showingHistory.value) {
+			// 이미 히스토리를 표시 중이면 모달만 닫기
+			showLimitModal.value = false;
+		} else {
+			// 히스토리를 로드하여 표시
+			showLimitModal.value = false;
+			loadPickHistory();
+		}
+	}
+	
+	// pickHistory를 로드하여 화면에 표시
+	function loadPickHistory() {
+		try {
+			if (window.AndroidBridge && typeof window.AndroidBridge.getPickHistoryJson === 'function') {
+				const historyJson = window.AndroidBridge.getPickHistoryJson(_nextDrw);
+				const historyData = JSON.parse(historyJson);
+				
+				console.log('loadPickHistory historyData:', historyData);
+				
+				// historyData를 recommends 형식으로 변환
+				recommends.value = historyData.map(item => {
+					return {
+						numbers: [
+							{ number: item.no1 },
+							{ number: item.no2 },
+							{ number: item.no3 },
+							{ number: item.no4 },
+							{ number: item.no5 },
+							{ number: item.no6 }
+						],
+						isSaved: item.isSaved // DB 저장 여부 추가
+					};
+				});
+				
+				// 각 항목의 저장 상태를 isSaved 값으로 설정
+				saved.value = historyData.map(item => item.isSaved === true);
+				
+				// 모든 항목이 저장되었는지 확인
+				allSaved.value = saved.value.every(v => v);
+				
+				showingHistory.value = true;
+				console.log('loadPickHistory recommends:', recommends.value);
+
+			}
+		} catch (e) {
+			console.error('loadPickHistory error:', e);
+		}
 	}
 
 	function createRecommend(){
@@ -145,10 +219,39 @@
 
 			recommends.value.push(_recommend);
 			recommendStore.addRecommend(_numbers,_nextDrw);
+			
+			// 생성된 번호를 바로 pickHistory에 저장
+			saveToHistory(_numbers);
 		}
 
 		// 저장 상태 초기화 (모두 미저장)
 		saved.value = Array(recommends.value.length).fill(false);
+	}
+	
+	// pickHistory에 번호 저장 (생성 시점에 호출)
+	function saveToHistory(numbers) {
+		try {
+			const nums = numbers.map(n => Number(n.number)).sort((a,b)=>a-b);
+			if(nums.length !== 6) return;
+			
+			const payload = {
+				drwNo: _nextDrw,
+				no1: nums[0],
+				no2: nums[1],
+				no3: nums[2],
+				no4: nums[3],
+				no5: nums[4],
+				no6: nums[5],
+			};
+			
+			if (window.AndroidBridge && typeof window.AndroidBridge.saveHistory === 'function') {
+				window.AndroidBridge.saveHistory(JSON.stringify(payload));
+
+				console.log('pickHistory에 번호 저장 saveToHistory:', payload);
+			}
+		} catch (e) {
+			console.error('saveToHistory error:', e);
+		}
 	}
 
 	
@@ -185,7 +288,12 @@
             }
             if (window.AndroidBridge && typeof window.AndroidBridge.savePick === 'function') {
                 const ok = window.AndroidBridge.savePick(JSON.stringify(payload))
-                // console.log('savePick result:', ok)
+                console.log('savePick result:', ok)
+                
+                // DB 저장 성공 시 recommends의 isSaved도 업데이트
+                if (ok && recommends.value[idx]) {
+                    recommends.value[idx].isSaved = true
+                }
             }
 			// 로컬 myPickStore에도 저장 (정렬된 번호 객체 배열로 저장)
 			const numbersForStore = nums.map(n => ({ number: n }))
@@ -195,7 +303,7 @@
 			// 모두 저장되었는지 체크하여 전체 버튼 상태 갱신
 			allSaved.value = saved.value.every(v => v);
         } catch (e) {
-            // console.error('saveMyPick error', e)
+            console.error('saveMyPick error', e)
         }
     }
 
@@ -218,3 +326,21 @@
 		}
 	});
 </script>
+
+<style scoped>
+.history-notice {
+	background-color: #f0f8ff;
+	border: 2px solid #4a90e2;
+	border-radius: 8px;
+	padding: 12px 16px;
+	margin: 0 20px 16px 20px;
+	text-align: center;
+}
+
+.history-notice p {
+	margin: 0;
+	color: #2c5aa0;
+	font-weight: 600;
+	font-size: 14px;
+}
+</style>

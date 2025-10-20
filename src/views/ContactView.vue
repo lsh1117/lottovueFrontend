@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-	import { onMounted, ref } from 'vue';
+	import { computed } from 'vue';
 	import { useEventStore } from '@/stores/EventStore';
 	import { useExceptionStore } from "@/stores/ExceptionStore";
 	import { useFixedStore } from "@/stores/FixedStore";
@@ -75,8 +75,8 @@
 	// Pinia store 가져오기
 	const drwStore = useDrwStore();
 	
-	// 제외 번호
-	let exceptionNumbers = ref([]);
+	// 제외 번호 - computed로 변경하여 자동 반영
+	const exceptionNumbers = computed(() => exceptionStore.numbers);
 	
 	// 제외번호 팝업 호출
 	function openExceptionPopup() {
@@ -91,13 +91,13 @@
 
 	// 제외번호 확인 핸들러.
 	function onExceptionPopupConfirm(e){
-		exceptionNumbers.value = [...exceptionStore.numbers];
+		// computed로 자동 반영되므로 수동 업데이트 불필요
 		//console.log("제외번호 확인 핸들러 :",e);
 	}
 
 	// 제외번호 닫기 핸들러.
 	function onExceptionPopupClose(e){
-		exceptionNumbers.value = [...exceptionStore.numbers];
+		// computed로 자동 반영되므로 수동 업데이트 불필요
 		//console.log("제외번호 닫기 핸들러 :",e);
 	}
 
@@ -113,12 +113,12 @@
 
 	// 추천 제외번호 닫기 핸들러.
 	function onExceptionRecommendPopupClose(e){
-		exceptionNumbers.value = [...exceptionStore.numbers];
+		// computed로 자동 반영되므로 수동 업데이트 불필요
 		//console.log("추천 제외번호 닫기 핸들러 :",e);
 	}
 
-	// 고정번호
-	let fixedNumbers = ref([]);
+	// 고정번호 - computed로 변경하여 자동 반영
+	const fixedNumbers = computed(() => fixedStore.numbers);
 	
 	// 고정번호 팝업 호출
 	function openFixedPopup() {
@@ -133,12 +133,13 @@
 
 	// 고정번호 확인 핸들러.
 	function onFixedPopupConfirm(e){
-		fixedNumbers.value = [...fixedStore.numbers];
+		// computed로 자동 반영되므로 수동 업데이트 불필요
 		//console.log("고정번호 확인 핸들러 :",e);
 	}
 
 	// 고정번호 닫기 핸들러.
 	function onFixedPopupClose(e){
+		// computed로 자동 반영되므로 수동 업데이트 불필요
 		//console.log("고정번호 닫기 핸들러 :",e);
 	}
 
@@ -243,9 +244,4 @@
 
 		calculateStore.setNumbers(calculateNumbers);
 	}
-
-	onMounted(() => {
-		exceptionNumbers.value = [...exceptionStore.numbers];
-		fixedNumbers.value = [...fixedStore.numbers];
-	});
 </script>

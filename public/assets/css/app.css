@@ -1,0 +1,1524 @@
+@charset "UTF-8";
+/* vendors */
+/* abstracts */
+/*
+ * - 컬러사용시 짝이 있는지 확인한다 (뒤 넘버가 붙을 경우 아래 깔리는 레이어가 존재하는 색상이다.
+ * - Light 와 dark 컨트롤은 body dataset 으로 컨트롤 한다.(변수값을 변경해서 대칭 색상이 자동으로 들어가게 한다.)
+ * - 없는 컬러 또는 색상 추가는 디자인 팀에 문의 후 dark 모드 색상과 Light 색상 같이 받아 변수명에 등록 후 사용한다. (페이지 내에 사용한다 하여도 주석 사용후 사용 하는걸 지향한다.)
+ */
+:root {
+  --size-base-font: 62.5%;
+}
+
+/*
+ * clearfix
+ * @include clearfix;
+*/
+/*
+* overflowScrolling
+* @include overflowScrolling;
+*/
+/*
+* calc
+* @include calc('width', 250px)
+*/
+/*
+* calc
+* @include camobile-size-calc('width', 87px);
+*/
+/*
+* textEllipsis 한 줄
+* @include textEllipsis;
+*/
+/*
+* textEllipsis 두 줄
+* @include textEllipsisClamp;
+*/
+/*
+* translate3D
+* @include translate3D;
+*/
+/*
+* scale
+* @include scale(-1, 1);
+*/
+/*
+* transition
+* @include allTransition();
+*/
+/*
+* transition
+* @include allTransition();
+*/
+/* Typography */
+/* info */
+/* 20240605 */
+.text-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  -webkit-clip-path: polygon(0 0, 0 0, 0 0);
+          clip-path: polygon(0 0, 0 0, 0 0);
+}
+
+/* font mixin
+ * - font size는 px 에서 단위만 제외하고 숫자만 적어 사용한다 (rem으로 계산 처리함)
+ * - line height는 단위 까지 적는다.
+ * - line height는 될수있으면 배수로 적는다.
+ * - 기본적용
+    {
+        font-size: 1.4rem;
+        line-height: 1.5;
+        font-weight: 400;
+        font-family: 'Pretendard'; 
+    }
+ * - 적용방법
+    @include font-rem-package($size: 폰트사이즈, $height: 폰트 높이 간격, $weight: 폰트 굵기, $family: 폰트 종류)
+ */
+/* Typography 
+ *  Type : Pretendard
+ *  Weight : Bold, Semibold, Medium, Regular
+*/
+/* H1
+ * - 화면에서 예외적으로 크게 강조되어야 하는 타이틀이나 금액 등에서 사용
+ */
+/* H2
+ * - 가장 큰 사이즈의 타이틀
+ * - 두 줄 이상의 문장형 텍스트에 스타일로 사용
+ */
+/* H3
+ * - 큰 사이즈의 타이틀
+ * - 두 줄 이상의 문장형 텍스트에 스타일로 사용
+ */
+/* H4
+ * - 보통 사이즈의 타이틀
+ * - 두 줄 이상의 문장형 텍스트에 스타일로 사용
+ */
+/* H5
+ * - 작은 사이즈의 타이틀, 짧은 레이블
+ * - H5 이하는 화면을 대표하는 타이틀로 사용할 수 없음
+ * - 주 사용 Weight는 SemiBold
+ */
+/* H6
+ * - 리스트, 카드 등 컴포넌트 항목의 타이틀로 사용
+ * - 두 줄 이상의 문장형 텍스트에 스타일로 사용
+ */
+/* B1 */
+/* B2 */
+/* D1 */
+/* D2 */
+/* D3 */
+/* D4 */
+/* 아이콘 사이즈가 고정(px) 인경우가 있고 큰글씨 적용시 아이콘도 같이 커져야 하는경우(rem)가 있음, 기본은 rem 방식 */
+/*
+    @include endFeedback(
+        $con : 다음컨텐츠유무 (true false 선택}, 
+        $next: 다음태그 ('box', 'text'),
+        $value: 별도사용자사이즈입력;
+    )
+*/
+/* theme */
+/* base */
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 700;
+  font-display: swap;
+  src: local("Pretendard Bold"), url(./font/Pretendard-Bold.woff2) format("woff2"), url(./font/Pretendard-Bold.woff) format("woff");
+}
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 600;
+  font-display: swap;
+  src: local("Pretendard SemiBold"), url(./font/Pretendard-SemiBold.woff2) format("woff2"), url(./font/Pretendard-SemiBold.woff) format("woff");
+}
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 500;
+  font-display: swap;
+  src: local("Pretendard Medium"), url(./font/Pretendard-Medium.woff2) format("woff2"), url(./font/Pretendard-Medium.woff) format("woff");
+}
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 400;
+  font-display: swap;
+  src: local("Pretendard Regular"), url(./font/Pretendard-Regular.woff2) format("woff2"), url(./font/Pretendard-Regular.woff) format("woff");
+}
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video, button {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  vertical-align: baseline;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  word-break: normal;
+}
+
+input, select, textarea {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+textarea {
+  resize: none;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-text-size-adjust: none;
+} /* 아이폰 가로모드시 글씨 커지는 문제 */
+i, em {
+  font-style: normal;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+sub {
+  vertical-align: sub;
+  font-size: smaller;
+  line-height: 0;
+}
+
+sup {
+  vertical-align: super;
+  font-size: smaller;
+  line-height: 0;
+}
+
+img, fieldset {
+  vertical-align: middle;
+}
+
+a {
+  color: inherit;
+  vertical-align: inherit;
+  text-decoration: none;
+}
+
+a:link, a:hover {
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+}
+
+ol, ul, li {
+  list-style: none;
+}
+
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  table-layout: fixed;
+}
+
+th, td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+caption, legend {
+  width: 1px;
+  height: 1px;
+  margin: -1px 0 0 0;
+  padding: 0;
+  border: 0; /* clip:rect(0 0 0 0) !important; */
+  overflow: hidden;
+  font-size: 0;
+  color: transparent;
+  line-height: 0;
+}
+
+fieldset, legend {
+  border: 0;
+  background-color: transparent;
+}
+
+/*hr {display:none;}*/
+hr {
+  height: 0;
+  border: 0;
+  background-color: transparent;
+}
+
+button {
+  display: inline-block;
+  border: 0;
+  background-color: transparent;
+  font-size: inherit;
+  text-align: center;
+  cursor: pointer;
+  overflow: visible;
+  -webkit-appearance: button;
+}
+
+body:not(.isMobile) a[href^=tel] {
+  cursor: text;
+  pointer-events: none;
+}
+
+body:not(.isMobile) a[href^=tel]:hover {
+  color: currentColor;
+  text-decoration: none;
+}
+
+/* 아이폰(사파리) 터치 메뉴 활성화 관련 */
+a, button,
+[role=button], [role=link], [role=tab] { /*outline:none;*/
+  -webkit-touch-callout: none;
+}
+
+/* 아이폰(사파리) form 요소 박스선 없애기 */
+input,
+select,
+textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  -webkit-border-radius: 0;
+}
+
+html {
+  width: 100%;
+  height: 100%;
+  font-size: 62.5%;
+}
+
+@media (max-width: 330px) {
+  html {
+    font-size: 12px !important;
+  }
+}
+html, body {
+  width: 100%;
+  min-height: 100%;
+  font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", "돋움", dotum, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-size: 1.6rem;
+  color: rgba(7, 15, 22, 0.82);
+  color: rgba(7, 15, 22, 0.82);
+  background-color: rgb(255, 255, 255);
+  background-color: rgb(255, 255, 255);
+}
+body[data-color-mode=dark] body {
+  color: rgba(248, 249, 252, 0.9);
+}
+
+body[data-color-mode=dark] {
+  color: rgba(248, 249, 252, 0.9);
+}
+body[data-color-mode=dark] body {
+  background-color: #16181a;
+}
+
+body[data-color-mode=dark] {
+  background-color: #16181a;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  word-break: keep-all;
+}
+
+p, span, label, strong, a {
+  word-break: unset;
+}
+
+body.hidden {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+h4.title-big {
+  font-size: 1.8rem;
+  line-height: 136.364%;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
+}
+body[data-color-mode=dark] h4.title-big {
+  color: rgb(22, 22, 22);
+}
+
+h4.title-big strong {
+  font-size: 1.8rem;
+  line-height: 136.364%;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgb(8, 113, 243);
+}
+body[data-color-mode=dark] h4.title-big strong {
+  color: rgb(57, 150, 243);
+}
+
+h4.title-medium {
+  font-size: 2rem;
+  line-height: 140%;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
+}
+body[data-color-mode=dark] h4.title-medium {
+  color: rgb(22, 22, 22);
+}
+
+label.label-big {
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
+}
+body[data-color-mode=dark] label.label-big {
+  color: rgb(22, 22, 22);
+}
+
+label.label-big strong {
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgb(8, 113, 243);
+}
+body[data-color-mode=dark] label.label-big strong {
+  color: rgb(57, 150, 243);
+}
+
+label.label-medium {
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
+}
+body[data-color-mode=dark] label.label-medium {
+  color: rgb(22, 22, 22);
+}
+
+.text-description-medium {
+  font-size: 1.2rem;
+  line-height: 1.385;
+  font-weight: 500;
+  font-family: "Pretendard";
+  color: rgb(28, 211, 12);
+}
+body[data-color-mode=dark] .text-description-medium {
+  color: rgb(220, 220, 220);
+}
+
+.section-area {
+  margin-top: 2rem;
+}
+.section-area .section-body {
+  margin-top: 12px;
+}
+.section-area + .section-area {
+  margin-top: 4rem;
+}
+
+.fixed-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 500;
+  background-color: rgb(24, 24, 24);
+}
+body[data-color-mode=dark] .fixed-bottom {
+  background-color: rgb(1, 10, 19);
+}
+
+.fixed-bottom .btn-area {
+  margin-top: 0;
+  padding: 20px;
+}
+
+/* layout */
+body {
+  background-color: rgb(51, 51, 51);
+}
+body[data-color-mode=dark] body {
+  background-color: rgb(255, 255, 255);
+}
+
+.wrap {
+  position: relative;
+}
+
+.header-area {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  padding: 12px 16px;
+  height: 52px;
+  border-bottom: 1px solid rgba(51, 51, 51, 0.6);
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  background-color: rgb(24, 24, 24);
+}
+body[data-color-mode=dark] .header-area {
+  background-color: rgb(1, 10, 19);
+}
+
+.header-area h1 {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 0.5rem 0;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.header-area h1 span {
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgb(28, 211, 12);
+}
+body[data-color-mode=dark] .header-area h1 span {
+  color: rgb(220, 220, 220);
+}
+
+.header-area .header-left {
+  width: calc(100% - 2.4rem);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.header-area .header-right {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+.header-area .header-right .account-btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: none;
+  border-radius: 50%;
+  background-color: #f8f9fa;
+  color: #6c757d;
+  cursor: pointer;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.header-area .header-right .account-btn:hover {
+  background-color: #e9ecef;
+  color: #495057;
+  -webkit-transform: translateY(-1px);
+          transform: translateY(-1px);
+  -webkit-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+.header-area .header-right .account-btn:active {
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.header-area .header-right .account-icon {
+  width: 14px;
+  height: 14px;
+}
+.header-area .premium-badge,
+.header-area .free-badge {
+  font-size: 1.2rem;
+  color: #a0a0a0;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.header-area .premium-badge {
+  color: #ffd700;
+  -webkit-filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.5));
+          filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.5));
+}
+
+.gnb-area {
+  margin-top: 52px;
+  width: 100%;
+  height: 42px;
+}
+.gnb-area .gnb {
+  width: 100%;
+}
+.gnb-area .gnb ul.gnb-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  background-color: rgb(24, 24, 24);
+}
+.gnb-area .gnb ul.gnb-list li.gnb-item {
+  width: 100%;
+  height: 42px;
+  border-left: 1px solid #fff;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  border-color: rgb(43, 43, 43);
+}
+body[data-color-mode=dark] .gnb-area .gnb ul.gnb-list li.gnb-item {
+  border-color: rgb(200, 200, 200);
+}
+
+.gnb-area .gnb ul.gnb-list li.gnb-item > .btn-gnb {
+  color: #6c757d;
+  font-weight: 500;
+  height: 42px;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  text-align: center;
+  text-decoration: none;
+}
+.gnb-area .gnb ul.gnb-list li.gnb-item > .btn-gnb:hover {
+  color: #007bff;
+}
+.gnb-area .gnb ul.gnb-list li.gnb-item > .btn-gnb.on {
+  color: #ffffff;
+  background-color: rgb(51, 51, 51);
+}
+body[data-color-mode=dark] .gnb-area .gnb ul.gnb-list li.gnb-item > .btn-gnb.on {
+  background-color: rgb(255, 255, 255);
+}
+
+.main-area {
+  padding: 2rem 2rem;
+}
+
+.footer-area {
+  position: fixed;
+  display: none;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4rem;
+  background-color: #eee;
+}
+.footer-area .copyright-area {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.footer-area .copyright-area p {
+  font-size: 1.2rem;
+  line-height: 1.429;
+  font-weight: 500;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
+}
+body[data-color-mode=dark] .footer-area .copyright-area p {
+  color: rgba(248, 249, 252, 0.9);
+}
+
+article.article-area {
+  margin-top: 20px;
+}
+article.article-area:first-child {
+  margin: 0;
+}
+/* components, templates, pages 각 항목들의 하위 파일목록 각각 import */
+.btn-gnb {
+  display: block;
+  width: 100%;
+  height: 100%;
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
+  line-height: 3.8rem;
+}
+body[data-color-mode=dark] .btn-gnb {
+  color: rgb(22, 22, 22);
+}
+
+.btn-primary {
+  display: block;
+  border-radius: 0.5rem;
+  background-color: rgb(8, 113, 243);
+}
+body[data-color-mode=dark] .btn-primary {
+  background-color: rgb(8, 113, 243);
+}
+
+.btn-small {
+  padding: 0 2rem;
+  width: auto;
+  height: 3.5rem;
+  font-size: 1.2rem;
+  line-height: 1.429;
+  font-weight: 600;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
+}
+body[data-color-mode=dark] .btn-small {
+  color: rgb(22, 22, 22);
+}
+
+.btn-large {
+  width: 100%;
+  height: 3.5rem;
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 600;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
+}
+body[data-color-mode=dark] .btn-large {
+  color: rgb(22, 22, 22);
+}
+
+.btn-close {
+  display: block;
+  width: 40px;
+  height: 40px;
+  background-image: url("/assets/images/light/common/ic_24_line_lg-close.svg");
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  text-indent: -10000px;
+}
+body[data-color-mode=dark] .btn-close {
+  background-image: url("/assets/images/light/common/ic_24_line_lg-close.svg");
+}
+
+.btn:disabled {
+  color: rgb(80, 80, 80);
+  background-color: rgb(227, 231, 235);
+  pointer-events: none;
+}
+body[data-color-mode=dark] .btn:disabled {
+  color: rgb(80, 80, 80);
+}
+
+body[data-color-mode=dark] .btn:disabled {
+  background-color: rgb(68, 75, 81);
+}
+
+.btn-area {
+  margin-top: 20px;
+  padding: 0;
+}
+.btn-area-center {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  gap: 10px;
+}
+
+.popup-container {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2000;
+}
+.popup-container.on {
+  display: block;
+}
+.popup-container .popup-area {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.popup-container .popup-area .popup-content {
+  background-color: rgb(255, 255, 255);
+  z-index: 1200;
+}
+.popup-container .popup-area .popup-content.popup-type-full {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.popup-container .popup-area .popup-content.popup-type-full .popup-header {
+  padding: 20px;
+}
+.popup-container .popup-area .popup-content.popup-type-dialog {
+  position: absolute;
+  top: 50%;
+  width: calc(100% - 40px);
+  margin-left: 20px;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  border-radius: 20px;
+  padding-bottom: 20px;
+}
+.popup-container .popup-area .popup-content.popup-type-dialog .popup-header {
+  padding: 20px;
+  padding-right: 40px;
+}
+.popup-container .popup-area .popup-content.popup-type-dialog .popup-body {
+  width: 100%;
+}
+.popup-container .popup-area .popup-content.popup-type-dialog .popup-body .scroll-area {
+  padding: 0px 20px 20px 20px;
+  max-height: 50dvh;
+  overflow-y: auto;
+}
+.popup-container .popup-area .popup-content.popup-type-dialog .popup-footer {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 40px;
+  height: 40px;
+}
+body[data-color-mode=dark] .popup-container .popup-area .popup-content {
+  background-color: rgb(50, 50, 50);
+}
+
+.popup-container .popup-area .popup-content span, .popup-container .popup-area .popup-content label, .popup-container .popup-area .popup-content p, .popup-container .popup-area .popup-content strong {
+  color: rgb(2, 2, 2);
+}
+body[data-color-mode=dark] .popup-container .popup-area .popup-content span, body[data-color-mode=dark] .popup-container .popup-area .popup-content label, body[data-color-mode=dark] .popup-container .popup-area .popup-content p, body[data-color-mode=dark] .popup-container .popup-area .popup-content strong {
+  color: rgb(22, 22, 22);
+}
+
+.popup-container .popup-area .popup-content select {
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 500;
+  font-family: "Pretendard";
+  color: rgb(2, 2, 2);
+  background-color: rgb(255, 255, 255);
+}
+body[data-color-mode=dark] .popup-container .popup-area .popup-content select {
+  color: rgb(22, 22, 22);
+}
+
+body[data-color-mode=dark] .popup-container .popup-area .popup-content select {
+  background-color: rgb(50, 50, 50);
+}
+
+.popup-container .popup-area .popup-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1100;
+}
+body[data-color-mode=dark] .popup-container .popup-area .popup-overlay {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.checkbox-area input:checked + label::after {
+  position: absolute;
+  content: "";
+  display: block;
+  top: 0;
+  left: 0;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  border: 0.6rem solid transparent;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border-color: rgb(43, 43, 43);
+}
+body[data-color-mode=dark] .checkbox-area input:checked + label::after {
+  border-color: rgb(200, 200, 200);
+}
+
+.checkbox-area input:disabled + label {
+  background-color: rgba(43, 43, 43, 0.5);
+}
+body[data-color-mode=dark] .checkbox-area input:disabled + label {
+  background-color: rgba(43, 43, 43, 0.5);
+}
+
+.checkbox-area input:disabled + label::after {
+  background-color: rgba(43, 43, 43, 0.5);
+}
+body[data-color-mode=dark] .checkbox-area input:disabled + label::after {
+  background-color: rgba(43, 43, 43, 0.5);
+}
+
+.checkbox-area label {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 14px;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
+  color: rgb(255, 255, 255) !important;
+  line-height: 3.8rem;
+}
+body[data-color-mode=dark] .checkbox-area label {
+  color: rgb(22, 22, 22);
+}
+
+body[data-color-mode=dark] .checkbox-area label {
+  color: rgb(22, 22, 22) !important;
+}
+
+.checkbox-area.ball-645.disabled {
+  pointer-events: none;
+}
+.checkbox-area.ball-645.disabled label {
+  background-color: rgba(43, 43, 43, 0.5);
+}
+body[data-color-mode=dark] .checkbox-area.ball-645.disabled label {
+  background-color: rgba(43, 43, 43, 0.5);
+}
+
+.checkbox-area.ball-645.disabled label::after {
+  background-color: rgba(43, 43, 43, 0.5);
+}
+body[data-color-mode=dark] .checkbox-area.ball-645.disabled label::after {
+  background-color: rgba(43, 43, 43, 0.5);
+}
+
+.select-area {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+.select-area label {
+  width: 50%;
+}
+.select-area select {
+  margin-left: 10px;
+  padding: 0 10px;
+  width: 100%;
+  text-align: right;
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 500;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
+  background-color: rgb(51, 51, 51);
+}
+body[data-color-mode=dark] .select-area select {
+  color: rgb(22, 22, 22);
+}
+
+body[data-color-mode=dark] .select-area select {
+  background-color: rgb(255, 255, 255);
+}
+
+.accordion .accordion-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 10px 15px;
+  cursor: pointer;
+  background-color: rgb(24, 24, 24);
+}
+body[data-color-mode=dark] .accordion .accordion-header {
+  background-color: rgb(1, 10, 19);
+}
+
+.accordion .accordion-icon {
+  font-size: 18px;
+  color: #555;
+}
+.accordion .accordion-body {
+  max-height: 40vh;
+  overflow-y: auto;
+  padding: 10px;
+  background-color: rgb(24, 24, 24);
+  border-top: 1px solid transparent;
+  border-color: rgb(51, 51, 51);
+}
+body[data-color-mode=dark] .accordion .accordion-body {
+  background-color: rgb(1, 10, 19);
+}
+
+body[data-color-mode=dark] .accordion .accordion-body {
+  border-color: rgb(255, 255, 255);
+}
+
+.chart .chart-bar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 10px;
+}
+.chart .chart-bar .chart-bar-label {
+  width: 4rem;
+}
+.chart .chart-bar .chart-bar-label .ball-645 {
+  font-size: 1.1rem;
+  line-height: 1.334;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
+}
+body[data-color-mode=dark] .chart .chart-bar .chart-bar-label .ball-645 {
+  color: rgb(22, 22, 22);
+}
+
+.chart .chart-bar .chart-bar-volum {
+  position: relative;
+  width: 100%;
+  text-align: right;
+  padding: 0 5px;
+  line-height: 20px;
+  height: 20px;
+  margin-left: 10px;
+  border-radius: 5px;
+  background-color: rgb(51, 51, 51);
+}
+body[data-color-mode=dark] .chart .chart-bar .chart-bar-volum {
+  background-color: rgb(255, 255, 255);
+}
+
+.chart .chart-bar .chart-bar-volum span {
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
+}
+body[data-color-mode=dark] .chart .chart-bar .chart-bar-volum span {
+  color: rgb(22, 22, 22);
+}
+
+.chart .chart-bar .chart-bar-bg {
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  padding: 0 5px;
+  line-height: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background-color: #4caf50;
+}
+
+.title-h3 span {
+  font-size: 1.8rem;
+  line-height: 136.364%;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgb(2, 2, 2);
+}
+body[data-color-mode=dark] .title-h3 span {
+  color: rgb(22, 22, 22);
+}
+
+.box-bg-gray-300 {
+  padding: 2rem;
+  border-radius: 2rem;
+  background-color: #f5f5f5;
+}
+
+.box.box-round-bg {
+  min-height: 6rem;
+  padding: 1rem;
+  border-radius: 2rem;
+  background-color: rgb(255, 255, 255);
+}
+body[data-color-mode=dark] .box.box-round-bg {
+  background-color: rgb(50, 50, 50);
+}
+
+.box.box-round-border {
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.ball-area {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 1rem;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin: 0 auto;
+}
+.ball-area > ul.ball-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 1rem;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+.ball-area > ul.ball-list > li {
+  display: block;
+}
+
+.ball-645 {
+  position: relative;
+  display: block;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 4rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
+  text-shadow: 1px 1px 2px #222;
+  color: rgb(255, 255, 255) !important;
+}
+body[data-color-mode=dark] .ball-645 {
+  color: rgb(22, 22, 22);
+}
+
+body[data-color-mode=dark] .ball-645 {
+  color: rgb(22, 22, 22) !important;
+}
+
+.ball-645-medium {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 3rem;
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
+}
+body[data-color-mode=dark] .ball-645-medium {
+  color: rgb(22, 22, 22);
+}
+
+.ball-645-small {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 2rem;
+  font-size: 1.2rem;
+  line-height: 1.385;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
+}
+body[data-color-mode=dark] .ball-645-small {
+  color: rgb(22, 22, 22);
+}
+
+.ball-645-disable {
+  opacity: 0.3;
+}
+
+.ball-1 {
+  background-color: rgb(251, 196, 0);
+}
+body[data-color-mode=dark] .ball-1 {
+  background-color: rgb(251, 196, 0);
+}
+
+.ball-2 {
+  background-color: rgb(0, 179, 255);
+}
+body[data-color-mode=dark] .ball-2 {
+  background-color: rgb(0, 179, 255);
+}
+
+.ball-3 {
+  background-color: rgb(241, 27, 27);
+}
+body[data-color-mode=dark] .ball-3 {
+  background-color: rgb(241, 27, 27);
+}
+
+.ball-4 {
+  background-color: rgb(127, 127, 127);
+}
+body[data-color-mode=dark] .ball-4 {
+  background-color: rgb(127, 127, 127);
+}
+
+.ball-5 {
+  background-color: rgb(8, 187, 38);
+}
+body[data-color-mode=dark] .ball-5 {
+  background-color: rgb(8, 187, 38);
+}
+
+.ball-odd {
+  background-color: rgb(241, 27, 27);
+}
+body[data-color-mode=dark] .ball-odd {
+  background-color: rgb(241, 27, 27);
+}
+
+.ball-even {
+  background-color: rgb(0, 179, 255);
+}
+body[data-color-mode=dark] .ball-even {
+  background-color: rgb(0, 179, 255);
+}
+
+.nums {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.nums > .num-win {
+  margin-top: 2rem;
+}
+.nums > .num-win > .title-medium {
+  text-align: center;
+}
+.nums > .num-win > .ball-area {
+  margin-top: 10px;
+}
+.nums > .num-bonus {
+  position: relative;
+  margin-top: 50px;
+}
+.nums > .num-bonus > .title-medium {
+  text-align: center;
+}
+.nums > .num-bonus > .ball-area {
+  margin-top: 10px;
+}
+.nums > .num-bonus::after {
+  position: absolute;
+  display: block;
+  left: 50%;
+  top: -40px;
+  content: "+";
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  font-size: 2.5rem;
+  line-height: 140%;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgb(28, 211, 12);
+}
+body[data-color-mode=dark] .nums > .num-bonus::after {
+  color: rgb(220, 220, 220);
+}
+
+.list-basic {
+  width: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.recommend-list {
+  max-height: 160px;
+  overflow-y: auto;
+}
+
+.message-error {
+  font-size: 1.2rem;
+  line-height: 1.429;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: #E32B31;
+}
+body[data-color-mode=dark] .message-error {
+  color: #F2545C;
+}
+
+.ui-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.ui-item__label {
+  width: auto;
+}
+.ui-item__content {
+  width: 100%;
+}
+
+.table-list {
+  border-top: 2px solid transparent;
+  border-color: rgb(73, 80, 87);
+}
+body[data-color-mode=dark] .table-list {
+  border-color: rgb(197, 202, 206);
+}
+
+.table-list tr th {
+  padding: 2px;
+  background-color: rgba(130, 149, 166, 0.11);
+  border-bottom: 1px solid transparent;
+  border-left: 1px solid transparent;
+  border-color: rgb(109, 116, 123) !important;
+}
+body[data-color-mode=dark] .table-list tr th {
+  background-color: rgba(199, 228, 255, 0.11);
+}
+
+.table-list tr th:last-child {
+  border-right: 1px solid transparent;
+}
+body[data-color-mode=dark] .table-list tr th {
+  border-color: rgb(173, 179, 184) !important;
+}
+
+.table-list tr th span {
+  font-size: 1.2rem;
+  line-height: 1.429;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgb(2, 2, 2);
+}
+body[data-color-mode=dark] .table-list tr th span {
+  color: rgb(22, 22, 22);
+}
+
+.table-list tr td {
+  padding: 3px;
+  background-color: rgba(115, 132, 149, 0.05);
+  border-bottom: 1px solid transparent;
+  border-left: 1px solid transparent;
+  border-color: rgb(109, 116, 123) !important;
+}
+body[data-color-mode=dark] .table-list tr td {
+  background-color: rgba(208, 234, 241, 0.05);
+}
+
+.table-list tr td:last-child {
+  border-right: 1px solid transparent;
+}
+body[data-color-mode=dark] .table-list tr td {
+  border-color: rgb(173, 179, 184) !important;
+}
+
+.table-list tr td span, .table-list tr td strong {
+  font-size: 1.2rem;
+  line-height: 1.385;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgb(2, 2, 2);
+}
+body[data-color-mode=dark] .table-list tr td span, body[data-color-mode=dark] .table-list tr td strong {
+  color: rgb(22, 22, 22);
+}
+
+.table-item {
+  border-top: 2px solid transparent;
+  border-color: rgb(73, 80, 87);
+}
+body[data-color-mode=dark] .table-item {
+  border-color: rgb(197, 202, 206);
+}
+
+.table-item tr th {
+  padding: 2px;
+  background-color: rgba(130, 149, 166, 0.11);
+  border-bottom: 1px solid transparent;
+  border-left: 1px solid transparent;
+  border-color: rgb(109, 116, 123) !important;
+}
+body[data-color-mode=dark] .table-item tr th {
+  background-color: rgba(199, 228, 255, 0.11);
+}
+
+.table-item tr th:last-child {
+  border-right: 1px solid transparent;
+}
+body[data-color-mode=dark] .table-item tr th {
+  border-color: rgb(173, 179, 184) !important;
+}
+
+.table-item tr th span {
+  font-size: 1.2rem;
+  line-height: 1.429;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgb(2, 2, 2);
+}
+body[data-color-mode=dark] .table-item tr th span {
+  color: rgb(22, 22, 22);
+}
+
+.table-item tr td {
+  padding: 3px;
+  background-color: rgba(115, 132, 149, 0.05);
+  border-bottom: 1px solid transparent;
+  border-left: 1px solid transparent;
+  border-color: rgb(109, 116, 123) !important;
+}
+body[data-color-mode=dark] .table-item tr td {
+  background-color: rgba(208, 234, 241, 0.05);
+}
+
+.table-item tr td:last-child {
+  border-right: 1px solid transparent;
+}
+body[data-color-mode=dark] .table-item tr td {
+  border-color: rgb(173, 179, 184) !important;
+}
+
+.table-item tr td span, .table-item tr td strong {
+  font-size: 1.2rem;
+  line-height: 1.385;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgb(2, 2, 2);
+}
+body[data-color-mode=dark] .table-item tr td span, body[data-color-mode=dark] .table-item tr td strong {
+  color: rgb(22, 22, 22);
+}
+
+.GameResultView .section-area .section-header h4 {
+  margin-top: 20px;
+}
+.GameResultView .section-area .section-header .title-big {
+  text-align: center;
+}
+.GameResultView .section-area .section-header p {
+  text-align: center;
+}
+
+.ContactView .section-area .section-footer {
+  margin-top: 2rem;
+}
+
+.HomeView {
+  margin-top: 5rem;
+}
+.HomeView .section-area .section-header .title-big {
+  text-align: center;
+}
+.HomeView .section-area .section-header p {
+  text-align: center;
+}
+
+.StatisticsView .section-area .section-header h4 {
+  margin-top: 20px;
+}
+.example-area {
+  position: absolute;
+  top: -100000px;
+  left: 0;
+}

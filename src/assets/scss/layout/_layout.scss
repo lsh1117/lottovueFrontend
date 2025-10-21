@@ -155,10 +155,12 @@ article{
         &:first-child{
             margin:0;
         }
-
-        >.article-header{
+        & > .article-header{
         }
-        >.article-body{
+        & > .article-body{
+        }
+        & > .article-footer{
+            margin-top: 20px;
         }
     }
 }

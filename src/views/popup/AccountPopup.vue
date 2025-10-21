@@ -6,36 +6,23 @@
 				<div class="article-body">
 					<!-- 사용자 정보 섹션 -->
 					<div class="box box-round-border">
-						<div class="info-item">
-							<label class="info-label">사용자 타입</label>
-							<div class="info-value">
-								<span v-if="isPremium" class="premium-badge">
-									👑 프리미엄 사용자
-								</span>
-								<span v-else class="free-badge">
-									⭐ 무료 사용자
-								</span>
-							</div>
+						<div>
+							<span v-if="isPremium" class="message-name">
+								👑 프리미엄 사용자
+							</span>
+							<span v-else class="message-name">
+								⭐ 무료 사용자
+							</span>
 						</div>
-						
-						<div class="info-item">
-							<label class="info-label">계정 상태</label>
-							<div class="info-value">
-								<span class="status-active">활성</span>
-							</div>
-						</div>
-						
-						<div class="info-item" v-if="isPremium">
-							<label class="info-label">프리미엄 기능</label>
-							<div class="info-value">
-								<ul class="premium-features">
-									<li>무제한 번호 생성</li>
-									<li>고급 통계 분석</li>
-									<li>우선 고객 지원</li>
-								</ul>
-							</div>
+						<div style="margin-top: 10px;">
+							<p><span class="message-info">무료 사용자는 최대 회차별 2개까지 번호를 생성할 수 있습니다.</span></p>
+							<p><span class="message-info">프리미엄 사용자는 최대 회차별 최대 100개까지 번호를 생성할 수 있습니다.</span></p>
 						</div>
 					</div>
+				</div>
+				<div v-if="!isPremium" class="article-footer">
+					<!-- 구독 하기 -->
+					<button class="btn-secondary btn-large" @click="subscribe">프리미엄 월간 990원 구독 하기</button>
 				</div>
 			</article>
 		</div>
@@ -56,6 +43,16 @@ const premiumStore = usePremiumStore()
 const isPremium = computed(() => {
 	return premiumStore.status && premiumStore.status.length > 0
 })
+
+const subscribe = () => {
+	console.log('구독 하기')
+	// Android Bridge를 통해 월간 구독 요청
+	if (window.AndroidBridge && window.AndroidBridge.subscribeMonthly) {
+		window.AndroidBridge.subscribeMonthly()
+	} else {
+		console.error('Android Bridge not available')
+	}
+}
 
 // 이벤트 정의
 defineEmits(['close'])

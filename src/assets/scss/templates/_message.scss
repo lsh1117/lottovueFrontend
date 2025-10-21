@@ -1,6 +1,12 @@
 @charset "UTF-8";
 
 .message{
+    &-info{
+        @include text-D1-Medium(color-text-gray-400);
+    }
+    &-name{
+        @include text-H6-Medium(color-text-gray-600);
+    }
     &-error{
         @include text-B2-Regular(color-base-red-600);
     }

@@ -5,11 +5,13 @@
 			<article class="article-area">
 				<div class="select-area">
 					<label for="drwSelect" class="select-label label-big">회차 선택</label>
-					<select id="drwSelect" v-model="selectedDrwNo" @change="updateResult">
-						<option v-for="drw in drwList" :key="drw" :value="drw">
-							{{ drw }}회
-						</option>
-					</select>
+					<n-select
+						id="drwSelect"
+						v-model:value="selectedDrwNo"
+						:options="drwOptions"
+						size="large"
+						@update:value="updateResult"
+					/>
 				</div>
 			</article>
 
@@ -63,24 +65,21 @@
 							<th><span>1등</span></th>
 							<td><span>{{ no1 }}</span></td>
 							<td>
-								<span>{{ $formatCurrency(no1 * $getWinamnt(1)) }}</span>
-								<span>원</span>
+								<span>별도 확인 필요</span>
 							</td>
 						</tr>
 						<tr>
 							<th><span>2등</span></th>
 							<td><span>{{ no2 }}</span></td>
 							<td>
-								<span>{{ $formatCurrency(no2 * $getWinamnt(2)) }}</span>
-								<span>원</span>
+								<span>별도 확인 필요</span>
 							</td>
 						</tr>
 						<tr>
 							<th><span>3등</span></th>
 							<td><span>{{ no3 }}</span></td>
 							<td>
-								<span>{{ $formatCurrency(no3 * $getWinamnt(3)) }}</span>
-								<span>원</span>
+								<span>별도 확인 필요</span>
 							</td>
 						</tr>
 						<tr>
@@ -125,34 +124,9 @@
 					</tbody>
 				</table>
 			</article>
-
-			<article class="article-area example-area">
-				<div class="recommend-list">
-					<table id="example-table" border="1">
-						<thead>
-							<tr>
-								<th>1번째</th>
-								<th>2번째</th>
-								<th>3번째</th>
-								<th>4번째</th>
-								<th>5번째</th>
-								<th>6번째</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr v-for="recommend in myPickList" :key="recommend">
-								<td v-for="item in recommend.numbers" :key="item">
-									{{item.number}}
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</article>
 		</div>
 		<div class="btn-area btn-area-center">
 			<button class="btn-primary btn-small" @click="$emit('close')">닫기</button>
-			<button class="btn-primary btn-small" @click="exportTableToExcel('example-table', 'table-data.xlsx')">엑셀다운받기</button>
 		</div>
 	</div>
 </template>
@@ -161,7 +135,8 @@
 	import {
 		onMounted,
 		ref,
-		getCurrentInstance
+		getCurrentInstance,
+		computed
 	} from "vue";
 	import {
 		useMyPickStore
@@ -169,7 +144,7 @@
 	import {
 		useDrwStore
 	} from "@/stores/DrwStore";
-	import * as XLSX from 'xlsx';
+	import { NSelect } from "naive-ui";
 
 	const instance = getCurrentInstance();
 	const _global = instance.appContext.config.globalProperties;
@@ -183,6 +158,18 @@
 	const myPickStore = useMyPickStore();
     // 선택 가능한 회차 리스트: 1회부터 최신 회차까지
     const drwList = ref([]);
+
+    // Naive UI n-select options
+	const drwOptions = computed(() => {
+		const list = [];
+		for (let i = 1; i <= _lastDrw; i++) {
+			list.push({
+				label: `${i}회`,
+				value: i
+			});
+		}
+		return list.reverse(); // 최신 회차가 위에 오도록 내림차순 정렬
+	});
 
     // 선택된 회차 (기본값은 최신 회차로 설정)
     const selectedDrwNo = ref(_lastDrw);
@@ -226,8 +213,26 @@
                     drw: p.drwNo,
                     numbers: [p.no1, p.no2, p.no3, p.no4, p.no5, p.no6].map(n => ({ number: Number(n) })),
                 }))
-                // 추천 목록 앞쪽에 내가 저장한 번호 우선 표시
-                myPickList.value = converted.concat(myPickStore.getMyPicks(selectedDrwNo.value))
+                
+                // Android DB 데이터를 우선 사용하고, MyPickStore 데이터는 중복이 아닌 경우만 추가
+                const storePicks = myPickStore.getMyPicks(selectedDrwNo.value)
+                
+                // 중복 제거 함수: 같은 회차, 같은 번호 조합인지 확인
+                const isDuplicate = (pick1, pick2) => {
+                    if (pick1.drw !== pick2.drw) return false
+                    const nums1 = pick1.numbers.map(n => n.number || n).sort((a, b) => a - b)
+                    const nums2 = pick2.numbers.map(n => n.number || n).sort((a, b) => a - b)
+                    if (nums1.length !== nums2.length) return false
+                    return nums1.every((n, i) => n === nums2[i])
+                }
+                
+                // storePicks에서 converted에 없는 항목만 필터링
+                const uniqueStorePicks = storePicks.filter(storePick => {
+                    return !converted.some(convPick => isDuplicate(convPick, storePick))
+                })
+                
+                // Android DB 데이터를 우선 표시
+                myPickList.value = converted.concat(uniqueStorePicks)
             } else {
                 myPickList.value = myPickStore.getMyPicks(selectedDrwNo.value)
             }
@@ -364,53 +369,6 @@
 	function formatCurrency(amount) {
 		// 숫자를 문자열로 변환하고 정규식을 이용하여 3자리마다 ',' 삽입
 		return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-	}
-
-	function exportTableToExcel(tableID, filename = '') {
-		// 테이블 요소 가져오기
-		const table = document.getElementById(tableID);
-		 // 테이블 데이터를 워크북으로 변환
-		 const workbook = XLSX.utils.table_to_book(table);
-
-		// 엑셀 파일 생성 및 다운로드
-		XLSX.writeFile(workbook, filename);
-		/*
-		const rows = table.rows;
-
-		// 엑셀 데이터 생성
-		let excelContent = '<table>';
-		for (let i = 0; i < rows.length; i++) {
-			excelContent += '<tr>';
-			const cells = rows[i].cells;
-			for (let j = 0; j < cells.length; j++) {
-				excelContent += '<td>' + cells[j].innerText + '</td>';
-			}
-			excelContent += '</tr>';
-		}
-		excelContent += '</table>';
-
-		// Blob 생성 및 다운로드
-		const excelFile =
-			'<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">' +
-			'<head><meta charset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>Sheet1</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head>' +
-			'<body>' +
-			excelContent +
-			'</body></html>';
-
-		const blob = new Blob([excelFile], {
-			type: 'application/vnd.ms-excel'
-		});
-		const url = URL.createObjectURL(blob);
-
-		// 링크 생성 및 클릭으로 다운로드
-		const a = document.createElement('a');
-		a.href = url;
-		a.download = filename ? filename + '.xls' : 'download.xls';
-		a.click();
-
-		// 메모리 해제
-		URL.revokeObjectURL(url);
-		*/
 	}
 
     onMounted(() => {

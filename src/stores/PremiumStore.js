@@ -6,7 +6,10 @@ export const usePremiumStore = defineStore('PremiumStore', {
     }),
     actions: {
         setStatus(status) {
-			this.status = status; // 프리미엄 타입 
+			this.status = status; // 프로 타입 
 		},
+        updateStatus(status) {
+            this.status = status; // 프로 상태 업데이트
+        },
     },
 })

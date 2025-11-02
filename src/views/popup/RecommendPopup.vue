@@ -28,21 +28,34 @@
 			v-model:show="showLimitModal"
 			preset="dialog"
 			title="번호 생성 제한"
-			:positive-text="showingHistory ? '닫기' : '기존 생성 번호 보기'"
+			:positive-text="isPremium ? (showingHistory ? '닫기' : '기존 생성 번호 보기') : '프로버전 업그레이드'"
+			:negative-text="isPremium ? null : (showingHistory ? '닫기' : '기존 생성 번호 보기')"
 			:closable="false"
-			@positive-click="handleModalClose"
+			@positive-click="handleModalPositiveClick"
+			@negative-click="handleModalNegativeClick"
 		>
-			<p style="line-height: 1.6;">
-				<strong>{{ _nextDrw }}회차</strong>는 이미 최대 <strong>{{ maxPickCount }}개</strong> 중 <strong>{{ currentPickCount }}개</strong>의 번호 조합이 생성되어 있습니다.<br>
-				더 이상 번호를 생성할 수 없습니다.<br>
-				<span v-if="currentPickCount > 0">확인 버튼을 클릭하면 기존에 생성된 번호를 확인할 수 있습니다.</span>
-			</p>
+			<div style="line-height: 1.8;">
+				<!-- 프리 버전 메시지 -->
+				<template v-if="!isPremium">
+					<p>
+						무료 버전에서는 <strong>회차별 최대 2개</strong>의 번호 조합만 생성할 수 있습니다.<br>
+						더 많은 번호를 생성하려면 <strong>프로버전으로 업그레이드</strong>가 필요합니다.
+					</p>
+				</template>
+				<!-- 프로 버전 메시지 -->
+				<template v-else>
+					<p>
+						프로 버전에서는 <strong>회차별 최대 100개</strong>까지 번호를 생성할 수 있습니다.<br>
+						현재 <strong>{{ _nextDrw }}회차</strong>는 이미 최대 개수인 <strong>{{ currentPickCount }}개</strong>에 도달했습니다.
+					</p>
+				</template>
+			</div>
 		</n-modal>
 	</div>
 </template>
 
 <script setup>
-	import { onMounted, ref } from "vue";
+	import { onMounted, onUnmounted, ref } from "vue";
 	import { NModal } from "naive-ui";
 	import { useCalculateStore } from "@/stores/CalculateStore";
 	import { useExceptionStore } from "@/stores/ExceptionStore";
@@ -50,6 +63,7 @@
 	import { useRecommendStore } from "@/stores/RecommendStore";
 	import { useMyPickStore } from "@/stores/MyPickStore";
 	import { useDrwStore } from "@/stores/DrwStore";
+	import { useEventStore } from "@/stores/EventStore";
 
 	// emit 정의
 	const emit = defineEmits(['close']);
@@ -65,6 +79,12 @@
 	
 	// 현재 저장된 개수
 	const currentPickCount = ref(0);
+	
+	// 프로 버전 여부
+	const isPremium = ref(false);
+	
+	// EventStore 가져오기
+	const eventStore = useEventStore();
 
 	// Pinia store 가져오기
 	const exceptionStore = useExceptionStore();
@@ -107,9 +127,9 @@
 	function checkRecommendCount(){
 		if (window.AndroidBridge && typeof window.AndroidBridge.getRecommendCount === 'function') {
 			try {
-				// 프리미엄 사용자인지 확인
-				const isPremium = window.AndroidBridge.isPremiumUser ? window.AndroidBridge.isPremiumUser() : false;
-				maxPickCount.value = isPremium ? 100 : 2;
+				// 프로 사용자인지 확인
+				isPremium.value = window.AndroidBridge.isPremiumUser ? window.AndroidBridge.isPremiumUser() : false;
+				maxPickCount.value = isPremium.value ? 100 : 2;
 				
 				// pickHistory에서 현재 저장된 개수 조회
 				if (typeof window.AndroidBridge.getPickHistoryJson === 'function') {
@@ -141,16 +161,51 @@
 		}
 	}
 
-	// 모달 닫기 시 pickHistory 표시
-	function handleModalClose() {
+	// 모달 Positive 버튼 클릭 처리
+	function handleModalPositiveClick() {
+		if (isPremium.value) {
+			// 프로 버전: 기존 생성 번호 보기
+			if (showingHistory.value) {
+				showLimitModal.value = false;
+			} else {
+				showLimitModal.value = false;
+				loadPickHistory();
+			}
+		} else {
+			// 프리 버전: 프로버전 업그레이드
+			// 다이얼로그 닫기
+			showLimitModal.value = false;
+			// 현재 팝업 닫기
+			emit('close');
+			// 계정정보 팝업 열기
+			openAccountPopup();
+		}
+	}
+	
+	// 모달 Negative 버튼 클릭 처리 (프리 버전에서만 표시)
+	function handleModalNegativeClick() {
 		if (showingHistory.value) {
-			// 이미 히스토리를 표시 중이면 모달만 닫기
 			showLimitModal.value = false;
 		} else {
-			// 히스토리를 로드하여 표시
 			showLimitModal.value = false;
 			loadPickHistory();
 		}
+	}
+	
+	// 계정 정보 팝업 열기 (프로버전 업그레이드)
+	function openAccountPopup() {
+		eventStore.emit('popup', {
+			id: 'account',
+			title: '계정 정보',
+			onClose: () => {
+				// 팝업 닫힌 후 프리미엄 상태 다시 확인
+				if (window.AndroidBridge && typeof window.AndroidBridge.isPremiumUser === 'function') {
+					isPremium.value = window.AndroidBridge.isPremiumUser();
+					maxPickCount.value = isPremium.value ? 100 : 2;
+					checkRecommendCount();
+				}
+			}
+		});
 	}
 	
 	// pickHistory를 로드하여 화면에 표시
@@ -317,13 +372,36 @@
 		allSaved.value = true;
 	}
 
+	// 프로 상태 변경 이벤트 리스너
+	const handlePremiumStatusChange = (event) => {
+		if (event.detail && typeof event.detail.isPremium === 'boolean') {
+			isPremium.value = event.detail.isPremium;
+			maxPickCount.value = isPremium.value ? 100 : 2;
+		}
+	}
+
     onMounted(() => {
 		//console.log("###### 번호 뽑기 onMounted" );
+		
+		// 프로 상태 이벤트 리스너 등록
+		window.addEventListener('lottovue:premium', handlePremiumStatusChange);
+		
+		// 초기 프로 상태 확인
+		if (window.AndroidBridge && typeof window.AndroidBridge.isPremiumUser === 'function') {
+			isPremium.value = window.AndroidBridge.isPremiumUser();
+			maxPickCount.value = isPremium.value ? 100 : 2;
+		}
+		
 		checkRecommendCount();
 		// 생성 가능한 번호 조합이 0개인 경우 알럿 표시 후 팝업 닫기
 		if (_recommendCnt > 0) {
 			createRecommend();
 		}
+	});
+	
+	onUnmounted(() => {
+		// 이벤트 리스너 제거
+		window.removeEventListener('lottovue:premium', handlePremiumStatusChange);
 	});
 </script>
 

@@ -121,8 +121,11 @@
 
 		_totalAppear.forEach(item=>{
 			if(Number(item.count) > 19){
-				_exceptions.push(item.number);
-				exceptionNumbers.value.push(item.number);
+				// 이미 exceptionNumbers에 추가된 번호인지 중복 체크 (연속으로 나온 번호와 중복 방지)
+				if(!exceptionNumbers.value.includes(item.number)){
+					_exceptions.push(item.number);
+					exceptionNumbers.value.push(item.number);
+				}
 			}
 		})
 
@@ -130,7 +133,7 @@
 		_min = _totalAppear[44];
 
 		if(_exceptions.length > 0 ){
-			_message = _exceptions.join() + " : 최근 100회동안 " + "20번 이상 등장으로 많이 나왔음.";
+			const _message = _exceptions.join(", ") + " 번 : 최근 100회동안 20번 이상 등장으로 많이 나왔음.";
 			return _message;
 		}
 		else{
@@ -139,7 +142,9 @@
 	}
 
 	function onAllApply(){
-		exceptionStore.setNumbers(exceptionNumbers.value);
+		// 중복 제거 (안전장치)
+		const uniqueNumbers = [...new Set(exceptionNumbers.value)];
+		exceptionStore.setNumbers(uniqueNumbers);
 		// 팝업 닫기 이벤트 emit
 		emit("close");
 	}

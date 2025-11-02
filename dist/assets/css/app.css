@@ -496,12 +496,21 @@ body[data-color-mode=dark] .header-area {
   background-color: rgb(1, 10, 19);
 }
 
+.header-area .logo-image {
+  width: 2.4rem;
+  height: 2.4rem;
+  -o-object-fit: contain;
+     object-fit: contain;
+  -o-object-position: center;
+     object-position: center;
+  margin-right: 1rem;
+}
 .header-area h1 {
   display: flex;
   width: 100%;
   height: 100%;
   padding: 0.5rem 0;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
 }
 .header-area h1 span {
@@ -522,7 +531,12 @@ body[data-color-mode=dark] .header-area h1 span {
   align-items: center;
 }
 .header-area .header-right {
-  width: 2.4rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+  line-height: 1;
+  width: 8rem;
   height: 2.4rem;
 }
 .header-area .header-right .account-btn {
@@ -553,16 +567,27 @@ body[data-color-mode=dark] .header-area h1 span {
   width: 14px;
   height: 14px;
 }
-.header-area .premium-badge,
-.header-area .free-badge {
-  font-size: 1.2rem;
-  color: #a0a0a0;
-  display: inline-flex;
-  align-items: center;
-}
 .header-area .premium-badge {
-  color: #ffd700;
-  filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.5));
+  color: transparent;
+  background: transparent;
+  border: none;
+}
+.header-area .premium-badge .premium-icon {
+  width: 64px;
+  height: 24px;
+  display: block;
+  filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.4));
+}
+.header-area .free-badge {
+  color: transparent;
+  background: transparent;
+  border: none;
+}
+.header-area .free-badge .free-icon {
+  width: 64px;
+  height: 24px;
+  display: block;
+  filter: drop-shadow(0 2px 4px rgba(76, 175, 80, 0.3));
 }
 
 .gnb-area {
@@ -679,6 +704,13 @@ body[data-color-mode=dark] .btn-primary {
   border-radius: 0.5rem;
   background-color: rgb(51, 51, 51);
 }
+.btn-secondary > span {
+  color: rgb(255, 255, 255) !important;
+}
+body[data-color-mode=dark] .btn-secondary > span {
+  color: #16181a !important;
+}
+
 body[data-color-mode=dark] .btn-secondary {
   background-color: rgb(255, 255, 255);
 }

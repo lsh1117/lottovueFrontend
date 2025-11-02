@@ -16,6 +16,10 @@
     &-secondary{
         display: block;
         border-radius: 0.5rem;
+        
+        & > span{
+            @include themeProperty(color, color-button-white-primary, important);
+        }
         @include themeProperty(background-color, color-bg-primary);
     }
     // 버튼 사이즈

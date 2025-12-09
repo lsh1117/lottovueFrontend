@@ -125,35 +125,9 @@
 	let _recommendCnt = 0;
 
 	function checkRecommendCount(){
-		if (window.AndroidBridge && typeof window.AndroidBridge.getRecommendCount === 'function') {
-			try {
-				// 프로 사용자인지 확인
-				isPremium.value = window.AndroidBridge.isPremiumUser ? window.AndroidBridge.isPremiumUser() : false;
-				maxPickCount.value = isPremium.value ? 100 : 2;
-				
-				// pickHistory에서 현재 저장된 개수 조회
-				if (typeof window.AndroidBridge.getPickHistoryJson === 'function') {
-					const historyJson = window.AndroidBridge.getPickHistoryJson(_nextDrw);
-					const historyData = JSON.parse(historyJson);
-					currentPickCount.value = historyData.length;
-				}
-				
-				// 현재 회차번호를 전달하여 해당 회차의 생성 개수 조회
-				// getRecommendCount는 이미 저장된 picks를 고려하여 생성 가능한 개수를 반환
-				_recommendCnt = window.AndroidBridge.getRecommendCount(_nextDrw);
-
-				console.log('pickHistory에서 현재 저장된 개수 조회 currentPickCount:', currentPickCount.value);
-				console.log('현재 회차번호를 전달하여 해당 회차의 생성 개수 조회 _recommendCnt:', _recommendCnt);
-				
-				// 오래된 회차 설정값 정리 (선택사항)
-				if (typeof window.AndroidBridge.clearOldRecommendCounts === 'function') {
-					window.AndroidBridge.clearOldRecommendCounts(_nextDrw);
-				}
-			} catch (e) {
-				console.error('getRecommendCount error:', e);
-				_recommendCnt = 0; // 오류 시 기본값
-			}
-		}
+		// 기본값 설정 (웹 환경)
+		_recommendCnt = isPremium.value ? 100 : 2;
+		currentPickCount.value = 0; // 웹에서는 0으로 설정
 
 		// 생성 가능한 번호 조합이 0개인 경우 모달 표시
 		if (_recommendCnt === 0) {
@@ -198,49 +172,31 @@
 			id: 'account',
 			title: '계정 정보',
 			onClose: () => {
-				// 팝업 닫힌 후 프리미엄 상태 다시 확인
-				if (window.AndroidBridge && typeof window.AndroidBridge.isPremiumUser === 'function') {
-					isPremium.value = window.AndroidBridge.isPremiumUser();
-					maxPickCount.value = isPremium.value ? 100 : 2;
-					checkRecommendCount();
-				}
+				// 팝업 닫힌 후 프리미엄 상태 다시 확인 (웹에서는 이벤트로 처리)
+				maxPickCount.value = isPremium.value ? 100 : 2;
+				checkRecommendCount();
 			}
 		});
 	}
 	
 	// pickHistory를 로드하여 화면에 표시
 	function loadPickHistory() {
+		// 웹 환경에서는 MyPickStore에서 데이터 가져오기
 		try {
-			if (window.AndroidBridge && typeof window.AndroidBridge.getPickHistoryJson === 'function') {
-				const historyJson = window.AndroidBridge.getPickHistoryJson(_nextDrw);
-				const historyData = JSON.parse(historyJson);
-				
-				console.log('loadPickHistory historyData:', historyData);
-				
-				// historyData를 recommends 형식으로 변환
-				recommends.value = historyData.map(item => {
+			const myPicks = myPickStore.getMyPicks(_nextDrw);
+			
+			if (myPicks && myPicks.length > 0) {
+				recommends.value = myPicks.map(item => {
 					return {
-						numbers: [
-							{ number: item.no1 },
-							{ number: item.no2 },
-							{ number: item.no3 },
-							{ number: item.no4 },
-							{ number: item.no5 },
-							{ number: item.no6 }
-						],
-						isSaved: item.isSaved // DB 저장 여부 추가
+						numbers: item.numbers,
+						isSaved: true
 					};
 				});
 				
-				// 각 항목의 저장 상태를 isSaved 값으로 설정
-				saved.value = historyData.map(item => item.isSaved === true);
-				
-				// 모든 항목이 저장되었는지 확인
-				allSaved.value = saved.value.every(v => v);
-				
+				saved.value = Array(recommends.value.length).fill(true);
+				allSaved.value = true;
 				showingHistory.value = true;
-				console.log('loadPickHistory recommends:', recommends.value);
-
+				currentPickCount.value = myPicks.length;
 			}
 		} catch (e) {
 			console.error('loadPickHistory error:', e);
@@ -285,25 +241,15 @@
 	
 	// pickHistory에 번호 저장 (생성 시점에 호출)
 	function saveToHistory(numbers) {
+		// 웹 환경에서는 MyPickStore에 저장
 		try {
 			const nums = numbers.map(n => Number(n.number)).sort((a,b)=>a-b);
 			if(nums.length !== 6) return;
 			
-			const payload = {
-				drwNo: _nextDrw,
-				no1: nums[0],
-				no2: nums[1],
-				no3: nums[2],
-				no4: nums[3],
-				no5: nums[4],
-				no6: nums[5],
-			};
+			const numbersForStore = nums.map(n => ({ number: n }));
+			myPickStore.addMyPick(numbersForStore, _nextDrw);
 			
-			if (window.AndroidBridge && typeof window.AndroidBridge.saveHistory === 'function') {
-				window.AndroidBridge.saveHistory(JSON.stringify(payload));
-
-				console.log('pickHistory에 번호 저장 saveToHistory:', payload);
-			}
+			console.log('pickHistory에 번호 저장 saveToHistory:', nums);
 		} catch (e) {
 			console.error('saveToHistory error:', e);
 		}
@@ -332,29 +278,17 @@
         try {
 			const nums = rec.numbers.map(n => Number(n.number)).sort((a,b)=>a-b)
             if(nums.length !== 6) return
-            const payload = {
-                drwNo: _nextDrw,
-                no1: nums[0],
-                no2: nums[1],
-                no3: nums[2],
-                no4: nums[3],
-                no5: nums[4],
-                no6: nums[5],
-            }
-            if (window.AndroidBridge && typeof window.AndroidBridge.savePick === 'function') {
-                const ok = window.AndroidBridge.savePick(JSON.stringify(payload))
-                console.log('savePick result:', ok)
-                
-                // DB 저장 성공 시 recommends의 isSaved도 업데이트
-                if (ok && recommends.value[idx]) {
-                    recommends.value[idx].isSaved = true
-                }
-            }
-			// 로컬 myPickStore에도 저장 (정렬된 번호 객체 배열로 저장)
+            
+			// 로컬 myPickStore에 저장 (정렬된 번호 객체 배열로 저장)
 			const numbersForStore = nums.map(n => ({ number: n }))
 			myPickStore.addMyPick(numbersForStore, _nextDrw)
-			// 저장 완료 처리 (브리지 유무와 상관없이 UI 상태 갱신)
+			
+			// 저장 완료 처리
 			saved.value[idx] = true;
+			if (recommends.value[idx]) {
+				recommends.value[idx].isSaved = true;
+			}
+			
 			// 모두 저장되었는지 체크하여 전체 버튼 상태 갱신
 			allSaved.value = saved.value.every(v => v);
         } catch (e) {
@@ -386,11 +320,8 @@
 		// 프로 상태 이벤트 리스너 등록
 		window.addEventListener('lottovue:premium', handlePremiumStatusChange);
 		
-		// 초기 프로 상태 확인
-		if (window.AndroidBridge && typeof window.AndroidBridge.isPremiumUser === 'function') {
-			isPremium.value = window.AndroidBridge.isPremiumUser();
-			maxPickCount.value = isPremium.value ? 100 : 2;
-		}
+		// 초기 프로 상태는 이벤트로 처리 (웹 환경)
+		maxPickCount.value = isPremium.value ? 100 : 2;
 		
 		checkRecommendCount();
 		// 생성 가능한 번호 조합이 0개인 경우 알럿 표시 후 팝업 닫기

@@ -1,7 +1,29 @@
 <template>
 	<div>
 		<div class="scroll-area">
-			<article class="article-area">
+			<!-- 로그인 전 화면 -->
+			<article v-if="!authenticated" class="article-area">
+				<div class="article-header"></div>
+				<div class="article-body">
+					<div class="box box-round-border">
+						<div style="text-align: center; padding: 20px;">
+							<p style="margin-bottom: 20px; font-size: 16px; color: #666;">
+								로그인이 필요합니다.<br>
+								카카오 로그인으로 간편하게 시작하세요.
+							</p>
+							<button 
+								class="btn-primary btn-large" 
+								@click="goToLogin"
+							>
+								카카오 로그인
+							</button>
+						</div>
+					</div>
+				</div>
+			</article>
+			
+			<!-- 로그인 후 화면 -->
+			<article v-else class="article-area">
 				<div class="article-header"></div>
 				<div class="article-body">
 					<!-- 사용자 정보 섹션 -->
@@ -41,6 +63,8 @@
 							</span>
 						</div>
 						<div style="margin-top: 10px;">
+							<p v-if="user"><span class="message-info">닉네임: {{ user.nickname }}</span></p>
+							<p v-if="user && user.email"><span class="message-info">이메일: {{ user.email }}</span></p>
 							<p><span class="message-info">무료 사용자는 최대 회차별 2개까지 번호를 생성할 수 있습니다.</span></p>
 							<p><span class="message-info">프로 사용자는 최대 회차별 최대 100개까지 번호를 생성할 수 있습니다.</span></p>
 						</div>
@@ -61,6 +85,7 @@
 		</div>
 		
 		<div class="btn-area btn-area-center">
+			<button v-if="authenticated" class="btn-secondary btn-small" @click="handleLogout" style="margin-right: 10px;">로그아웃</button>
 			<button class="btn-primary btn-small" @click="$emit('close')">닫기</button>
 		</div>
 	</div>
@@ -68,25 +93,53 @@
 
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { usePremiumStore } from '@/stores/PremiumStore'
+import { isAuthenticated, getUser, logout } from '@/utils/auth'
 
+const router = useRouter()
 const premiumStore = usePremiumStore()
 const isPremium = ref(false)
 const isSubscribing = ref(false)
+const user = ref(null)
+
+// 로그인 상태 확인 (반응형)
+const authenticated = computed(() => {
+	return isAuthenticated()
+})
 
 // 프로 상태 계산
 const premiumStatus = computed(() => {
 	return premiumStore.status && premiumStore.status.length > 0
 })
 
-// Android Bridge에서 프로 상태 확인
+// 로그인 페이지로 이동
+const goToLogin = () => {
+	emit('close')
+	router.push('/login')
+}
+
+// 로그아웃 처리
+const handleLogout = () => {
+	logout()
+	user.value = null
+	isPremium.value = false
+	premiumStore.updateStatus('')
+	emit('close')
+	// 로그인 페이지로 이동
+	router.push('/login')
+}
+
+// 프로 상태 확인
 const checkPremiumStatus = () => {
-	if (window.AndroidBridge && window.AndroidBridge.isPremiumUser) {
-		isPremium.value = window.AndroidBridge.isPremiumUser()
+	// 사용자 정보에서 플랜 확인
+	if (user.value) {
+		isPremium.value = user.value.plan === '프로' || user.value.plan === 'max'
+		premiumStore.updateStatus(isPremium.value ? 'premium' : '')
 	}
 }
 
-// 구독하기 함수
+// 구독하기 함수 (웹 환경에서는 백엔드 API 호출)
 const subscribe = () => {
 	if (isSubscribing.value) {
 		console.log('이미 구독 처리 중입니다.')
@@ -94,67 +147,11 @@ const subscribe = () => {
 	}
 	
 	console.log('구독 하기 버튼 클릭됨')
-	console.log('window.AndroidBridge:', window.AndroidBridge)
-	console.log('window.AndroidBridge.subscribeMonthly:', window.AndroidBridge?.subscribeMonthly)
 	
-	// 개발 환경 경고
-	if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-		console.warn('⚠️ 개발 환경에서 테스트 중입니다.')
-		console.warn('⚠️ 실제 결제가 발생하지 않습니다.')
-	}
-	
-	// Android Bridge를 통해 월간 구독 요청
-	// AndroidBridge가 있는지, subscribeMonthly 메서드가 있는지 확인
-	const hasAndroidBridge = typeof window !== 'undefined' && window.AndroidBridge
-	const hasSubscribeMonthly = hasAndroidBridge && typeof window.AndroidBridge.subscribeMonthly === 'function'
-	
-	console.log('Android Bridge 체크:', {
-		hasAndroidBridge,
-		hasSubscribeMonthly,
-		androidBridgeType: typeof window.AndroidBridge,
-		subscribeMonthlyType: window.AndroidBridge ? typeof window.AndroidBridge.subscribeMonthly : 'N/A'
-	})
-	
-	if (hasAndroidBridge && hasSubscribeMonthly) {
-		console.log('Android Bridge 호출 중...')
-		isSubscribing.value = true
-		try {
-			window.AndroidBridge.subscribeMonthly()
-			console.log('Android Bridge 호출 완료')
-			
-			// 10초 후에도 응답이 없으면 타임아웃 처리
-			setTimeout(() => {
-				if (isSubscribing.value) {
-					console.warn('구독 요청 타임아웃 - 응답이 없습니다')
-					isSubscribing.value = false
-					alert('구독 요청이 시간 초과되었습니다. 다시 시도해주세요.')
-				}
-			}, 10000)
-		} catch (error) {
-			console.error('Android Bridge 호출 실패:', error)
-			isSubscribing.value = false
-			alert('구독 요청 중 오류가 발생했습니다: ' + error.message)
-		}
-	} else {
-		console.error('Android Bridge not available')
-		console.log('Android Bridge 상태:', {
-			exists: hasAndroidBridge,
-			hasSubscribeMonthly: hasSubscribeMonthly,
-			userAgent: navigator.userAgent,
-			platform: navigator.platform,
-			allMethods: hasAndroidBridge ? Object.keys(window.AndroidBridge) : []
-		})
-		
-		// Android Bridge가 없을 때 재시도 옵션 제공
-		const retry = confirm('구독 기능을 사용할 수 없습니다.\n\n가능한 해결 방법:\n1. 앱을 완전히 종료하고 다시 시작\n2. 기기 재부팅\n3. Google Play Services 업데이트\n\n지금 다시 시도하시겠습니까?')
-		if (retry) {
-			// 2초 후 재시도
-			setTimeout(() => {
-				console.log('재시도 중...')
-				subscribe()
-			}, 2000)
-		}
-	}
+	// 웹 환경에서는 백엔드 API를 통해 구독 처리
+	// TODO: 백엔드 API 연동 필요
+	alert('웹 환경에서는 구독 기능이 아직 구현되지 않았습니다.')
+	isSubscribing.value = false
 }
 
 // 프로 상태 변경 이벤트 리스너
@@ -190,61 +187,24 @@ const handleSubscriptionSuccess = (event) => {
 	checkPremiumStatus()
 }
 
-// Android Bridge 초기화 대기 함수
-function waitForAndroidBridge(callback, maxRetries = 10, delay = 200) {
-	let retries = 0
-	
-	function checkBridge() {
-		const hasBridge = typeof window !== 'undefined' && window.AndroidBridge
-		const hasSubscribeMonthly = hasBridge && typeof window.AndroidBridge.subscribeMonthly === 'function'
-		
-		if (hasBridge && hasSubscribeMonthly) {
-			console.log('Android Bridge 초기화 완료')
-			callback()
-		} else if (retries < maxRetries) {
-			retries++
-			console.log(`Android Bridge 대기 중... (${retries}/${maxRetries})`)
-			setTimeout(checkBridge, delay)
-		} else {
-			console.warn('Android Bridge 초기화 실패 - 최대 재시도 횟수 도달')
-			console.log('Android Bridge 상태:', {
-				exists: hasBridge,
-				hasSubscribeMonthly: hasSubscribeMonthly,
-				allMethods: hasBridge ? Object.keys(window.AndroidBridge) : []
-			})
-		}
-	}
-	
-	checkBridge()
-}
 
 onMounted(() => {
-	// 초기 프로 상태 확인
-	checkPremiumStatus()
+	// 저장된 사용자 정보 확인
+	if (isAuthenticated()) {
+		user.value = getUser()
+		checkPremiumStatus()
+	}
 	
 	// 이벤트 리스너 등록
 	window.addEventListener('lottovue:premium', handlePremiumStatusChange)
 	window.addEventListener('lottovue:subscriptionError', handleSubscriptionError)
 	window.addEventListener('lottovue:subscriptionSuccess', handleSubscriptionSuccess)
 	
-	// 디버깅을 위한 전역 함수 등록
-	window.testSubscription = () => {
-		console.log('테스트 구독 함수 호출됨')
-		subscribe()
-	}
-	
-	// Android Bridge 초기화 대기 및 상태 확인
-	waitForAndroidBridge(() => {
-		// Bridge가 준비되면 상태 확인
-		console.log('Android Bridge 상태 확인:', {
-			exists: true,
-			hasSubscribeMonthly: typeof window.AndroidBridge.subscribeMonthly === 'function',
-			hasIsPremiumUser: typeof window.AndroidBridge.isPremiumUser === 'function',
-			allMethods: Object.keys(window.AndroidBridge),
-			userAgent: navigator.userAgent,
-			platform: navigator.platform
-		})
-	}, 10, 200)
+	// 사용자 정보 업데이트 이벤트 리스너 (로그인 후)
+	window.addEventListener('lottovue:userUpdated', () => {
+		user.value = getUser()
+		checkPremiumStatus()
+	})
 })
 
 onUnmounted(() => {
@@ -255,7 +215,7 @@ onUnmounted(() => {
 })
 
 // 이벤트 정의
-defineEmits(['close'])
+const emit = defineEmits(['close'])
 </script>
 
 <style scoped>

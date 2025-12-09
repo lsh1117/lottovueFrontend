@@ -1,11 +1,11 @@
 <template>
 	<div class="HomeView">
-		<section class="section section-area" v-if="result && result.drwNo">
+		<section class="section section-area" v-if="result && result.drw_no">
 			<div class="section-header">
 				<h4 class="title-big">
-					<strong>{{ result.drwNo }}회</strong> 당첨결과
+					<strong>{{ result.drw_no }}회</strong> 당첨결과
 				</h4>
-				<p><span class="text-description-medium">({{ result.drwNoDate }} 추첨)</span></p>
+				<p><span class="text-description-medium">({{ formatDate(result.drw_no_date) }} 추첨)</span></p>
 			</div>
 			<div class="section-body">
 				<div class="nums">
@@ -27,12 +27,17 @@
 							<ul class="ball-list">
 								<li class="ball-item">
 									<span class="ball-645"
-										:class="'ball-' + getGroup(result.bnusNo)">{{ result.bnusNo }}</span>
+										:class="'ball-' + getGroup(result.bnus_no)">{{ result.bnus_no }}</span>
 								</li>
 							</ul>
 						</div>
 					</div>
 				</div>
+			</div>
+		</section>
+		<section class="section section-area" v-else-if="loading">
+			<div class="section-body">
+				<p class="text-description-medium" style="text-align: center;">로딩 중...</p>
 			</div>
 		</section>
 		<section class="section section-area" v-else>
@@ -45,26 +50,21 @@
 
 <script setup>
 	import { onMounted, onBeforeUnmount, ref, computed } from "vue";
-	import { useDrwStore } from "@/stores/DrwStore";
-	import { drwData } from "@/assets/data/drw.js";
-	import { useRoute, useRouter } from 'vue-router';
-
-	const route = useRoute();
-	const router = useRouter();
-
-	// Pinia store 가져오기
-	const drwStore = useDrwStore();
+	import { getLatestDraw } from "@/api/lotto";
 
 	const result = ref(null);
+	const loading = ref(false);
+	const error = ref(null);
+
 	const winningNumbers = computed(() => {
 		if (!result.value) return []
 		return [
-			result.value.drwtNo1,
-			result.value.drwtNo2,
-			result.value.drwtNo3,
-			result.value.drwtNo4,
-			result.value.drwtNo5,
-			result.value.drwtNo6,
+			result.value.drwt_no1,
+			result.value.drwt_no2,
+			result.value.drwt_no3,
+			result.value.drwt_no4,
+			result.value.drwt_no5,
+			result.value.drwt_no6,
 		]
 	})
 
@@ -74,36 +74,40 @@
 		return Math.floor((number - 1) / 10) + 1;
 	}
 
-
-	function setHome() {
-		const first = drwStore.getNumbers()[0]
-		result.value = first ? first : null
+	// 날짜 포맷팅 함수
+	function formatDate(dateString) {
+		if (!dateString) return ''
+		// YYYY-MM-DD 형식으로 반환
+		return dateString
 	}
 
-	function onDrawsEvent(e) {
-		const draws = e.detail || []
-		// 숫자들은 안드로이드에서 number로 전달됩니다. DrwStore는 문자열/숫자 모두 처리 가능.
-		drwStore.setNumbers(draws);
-		setHome();
+	// 최신 당첨 정보 가져오기
+	async function fetchLatestDraw() {
+		loading.value = true
+		error.value = null
+		try {
+			console.log('최신 당첨 정보 요청 시작...')
+			const data = await getLatestDraw()
+			console.log('최신 당첨 정보 응답:', data)
+			result.value = data
+		} catch (err) {
+			console.error('최신 당첨 정보를 가져오는데 실패했습니다:', err)
+			console.error('에러 상세:', {
+				message: err.message,
+				response: err.response,
+				status: err.response?.status,
+				data: err.response?.data,
+				config: err.config
+			})
+			error.value = err.response?.data?.detail || err.message || '데이터를 불러올 수 없습니다.'
+			result.value = null
+		} finally {
+			loading.value = false
+		}
 	}
 	
 	onMounted(() => {
-		window.addEventListener('lottovue:draws', onDrawsEvent)
-		// 웹에서 독립 실행할 때(안드로이드 브리지 없음) 대비해 fallback도 가능:
-		if (window.AndroidBridge?.getDrawsJson) { 
-			const json = window.AndroidBridge.getDrawsJson()
-			const draws = JSON.parse(json || '[]')
-			drwStore.setNumbers(draws)
-			setHome()
-		} else {
-			// 안드로이드 브리지가 없으면 로컬 데이터 사용
-			drwStore.setNumbers(drwData)
-			setHome()
-		}
-	})
-
-	onBeforeUnmount(() => {
-		window.removeEventListener('lottovue:draws', onDrawsEvent)
+		fetchLatestDraw()
 	})
 
 </script>

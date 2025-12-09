@@ -79,12 +79,7 @@ const isPremium = computed(() => {
 	return premiumStore.status && premiumStore.status.length > 0
 })
 
-// Check if running in Android WebView
-const isAndroidWebView = () => {
-	return typeof window.AndroidBridge !== 'undefined'
-}
-
-// Listen for pro status from Android
+// Listen for pro status from events
 const handlePremiumStatus = (event) => {
 	if (event.detail && typeof event.detail.isPremium === 'boolean') {
 		premiumStore.setStatus(event.detail.isPremium ? ['premium'] : [])
@@ -107,17 +102,7 @@ function onAccountPopupClose(e){
 }
 
 onMounted(() => {
-	// Listen for pro status event from Android
+	// Listen for pro status event
 	window.addEventListener('lottovue:premium', handlePremiumStatus)
-	
-	// Also check immediately if AndroidBridge is available
-	if (isAndroidWebView()) {
-		try {
-			const premiumStatus = window.AndroidBridge.isPremiumUser()
-			premiumStore.setStatus(premiumStatus ? ['premium'] : [])
-		} catch (e) {
-			console.error('Failed to get pro status:', e)
-		}
-	}
 })
 </script>

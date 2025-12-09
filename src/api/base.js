@@ -1,24 +1,29 @@
 import axios from 'axios'
-import { ElLoading, ElMessage } from 'element-plus'
+import { getToken, logout } from '@/utils/auth'
+
+// 백엔드 API URL (환경 변수 또는 기본값)
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8030/api/'
 
 let http = axios.create({
-	baseURL: '/api/',
+	baseURL: API_BASE_URL,
 	timeout: 10000,
 })
-
-let loadingInstance
 
 // 인터셉터 추가
 http.interceptors.request.use(
 	config => {
-		loadingInstance = ElLoading.service('로드 중')
+		console.log('API 요청:', config.method?.toUpperCase(), config.url)
+		
+		// JWT 토큰이 있으면 헤더에 추가
+		const token = getToken()
+		if (token) {
+			config.headers.Authorization = `Bearer ${token}`
+		}
 
 		return config
 	},
 	err => {
-		//요청 오류(프론트 엔드 작업은 로딩 원을 취소하는 것이며 네트워크 예외 메시지가 나타납니다)
-		loadingInstance?.close()
-		ElMessage.error('네트워크 이상')
+		console.error('요청 오류:', err)
 		return Promise.reject(err)
 	},
 )
@@ -26,13 +31,28 @@ http.interceptors.request.use(
 //응답 인터셉터
 http.interceptors.response.use(
 	res => {
-		loadingInstance?.close()
+		console.log('API 응답 성공:', res.config.url, res.status)
 		return res.data
 	},
 	err => {
-		// 요청이 실패했습니다(프론트 엔드 방법은 로딩 원을 취소하고 프롬프트를 제공하는 것입니다)
-		loadingInstance?.close()
-		ElMessage.error('요청 실패')
+		console.error('API 응답 오류:', {
+			url: err.config?.url,
+			method: err.config?.method,
+			status: err.response?.status,
+			statusText: err.response?.statusText,
+			data: err.response?.data,
+			message: err.message
+		})
+		
+		// 401 Unauthorized 에러 시 로그아웃 처리
+		if (err.response?.status === 401) {
+			logout()
+			// 로그인 페이지로 리다이렉트 (router는 컴포넌트에서만 사용 가능하므로 window.location 사용)
+			if (window.location.pathname !== '/login') {
+				window.location.href = '/#/login'
+			}
+		}
+		
 		return Promise.reject(err)
 	},
 )

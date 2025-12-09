@@ -203,39 +203,9 @@
 		no4.value = 0;
 		no5.value = 0;
 		no6.value = 0;
-        // 1) 안드로이드 저장 픽 불러오기
+        // 웹 환경에서는 MyPickStore에서 데이터 가져오기
         try {
-            const drwNo = Number(selectedDrwNo.value)
-            if (window.AndroidBridge && typeof window.AndroidBridge.getPicksJson === 'function') {
-                const json = window.AndroidBridge.getPicksJson(drwNo)
-                const picks = JSON.parse(json || '[]')
-                const converted = picks.map(p => ({
-                    drw: p.drwNo,
-                    numbers: [p.no1, p.no2, p.no3, p.no4, p.no5, p.no6].map(n => ({ number: Number(n) })),
-                }))
-                
-                // Android DB 데이터를 우선 사용하고, MyPickStore 데이터는 중복이 아닌 경우만 추가
-                const storePicks = myPickStore.getMyPicks(selectedDrwNo.value)
-                
-                // 중복 제거 함수: 같은 회차, 같은 번호 조합인지 확인
-                const isDuplicate = (pick1, pick2) => {
-                    if (pick1.drw !== pick2.drw) return false
-                    const nums1 = pick1.numbers.map(n => n.number || n).sort((a, b) => a - b)
-                    const nums2 = pick2.numbers.map(n => n.number || n).sort((a, b) => a - b)
-                    if (nums1.length !== nums2.length) return false
-                    return nums1.every((n, i) => n === nums2[i])
-                }
-                
-                // storePicks에서 converted에 없는 항목만 필터링
-                const uniqueStorePicks = storePicks.filter(storePick => {
-                    return !converted.some(convPick => isDuplicate(convPick, storePick))
-                })
-                
-                // Android DB 데이터를 우선 표시
-                myPickList.value = converted.concat(uniqueStorePicks)
-            } else {
-                myPickList.value = myPickStore.getMyPicks(selectedDrwNo.value)
-            }
+            myPickList.value = myPickStore.getMyPicks(selectedDrwNo.value)
         } catch (_) {
             myPickList.value = myPickStore.getMyPicks(selectedDrwNo.value)
         }

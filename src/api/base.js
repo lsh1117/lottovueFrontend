@@ -1,7 +1,9 @@
 import axios from 'axios'
 import { getToken, logout } from '@/utils/auth'
 
-// 백엔드 API URL (환경 변수 또는 기본값)
+// 백엔드 API 기본 경로 설정
+// 환경 변수 VITE_API_BASE_URL이 설정되어 있으면 사용하고, 없으면 기본값 사용
+// 기본값: http://localhost:8030/api/
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8030/api/'
 
 let http = axios.create({

@@ -13,10 +13,23 @@
 							</p>
 							<button 
 								class="btn-primary btn-large" 
-								@click="goToLogin"
+								@click="handleKakaoLogin"
+								:disabled="isLoading"
+								style="margin-bottom: 10px; width: 100%;"
 							>
-								카카오 로그인
+								{{ isLoading ? '로그인 중...' : '카카오 로그인' }}
 							</button>
+							<button 
+								class="btn-secondary btn-large" 
+								@click="handleKakaoSignup"
+								:disabled="isLoading"
+								style="width: 100%;"
+							>
+								{{ isLoading ? '회원가입 중...' : '카카오 회원가입' }}
+							</button>
+							<div v-if="error" style="margin-top: 15px; color: red; font-size: 14px;">
+								{{ error }}
+							</div>
 						</div>
 					</div>
 				</div>
@@ -95,13 +108,16 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePremiumStore } from '@/stores/PremiumStore'
-import { isAuthenticated, getUser, logout } from '@/utils/auth'
+import { isAuthenticated, getUser, logout, setToken, setUser } from '@/utils/auth'
+import loginApi from '@/api/login'
 
 const router = useRouter()
 const premiumStore = usePremiumStore()
 const isPremium = ref(false)
 const isSubscribing = ref(false)
 const user = ref(null)
+const isLoading = ref(false)
+const error = ref(null)
 
 // 로그인 상태 확인 (반응형)
 const authenticated = computed(() => {
@@ -113,11 +129,189 @@ const premiumStatus = computed(() => {
 	return premiumStore.status && premiumStore.status.length > 0
 })
 
-// 로그인 페이지로 이동
-const goToLogin = () => {
-	emit('close')
-	router.push('/login')
-}
+// 카카오 로그인 처리 (새 창으로 열기)
+const handleKakaoLogin = () => {
+	try {
+		isLoading.value = true;
+		error.value = null;
+		
+		const redirectUrl = loginApi.getKakaoLoginRedirectUrl();
+		console.log('카카오 로그인 URL:', redirectUrl);
+		
+		if (!redirectUrl) {
+			error.value = '로그인 URL을 가져올 수 없습니다.';
+			isLoading.value = false;
+			return;
+		}
+		
+		const popup = window.open(
+			redirectUrl,
+			'카카오 로그인',
+			'width=500,height=600,scrollbars=yes,resizable=yes'
+		);
+		
+		if (!popup) {
+			error.value = '팝업이 차단되었습니다. 팝업 차단을 해제해주세요.';
+			isLoading.value = false;
+			return;
+		}
+		
+		// 새 창에서 메시지 받기
+		const messageHandler = async (event) => {
+			// 보안을 위해 origin 확인 (실제 운영 환경에서는 더 엄격하게)
+			if (event.origin !== window.location.origin && !event.origin.includes('localhost')) {
+				return;
+			}
+			
+			if (event.data && event.data.type === 'kakao-login-success') {
+				window.removeEventListener('message', messageHandler);
+				popup.close();
+				
+				try {
+					// JWT 토큰 저장
+					setToken(event.data.token);
+					
+					// 사용자 정보 조회
+					const userInfo = await loginApi.getCurrentUser();
+					
+					if (userInfo) {
+						setUser(userInfo);
+						user.value = userInfo;
+						checkPremiumStatus();
+						
+						// 신규 회원가입인 경우 안내 메시지 표시
+						if (event.data.isNewUser) {
+							alert('회원가입이 완료되었습니다! 환영합니다.');
+						}
+						
+						// 사용자 정보 업데이트 이벤트 발생
+						window.dispatchEvent(new CustomEvent('lottovue:userUpdated'));
+					} else {
+						error.value = '사용자 정보를 가져오는데 실패했습니다.';
+					}
+				} catch (err) {
+					console.error('Login success handler error:', err);
+					error.value = err.response?.data?.detail || err.message || '로그인 처리 중 오류가 발생했습니다.';
+				} finally {
+					isLoading.value = false;
+				}
+			} else if (event.data && event.data.type === 'kakao-login-error') {
+				window.removeEventListener('message', messageHandler);
+				popup.close();
+				error.value = event.data.message || '로그인에 실패했습니다.';
+				isLoading.value = false;
+			}
+		};
+		
+		window.addEventListener('message', messageHandler);
+		
+		// 팝업이 닫혔는지 확인
+		const checkClosed = setInterval(() => {
+			if (popup.closed) {
+				clearInterval(checkClosed);
+				window.removeEventListener('message', messageHandler);
+				if (isLoading.value) {
+					isLoading.value = false;
+				}
+			}
+		}, 1000);
+	} catch (err) {
+		console.error('Login redirect error:', err);
+		error.value = err.message || '로그인 페이지를 여는데 실패했습니다.';
+		isLoading.value = false;
+	}
+};
+
+// 카카오 회원가입 처리 (새 창으로 열기)
+const handleKakaoSignup = () => {
+	try {
+		isLoading.value = true;
+		error.value = null;
+		
+		const redirectUrl = loginApi.getKakaoSignupRedirectUrl();
+		console.log('카카오 회원가입 URL:', redirectUrl);
+		
+		if (!redirectUrl) {
+			error.value = '회원가입 URL을 가져올 수 없습니다.';
+			isLoading.value = false;
+			return;
+		}
+		
+		const popup = window.open(
+			redirectUrl,
+			'카카오 회원가입',
+			'width=500,height=600,scrollbars=yes,resizable=yes'
+		);
+		
+		if (!popup) {
+			error.value = '팝업이 차단되었습니다. 팝업 차단을 해제해주세요.';
+			isLoading.value = false;
+			return;
+		}
+		
+		// 새 창에서 메시지 받기
+		const messageHandler = async (event) => {
+			// 보안을 위해 origin 확인 (실제 운영 환경에서는 더 엄격하게)
+			if (event.origin !== window.location.origin && !event.origin.includes('localhost')) {
+				return;
+			}
+			
+			if (event.data && event.data.type === 'kakao-signup-success') {
+				window.removeEventListener('message', messageHandler);
+				popup.close();
+				
+				try {
+					// JWT 토큰 저장
+					setToken(event.data.token);
+					
+					// 사용자 정보 조회
+					const userInfo = await loginApi.getCurrentUser();
+					
+					if (userInfo) {
+						setUser(userInfo);
+						user.value = userInfo;
+						checkPremiumStatus();
+						
+						// 회원가입 성공 메시지 표시
+						alert('회원가입이 완료되었습니다! 환영합니다.');
+						
+						// 사용자 정보 업데이트 이벤트 발생
+						window.dispatchEvent(new CustomEvent('lottovue:userUpdated'));
+					} else {
+						error.value = '사용자 정보를 가져오는데 실패했습니다.';
+					}
+				} catch (err) {
+					console.error('Signup success handler error:', err);
+					error.value = err.response?.data?.detail || err.message || '회원가입 처리 중 오류가 발생했습니다.';
+				} finally {
+					isLoading.value = false;
+				}
+			} else if (event.data && event.data.type === 'kakao-signup-error') {
+				window.removeEventListener('message', messageHandler);
+				popup.close();
+				error.value = event.data.message || '회원가입에 실패했습니다.';
+				isLoading.value = false;
+			}
+		};
+		
+		window.addEventListener('message', messageHandler);
+		
+		// 팝업이 닫혔는지 확인
+		const checkClosed = setInterval(() => {
+			if (popup.closed) {
+				clearInterval(checkClosed);
+				window.removeEventListener('message', messageHandler);
+				if (isLoading.value) {
+					isLoading.value = false;
+				}
+			}
+		}, 1000);
+	} catch (err) {
+		console.error('Signup redirect error:', err);
+		error.value = err.message || '회원가입 페이지를 여는데 실패했습니다.';
+		isLoading.value = false;
+	}
+};
 
 // 로그아웃 처리
 const handleLogout = () => {

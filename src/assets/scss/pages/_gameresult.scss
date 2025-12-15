@@ -13,4 +13,79 @@
             }
         }
     }
+
+    // 당첨 정보 테이블
+    .prize-info-table {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background-color: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+
+        .title-medium {
+            margin-bottom: 1rem;
+            @include text-H5-SemiBold(color-text-gray-800);
+        }
+    }
+
+    .info-table {
+        width: 100%;
+        border-collapse: collapse;
+        @include text-B1-Regular(color-text-gray-800);
+
+        thead {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        th {
+            padding: 0.75rem;
+            text-align: center;
+            @include text-B1-SemiBold(color-text-gray-800);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        td {
+            padding: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            @include text-B1-Regular(color-text-gray-800);
+
+            strong {
+                @include text-B1-SemiBold(color-text-gray-800);
+            }
+        }
+
+        tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .prize-info-table {
+            margin-top: 1rem;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        .info-table {
+            @include text-B2-Regular(color-text-gray-800);
+            min-width: 600px;
+
+            th {
+                @include text-B2-SemiBold(color-text-gray-800);
+                padding: 0.5rem;
+            }
+
+            td {
+                @include text-B2-Regular(color-text-gray-800);
+                padding: 0.5rem;
+
+                strong {
+                    @include text-B2-SemiBold(color-text-gray-800);
+                }
+            }
+        }
+    }
 }

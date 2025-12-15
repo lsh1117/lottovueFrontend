@@ -496,6 +496,12 @@ body[data-color-mode=dark] .header-area {
   background-color: rgb(1, 10, 19);
 }
 
+@media (max-width: 768px) {
+  .header-area {
+    padding: 10px 12px;
+    height: 48px;
+  }
+}
 .header-area .logo-image {
   width: 2.4rem;
   height: 2.4rem;
@@ -567,6 +573,20 @@ body[data-color-mode=dark] .header-area h1 span {
   width: 14px;
   height: 14px;
 }
+@media (max-width: 768px) {
+  .header-area .header-right {
+    width: 6rem;
+    gap: 0.3rem;
+  }
+  .header-area .header-right .account-btn {
+    width: 2rem;
+    height: 2rem;
+  }
+  .header-area .header-right .account-icon {
+    width: 12px;
+    height: 12px;
+  }
+}
 .header-area .premium-badge {
   color: transparent;
   background: transparent;
@@ -577,6 +597,12 @@ body[data-color-mode=dark] .header-area h1 span {
   height: 24px;
   display: block;
   filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.4));
+}
+@media (max-width: 768px) {
+  .header-area .premium-badge .premium-icon {
+    width: 56px;
+    height: 22px;
+  }
 }
 .header-area .free-badge {
   color: transparent;
@@ -589,11 +615,40 @@ body[data-color-mode=dark] .header-area h1 span {
   display: block;
   filter: drop-shadow(0 2px 4px rgba(76, 175, 80, 0.3));
 }
+@media (max-width: 768px) {
+  .header-area .free-badge .free-icon {
+    width: 56px;
+    height: 22px;
+  }
+}
+.header-area .max-badge {
+  color: transparent;
+  background: transparent;
+  border: none;
+}
+.header-area .max-badge .max-icon {
+  width: 64px;
+  height: 24px;
+  display: block;
+  filter: drop-shadow(0 2px 4px rgba(156, 39, 176, 0.4));
+}
+@media (max-width: 768px) {
+  .header-area .max-badge .max-icon {
+    width: 56px;
+    height: 22px;
+  }
+}
 
 .gnb-area {
   margin-top: 52px;
   width: 100%;
   height: 42px;
+}
+@media (max-width: 768px) {
+  .gnb-area {
+    margin-top: 48px;
+    height: 40px;
+  }
 }
 .gnb-area .gnb {
   width: 100%;
@@ -614,6 +669,11 @@ body[data-color-mode=dark] .gnb-area .gnb ul.gnb-list li.gnb-item {
   border-color: rgb(200, 200, 200);
 }
 
+@media (max-width: 768px) {
+  .gnb-area .gnb ul.gnb-list li.gnb-item {
+    height: 40px;
+  }
+}
 .gnb-area .gnb ul.gnb-list li.gnb-item > .btn-gnb {
   color: #6c757d;
   font-weight: 500;
@@ -633,18 +693,43 @@ body[data-color-mode=dark] .gnb-area .gnb ul.gnb-list li.gnb-item > .btn-gnb.on 
   background-color: rgb(255, 255, 255);
 }
 
+@media (max-width: 768px) {
+  .gnb-area .gnb ul.gnb-list li.gnb-item > .btn-gnb {
+    height: 40px;
+    font-size: 13px;
+  }
+}
+
 .main-area {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 2rem 2rem;
+}
+@media (max-width: 768px) {
+  .main-area {
+    padding: 1rem 1rem;
+  }
 }
 
 .footer-area {
   position: fixed;
-  display: none;
+  display: flex;
   bottom: 0;
   left: 0;
   width: 100%;
   height: 4rem;
-  background-color: #eee;
+  z-index: 999;
+  background-color: rgb(24, 24, 24);
+}
+body[data-color-mode=dark] .footer-area {
+  background-color: rgb(1, 10, 19);
+}
+
+@media (max-width: 768px) {
+  .footer-area {
+    display: none;
+  }
 }
 .footer-area .copyright-area {
   display: flex;
@@ -658,10 +743,17 @@ body[data-color-mode=dark] .gnb-area .gnb ul.gnb-list li.gnb-item > .btn-gnb.on 
   line-height: 1.429;
   font-weight: 500;
   font-family: "Pretendard";
-  color: rgba(7, 15, 22, 0.82);
+  color: rgb(255, 255, 255);
+  color: #6c757d;
 }
 body[data-color-mode=dark] .footer-area .copyright-area p {
-  color: rgba(248, 249, 252, 0.9);
+  color: rgb(22, 22, 22);
+}
+
+@media (max-width: 768px) {
+  .footer-area .copyright-area p {
+    font-size: 12px;
+  }
 }
 
 article.article-area {
@@ -1120,9 +1212,9 @@ body[data-color-mode=dark] .box.box-round-bg {
 .ball-645 {
   position: relative;
   display: block;
-  width: 4rem;
-  height: 4rem;
-  border-radius: 4rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1461,6 +1553,134 @@ body[data-color-mode=dark] .table-item tr td span, body[data-color-mode=dark] .t
 .GameResultView .section-area .section-header p {
   text-align: center;
 }
+.GameResultView .prize-info-table {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+.GameResultView .prize-info-table .title-medium {
+  margin-bottom: 1rem;
+  font-size: 1.7rem;
+  line-height: 1.412;
+  font-weight: 600;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
+}
+body[data-color-mode=dark] .GameResultView .prize-info-table .title-medium {
+  color: rgba(248, 249, 252, 0.9);
+}
+
+.GameResultView .info-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
+}
+body[data-color-mode=dark] .GameResultView .info-table {
+  color: rgba(248, 249, 252, 0.9);
+}
+
+.GameResultView .info-table thead {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.GameResultView .info-table th {
+  padding: 0.75rem;
+  text-align: center;
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 600;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+body[data-color-mode=dark] .GameResultView .info-table th {
+  color: rgba(248, 249, 252, 0.9);
+}
+
+.GameResultView .info-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
+}
+body[data-color-mode=dark] .GameResultView .info-table td {
+  color: rgba(248, 249, 252, 0.9);
+}
+
+.GameResultView .info-table td strong {
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 600;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
+}
+body[data-color-mode=dark] .GameResultView .info-table td strong {
+  color: rgba(248, 249, 252, 0.9);
+}
+
+.GameResultView .info-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+.GameResultView .info-table tbody tr:last-child td {
+  border-bottom: none;
+}
+@media (max-width: 768px) {
+  .GameResultView .prize-info-table {
+    margin-top: 1rem;
+    padding: 1rem;
+    overflow-x: auto;
+  }
+  .GameResultView .info-table {
+    font-size: 1.2rem;
+    line-height: 1.429;
+    font-weight: 400;
+    font-family: "Pretendard";
+    color: rgba(7, 15, 22, 0.82);
+    min-width: 600px;
+  }
+  body[data-color-mode=dark] .GameResultView .info-table {
+    color: rgba(248, 249, 252, 0.9);
+  }
+  .GameResultView .info-table th {
+    font-size: 1.2rem;
+    line-height: 1.429;
+    font-weight: 600;
+    font-family: "Pretendard";
+    color: rgba(7, 15, 22, 0.82);
+    padding: 0.5rem;
+  }
+  body[data-color-mode=dark] .GameResultView .info-table th {
+    color: rgba(248, 249, 252, 0.9);
+  }
+  .GameResultView .info-table td {
+    font-size: 1.2rem;
+    line-height: 1.429;
+    font-weight: 400;
+    font-family: "Pretendard";
+    color: rgba(7, 15, 22, 0.82);
+    padding: 0.5rem;
+  }
+  body[data-color-mode=dark] .GameResultView .info-table td {
+    color: rgba(248, 249, 252, 0.9);
+  }
+  .GameResultView .info-table td strong {
+    font-size: 1.2rem;
+    line-height: 1.429;
+    font-weight: 600;
+    font-family: "Pretendard";
+    color: rgba(7, 15, 22, 0.82);
+  }
+  body[data-color-mode=dark] .GameResultView .info-table td strong {
+    color: rgba(248, 249, 252, 0.9);
+  }
+}
 
 .ContactView .section-area .section-footer {
   margin-top: 2rem;
@@ -1479,6 +1699,187 @@ body[data-color-mode=dark] .table-item tr td span, body[data-color-mode=dark] .t
 .StatisticsView .section-area .section-header h4 {
   margin-top: 20px;
 }
+.PlanUpgradeView {
+  padding: 20px;
+}
+@media (max-width: 768px) {
+  .PlanUpgradeView {
+    padding: 16px;
+  }
+}
+.PlanUpgradeView .current-plan-info {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+.PlanUpgradeView .current-plan-info p {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+.PlanUpgradeView .current-plan-info > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+.PlanUpgradeView .current-plan-info .free-badge,
+.PlanUpgradeView .current-plan-info .premium-badge,
+.PlanUpgradeView .current-plan-info .max-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.PlanUpgradeView .current-plan-info .free-badge svg,
+.PlanUpgradeView .current-plan-info .premium-badge svg,
+.PlanUpgradeView .current-plan-info .max-badge svg {
+  width: 64px;
+  height: 24px;
+}
+.PlanUpgradeView .current-plan-info .free-badge span,
+.PlanUpgradeView .current-plan-info .premium-badge span,
+.PlanUpgradeView .current-plan-info .max-badge span {
+  font-size: 18px;
+  font-weight: 600;
+}
+@media (max-width: 768px) {
+  .PlanUpgradeView .current-plan-info {
+    margin-bottom: 20px;
+    padding: 16px;
+  }
+  .PlanUpgradeView .current-plan-info p {
+    font-size: 13px;
+  }
+  .PlanUpgradeView .current-plan-info > div {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .PlanUpgradeView .current-plan-info .free-badge svg,
+  .PlanUpgradeView .current-plan-info .premium-badge svg,
+  .PlanUpgradeView .current-plan-info .max-badge svg {
+    width: 56px;
+    height: 22px;
+  }
+  .PlanUpgradeView .current-plan-info .free-badge span,
+  .PlanUpgradeView .current-plan-info .premium-badge span,
+  .PlanUpgradeView .current-plan-info .max-badge span {
+    font-size: 16px;
+  }
+}
+.PlanUpgradeView .plan-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 20px;
+}
+@media (max-width: 768px) {
+  .PlanUpgradeView .plan-list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+}
+.PlanUpgradeView .plan-card {
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 0;
+  background: white;
+  transition: all 0.3s ease;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.PlanUpgradeView .plan-card.current {
+  border-color: #4CAF50;
+  background: #f1f8f4;
+}
+.PlanUpgradeView .plan-card.recommended {
+  border-color: #FFD700;
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.2);
+}
+.PlanUpgradeView .plan-card.disabled {
+  opacity: 0.6;
+}
+@media (max-width: 768px) {
+  .PlanUpgradeView .plan-card {
+    padding: 20px;
+    margin-bottom: 0;
+  }
+}
+.PlanUpgradeView .plan-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.PlanUpgradeView .plan-badge {
+  display: inline-flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+.PlanUpgradeView .plan-badge svg {
+  width: 64px;
+  height: 24px;
+}
+.PlanUpgradeView .plan-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 12px 0 8px 0;
+  color: #333;
+}
+@media (max-width: 768px) {
+  .PlanUpgradeView .plan-title {
+    font-size: 20px;
+    margin: 10px 0 6px 0;
+  }
+}
+.PlanUpgradeView .plan-price {
+  font-size: 20px;
+  font-weight: 600;
+  color: #666;
+  margin: 0;
+}
+@media (max-width: 768px) {
+  .PlanUpgradeView .plan-price {
+    font-size: 18px;
+  }
+}
+.PlanUpgradeView .plan-features {
+  margin: 24px 0;
+}
+.PlanUpgradeView .plan-features ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.PlanUpgradeView .plan-features li {
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 15px;
+  color: #555;
+}
+.PlanUpgradeView .plan-features li:last-child {
+  border-bottom: none;
+}
+.PlanUpgradeView .plan-features li strong {
+  color: #333;
+  font-weight: 600;
+}
+.PlanUpgradeView .plan-action {
+  margin-top: auto;
+  padding-top: 24px;
+}
+.PlanUpgradeView .plan-action button {
+  width: 100%;
+}
+@media (max-width: 768px) {
+  .PlanUpgradeView .plan-action {
+    padding-top: 20px;
+  }
+}
+
 .example-area {
   position: absolute;
   top: -100000px;

@@ -10,8 +10,25 @@
 		</div>
 		
 		<div class="header-right">
-			<div class="header-right-item">
-				<span v-if="isPremium" class="premium-badge" title="프로 사용자">
+			<div class="header-right-item" v-if="isAuthenticated()">
+				<!-- MAX 플랜 배지 -->
+				<span v-if="userPlan === 'max'" class="max-badge" title="최대 플랜 사용자">
+					<svg class="max-icon" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<defs>
+							<linearGradient id="purpleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+								<stop offset="0%" style="stop-color:#9C27B0;stop-opacity:1" />
+								<stop offset="50%" style="stop-color:#7B1FA2;stop-opacity:1" />
+								<stop offset="100%" style="stop-color:#6A1B9A;stop-opacity:1" />
+							</linearGradient>
+						</defs>
+						<!-- 보라색 그라데이션 배지 -->
+						<rect x="0" y="0" width="80" height="32" rx="16" fill="url(#purpleGradient)"/>
+						<!-- max 텍스트 -->
+						<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">max</text>
+					</svg>
+				</span>
+				<!-- PRO 플랜 배지 -->
+				<span v-else-if="userPlan === 'pro'" class="premium-badge" title="프로 사용자">
 					<svg class="premium-icon" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<defs>
 							<linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -26,6 +43,7 @@
 						<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">pro</text>
 					</svg>
 				</span>
+				<!-- FREE 플랜 배지 -->
 				<span v-else class="free-badge" title="무료 사용자">
 					<svg class="free-icon" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 						<defs>
@@ -57,8 +75,8 @@
 			<ul class="gnb-list">
 				<li class="gnb-item"><router-link class="btn-gnb" active-class="on" to="/home">홈</router-link></li>
 				<li class="gnb-item"><router-link class="btn-gnb" active-class="on" to="/gameresult">회차 결과</router-link></li>
-				<li class="gnb-item"><router-link class="btn-gnb" active-class="on" to="/contact">번호뽑기</router-link></li>
-				<li class="gnb-item"><router-link class="btn-gnb" active-class="on" to="/statistics">통계</router-link></li>
+				<li class="gnb-item"><a class="btn-gnb" :class="{ 'on': route.path === '/contact' }" @click.prevent="handleNumberPickClick">번호뽑기</a></li>
+				<li class="gnb-item"><a class="btn-gnb" :class="{ 'on': route.path === '/statistics' }" @click.prevent="handleStatisticsClick">통계</a></li>
 			</ul>
 		</nav>
 	</div>
@@ -66,17 +84,22 @@
 
 <script setup>
 import { computed, onMounted, ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { NModal } from 'naive-ui'
 import { usePremiumStore } from '@/stores/PremiumStore'
-import { useEventStore } from '@/stores/EventStore';
+import { useEventStore } from '@/stores/EventStore'
+import { isAuthenticated, getUser } from '@/utils/auth'
 
+const router = useRouter()
+const route = useRoute()
 const eventStore = useEventStore();
 
 const premiumStore = usePremiumStore();
 
-// premiumStore의 status 값을 사용하여 isPro 계산
-const isPremium = computed(() => {
-	return premiumStore.status && premiumStore.status.length > 0
+// 사용자 플랜 가져오기
+const userPlan = computed(() => {
+	const user = getUser()
+	return user?.plan || 'free'
 })
 
 // Listen for pro status from events
@@ -101,8 +124,66 @@ function onAccountPopupClose(e){
 	//console.log("계정 정보 팝업 닫기 :",e);
 }
 
+// 번호뽑기 클릭 핸들러
+function handleNumberPickClick() {
+	if (!isAuthenticated()) {
+		alert('번호뽑기 기능은 로그인 후 이용 가능합니다.\n계정 정보에서 로그인해주세요.')
+		openAccountPopup()
+		return
+	}
+	router.push('/contact')
+}
+
+// 통계 클릭 핸들러
+function handleStatisticsClick() {
+	if (!isAuthenticated()) {
+		alert('통계 기능은 로그인 후 이용 가능합니다.\n계정 정보에서 로그인해주세요.')
+		openAccountPopup()
+		return
+	}
+	router.push('/statistics')
+}
+
+// 사용자 정보 업데이트 이벤트 리스너
+const handleUserUpdated = () => {
+	// 사용자 정보가 업데이트되면 computed가 자동으로 반영됨
+}
+
 onMounted(() => {
 	// Listen for pro status event
 	window.addEventListener('lottovue:premium', handlePremiumStatus)
+	// Listen for user updated event
+	window.addEventListener('lottovue:userUpdated', handleUserUpdated)
 })
 </script>
+
+<style scoped>
+.max-badge,
+.premium-badge,
+.free-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.max-badge .max-icon,
+.premium-badge .premium-icon,
+.free-badge .free-icon {
+	width: 64px;
+	height: 24px;
+	display: block;
+	flex-shrink: 0;
+}
+
+.max-badge .max-icon {
+	filter: drop-shadow(0 2px 4px rgba(156, 39, 176, 0.4));
+}
+
+.premium-badge .premium-icon {
+	filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.4));
+}
+
+.free-badge .free-icon {
+	filter: drop-shadow(0 2px 4px rgba(76, 175, 80, 0.3));
+}
+</style>

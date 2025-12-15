@@ -59,13 +59,17 @@
 </template>
 
 <script setup>
-	import { computed } from 'vue';
+	import { computed, onMounted } from 'vue';
+	import { useRouter } from 'vue-router';
 	import { useEventStore } from '@/stores/EventStore';
 	import { useExceptionStore } from "@/stores/ExceptionStore";
 	import { useFixedStore } from "@/stores/FixedStore";
 	import { useRecommendStore } from "@/stores/RecommendStore";
 	import { useCalculateStore } from "@/stores/CalculateStore";
 	import { useDrwStore } from "@/stores/DrwStore";
+	import { isAuthenticated } from '@/utils/auth';
+
+	const router = useRouter();
 
 	const eventStore = useEventStore();
 	const exceptionStore = useExceptionStore();
@@ -244,4 +248,12 @@
 
 		calculateStore.setNumbers(calculateNumbers);
 	}
+
+	// 로그인 체크
+	onMounted(() => {
+		if (!isAuthenticated()) {
+			alert('번호뽑기 기능은 로그인 사용자만 이용 가능합니다.');
+			router.push('/home');
+		}
+	});
 </script>

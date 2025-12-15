@@ -55,6 +55,58 @@
 							</div>
 						</div>
 					</div>
+					
+					<!-- 당첨 정보 테이블 -->
+					<div class="prize-info-table" v-if="result">
+						<h4 class="title-medium">당첨 정보</h4>
+						<table class="info-table">
+							<thead>
+								<tr>
+									<th>구분</th>
+									<th>총 당첨금액</th>
+									<th>당첨게임 수</th>
+									<th>1게임당 당첨금액</th>
+								</tr>
+							</thead>
+							<tbody>
+								<!-- 1등 정보 -->
+								<tr>
+									<td><strong>1등</strong></td>
+									<td>{{ formatCurrency(result.first_winamnt) }}원</td>
+									<td>{{ formatNumber(result.first_przwner_co) }}게임</td>
+									<td>{{ formatCurrency(result.first_winamnt_per_game) }}원</td>
+								</tr>
+								<!-- 2등 정보 -->
+								<tr v-if="result.second_winamnt > 0 || result.second_przwner_co > 0">
+									<td><strong>2등</strong></td>
+									<td>{{ formatCurrency(result.second_winamnt) }}원</td>
+									<td>{{ formatNumber(result.second_przwner_co) }}게임</td>
+									<td>{{ formatCurrency(result.second_winamnt_per_game) }}원</td>
+								</tr>
+								<!-- 3등 정보 -->
+								<tr v-if="result.third_winamnt > 0 || result.third_przwner_co > 0">
+									<td><strong>3등</strong></td>
+									<td>{{ formatCurrency(result.third_winamnt) }}원</td>
+									<td>{{ formatNumber(result.third_przwner_co) }}게임</td>
+									<td>{{ formatCurrency(result.third_winamnt_per_game) }}원</td>
+								</tr>
+								<!-- 4등 정보 -->
+								<tr v-if="result.fourth_winamnt > 0 || result.fourth_przwner_co > 0">
+									<td><strong>4등</strong></td>
+									<td>{{ formatCurrency(result.fourth_winamnt) }}원</td>
+									<td>{{ formatNumber(result.fourth_przwner_co) }}게임</td>
+									<td>{{ formatCurrency(result.fourth_winamnt_per_game) }}원</td>
+								</tr>
+								<!-- 5등 정보 -->
+								<tr v-if="result.fifth_winamnt > 0 || result.fifth_przwner_co > 0">
+									<td><strong>5등</strong></td>
+									<td>{{ formatCurrency(result.fifth_winamnt) }}원</td>
+									<td>{{ formatNumber(result.fifth_przwner_co) }}게임</td>
+									<td>{{ formatCurrency(result.fifth_winamnt_per_game) }}원</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</section>
 		</div>
@@ -109,6 +161,18 @@
 	// 그룹(색상) 계산 함수
 	function getGroup(number) {
 		return Math.floor((number - 1) / 10) + 1;
+	}
+
+	// 금액 포맷팅 함수 (천 단위 구분)
+	function formatCurrency(amount) {
+		if (amount === null || amount === undefined || amount === 0) return '0'
+		return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+	}
+
+	// 숫자 포맷팅 함수 (천 단위 구분)
+	function formatNumber(num) {
+		if (num === null || num === undefined || num === 0) return '0'
+		return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 	}
 
 	// 회차 목록 가져오기
@@ -168,6 +232,3 @@
 	})
 
 </script>
-
-<style scoped>
-</style>

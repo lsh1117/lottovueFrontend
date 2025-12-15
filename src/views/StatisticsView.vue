@@ -33,6 +33,7 @@
 
 <script setup>
 	import { ref, onMounted } from 'vue'
+	import { useRouter } from 'vue-router'
 	import LastAppearNumber from "@/components/stt/LastAppearNumber.vue"; // 최근 100회 동안 번호별 등장 횟수 컴포넌트 가져오기
 	import AppearNumber from "@/components/stt/AppearNumber.vue"; // 번호별 등장 횟수 컴포넌트 가져오기
 	import AppearInSuccession from "@/components/stt/AppearInSuccession.vue"; // 연속등장 컴포넌트 가져오기
@@ -49,7 +50,9 @@
 	import EvenAndOddNotAppearInSuccessionUntil from "@/components/stt/EvenAndOddNotAppearInSuccessionUntil.vue"; // 짝수홀수 현재까지 연속 미등장 컴포넌트 가져오기
 	import { useDrwStore } from "@/stores/DrwStore"
 	import { getDraws } from "@/api/lotto"
+	import { isAuthenticated } from '@/utils/auth'
 
+	const router = useRouter()
 	const drwStore = useDrwStore()
 	const loading = ref(false)
 	const error = ref(null)
@@ -122,6 +125,13 @@
 	}
 
 	onMounted(async () => {
+		// 로그인 체크
+		if (!isAuthenticated()) {
+			alert('통계 기능은 로그인 사용자만 이용 가능합니다.');
+			router.push('/home');
+			return;
+		}
+		
 		await fetchAllDraws()
 	})
 

@@ -32,9 +32,15 @@ const routes = [
         meta: { hidden: true }
       },
       {
-        path: 'login',
-        name: 'Login',
-        component: () => import(/* webpackChunkName: "login" */ '../views/LoginView.vue'),
+        path: 'plan-upgrade',
+        name: 'PlanUpgradeView',
+        component: () => import(/* webpackChunkName: "planUpgrade" */ '../views/PlanUpgrade.vue'),
+        meta: { hidden: true }
+      },
+      {
+        path: 'terms',
+        name: 'TermsView',
+        component: () => import(/* webpackChunkName: "terms" */ '../views/TermsView.vue'),
         meta: { hidden: true }
       },
     ],

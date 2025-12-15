@@ -42,7 +42,25 @@
 					<!-- 사용자 정보 섹션 -->
 					<div class="box box-round-border">
 						<div class="user-status">
-							<span v-if="isPremium" class="premium-badge" title="프로 사용자">
+							<!-- MAX 플랜 배지 -->
+							<span v-if="user && user.plan === 'max'" class="max-badge" title="최대 플랜 사용자">
+								<svg class="max-icon" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<defs>
+										<linearGradient id="accountPurpleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+											<stop offset="0%" style="stop-color:#9C27B0;stop-opacity:1" />
+											<stop offset="50%" style="stop-color:#7B1FA2;stop-opacity:1" />
+											<stop offset="100%" style="stop-color:#6A1B9A;stop-opacity:1" />
+										</linearGradient>
+									</defs>
+									<!-- 보라색 그라데이션 배지 -->
+									<rect x="0" y="0" width="80" height="32" rx="16" fill="url(#accountPurpleGradient)"/>
+									<!-- max 텍스트 -->
+									<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">max</text>
+								</svg>
+								<span class="status-text">최대 플랜 사용자</span>
+							</span>
+							<!-- PRO 플랜 배지 -->
+							<span v-else-if="isPremium && user && user.plan === 'pro'" class="premium-badge" title="프로 사용자">
 								<svg class="premium-icon" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<defs>
 										<linearGradient id="accountGoldGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -58,6 +76,7 @@
 								</svg>
 								<span class="status-text">프로 사용자</span>
 							</span>
+							<!-- FREE 플랜 배지 -->
 							<span v-else class="free-badge" title="무료 사용자">
 								<svg class="free-icon" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<defs>
@@ -78,20 +97,35 @@
 						<div style="margin-top: 10px;">
 							<p v-if="user"><span class="message-info">닉네임: {{ user.nickname }}</span></p>
 							<p v-if="user && user.email"><span class="message-info">이메일: {{ user.email }}</span></p>
-							<p><span class="message-info">무료 사용자는 최대 회차별 2개까지 번호를 생성할 수 있습니다.</span></p>
-							<p><span class="message-info">프로 사용자는 최대 회차별 최대 100개까지 번호를 생성할 수 있습니다.</span></p>
+							<div v-if="user" style="margin-top: 15px;">
+								<p v-if="user.plan === 'free'" class="message-info">
+									<strong>Free 플랜</strong><br>
+									• 회차별 최대 2개까지 번호 생성 가능<br>
+									• 주간 크레딧: 2개
+								</p>
+								<p v-else-if="user.plan === 'pro'" class="message-info">
+									<strong>Pro 플랜</strong><br>
+									• 회차별 최대 100개까지 번호 생성 가능<br>
+									• 주간 크레딧: 100개
+								</p>
+								<p v-else-if="user.plan === 'max'" class="message-info">
+									<strong>Max 플랜</strong><br>
+									• 회차별 최대 1000개까지 번호 생성 가능<br>
+									• 주간 크레딧: 1000개
+								</p>
+							</div>
 						</div>
 					</div>
 				</div>
-				<div v-if="!isPremium" class="article-footer">
-					<!-- 구독 하기 -->
+				<div v-if="user && user.plan !== 'max'" class="article-footer">
+					<!-- 플랜 업그레이드 하기 -->
 					<button 
 						class="btn-secondary btn-large" 
-						@click="subscribe"
+						@click="goToPlanUpgrade"
 						:disabled="isSubscribing"
 					>
-						<span v-if="isSubscribing">구독 처리 중...</span>
-						<span v-else>프로 월간 990원 구독 하기</span>
+						<span v-if="isSubscribing">처리 중...</span>
+						<span v-else>플랜 업그레이드 하기</span>
 					</button>
 				</div>
 			</article>
@@ -186,6 +220,9 @@ const handleKakaoLogin = () => {
 						
 						// 사용자 정보 업데이트 이벤트 발생
 						window.dispatchEvent(new CustomEvent('lottovue:userUpdated'));
+						
+						// 로그인 성공 후 화면 새로고침
+						window.location.reload();
 					} else {
 						error.value = '사용자 정보를 가져오는데 실패했습니다.';
 					}
@@ -277,6 +314,9 @@ const handleKakaoSignup = () => {
 						
 						// 사용자 정보 업데이트 이벤트 발생
 						window.dispatchEvent(new CustomEvent('lottovue:userUpdated'));
+						
+						// 회원가입 성공 후 화면 새로고침
+						window.location.reload();
 					} else {
 						error.value = '사용자 정보를 가져오는데 실패했습니다.';
 					}
@@ -321,31 +361,22 @@ const handleLogout = () => {
 	premiumStore.updateStatus('')
 	emit('close')
 	// 로그인 페이지로 이동
-	router.push('/login')
+	router.push('/home')
 }
 
 // 프로 상태 확인
 const checkPremiumStatus = () => {
 	// 사용자 정보에서 플랜 확인
 	if (user.value) {
-		isPremium.value = user.value.plan === '프로' || user.value.plan === 'max'
+		isPremium.value = user.value.plan === 'pro' || user.value.plan === 'max'
 		premiumStore.updateStatus(isPremium.value ? 'premium' : '')
 	}
 }
 
-// 구독하기 함수 (웹 환경에서는 백엔드 API 호출)
-const subscribe = () => {
-	if (isSubscribing.value) {
-		console.log('이미 구독 처리 중입니다.')
-		return
-	}
-	
-	console.log('구독 하기 버튼 클릭됨')
-	
-	// 웹 환경에서는 백엔드 API를 통해 구독 처리
-	// TODO: 백엔드 API 연동 필요
-	alert('웹 환경에서는 구독 기능이 아직 구현되지 않았습니다.')
-	isSubscribing.value = false
+// 플랜 업그레이드 페이지로 이동
+const goToPlanUpgrade = () => {
+	emit('close')
+	router.push('/plan-upgrade')
 }
 
 // 프로 상태 변경 이벤트 리스너
@@ -419,6 +450,7 @@ const emit = defineEmits(['close'])
 	gap: 12px;
 }
 
+.max-badge,
 .premium-badge,
 .free-badge {
 	display: inline-flex;
@@ -426,12 +458,17 @@ const emit = defineEmits(['close'])
 	gap: 8px;
 }
 
+.max-badge .max-icon,
 .premium-badge .premium-icon,
 .free-badge .free-icon {
 	width: 64px;
 	height: 24px;
 	display: block;
 	flex-shrink: 0;
+}
+
+.max-badge .max-icon {
+	filter: drop-shadow(0 2px 4px rgba(156, 39, 176, 0.4));
 }
 
 .premium-badge .premium-icon {

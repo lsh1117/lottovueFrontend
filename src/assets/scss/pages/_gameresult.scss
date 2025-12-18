@@ -23,14 +23,14 @@
 
         .title-medium {
             margin-bottom: 1rem;
-            @include text-H5-SemiBold(color-text-gray-800);
+            @include text-H5-SemiBold(color-text-primary);
         }
     }
 
     .info-table {
         width: 100%;
         border-collapse: collapse;
-        @include text-B1-Regular(color-text-gray-800);
+        @include text-B1-Regular(color-text-primary);
 
         thead {
             background-color: rgba(255, 255, 255, 0.1);
@@ -39,17 +39,17 @@
         th {
             padding: 0.75rem;
             text-align: center;
-            @include text-B1-SemiBold(color-text-gray-800);
+            @include text-B1-SemiBold(color-text-primary);
             border-bottom: 2px solid rgba(255, 255, 255, 0.2);
         }
 
         td {
             padding: 0.75rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            @include text-B1-Regular(color-text-gray-800);
+            @include text-B1-Regular(color-text-primary);
 
             strong {
-                @include text-B1-SemiBold(color-text-gray-800);
+                @include text-B1-SemiBold(color-text-primary);
             }
         }
 
@@ -70,20 +70,20 @@
         }
 
         .info-table {
-            @include text-B2-Regular(color-text-gray-800);
+            @include text-B2-Regular(color-text-primary);
             min-width: 600px;
 
             th {
-                @include text-B2-SemiBold(color-text-gray-800);
+                @include text-B2-SemiBold(color-text-primary);
                 padding: 0.5rem;
             }
 
             td {
-                @include text-B2-Regular(color-text-gray-800);
+                @include text-B2-Regular(color-text-primary);
                 padding: 0.5rem;
 
                 strong {
-                    @include text-B2-SemiBold(color-text-gray-800);
+                    @include text-B2-SemiBold(color-text-primary);
                 }
             }
         }

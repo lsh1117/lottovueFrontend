@@ -51,7 +51,7 @@
 		</section>
 		<section class="section section-area fixed-bottom">
 			<div class="btn-area btn-area-center">
-				<button class="btn-primary btn-large" @click="openRecommendPopup" >번호뽑기</button>
+				<button class="btn-primary btn-large" @click="openRecommendPopup" >AI 추천</button>
 				<button class="btn-primary btn-large" @click="openMyNumberPopup" >내번호보기</button>
 			</div>
 		</section>
@@ -167,22 +167,22 @@
 		return Math.floor((n - 1) / 10) + 1;
 	}
 
-	// 번호뽑기 팝업 호출
+	// AI 추천 팝업 호출
 	function openRecommendPopup() {
-		//console.log("번호뽑기 팝업 호출");
+		//console.log("AI 추천 팝업 호출");
 
 		if(calculateStore.getState() === false) {
 			calculate();
 		}
 		eventStore.emit('popup',{
 			id:"recommend",
-			title:"번호 뽑기",
+			title:"AI 추천 번호",
 		});
 	}
 
 	// 내번호 보기 팝업 호출
 	function openMyNumberPopup() {
-		//console.log("번호뽑기 팝업 호출");
+		//console.log("내번호 보기 팝업 호출");
 		eventStore.emit('popup',{
 			id:"myNumber",
 			title:"내 번호 보기",
@@ -252,7 +252,7 @@
 	// 로그인 체크
 	onMounted(() => {
 		if (!isAuthenticated()) {
-			alert('번호뽑기 기능은 로그인 사용자만 이용 가능합니다.');
+			alert('AI 추천 기능은 로그인 사용자만 이용 가능합니다.');
 			router.push('/home');
 		}
 	});

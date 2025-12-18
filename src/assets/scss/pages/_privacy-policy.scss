@@ -1,0 +1,227 @@
+@charset "UTF-8";
+
+.PrivacyPolicyView {
+	padding: 2rem;
+	max-width: 1200px;
+	margin: 0 auto;
+
+	.privacy-container {
+		background: #fff;
+		border-radius: 8px;
+		padding: 2rem;
+	}
+
+	.loading,
+	.error,
+	.no-privacy {
+		text-align: center;
+		padding: 3rem;
+		color: #666;
+	}
+
+	.loading p {
+		margin: 0;
+		font-size: 1.1rem;
+	}
+
+	.error {
+		color: #d32f2f;
+
+		p {
+			margin: 0.5rem 0;
+
+			&:first-child {
+				margin-top: 0;
+			}
+		}
+	}
+
+	.retry-button {
+		margin-top: 1rem;
+		padding: 0.5rem 1.5rem;
+		background-color: #1976d2;
+		color: white;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+		font-size: 1rem;
+		transition: background-color 0.2s ease;
+
+		&:hover {
+			background-color: #1565c0;
+		}
+	}
+
+	.no-privacy {
+		p {
+			margin: 0.5rem 0;
+		}
+	}
+
+	.privacy-content-wrapper {
+		.privacy-header {
+			margin-bottom: 2rem;
+			padding-bottom: 1.5rem;
+			border-bottom: 2px solid #e0e0e0;
+		}
+
+		.privacy-title {
+			margin: 0 0 1rem 0;
+			font-size: 2rem;
+			color: #333;
+			font-weight: 700;
+		}
+
+		.privacy-meta {
+			display: flex;
+			gap: 1rem;
+			font-size: 0.875rem;
+			color: #666;
+		}
+
+		.privacy-version {
+			font-weight: 500;
+		}
+
+		.privacy-effective-date {
+			font-weight: 500;
+		}
+
+		.privacy-date {
+			margin-left: auto;
+		}
+
+		.privacy-content {
+			line-height: 1.8;
+			color: #333;
+			font-size: 1rem;
+
+			/* HTML 콘텐츠 내부 요소 스타일링 */
+			h1,
+			h2,
+			h3,
+			h4,
+			h5,
+			h6 {
+				margin-top: 2rem;
+				margin-bottom: 1rem;
+				color: #333;
+				font-weight: 600;
+			}
+
+			h1 {
+				font-size: 1.75rem;
+			}
+
+			h2 {
+				font-size: 1.5rem;
+			}
+
+			h3 {
+				font-size: 1.25rem;
+			}
+
+			h4 {
+				font-size: 1.1rem;
+			}
+
+			p {
+				margin-bottom: 1rem;
+			}
+
+			ul,
+			ol {
+				margin-bottom: 1rem;
+				padding-left: 2rem;
+			}
+
+			li {
+				margin-bottom: 0.5rem;
+			}
+
+			strong {
+				font-weight: 600;
+				color: #333;
+			}
+
+			em {
+				font-style: italic;
+			}
+
+			a {
+				color: #1976d2;
+				text-decoration: underline;
+
+				&:hover {
+					color: #1565c0;
+				}
+			}
+
+			table {
+				width: 100%;
+				border-collapse: collapse;
+				margin-bottom: 1.5rem;
+			}
+
+			th,
+			td {
+				border: 1px solid #ddd;
+				padding: 0.75rem;
+				text-align: left;
+			}
+
+			th {
+				background: #f5f5f5;
+				font-weight: 600;
+			}
+
+			blockquote {
+				margin: 1rem 0;
+				padding: 1rem;
+				border-left: 4px solid #1976d2;
+				background: #f5f5f5;
+			}
+		}
+	}
+
+	// 반응형 디자인
+	@media (max-width: 768px) {
+		padding: 1rem;
+
+		.privacy-container {
+			padding: 1rem;
+		}
+
+		.privacy-content-wrapper {
+			.privacy-title {
+				font-size: 1.5rem;
+			}
+
+			.privacy-meta {
+				flex-direction: column;
+				gap: 0.5rem;
+			}
+
+			.privacy-date {
+				margin-left: 0;
+			}
+
+			.privacy-content {
+				font-size: 0.9rem;
+
+				h1 {
+					font-size: 1.5rem;
+				}
+
+				h2 {
+					font-size: 1.25rem;
+				}
+
+				h3 {
+					font-size: 1.1rem;
+				}
+			}
+		}
+	}
+}
+

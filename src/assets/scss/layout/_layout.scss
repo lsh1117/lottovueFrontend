@@ -285,3 +285,78 @@ article{
         }
     }
 }
+
+.footer-area {
+    .footer-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+    }
+
+    .footer-links {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .footer-link {
+        @include text-D2-Regular(color-text-primary);
+        color: #6c757d;
+        text-decoration: none;
+        transition: color 0.2s ease;
+        cursor: pointer;
+
+        &:hover {
+            color: #007bff;
+            text-decoration: underline;
+        }
+
+        &.router-link-active {
+            color: #007bff;
+        }
+    }
+
+    .footer-separator {
+        @include text-D2-Regular(color-text-primary);
+        color: #6c757d;
+    }
+
+    .copyright-area {
+        p {
+            @include text-B2-Medium(color-text-primary);
+            color: #6c757d;
+            margin: 0;
+        }
+    }
+
+    // 모바일 반응형
+    @media (max-width: 768px) {
+        .footer-content {
+            padding: 0.3rem 0.5rem;
+            gap: 0.3rem;
+        }
+
+        .footer-links {
+            gap: 0.3rem;
+        }
+
+        .footer-link {
+            font-size: 10px;
+        }
+
+        .footer-separator {
+            font-size: 10px;
+        }
+
+        .copyright-area p {
+            font-size: 10px;
+        }
+    }
+}

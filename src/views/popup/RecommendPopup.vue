@@ -2,7 +2,7 @@
 	<div>
 		<!-- 히스토리 표시 안내 메시지 -->
 		<div v-if="showingHistory" class="history-notice">
-			<p>{{ _nextDrw }}회차에 생성된 번호 목록 (총 {{ currentPickCount }}개)</p>
+			<p>{{ _nextDrw }}회차에 저장된 AI 추천 번호 목록 (총 {{ currentPickCount }}개)</p>
 		</div>
 		
         <div class="scroll-area">
@@ -13,23 +13,21 @@
 							<span class="ball-645 ball-645-medium" :class="'ball-' + getGroup(item.number)">{{item.number}}</span>
 						</li>
 					</ul>
-					<button class="btn btn-primary btn-small" :disabled="saved[idx]" @click="saveMyPick(recommend, idx)">{{ saved[idx] ? '완료' : '저장' }}</button>
 				</div>
 			</article>
 		</div>
 		
 		<div class="btn-area btn-area-center">
-			<button class="btn-primary btn-small" :disabled="allSaved" @click="saveAll">{{ allSaved ? '완료' : '전체저장' }}</button>
 			<button class="btn-primary btn-small" @click="$emit('close')">닫기</button>
 		</div>
 
-		<!-- Naive UI Modal: 생성 한도 초과 알림 -->
+		<!-- Naive UI Modal: 저장 한도 초과 알림 -->
 		<n-modal
 			v-model:show="showLimitModal"
 			preset="dialog"
-			title="번호 생성 제한"
-			:positive-text="isPremium ? (showingHistory ? '닫기' : '기존 생성 번호 보기') : '프로버전 업그레이드'"
-			:negative-text="isPremium ? null : (showingHistory ? '닫기' : '기존 생성 번호 보기')"
+			title="번호 저장 제한"
+			:positive-text="isPremium ? (showingHistory ? '닫기' : '기존 저장 번호 보기') : '프로버전 업그레이드'"
+			:negative-text="isPremium ? null : (showingHistory ? '닫기' : '기존 저장 번호 보기')"
 			:closable="false"
 			@positive-click="handleModalPositiveClick"
 			@negative-click="handleModalNegativeClick"
@@ -38,14 +36,14 @@
 				<!-- 프리 버전 메시지 -->
 				<template v-if="!isPremium">
 					<p>
-						무료 버전에서는 <strong>회차별 최대 2개</strong>의 번호 조합만 생성할 수 있습니다.<br>
-						더 많은 번호를 생성하려면 <strong>프로버전으로 업그레이드</strong>가 필요합니다.
+						무료 버전에서는 <strong>회차별 최대 2개</strong>의 AI 추천 번호만 저장할 수 있습니다.<br>
+						더 많은 번호를 저장하려면 <strong>프로버전으로 업그레이드</strong>가 필요합니다.
 					</p>
 				</template>
 				<!-- 프로 버전 메시지 -->
 				<template v-else>
 					<p>
-						프로 버전에서는 <strong>회차별 최대 100개</strong>까지 번호를 생성할 수 있습니다.<br>
+						프로 버전에서는 <strong>회차별 최대 100개</strong>까지 AI 추천 번호를 저장할 수 있습니다.<br>
 						현재 <strong>{{ _nextDrw }}회차</strong>는 이미 최대 개수인 <strong>{{ currentPickCount }}개</strong>에 도달했습니다.
 					</p>
 				</template>
@@ -64,6 +62,7 @@
 	import { useMyPickStore } from "@/stores/MyPickStore";
 	import { useDrwStore } from "@/stores/DrwStore";
 	import { useEventStore } from "@/stores/EventStore";
+	import { createUserRecommendation } from "@/api/recommendation";
 
 	// emit 정의
 	const emit = defineEmits(['close']);
@@ -74,7 +73,7 @@
 	// 한도 초과 시 pickHistory 표시 여부
 	const showingHistory = ref(false);
 	
-	// 최대 생성 가능 개수
+	// 최대 저장 가능 개수
 	const maxPickCount = ref(2);
 	
 	// 현재 저장된 개수
@@ -102,13 +101,13 @@
 	// 다음 회차 번호
 	const _nextDrw = Number(drwStore.numbers[0].drwNo) + 1;
 
-	// 번호뽑기시 삭제해야 할 번호. ( 제외번호+고정번호 )
+	// AI 추천시 제외할 번호. ( 제외번호+고정번호 )
 	const _exc = _exceptionNumber.concat(_fixedNumber);
 
 	// 계산에 필요한 모든 숫자 
 	let _totalNumbers = [...calculateStore.getNumbers()];
 
-	// 번호뽑기시 삭제해야 할 번호 제외 한 전체 번호
+	// AI 추천시 제외할 번호 제외 한 전체 번호
 	let _newTotalNumbers = _totalNumbers.filter(item => !_exc.includes(item));
 
 	// 고정번호를 제외한 나머지 번호 갯수
@@ -129,7 +128,7 @@
 		_recommendCnt = isPremium.value ? 100 : 2;
 		currentPickCount.value = 0; // 웹에서는 0으로 설정
 
-		// 생성 가능한 번호 조합이 0개인 경우 모달 표시
+		// 저장 가능한 번호 조합이 0개인 경우 모달 표시
 		if (_recommendCnt === 0) {
 			showLimitModal.value = true;
 		}
@@ -138,7 +137,7 @@
 	// 모달 Positive 버튼 클릭 처리
 	function handleModalPositiveClick() {
 		if (isPremium.value) {
-			// 프로 버전: 기존 생성 번호 보기
+			// 프로 버전: 기존 저장 번호 보기
 			if (showingHistory.value) {
 				showLimitModal.value = false;
 			} else {
@@ -203,7 +202,7 @@
 		}
 	}
 
-	function createRecommend(){
+	async function createRecommend(){
 		for( let j=0;j<_recommendCnt;j++){
 			let _list = [..._newTotalNumbers];
 			let _numbers = [];
@@ -231,8 +230,8 @@
 			recommends.value.push(_recommend);
 			recommendStore.addRecommend(_numbers,_nextDrw);
 			
-			// 생성된 번호를 바로 pickHistory에 저장
-			saveToHistory(_numbers);
+			// AI 추천된 번호를 바로 pickHistory와 백엔드에 저장
+			await saveToHistory(_numbers);
 		}
 
 		// 저장 상태 초기화 (모두 미저장)
@@ -240,7 +239,7 @@
 	}
 	
 	// pickHistory에 번호 저장 (생성 시점에 호출)
-	function saveToHistory(numbers) {
+	async function saveToHistory(numbers) {
 		// 웹 환경에서는 MyPickStore에 저장
 		try {
 			const nums = numbers.map(n => Number(n.number)).sort((a,b)=>a-b);
@@ -250,6 +249,26 @@
 			myPickStore.addMyPick(numbersForStore, _nextDrw);
 			
 			console.log('pickHistory에 번호 저장 saveToHistory:', nums);
+			
+			// 백엔드 API에 저장
+			try {
+				const recommendationData = {
+					drw_no: _nextDrw,
+					no1: nums[0],
+					no2: nums[1],
+					no3: nums[2],
+					no4: nums[3],
+					no5: nums[4],
+					no6: nums[5]
+				};
+				
+				await createUserRecommendation(recommendationData);
+				console.log('백엔드에 추천번호 저장 완료:', recommendationData);
+			} catch (apiError) {
+				// 백엔드 저장 실패는 로그만 남기고 계속 진행
+				// (같은 회차에 이미 저장된 경우 등)
+				console.warn('백엔드에 추천번호 저장 실패 (무시):', apiError.response?.data?.detail || apiError.message);
+			}
 		} catch (e) {
 			console.error('saveToHistory error:', e);
 		}
@@ -274,7 +293,7 @@
 		return array[randomIndex];
 	}
 
-	function saveMyPick(rec, idx){
+	async function saveMyPick(rec, idx){
         try {
 			const nums = rec.numbers.map(n => Number(n.number)).sort((a,b)=>a-b)
             if(nums.length !== 6) return
@@ -282,6 +301,26 @@
 			// 로컬 myPickStore에 저장 (정렬된 번호 객체 배열로 저장)
 			const numbersForStore = nums.map(n => ({ number: n }))
 			myPickStore.addMyPick(numbersForStore, _nextDrw)
+			
+			// 백엔드 API에 저장 (이미 저장된 경우 에러 무시)
+			try {
+				const recommendationData = {
+					drw_no: _nextDrw,
+					no1: nums[0],
+					no2: nums[1],
+					no3: nums[2],
+					no4: nums[3],
+					no5: nums[4],
+					no6: nums[5]
+				};
+				
+				await createUserRecommendation(recommendationData);
+				console.log('백엔드에 추천번호 저장 완료 (수동):', recommendationData);
+			} catch (apiError) {
+				// 백엔드 저장 실패는 로그만 남기고 계속 진행
+				// (같은 회차에 이미 저장된 경우 등)
+				console.warn('백엔드에 추천번호 저장 실패 (무시):', apiError.response?.data?.detail || apiError.message);
+			}
 			
 			// 저장 완료 처리
 			saved.value[idx] = true;
@@ -315,7 +354,7 @@
 	}
 
     onMounted(() => {
-		//console.log("###### 번호 뽑기 onMounted" );
+		//console.log("###### AI 추천 onMounted" );
 		
 		// 프로 상태 이벤트 리스너 등록
 		window.addEventListener('lottovue:premium', handlePremiumStatusChange);
@@ -324,7 +363,7 @@
 		maxPickCount.value = isPremium.value ? 100 : 2;
 		
 		checkRecommendCount();
-		// 생성 가능한 번호 조합이 0개인 경우 알럿 표시 후 팝업 닫기
+		// 저장 가능한 번호 조합이 0개인 경우 알럿 표시 후 팝업 닫기
 		if (_recommendCnt > 0) {
 			createRecommend();
 		}

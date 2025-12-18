@@ -1,8 +1,8 @@
 <template>
 	<div class="TermsView">
 		<div class="terms-container">
-			<!-- 약관 그룹 선택 -->
-			<div class="terms-group-selector" v-if="termGroups.length > 0">
+			<!-- 약관 그룹 선택 (쿼리 파라미터로 그룹이 지정되지 않았을 때만 표시) -->
+			<div class="terms-group-selector" v-if="termGroups.length > 0 && !route.query.group">
 				<label for="term-group">약관 그룹:</label>
 				<select id="term-group" v-model="selectedTermGroup" @change="loadTerms">
 					<option value="">전체</option>
@@ -14,12 +14,14 @@
 
 			<!-- 로딩 상태 -->
 			<div v-if="loading" class="loading">
-				약관을 불러오는 중...
+				<p>약관을 불러오는 중...</p>
 			</div>
 
 			<!-- 에러 상태 -->
 			<div v-if="error" class="error">
-				{{ error }}
+				<p><strong>오류가 발생했습니다.</strong></p>
+				<p>{{ error }}</p>
+				<button @click="loadTerms" class="retry-button">다시 시도</button>
 			</div>
 
 			<!-- 약관 목록 -->
@@ -30,35 +32,42 @@
 					class="terms-item"
 				>
 					<div class="terms-header">
-						<h2 class="terms-title">{{ terms.title }}</h2>
+						<h2 class="terms-title">{{ terms.title || '약관' }}</h2>
 						<div class="terms-meta">
-							<span class="terms-version">버전: {{ terms.version }}</span>
-							<span v-if="terms.is_required" class="terms-required">필수</span>
-							<span class="terms-date">
+							<span v-if="terms.version" class="terms-version">
+								버전: {{ terms.version }}
+							</span>
+							<span v-if="terms.is_required === true" class="terms-required">필수</span>
+							<span v-if="terms.updated_at" class="terms-date">
 								{{ formatDate(terms.updated_at) }}
 							</span>
 						</div>
 					</div>
 					<div 
 						class="terms-content" 
-						v-html="terms.content"
+						v-html="terms.content || ''"
 					></div>
 				</div>
 			</div>
 
 			<!-- 약관이 없을 때 -->
 			<div v-if="!loading && !error && termsList.length === 0" class="no-terms">
-				약관이 없습니다.
+				<p>표시할 약관이 없습니다.</p>
+				<p v-if="selectedTermGroup" class="no-terms-hint">
+					선택한 약관 그룹에 활성화된 약관이 없습니다.
+				</p>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { getTermsList, getTermsByGroup, getActiveTermsByGroup } from '@/api/terms'
 import { getCommonCodesByGroup } from '@/api/commonCode.js'
 
+const route = useRoute()
 const loading = ref(false)
 const error = ref(null)
 const termsList = ref([])
@@ -70,10 +79,21 @@ const selectedTermGroup = ref('')
  */
 async function loadTermGroups() {
 	try {
-		const groups = await getCommonCodesByGroup('TERM_GROUP', true)
-		termGroups.value = groups || []
+		const response = await getCommonCodesByGroup('TERM_GROUP', true)
+		// 응답이 배열이면 그대로 사용, 객체면 data 속성 확인
+		if (Array.isArray(response)) {
+			termGroups.value = response
+		} else if (response && Array.isArray(response.data)) {
+			termGroups.value = response.data
+		} else if (response && response.data) {
+			termGroups.value = [response.data]
+		} else {
+			termGroups.value = []
+		}
+		console.log('약관 그룹 로드 완료:', termGroups.value)
 	} catch (err) {
 		console.error('약관 그룹 로드 실패:', err)
+		termGroups.value = []
 		// 약관 그룹 로드 실패는 에러로 표시하지 않음 (약관 그룹이 없을 수도 있음)
 	}
 }
@@ -86,18 +106,62 @@ async function loadTerms() {
 	error.value = null
 	
 	try {
+		let response
 		if (selectedTermGroup.value) {
 			// 특정 그룹의 활성화된 약관만 조회
-			const terms = await getActiveTermsByGroup(selectedTermGroup.value)
-			termsList.value = terms || []
+			console.log('약관 그룹별 활성화된 약관 조회:', selectedTermGroup.value)
+			response = await getActiveTermsByGroup(selectedTermGroup.value)
 		} else {
-			// 전체 약관 조회
-			const terms = await getTermsList(0, 100)
-			termsList.value = terms || []
+			// 전체 약관 조회 (활성화된 것만)
+			console.log('전체 활성화된 약관 조회')
+			// 전체 약관 조회 후 클라이언트에서 활성화된 것만 필터링
+			const allTerms = await getTermsList(0, 1000)
+			response = Array.isArray(allTerms) ? allTerms.filter(term => term.is_active === true) : []
+		}
+		
+		console.log('약관 API 응답:', response)
+		console.log('약관 API 응답 타입:', typeof response)
+		console.log('약관 API 응답이 배열인가?', Array.isArray(response))
+		
+		// 백엔드 API는 배열을 직접 반환하므로 배열인지 확인
+		if (Array.isArray(response)) {
+			termsList.value = response
+		} else if (response && Array.isArray(response.data)) {
+			// 응답이 객체이고 data 속성이 배열인 경우
+			termsList.value = response.data
+		} else if (response && response.data && !Array.isArray(response.data)) {
+			// 응답이 객체이고 data가 단일 객체인 경우
+			termsList.value = [response.data]
+		} else if (response && typeof response === 'object' && !Array.isArray(response)) {
+			// 응답이 객체인 경우, items나 results 같은 속성 확인
+			termsList.value = response.items || response.results || response.terms || []
+		} else {
+			termsList.value = []
+		}
+		
+		// 활성화된 약관만 필터링 (추가 안전장치)
+		termsList.value = termsList.value.filter(term => term.is_active === true)
+		
+		console.log('약관 목록:', termsList.value)
+		console.log('약관 목록 개수:', termsList.value.length)
+		
+		if (termsList.value.length === 0) {
+			console.warn('활성화된 약관이 없습니다.')
+			console.warn('응답 전체:', JSON.stringify(response, null, 2))
+		} else {
+			console.log('약관 첫 번째 항목:', termsList.value[0])
 		}
 	} catch (err) {
 		console.error('약관 로드 실패:', err)
-		error.value = '약관을 불러오는데 실패했습니다.'
+		console.error('에러 상세:', {
+			message: err.message,
+			response: err.response,
+			data: err.response?.data,
+			status: err.response?.status,
+			statusText: err.response?.statusText,
+			url: err.config?.url
+		})
+		error.value = err.response?.data?.detail || err.message || '약관을 불러오는데 실패했습니다.'
 		termsList.value = []
 	} finally {
 		loading.value = false
@@ -117,204 +181,23 @@ function formatDate(dateString) {
 	})
 }
 
+// 쿼리 파라미터에서 약관 그룹 가져오기
+watch(() => route.query.group, async (newGroup) => {
+	if (newGroup) {
+		selectedTermGroup.value = newGroup
+		await loadTerms()
+	}
+}, { immediate: true })
+
 onMounted(async () => {
 	await loadTermGroups()
+	
+	// 쿼리 파라미터에서 약관 그룹이 있으면 설정
+	if (route.query.group) {
+		selectedTermGroup.value = route.query.group
+	}
+	
 	await loadTerms()
 })
 </script>
-
-<style scoped>
-.TermsView {
-	padding: 2rem;
-	max-width: 1200px;
-	margin: 0 auto;
-}
-
-.terms-container {
-	background: #fff;
-	border-radius: 8px;
-	padding: 2rem;
-}
-
-.terms-group-selector {
-	margin-bottom: 2rem;
-	padding-bottom: 1rem;
-	border-bottom: 1px solid #e0e0e0;
-}
-
-.terms-group-selector label {
-	display: inline-block;
-	margin-right: 1rem;
-	font-weight: 600;
-}
-
-.terms-group-selector select {
-	padding: 0.5rem 1rem;
-	border: 1px solid #ddd;
-	border-radius: 4px;
-	font-size: 1rem;
-}
-
-.loading,
-.error,
-.no-terms {
-	text-align: center;
-	padding: 3rem;
-	color: #666;
-}
-
-.error {
-	color: #d32f2f;
-}
-
-.terms-list {
-	display: flex;
-	flex-direction: column;
-	gap: 2rem;
-}
-
-.terms-item {
-	border: 1px solid #e0e0e0;
-	border-radius: 8px;
-	padding: 1.5rem;
-	background: #fafafa;
-}
-
-.terms-header {
-	margin-bottom: 1rem;
-	padding-bottom: 1rem;
-	border-bottom: 2px solid #e0e0e0;
-}
-
-.terms-title {
-	margin: 0 0 0.5rem 0;
-	font-size: 1.5rem;
-	color: #333;
-}
-
-.terms-meta {
-	display: flex;
-	gap: 1rem;
-	font-size: 0.875rem;
-	color: #666;
-}
-
-.terms-version {
-	font-weight: 500;
-}
-
-.terms-required {
-	background: #ff5722;
-	color: #fff;
-	padding: 0.25rem 0.5rem;
-	border-radius: 4px;
-	font-size: 0.75rem;
-	font-weight: 600;
-}
-
-.terms-date {
-	margin-left: auto;
-}
-
-.terms-content {
-	line-height: 1.8;
-	color: #333;
-	/* HTML 콘텐츠 스타일링 */
-}
-
-/* HTML 콘텐츠 내부 요소 스타일링 */
-.terms-content :deep(h1),
-.terms-content :deep(h2),
-.terms-content :deep(h3) {
-	margin-top: 1.5rem;
-	margin-bottom: 1rem;
-	color: #333;
-}
-
-.terms-content :deep(h1) {
-	font-size: 1.75rem;
-}
-
-.terms-content :deep(h2) {
-	font-size: 1.5rem;
-}
-
-.terms-content :deep(h3) {
-	font-size: 1.25rem;
-}
-
-.terms-content :deep(p) {
-	margin-bottom: 1rem;
-}
-
-.terms-content :deep(ul),
-.terms-content :deep(ol) {
-	margin-bottom: 1rem;
-	padding-left: 2rem;
-}
-
-.terms-content :deep(li) {
-	margin-bottom: 0.5rem;
-}
-
-.terms-content :deep(strong) {
-	font-weight: 600;
-	color: #333;
-}
-
-.terms-content :deep(em) {
-	font-style: italic;
-}
-
-.terms-content :deep(a) {
-	color: #1976d2;
-	text-decoration: underline;
-}
-
-.terms-content :deep(a:hover) {
-	color: #1565c0;
-}
-
-.terms-content :deep(table) {
-	width: 100%;
-	border-collapse: collapse;
-	margin-bottom: 1rem;
-}
-
-.terms-content :deep(th),
-.terms-content :deep(td) {
-	border: 1px solid #ddd;
-	padding: 0.75rem;
-	text-align: left;
-}
-
-.terms-content :deep(th) {
-	background: #f5f5f5;
-	font-weight: 600;
-}
-
-/* 반응형 디자인 */
-@media (max-width: 768px) {
-	.TermsView {
-		padding: 1rem;
-	}
-
-	.terms-container {
-		padding: 1rem;
-	}
-
-	.terms-title {
-		font-size: 1.25rem;
-	}
-
-	.terms-meta {
-		flex-direction: column;
-		gap: 0.5rem;
-	}
-
-	.terms-date {
-		margin-left: 0;
-	}
-}
-</style>
 

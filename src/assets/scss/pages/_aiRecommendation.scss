@@ -1,0 +1,60 @@
+@charset "UTF-8";
+
+.ai-recommendation-popup {
+	padding: 20px;
+	max-width: 100%;
+
+	.loading-area,
+	.error-area {
+		text-align: center;
+		padding: 40px 20px;
+	}
+
+	.recommendation-content {
+		max-height: 70vh;
+		overflow-y: auto;
+	}
+
+	.recommendation-text {
+		@include text-B1-Regular(color-text-gray-800);
+		line-height: 1.8;
+		text-align: left;
+
+		.recommendation-h2 {
+			@include text-H4-Bold(color-text-gray-800);
+			margin-top: 24px;
+			margin-bottom: 16px;
+			border-bottom: 2px solid #3498db;
+			padding-bottom: 8px;
+		}
+
+		.recommendation-h3 {
+			@include text-H5-SemiBold(color-text-gray-800);
+			margin-top: 20px;
+			margin-bottom: 12px;
+		}
+
+		.recommendation-ul {
+			margin: 12px 0;
+			padding-left: 24px;
+			list-style-type: disc;
+		}
+
+		.recommendation-li {
+			margin: 8px 0;
+			line-height: 1.6;
+		}
+
+		strong {
+			@include text-B1-SemiBold(color-text-gray-800);
+		}
+	}
+
+	.usage-info {
+		margin-top: 20px;
+		padding-top: 16px;
+		border-top: 1px solid #e0e0e0;
+		text-align: center;
+		@include text-B2-Regular(color-text-gray-600);
+	}
+}

@@ -75,8 +75,8 @@
 			<ul class="gnb-list">
 				<li class="gnb-item"><router-link class="btn-gnb" active-class="on" to="/home">홈</router-link></li>
 				<li class="gnb-item"><router-link class="btn-gnb" active-class="on" to="/gameresult">회차 결과</router-link></li>
-				<li class="gnb-item"><a class="btn-gnb" :class="{ 'on': route.path === '/contact' }" @click.prevent="handleNumberPickClick">번호뽑기</a></li>
-				<li class="gnb-item"><a class="btn-gnb" :class="{ 'on': route.path === '/statistics' }" @click.prevent="handleStatisticsClick">통계</a></li>
+				<li class="gnb-item"><a href="javascript:void(0)" class="btn-gnb" :class="{ 'on': route.path === '/contact' }" @click.prevent="handleNumberPickClick">AI 추천</a></li>
+				<li class="gnb-item"><a href="javascript:void(0)" class="btn-gnb" :class="{ 'on': route.path === '/statistics' }" @click.prevent="handleStatisticsClick">통계</a></li>
 			</ul>
 		</nav>
 	</div>
@@ -124,10 +124,10 @@ function onAccountPopupClose(e){
 	//console.log("계정 정보 팝업 닫기 :",e);
 }
 
-// 번호뽑기 클릭 핸들러
+// AI 추천 클릭 핸들러
 function handleNumberPickClick() {
 	if (!isAuthenticated()) {
-		alert('번호뽑기 기능은 로그인 후 이용 가능합니다.\n계정 정보에서 로그인해주세요.')
+		alert('AI 추천 기능은 로그인 후 이용 가능합니다.\n계정 정보에서 로그인해주세요.')
 		openAccountPopup()
 		return
 	}

@@ -40,14 +40,13 @@
             text-align: center;
             @include text-B1-Regular(color-text-primary,!important);
             @include themeProperty(color, color-text-primary, !important);
-            line-height: 3.8rem;
+            line-height: 3rem;
         }
         &.ball-645{
             &.disabled{
                 pointer-events: none;
 
                 label{
-
                     @include themeProperty(background-color, color-ball-disabled);
                     &::after{
                         @include themeProperty(background-color, color-ball-disabled);

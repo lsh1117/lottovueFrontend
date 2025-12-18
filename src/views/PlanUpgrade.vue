@@ -75,7 +75,7 @@
                         </div>
                         <div class="plan-features">
                             <ul>
-                                <li>회차별 최대 <strong>2개</strong>까지 번호 생성</li>
+                                <li>회차별 최대 <strong>2개</strong>까지 AI 추천 번호 저장</li>
                                 <li>주간 크레딧: <strong>2개</strong></li>
                                 <li>기본 통계 기능</li>
                             </ul>
@@ -120,7 +120,7 @@
                         </div>
                         <div class="plan-features">
                             <ul>
-                                <li>회차별 최대 <strong>100개</strong>까지 번호 생성</li>
+                                <li>회차별 최대 <strong>100개</strong>까지 AI 추천 번호 저장</li>
                                 <li>주간 크레딧: <strong>100개</strong></li>
                                 <li>고급 통계 기능</li>
                                 <li>우선 고객 지원</li>
@@ -166,7 +166,7 @@
                         </div>
                         <div class="plan-features">
                             <ul>
-                                <li>회차별 최대 <strong>1000개</strong>까지 번호 생성</li>
+                                <li>회차별 최대 <strong>1000개</strong>까지 AI 추천 번호 저장</li>
                                 <li>주간 크레딧: <strong>1000개</strong></li>
                                 <li>모든 통계 기능</li>
                                 <li>최우선 고객 지원</li>

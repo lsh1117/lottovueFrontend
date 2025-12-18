@@ -6,6 +6,7 @@ import ExceptionRecommendPopup from '@/views/popup/ExceptionRecommendPopup.vue'
 import RecommendPopup from '@/views/popup/RecommendPopup.vue'
 import MyNumberPopup from '@/views/popup/MyNumberPopup.vue'
 import AccountPopup from '@/views/popup/AccountPopup.vue'
+import AIRecommendationPopup from '@/views/popup/AIRecommendationPopup.vue'
 
 /**
  * defaultProps
@@ -78,6 +79,18 @@ export const popupList = {
 		component: AccountPopup,
 		options: {
 			
+		},
+	},
+	aiRecommendation: {
+		title: 'AI 추천 결과',
+		type:'dialog',
+		component: AIRecommendationPopup,
+		options: {
+			recommendation: null,
+			model: null,
+			usage: null,
+			loading: false,
+			error: null,
 		},
 	},
 }

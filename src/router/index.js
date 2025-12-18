@@ -43,6 +43,12 @@ const routes = [
         component: () => import(/* webpackChunkName: "terms" */ '../views/TermsView.vue'),
         meta: { hidden: true }
       },
+      {
+        path: 'privacy-policy',
+        name: 'PrivacyPolicyView',
+        component: () => import(/* webpackChunkName: "privacyPolicy" */ '../views/PrivacyPolicyView.vue'),
+        meta: { hidden: true }
+      },
     ],
   },
 ]

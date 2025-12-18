@@ -26,7 +26,7 @@ textarea {resize:none;}
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {display:block;}
 
-* {margin:0; padding:0; -webkit-text-size-adjust:none;}/* 아이폰 가로모드시 글씨 커지는 문제 */
+* {margin:0; padding:0; -webkit-text-size-adjust:none;box-sizing: border-box;}/* 아이폰 가로모드시 글씨 커지는 문제 */
 i, em {font-style:normal;}
 blockquote, q {quotes:none;}
 sub {vertical-align:sub; font-size:smaller; line-height:0;}
@@ -68,7 +68,6 @@ html{
 
 html,body{
     width:100%;
-    min-height: 100%;
     font-family:'Pretendard', 'Malgun Gothic', '맑은 고딕','돋움', dotum, sans-serif;
     font-weight: 400;
     letter-spacing:0;

@@ -27,3 +27,15 @@ export const getDraws = async (skip = 0, limit = 100) => {
 	return await http.get('/lotto/', { params: { skip, limit } })
 }
 
+/**
+ * AI 추천 요청 (통계 데이터 기반)
+ * @param {Object} statisticsData - 통계 데이터 JSON
+ * @returns {Promise} AI 추천 결과
+ */
+export const getAIRecommendation = async (statisticsData) => {
+	// OpenAI API 호출은 시간이 오래 걸릴 수 있으므로 타임아웃을 60초로 설정
+	return await http.post('/lotto/ai-recommendation', statisticsData, {
+		timeout: 60000 // 60초
+	})
+}
+

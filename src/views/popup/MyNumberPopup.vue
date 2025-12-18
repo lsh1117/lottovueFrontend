@@ -154,7 +154,7 @@
     // 마지막 회차 번호 (DrwStore에서 최신 회차)
     const _lastDrw = Number(drwStore.getNumbers()[0].drwNo) + 1;
 
-	// 추천(뽑기)번호 정보
+	// AI 추천 번호 정보
 	const myPickStore = useMyPickStore();
     // 선택 가능한 회차 리스트: 1회부터 최신 회차까지
     const drwList = ref([]);
@@ -174,7 +174,7 @@
     // 선택된 회차 (기본값은 최신 회차로 설정)
     const selectedDrwNo = ref(_lastDrw);
 
-	// 추천(뽑기)번호 리스트
+	// AI 추천 번호 리스트
 	const myPickList = ref(myPickStore.getMyPicks());
 
 	const no1 = ref(0);

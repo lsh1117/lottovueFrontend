@@ -2,6 +2,12 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "../../backend/lottovue-backend"
+		},
+		{
+			"path": "../../admin/lottovue-admin"
 		}
 	],
 	"settings": {

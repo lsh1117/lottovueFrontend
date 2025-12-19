@@ -125,25 +125,25 @@
   font-family: "Pretendard";
   font-weight: 700;
   font-display: swap;
-  src: local("Pretendard Bold"), url(./font/Pretendard-Bold.woff2) format("woff2"), url(./font/Pretendard-Bold.woff) format("woff");
+  src: local("Pretendard Bold"), url(../font/Pretendard-Bold.woff2) format("woff2"), url(../font/Pretendard-Bold.woff) format("woff");
 }
 @font-face {
   font-family: "Pretendard";
   font-weight: 600;
   font-display: swap;
-  src: local("Pretendard SemiBold"), url(./font/Pretendard-SemiBold.woff2) format("woff2"), url(./font/Pretendard-SemiBold.woff) format("woff");
+  src: local("Pretendard SemiBold"), url(../font/Pretendard-SemiBold.woff2) format("woff2"), url(../font/Pretendard-SemiBold.woff) format("woff");
 }
 @font-face {
   font-family: "Pretendard";
   font-weight: 500;
   font-display: swap;
-  src: local("Pretendard Medium"), url(./font/Pretendard-Medium.woff2) format("woff2"), url(./font/Pretendard-Medium.woff) format("woff");
+  src: local("Pretendard Medium"), url(../font/Pretendard-Medium.woff2) format("woff2"), url(../font/Pretendard-Medium.woff) format("woff");
 }
 @font-face {
   font-family: "Pretendard";
   font-weight: 400;
   font-display: swap;
-  src: local("Pretendard Regular"), url(./font/Pretendard-Regular.woff2) format("woff2"), url(./font/Pretendard-Regular.woff) format("woff");
+  src: local("Pretendard Regular"), url(../font/Pretendard-Regular.woff2) format("woff2"), url(../font/Pretendard-Regular.woff) format("woff");
 }
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -2706,4 +2706,4 @@ body[data-color-mode=dark] .ai-recommendation-popup .usage-info {
   position: absolute;
   top: -100000px;
   left: 0;
-}/*# sourceMappingURL=app.css.map */
+}

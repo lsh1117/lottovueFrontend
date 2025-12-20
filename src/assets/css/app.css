@@ -771,7 +771,7 @@ body[data-color-mode=dark] .gnb-area .gnb ul.gnb-list li.gnb-item > .btn-gnb.on 
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 4rem;
+  height: 5rem;
   z-index: 999;
   background-color: rgb(24, 24, 24);
 }
@@ -878,8 +878,9 @@ body[data-color-mode=dark] .footer-area .footer-link {
   color: #007bff;
   text-decoration: underline;
 }
-.footer-area .footer-link.router-link-active {
+.footer-area .footer-link.active {
   color: #007bff;
+  font-weight: 600;
 }
 .footer-area .footer-separator {
   font-size: 1.1rem;

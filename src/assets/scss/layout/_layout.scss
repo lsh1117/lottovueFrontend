@@ -244,7 +244,7 @@ body{
     bottom:0;
     left:0;
     width:100%;
-    height:4rem;
+    height:5rem;
     z-index: 999;
 
     @include themeProperty(background-color,color-bg-secondary);
@@ -318,9 +318,14 @@ article{
             text-decoration: underline;
         }
 
-        &.router-link-active {
+        // active 클래스는 group에 따라 동적으로 적용
+        &.active {
             color: #007bff;
+            font-weight: 600;
         }
+
+        // router-link-active는 query 파라미터를 고려하지 않으므로 제거 (또는 active와 함께 사용)
+        // group 기반 활성화를 위해 active 클래스를 사용
     }
 
     .footer-separator {

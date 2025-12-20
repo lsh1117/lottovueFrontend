@@ -8,9 +8,9 @@ const USER_KEY = 'lottovue_user'
  */
 export const setToken = (token) => {
 	if (token) {
-		localStorage.setItem(TOKEN_KEY, token)
+		sessionStorage.setItem(TOKEN_KEY, token)
 	} else {
-		localStorage.removeItem(TOKEN_KEY)
+		sessionStorage.removeItem(TOKEN_KEY)
 	}
 }
 
@@ -18,7 +18,7 @@ export const setToken = (token) => {
  * JWT 토큰 가져오기
  */
 export const getToken = () => {
-	return localStorage.getItem(TOKEN_KEY)
+	return sessionStorage.getItem(TOKEN_KEY)
 }
 
 /**
@@ -26,9 +26,9 @@ export const getToken = () => {
  */
 export const setUser = (user) => {
 	if (user) {
-		localStorage.setItem(USER_KEY, JSON.stringify(user))
+		sessionStorage.setItem(USER_KEY, JSON.stringify(user))
 	} else {
-		localStorage.removeItem(USER_KEY)
+		sessionStorage.removeItem(USER_KEY)
 	}
 }
 
@@ -36,7 +36,7 @@ export const setUser = (user) => {
  * 사용자 정보 가져오기
  */
 export const getUser = () => {
-	const userStr = localStorage.getItem(USER_KEY)
+	const userStr = sessionStorage.getItem(USER_KEY)
 	return userStr ? JSON.parse(userStr) : null
 }
 
@@ -44,8 +44,8 @@ export const getUser = () => {
  * 로그아웃 (토큰 및 사용자 정보 제거)
  */
 export const logout = () => {
-	localStorage.removeItem(TOKEN_KEY)
-	localStorage.removeItem(USER_KEY)
+	sessionStorage.removeItem(TOKEN_KEY)
+	sessionStorage.removeItem(USER_KEY)
 }
 
 /**

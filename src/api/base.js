@@ -8,7 +8,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8030
 
 let http = axios.create({
 	baseURL: API_BASE_URL,
-	timeout: 10000,
+	timeout: 30000, // 30초로 증가 (데이터베이스 쿼리 시간 고려)
 })
 
 // 인터셉터 추가
@@ -37,14 +37,32 @@ http.interceptors.response.use(
 		return res.data
 	},
 	err => {
-		console.error('API 응답 오류:', {
-			url: err.config?.url,
-			method: err.config?.method,
-			status: err.response?.status,
-			statusText: err.response?.statusText,
-			data: err.response?.data,
-			message: err.message
-		})
+		// 타임아웃 에러인 경우 더 자세한 정보 제공
+		if (err.code === 'ECONNABORTED' || err.message?.includes('timeout')) {
+			console.error('API 요청 타임아웃:', {
+				url: err.config?.url,
+				method: err.config?.method,
+				baseURL: err.config?.baseURL,
+				timeout: err.config?.timeout,
+				message: '서버 응답이 지연되고 있습니다. 백엔드 서버가 실행 중인지 확인해주세요.'
+			})
+		} else if (err.code === 'ERR_NETWORK' || !err.response) {
+			console.error('API 네트워크 오류:', {
+				url: err.config?.url,
+				method: err.config?.method,
+				baseURL: err.config?.baseURL,
+				message: '서버에 연결할 수 없습니다. 백엔드 서버가 실행 중인지 확인해주세요.'
+			})
+		} else {
+			console.error('API 응답 오류:', {
+				url: err.config?.url,
+				method: err.config?.method,
+				status: err.response?.status,
+				statusText: err.response?.statusText,
+				data: err.response?.data,
+				message: err.message
+			})
+		}
 		
 		// 401 Unauthorized 에러 시 로그아웃 처리
 		if (err.response?.status === 401) {

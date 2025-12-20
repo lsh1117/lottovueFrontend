@@ -40,6 +40,11 @@
 				<p class="text-description-medium" style="text-align: center;">로딩 중...</p>
 			</div>
 		</section>
+		<section class="section section-area" v-else-if="error">
+			<div class="section-body">
+				<p class="text-description-medium" style="text-align: center; color: #ff4444;">{{ error }}</p>
+			</div>
+		</section>
 		<section class="section section-area" v-else>
 			<div class="section-body">
 				<p class="text-description-medium" style="text-align: center;">데이터 없음</p>
@@ -94,12 +99,21 @@
 			console.error('최신 당첨 정보를 가져오는데 실패했습니다:', err)
 			console.error('에러 상세:', {
 				message: err.message,
+				code: err.code,
 				response: err.response,
 				status: err.response?.status,
 				data: err.response?.data,
 				config: err.config
 			})
-			error.value = err.response?.data?.detail || err.message || '데이터를 불러올 수 없습니다.'
+			
+			// 타임아웃 또는 네트워크 에러인 경우 사용자 친화적인 메시지 표시
+			if (err.code === 'ECONNABORTED' || err.message?.includes('timeout')) {
+				error.value = '서버 응답이 지연되고 있습니다. 잠시 후 다시 시도해주세요.'
+			} else if (err.code === 'ERR_NETWORK' || !err.response) {
+				error.value = '서버에 연결할 수 없습니다. 백엔드 서버가 실행 중인지 확인해주세요.'
+			} else {
+				error.value = err.response?.data?.detail || err.message || '데이터를 불러올 수 없습니다.'
+			}
 			result.value = null
 		} finally {
 			loading.value = false

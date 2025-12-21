@@ -2,10 +2,46 @@
 	<div>
 		<!-- 히스토리 표시 안내 메시지 -->
 		<div v-if="showingHistory" class="history-notice">
-			<p>{{ _nextDrw }}회차에 저장된 AI 추천 번호 목록 (총 {{ currentPickCount }}개)</p>
+			<p>{{ _nextDrw.value }}회차에 저장된 AI 추천 번호 목록 (총 {{ currentPickCount }}개)</p>
 		</div>
 		
-        <div class="scroll-area">
+		<!-- 번호 개수 선택 영역 (히스토리 모드가 아닐 때만 표시) -->
+		<div v-if="!showingHistory && recommends.length === 0" class="pick-count-selector">
+			<div class="selector-header">
+				<h5>추천 번호 개수 선택</h5>
+				<p class="credits-info">잔여 크레딧: <strong>{{ userCredits ?? 0 }}</strong>개</p>
+			</div>
+			<div class="selector-body">
+				<div class="count-input-wrapper">
+					<label for="pickCount">뽑을 개수:</label>
+					<input 
+						id="pickCount"
+						type="number" 
+						v-model.number="selectedCount" 
+						:min="1" 
+						:max="maxSelectableCount"
+						class="count-input"
+						@input="validateCount"
+					/>
+					<span class="count-hint">최대 {{ maxSelectableCount }}개까지 선택 가능</span>
+				</div>
+				<div class="cost-info">
+					<p>사용 크레딧: <strong>{{ selectedCount }}</strong>개</p>
+					<p v-if="selectedCount > userCredits" class="error-text">크레딧이 부족합니다!</p>
+				</div>
+			</div>
+			<div class="selector-footer">
+				<button 
+					class="btn-primary btn-large" 
+					@click="handleGenerateRecommend"
+					:disabled="selectedCount <= 0 || selectedCount > maxSelectableCount || selectedCount > userCredits"
+				>
+					AI 추천 번호 생성
+				</button>
+			</div>
+		</div>
+		
+        <div class="scroll-area" v-if="recommends.length > 0">
             <article class="article-area" v-for="(recommend, idx) in recommends" :key="idx">
 				<div class="ball-area">
 					<ul class="ball-list">
@@ -17,7 +53,7 @@
 			</article>
 		</div>
 		
-		<div class="btn-area btn-area-center">
+		<div class="btn-area btn-area-center" v-if="recommends.length > 0">
 			<button class="btn-primary btn-small" @click="$emit('close')">닫기</button>
 		</div>
 
@@ -44,7 +80,7 @@
 				<template v-else>
 					<p>
 						프로 버전에서는 <strong>회차별 최대 100개</strong>까지 AI 추천 번호를 저장할 수 있습니다.<br>
-						현재 <strong>{{ _nextDrw }}회차</strong>는 이미 최대 개수인 <strong>{{ currentPickCount }}개</strong>에 도달했습니다.
+						현재 <strong>{{ _nextDrw.value }}회차</strong>는 이미 최대 개수인 <strong>{{ currentPickCount }}개</strong>에 도달했습니다.
 					</p>
 				</template>
 			</div>
@@ -53,7 +89,7 @@
 </template>
 
 <script setup>
-	import { onMounted, onUnmounted, ref } from "vue";
+	import { onMounted, onUnmounted, ref, computed } from "vue";
 	import { NModal } from "naive-ui";
 	import { useCalculateStore } from "@/stores/CalculateStore";
 	import { useExceptionStore } from "@/stores/ExceptionStore";
@@ -63,6 +99,8 @@
 	import { useDrwStore } from "@/stores/DrwStore";
 	import { useEventStore } from "@/stores/EventStore";
 	import { createUserRecommendation } from "@/api/recommendation";
+	import { getUser, setUser } from "@/utils/auth";
+	import http from "@/api/base";
 
 	// emit 정의
 	const emit = defineEmits(['close']);
@@ -98,20 +136,38 @@
 	// 고정 번호
 	const _fixedNumber = fixedStore.numbers;
 
-	// 다음 회차 번호
-	const _nextDrw = Number(drwStore.numbers[0].drwNo) + 1;
+	// 다음 회차 번호 (안전하게 처리)
+	const _nextDrw = computed(() => {
+		if (!drwStore.numbers || drwStore.numbers.length === 0) {
+			// 기본값: 현재 날짜 기준으로 추정 회차 (임시)
+			return 1;
+		}
+		const latestDrw = drwStore.numbers[0];
+		if (!latestDrw || !latestDrw.drwNo) {
+			return 1;
+		}
+		return Number(latestDrw.drwNo) + 1;
+	});
 
 	// AI 추천시 제외할 번호. ( 제외번호+고정번호 )
-	const _exc = _exceptionNumber.concat(_fixedNumber);
+	const _exc = computed(() => {
+		return _exceptionNumber.concat(_fixedNumber);
+	});
 
-	// 계산에 필요한 모든 숫자 
-	let _totalNumbers = [...calculateStore.getNumbers()];
+	// 계산에 필요한 모든 숫자 (computed로 변경하여 실시간 계산)
+	const _totalNumbers = computed(() => {
+		return [...calculateStore.getNumbers()];
+	});
 
-	// AI 추천시 제외할 번호 제외 한 전체 번호
-	let _newTotalNumbers = _totalNumbers.filter(item => !_exc.includes(item));
+	// AI 추천시 제외할 번호 제외 한 전체 번호 (computed로 변경)
+	const _newTotalNumbers = computed(() => {
+		return _totalNumbers.value.filter(item => !_exc.value.includes(item));
+	});
 
 	// 고정번호를 제외한 나머지 번호 갯수
-	const _cnt = 6 - _fixedNumber.length;
+	const _cnt = computed(() => {
+		return 6 - _fixedNumber.length;
+	});
 
 	// 추천 번호 리스트
 	const recommends = ref([]);
@@ -120,7 +176,23 @@
 	// 전체 저장 상태
 	const allSaved = ref(false);
 
-	// 추천 번호 갯수 정의 (안드로이드 앱에서 회차별로 가져오기, 웹에서는 기본값 2)
+	// 사용자 크레딧 가져오기
+	const userCredits = computed(() => {
+		const user = getUser();
+		return user?.credits ?? 0;
+	});
+
+	// 선택한 번호 개수
+	const selectedCount = ref(1);
+
+	// 최대 선택 가능한 개수 (크레딧과 플랜 제한 중 작은 값)
+	const maxSelectableCount = computed(() => {
+		const planMax = isPremium.value ? 100 : 2;
+		const creditsMax = userCredits.value;
+		return Math.min(planMax, creditsMax);
+	});
+
+	// 추천 번호 갯수 정의
 	let _recommendCnt = 0;
 
 	function checkRecommendCount(){
@@ -131,6 +203,56 @@
 		// 저장 가능한 번호 조합이 0개인 경우 모달 표시
 		if (_recommendCnt === 0) {
 			showLimitModal.value = true;
+		}
+	}
+
+	// 개수 유효성 검사
+	function validateCount() {
+		if (selectedCount.value < 1) {
+			selectedCount.value = 1;
+		}
+		if (selectedCount.value > maxSelectableCount.value) {
+			selectedCount.value = maxSelectableCount.value;
+		}
+		if (selectedCount.value > userCredits.value) {
+			selectedCount.value = userCredits.value;
+		}
+	}
+
+	// AI 추천 번호 생성 처리
+	async function handleGenerateRecommend() {
+		if (selectedCount.value <= 0) {
+			alert('1개 이상 선택해주세요.');
+			return;
+		}
+		
+		if (selectedCount.value > userCredits.value) {
+			alert(`크레딧이 부족합니다. (잔여: ${userCredits.value}개, 필요: ${selectedCount.value}개)`);
+			return;
+		}
+
+		if (selectedCount.value > maxSelectableCount.value) {
+			alert(`최대 ${maxSelectableCount.value}개까지 선택 가능합니다.`);
+			return;
+		}
+
+		try {
+			// 크레딧 차감 API 호출
+			const updatedUser = await http.post(`/users/me/deduct-credits?amount=${selectedCount.value}`);
+			
+			// 사용자 정보 업데이트
+			if (updatedUser) {
+				setUser(updatedUser);
+				// 사용자 정보 업데이트 이벤트 발생
+				window.dispatchEvent(new CustomEvent('lottovue:userUpdated'));
+			}
+
+			// 추천 번호 생성
+			_recommendCnt = selectedCount.value;
+			await createRecommend();
+		} catch (error) {
+			console.error('크레딧 차감 실패:', error);
+			alert(error.response?.data?.detail || '크레딧 차감 중 오류가 발생했습니다.');
 		}
 	}
 
@@ -182,7 +304,7 @@
 	function loadPickHistory() {
 		// 웹 환경에서는 MyPickStore에서 데이터 가져오기
 		try {
-			const myPicks = myPickStore.getMyPicks(_nextDrw);
+			const myPicks = myPickStore.getMyPicks(_nextDrw.value);
 			
 			if (myPicks && myPicks.length > 0) {
 				recommends.value = myPicks.map(item => {
@@ -203,16 +325,34 @@
 	}
 
 	async function createRecommend(){
+		// 사용 가능한 번호가 충분한지 확인
+		if (_newTotalNumbers.value.length < _cnt.value) {
+			alert(`추천 번호를 생성할 수 없습니다.\n제외할 번호가 너무 많거나 사용 가능한 번호가 부족합니다.\n(필요: ${_cnt.value}개, 사용 가능: ${_newTotalNumbers.value.length}개)`);
+			return;
+		}
+
 		for( let j=0;j<_recommendCnt;j++){
-			let _list = [..._newTotalNumbers];
+			let _list = [..._newTotalNumbers.value];
 			let _numbers = [];
-			for(let i=0;i<_cnt;i++) {
+			
+			// 고정번호를 제외한 나머지 번호 선택
+			for(let i=0;i<_cnt.value;i++) {
+				if (_list.length === 0) {
+					console.error('사용 가능한 번호가 부족합니다.');
+					break;
+				}
 				let _number = getRandomElement(_list);
 				_list = _list.filter(item => item !== _number);
 				const _numberObj = {
 					number:_number,
 				}
 				_numbers.push(_numberObj);
+			}
+			
+			// 필요한 번호가 모두 선택되지 않은 경우 건너뛰기
+			if (_numbers.length < _cnt.value) {
+				console.warn(`추천 번호 생성 실패: 필요한 번호 ${_cnt.value}개, 선택된 번호 ${_numbers.length}개`);
+				continue;
 			}
 
 			// 고정 번호 추가.
@@ -228,7 +368,7 @@
 			};
 
 			recommends.value.push(_recommend);
-			recommendStore.addRecommend(_numbers,_nextDrw);
+			recommendStore.addRecommend(_numbers, _nextDrw.value);
 			
 			// AI 추천된 번호를 바로 pickHistory와 백엔드에 저장
 			await saveToHistory(_numbers);
@@ -246,14 +386,14 @@
 			if(nums.length !== 6) return;
 			
 			const numbersForStore = nums.map(n => ({ number: n }));
-			myPickStore.addMyPick(numbersForStore, _nextDrw);
+			myPickStore.addMyPick(numbersForStore, _nextDrw.value);
 			
 			console.log('pickHistory에 번호 저장 saveToHistory:', nums);
 			
 			// 백엔드 API에 저장
 			try {
 				const recommendationData = {
-					drw_no: _nextDrw,
+					drw_no: _nextDrw.value,
 					no1: nums[0],
 					no2: nums[1],
 					no3: nums[2],
@@ -300,12 +440,12 @@
             
 			// 로컬 myPickStore에 저장 (정렬된 번호 객체 배열로 저장)
 			const numbersForStore = nums.map(n => ({ number: n }))
-			myPickStore.addMyPick(numbersForStore, _nextDrw)
+			myPickStore.addMyPick(numbersForStore, _nextDrw.value)
 			
 			// 백엔드 API에 저장 (이미 저장된 경우 에러 무시)
 			try {
 				const recommendationData = {
-					drw_no: _nextDrw,
+					drw_no: _nextDrw.value,
 					no1: nums[0],
 					no2: nums[1],
 					no3: nums[2],
@@ -359,19 +499,28 @@
 		// 프로 상태 이벤트 리스너 등록
 		window.addEventListener('lottovue:premium', handlePremiumStatusChange);
 		
+		// 사용자 정보 업데이트 이벤트 리스너 등록
+		window.addEventListener('lottovue:userUpdated', () => {
+			// 크레딧이 업데이트되면 자동으로 반영됨
+		});
+		
 		// 초기 프로 상태는 이벤트로 처리 (웹 환경)
 		maxPickCount.value = isPremium.value ? 100 : 2;
 		
+		// 초기 선택 개수 설정 (크레딧이 있으면 1개, 없으면 0개)
+		selectedCount.value = userCredits.value > 0 ? 1 : 0;
+		
 		checkRecommendCount();
-		// 저장 가능한 번호 조합이 0개인 경우 알럿 표시 후 팝업 닫기
-		if (_recommendCnt > 0) {
-			createRecommend();
-		}
+		// 자동 생성하지 않고 사용자가 선택하도록 변경
+		// if (_recommendCnt > 0) {
+		// 	createRecommend();
+		// }
 	});
 	
 	onUnmounted(() => {
 		// 이벤트 리스너 제거
 		window.removeEventListener('lottovue:premium', handlePremiumStatusChange);
+		window.removeEventListener('lottovue:userUpdated', () => {});
 	});
 </script>
 
@@ -390,5 +539,104 @@
 	color: #2c5aa0;
 	font-weight: 600;
 	font-size: 14px;
+}
+
+.pick-count-selector {
+	padding: 20px;
+	margin: 0 20px 20px 20px;
+	background-color: #f8f9fa;
+	border-radius: 12px;
+	border: 2px solid #e9ecef;
+}
+
+.selector-header {
+	margin-bottom: 16px;
+	text-align: center;
+}
+
+.selector-header h5 {
+	margin: 0 0 8px 0;
+	font-size: 18px;
+	font-weight: 600;
+	color: #333;
+}
+
+.credits-info {
+	margin: 0;
+	font-size: 14px;
+	color: #666;
+}
+
+.credits-info strong {
+	color: #007bff;
+	font-size: 16px;
+}
+
+.selector-body {
+	margin-bottom: 20px;
+}
+
+.count-input-wrapper {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	margin-bottom: 16px;
+}
+
+.count-input-wrapper label {
+	font-weight: 600;
+	color: #333;
+	font-size: 14px;
+}
+
+.count-input {
+	width: 100%;
+	padding: 10px 12px;
+	border: 2px solid #ddd;
+	border-radius: 8px;
+	font-size: 16px;
+	font-weight: 600;
+	text-align: center;
+}
+
+.count-input:focus {
+	outline: none;
+	border-color: #007bff;
+	box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.count-hint {
+	font-size: 12px;
+	color: #666;
+	text-align: center;
+}
+
+.cost-info {
+	background-color: white;
+	padding: 12px;
+	border-radius: 8px;
+	border: 1px solid #e9ecef;
+	text-align: center;
+}
+
+.cost-info p {
+	margin: 4px 0;
+	font-size: 14px;
+	color: #333;
+}
+
+.cost-info strong {
+	color: #007bff;
+	font-size: 16px;
+}
+
+.error-text {
+	color: #dc3545 !important;
+	font-weight: 600;
+}
+
+.selector-footer {
+	display: flex;
+	justify-content: center;
 }
 </style>

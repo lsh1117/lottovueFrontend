@@ -12,52 +12,16 @@
 		<div class="header-right">
 			<div class="header-right-item" v-if="isAuthenticated()">
 				<!-- MAX 플랜 배지 -->
-				<span v-if="userPlan === 'max'" class="max-badge" title="최대 플랜 사용자">
-					<svg class="max-icon" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<defs>
-							<linearGradient id="purpleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-								<stop offset="0%" style="stop-color:#9C27B0;stop-opacity:1" />
-								<stop offset="50%" style="stop-color:#7B1FA2;stop-opacity:1" />
-								<stop offset="100%" style="stop-color:#6A1B9A;stop-opacity:1" />
-							</linearGradient>
-						</defs>
-						<!-- 보라색 그라데이션 배지 -->
-						<rect x="0" y="0" width="80" height="32" rx="16" fill="url(#purpleGradient)"/>
-						<!-- max 텍스트 -->
-						<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">max</text>
-					</svg>
+				<span v-if="userPlan === 'max'" class="plan-badge max-badge" :title="`최대 플랜 사용자 - 잔여 크레딧: ${userCredits ?? 0}개`">
+					{{ userCredits ?? 0 }}
 				</span>
 				<!-- PRO 플랜 배지 -->
-				<span v-else-if="userPlan === 'pro'" class="premium-badge" title="프로 사용자">
-					<svg class="premium-icon" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<defs>
-							<linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-								<stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
-								<stop offset="50%" style="stop-color:#FFA500;stop-opacity:1" />
-								<stop offset="100%" style="stop-color:#FF8C00;stop-opacity:1" />
-							</linearGradient>
-						</defs>
-						<!-- 골드색 그라데이션 배지 -->
-						<rect x="0" y="0" width="80" height="32" rx="16" fill="url(#goldGradient)"/>
-						<!-- pro 텍스트 -->
-						<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">pro</text>
-					</svg>
+				<span v-else-if="userPlan === 'pro'" class="plan-badge premium-badge" :title="`프로 사용자 - 잔여 크레딧: ${userCredits ?? 0}개`">
+					{{ userCredits ?? 0 }}
 				</span>
 				<!-- FREE 플랜 배지 -->
-				<span v-else class="free-badge" title="무료 사용자">
-					<svg class="free-icon" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-						<defs>
-							<linearGradient id="greenGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-								<stop offset="0%" style="stop-color:#4CAF50;stop-opacity:1" />
-								<stop offset="50%" style="stop-color:#66BB6A;stop-opacity:1" />
-								<stop offset="100%" style="stop-color:#81C784;stop-opacity:1" />
-							</linearGradient>
-						</defs>
-						<!-- 녹색 그라데이션 배지 -->
-						<rect x="0" y="0" width="80" height="32" rx="16" fill="url(#greenGradient)"/>
-						<!-- free 텍스트 -->
-						<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">free</text>
-					</svg>
+				<span v-else class="plan-badge free-badge" :title="`무료 사용자 - 잔여 크레딧: ${userCredits ?? 0}개`">
+					{{ userCredits ?? 0 }}
 				</span>
 			</div>
 			<div class="header-right-item">
@@ -101,6 +65,13 @@ const userPlan = computed(() => {
 	const user = getUser()
 	return user?.plan || 'free'
 })
+
+// 잔여 크레딧 가져오기
+const userCredits = computed(() => {
+	const user = getUser()
+	return user?.credits ?? null
+})
+
 
 // Listen for pro status from events
 const handlePremiumStatus = (event) => {
@@ -156,34 +127,3 @@ onMounted(() => {
 	window.addEventListener('lottovue:userUpdated', handleUserUpdated)
 })
 </script>
-
-<style scoped>
-.max-badge,
-.premium-badge,
-.free-badge {
-	display: inline-flex;
-	align-items: center;
-	gap: 8px;
-}
-
-.max-badge .max-icon,
-.premium-badge .premium-icon,
-.free-badge .free-icon {
-	width: 64px;
-	height: 24px;
-	display: block;
-	flex-shrink: 0;
-}
-
-.max-badge .max-icon {
-	filter: drop-shadow(0 2px 4px rgba(156, 39, 176, 0.4));
-}
-
-.premium-badge .premium-icon {
-	filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.4));
-}
-
-.free-badge .free-icon {
-	filter: drop-shadow(0 2px 4px rgba(76, 175, 80, 0.3));
-}
-</style>

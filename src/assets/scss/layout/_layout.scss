@@ -107,66 +107,40 @@ body{
         }
     }
 
-    .premium-badge {
-        color: transparent;
-        background: transparent;
-        border: none;
-        
-        .premium-icon {
-            width: 64px;
-            height: 24px;
-            display: block;
-            filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.4));
-        }
-
-        // 모바일 반응형
-        @media (max-width: 768px) {
-            .premium-icon {
-                width: 56px;
-                height: 22px;
-            }
-        }
-    }
-
-    .free-badge {
-        color: transparent;
-        background: transparent;
-        border: none;
-        
-        .free-icon {
-            width: 64px;
-            height: 24px;
-            display: block;
-            filter: drop-shadow(0 2px 4px rgba(76, 175, 80, 0.3));
-        }
-
-        // 모바일 반응형
-        @media (max-width: 768px) {
-            .free-icon {
-                width: 56px;
-                height: 22px;
-            }
-        }
+    .plan-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 14px;
+        font-weight: 600;
+        color: white;
+        white-space: nowrap;
+        min-width: 40px;
+        height: 24px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
 
     .max-badge {
-        color: transparent;
-        background: transparent;
-        border: none;
-        
-        .max-icon {
-            width: 64px;
-            height: 24px;
-            display: block;
-            filter: drop-shadow(0 2px 4px rgba(156, 39, 176, 0.4));
-        }
+        background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 50%, #6A1B9A 100%);
+    }
 
-        // 모바일 반응형
-        @media (max-width: 768px) {
-            .max-icon {
-                width: 56px;
-                height: 22px;
-            }
+    .premium-badge {
+        background: linear-gradient(135deg, #FFD700 0%, #FFA500 50%, #FF8C00 100%);
+    }
+
+    .free-badge {
+        background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 50%, #81C784 100%);
+    }
+
+    // 모바일 반응형
+    @media (max-width: 768px) {
+        .plan-badge {
+            padding: 3px 10px;
+            font-size: 12px;
+            height: 22px;
+            min-width: 36px;
         }
     }
 }

@@ -192,10 +192,38 @@ const handleKakaoLogin = () => {
 		
 		// 새 창에서 메시지 받기
 		const messageHandler = async (event) => {
-			// 보안을 위해 origin 확인 (실제 운영 환경에서는 더 엄격하게)
-			if (event.origin !== window.location.origin && !event.origin.includes('localhost')) {
-				return;
+			// 보안을 위해 origin 확인
+			// 백엔드 origin도 허용 (postMessage는 백엔드 콜백 페이지에서 보내므로)
+			const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8030/api/'
+			const backendOrigin = apiBaseUrl.replace('/api/', '').replace(/\/$/, '')
+			
+			const allowedOrigins = [
+				window.location.origin,
+				'http://localhost:8030',
+				'https://lottovue-backend.onrender.com',
+				backendOrigin
+			].filter(Boolean);
+			
+			// origin 체크 (백엔드 origin도 허용)
+			const isAllowedOrigin = allowedOrigins.some(origin => {
+				return event.origin === origin || 
+				       event.origin.startsWith(origin) ||
+				       origin.includes(event.origin.split(':')[0]) // 프로토콜과 호스트만 비교
+			})
+			
+			if (!isAllowedOrigin) {
+				console.warn('postMessage origin 불일치:', {
+					received: event.origin,
+					allowed: allowedOrigins,
+					current: window.location.origin
+				})
+				// 개발 환경에서는 경고만 출력하고 계속 진행
+				if (!import.meta.env.DEV) {
+					return
+				}
 			}
+			
+			console.log('postMessage 수신:', event.data, 'from:', event.origin)
 			
 			if (event.data && event.data.type === 'kakao-login-success') {
 				window.removeEventListener('message', messageHandler);
@@ -288,10 +316,38 @@ const handleKakaoSignup = () => {
 		
 		// 새 창에서 메시지 받기
 		const messageHandler = async (event) => {
-			// 보안을 위해 origin 확인 (실제 운영 환경에서는 더 엄격하게)
-			if (event.origin !== window.location.origin && !event.origin.includes('localhost')) {
-				return;
+			// 보안을 위해 origin 확인
+			// 백엔드 origin도 허용 (postMessage는 백엔드 콜백 페이지에서 보내므로)
+			const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8030/api/'
+			const backendOrigin = apiBaseUrl.replace('/api/', '').replace(/\/$/, '')
+			
+			const allowedOrigins = [
+				window.location.origin,
+				'http://localhost:8030',
+				'https://lottovue-backend.onrender.com',
+				backendOrigin
+			].filter(Boolean);
+			
+			// origin 체크 (백엔드 origin도 허용)
+			const isAllowedOrigin = allowedOrigins.some(origin => {
+				return event.origin === origin || 
+				       event.origin.startsWith(origin) ||
+				       origin.includes(event.origin.split(':')[0]) // 프로토콜과 호스트만 비교
+			})
+			
+			if (!isAllowedOrigin) {
+				console.warn('postMessage origin 불일치:', {
+					received: event.origin,
+					allowed: allowedOrigins,
+					current: window.location.origin
+				})
+				// 개발 환경에서는 경고만 출력하고 계속 진행
+				if (!import.meta.env.DEV) {
+					return
+				}
 			}
+			
+			console.log('postMessage 수신:', event.data, 'from:', event.origin)
 			
 			if (event.data && event.data.type === 'kakao-signup-success') {
 				window.removeEventListener('message', messageHandler);

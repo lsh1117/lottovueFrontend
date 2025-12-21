@@ -101,17 +101,17 @@
 								<p v-if="user.plan === 'free'" class="message-info">
 									<strong>Free 플랜</strong><br>
 									• 회차별 최대 2개까지 AI 추천 번호 저장 가능<br>
-									• 주간 크레딧: 2개
+									• 주간 크레딧: 2개 (크레딧 1개 = 랜덤번호 1개 생성)
 								</p>
 								<p v-else-if="user.plan === 'pro'" class="message-info">
 									<strong>Pro 플랜</strong><br>
 									• 회차별 최대 100개까지 AI 추천 번호 저장 가능<br>
-									• 주간 크레딧: 100개
+									• 주간 크레딧: 100개 (크레딧 1개 = 랜덤번호 1개 생성)
 								</p>
 								<p v-else-if="user.plan === 'max'" class="message-info">
 									<strong>Max 플랜</strong><br>
 									• 회차별 최대 1000개까지 AI 추천 번호 저장 가능<br>
-									• 주간 크레딧: 1000개
+									• 주간 크레딧: 1000개 (크레딧 1개 = 랜덤번호 1개 생성)
 								</p>
 							</div>
 						</div>

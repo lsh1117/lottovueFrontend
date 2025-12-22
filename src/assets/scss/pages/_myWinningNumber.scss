@@ -1,0 +1,75 @@
+@charset "UTF-8";
+
+.MyWinningNumberView {
+	padding: 1rem;
+}
+
+.warning-box {
+	background-color: #fff3cd;
+	border: 2px solid #ffc107;
+	border-radius: 8px;
+	padding: 1rem;
+	margin-bottom: 1.5rem;
+}
+
+.warning-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 0.75rem;
+}
+
+.warning-header strong {
+	@include text-B2-Bold(color-text-orange-caution-enabled);
+}
+
+.warning-close {
+	background: none;
+	border: none;
+	@include text-H5-Bold(color-text-orange-caution-enabled);
+	cursor: pointer;
+	padding: 0;
+	width: 24px;
+	height: 24px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	line-height: 1;
+}
+
+.warning-close:hover {
+	@include themeProperty(color, color-text-orange-caution-enabled);
+	opacity: 0.8;
+}
+
+.warning-content {
+	@include text-B2-Regular(color-text-orange-caution-enabled);
+	line-height: 1.6;
+}
+
+.warning-content p {
+	margin-bottom: 0.5rem;
+}
+
+.warning-content p:last-child {
+	margin-bottom: 0;
+}
+
+.warning-content strong {
+	@include text-B2-SemiBold(color-text-orange-caution-enabled);
+}
+
+.warning-disclaimer {
+	@include text-D2-Regular(color-text-orange-caution-enabled);
+	font-style: italic;
+	margin-top: 0.75rem;
+	padding-top: 0.75rem;
+	border-top: 1px solid #ffc107;
+}
+
+.empty-cell {
+	text-align: center;
+	padding: 2rem;
+	@include text-B1-Regular(color-text-primary);
+}
+

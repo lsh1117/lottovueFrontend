@@ -1,6 +1,6 @@
 <template>
 	<header class="header-area">
-		<div class="header-left">
+		<div class="header-left" @click="goToHome" style="cursor: pointer;">
 			<div>
 				<img src="/assets/images/cmm/logo_128.png" alt="LOTTOVUE" class="logo-image"/>
 			</div>
@@ -37,10 +37,10 @@
 	<div class="gnb-area">
 		<nav class="gnb">
 			<ul class="gnb-list">
-				<li class="gnb-item"><router-link class="btn-gnb" active-class="on" to="/home">홈</router-link></li>
 				<li class="gnb-item"><router-link class="btn-gnb" active-class="on" to="/gameresult">회차 결과</router-link></li>
-				<li class="gnb-item"><a href="javascript:void(0)" class="btn-gnb" :class="{ 'on': route.path === '/contact' }" @click.prevent="handleNumberPickClick">AI 추천</a></li>
+				<li class="gnb-item"><a href="javascript:void(0)" class="btn-gnb" :class="{ 'on': route.path === '/contact' }" @click.prevent="handleNumberPickClick">번호 생성</a></li>
 				<li class="gnb-item"><a href="javascript:void(0)" class="btn-gnb" :class="{ 'on': route.path === '/statistics' }" @click.prevent="handleStatisticsClick">통계</a></li>
+				<li v-if="isAuthenticated()" class="gnb-item"><router-link class="btn-gnb" active-class="on" to="/my-winning-number">My Page</router-link></li>
 			</ul>
 		</nav>
 	</div>
@@ -113,6 +113,11 @@ function handleStatisticsClick() {
 		return
 	}
 	router.push('/statistics')
+}
+
+// 홈으로 이동
+function goToHome() {
+	router.push('/home')
 }
 
 // 사용자 정보 업데이트 이벤트 리스너

@@ -15,7 +15,7 @@
                 }
                 @include themeProperty(border-color,color-border-gray-600,!important);
                 span{
-                    @include text-B2-Bold(color-text-tertiary);
+                    @include text-B2-Bold(color-text-primary);
                 }
                 
             }
@@ -29,7 +29,7 @@
                 }
                 @include themeProperty(border-color,color-border-gray-600,!important);
                 span,strong{
-                    @include text-D1-Regular(color-text-tertiary);
+                    @include text-D1-Regular(color-text-primary);
                 }
                 
             }
@@ -50,7 +50,7 @@
                 }
                 @include themeProperty(border-color,color-border-gray-600,!important);
                 span{
-                    @include text-B2-Bold(color-text-tertiary);
+                    @include text-B2-Bold(color-text-primary);
                 }
                 
             }
@@ -64,7 +64,7 @@
                 }
                 @include themeProperty(border-color,color-border-gray-600,!important);
                 span,strong{
-                    @include text-D1-Regular(color-text-tertiary);
+                    @include text-D1-Regular(color-text-primary);
                 }
                 
             }

@@ -180,13 +180,14 @@
 		});
 	}
 
-	// 내번호 보기 팝업 호출
+	// 내번호 보기 화면으로 이동
 	function openMyNumberPopup() {
-		//console.log("내번호 보기 팝업 호출");
-		eventStore.emit('popup',{
-			id:"myNumber",
-			title:"내 번호 보기",
-		});
+		//console.log("내번호 보기 화면으로 이동");
+		if (!isAuthenticated()) {
+			alert('내 당첨번호 확인 기능은 로그인 후 이용 가능합니다.\n계정 정보에서 로그인해주세요.');
+			return;
+		}
+		router.push('/my-winning-number');
 	}
 
 	function calculate(){

@@ -1675,7 +1675,7 @@ body[data-color-mode=dark] .table-list tr th {
   line-height: 1.429;
   font-weight: 700;
   font-family: "Pretendard";
-  color: rgb(2, 2, 2);
+  color: rgb(255, 255, 255);
 }
 body[data-color-mode=dark] .table-list tr th span {
   color: rgb(22, 22, 22);
@@ -1704,7 +1704,7 @@ body[data-color-mode=dark] .table-list tr td {
   line-height: 1.385;
   font-weight: 400;
   font-family: "Pretendard";
-  color: rgb(2, 2, 2);
+  color: rgb(255, 255, 255);
 }
 body[data-color-mode=dark] .table-list tr td span, body[data-color-mode=dark] .table-list tr td strong {
   color: rgb(22, 22, 22);
@@ -1741,7 +1741,7 @@ body[data-color-mode=dark] .table-item tr th {
   line-height: 1.429;
   font-weight: 700;
   font-family: "Pretendard";
-  color: rgb(2, 2, 2);
+  color: rgb(255, 255, 255);
 }
 body[data-color-mode=dark] .table-item tr th span {
   color: rgb(22, 22, 22);
@@ -1770,7 +1770,7 @@ body[data-color-mode=dark] .table-item tr td {
   line-height: 1.385;
   font-weight: 400;
   font-family: "Pretendard";
-  color: rgb(2, 2, 2);
+  color: rgb(255, 255, 255);
 }
 body[data-color-mode=dark] .table-item tr td span, body[data-color-mode=dark] .table-item tr td strong {
   color: rgb(22, 22, 22);
@@ -2687,8 +2687,225 @@ body[data-color-mode=dark] .ai-recommendation-popup .usage-info {
   }
 }
 
+.MyWinningNumberView {
+  padding: 1rem;
+}
+
+.warning-box {
+  background-color: #fff3cd;
+  border: 2px solid #ffc107;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.warning-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.warning-header strong {
+  font-size: 1.2rem;
+  line-height: 1.429;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgb(255, 134, 20);
+}
+body[data-color-mode=dark] .warning-header strong {
+  color: rgb(255, 137, 26);
+}
+
+.warning-close {
+  background: none;
+  border: none;
+  font-size: 1.7rem;
+  line-height: 1.412;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgb(255, 134, 20);
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  line-height: 1;
+}
+body[data-color-mode=dark] .warning-close {
+  color: rgb(255, 137, 26);
+}
+
+.warning-close:hover {
+  color: rgb(255, 134, 20);
+  opacity: 0.8;
+}
+body[data-color-mode=dark] .warning-close:hover {
+  color: rgb(255, 137, 26);
+}
+
+.warning-content {
+  font-size: 1.2rem;
+  line-height: 1.429;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgb(255, 134, 20);
+  line-height: 1.6;
+}
+body[data-color-mode=dark] .warning-content {
+  color: rgb(255, 137, 26);
+}
+
+.warning-content p {
+  margin-bottom: 0.5rem;
+}
+
+.warning-content p:last-child {
+  margin-bottom: 0;
+}
+
+.warning-content strong {
+  font-size: 1.2rem;
+  line-height: 1.429;
+  font-weight: 600;
+  font-family: "Pretendard";
+  color: rgb(255, 134, 20);
+}
+body[data-color-mode=dark] .warning-content strong {
+  color: rgb(255, 137, 26);
+}
+
+.warning-disclaimer {
+  font-size: 1.1rem;
+  line-height: 1.334;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgb(255, 134, 20);
+  font-style: italic;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #ffc107;
+}
+body[data-color-mode=dark] .warning-disclaimer {
+  color: rgb(255, 137, 26);
+}
+
+.empty-cell {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
+}
+body[data-color-mode=dark] .empty-cell {
+  color: rgb(22, 22, 22);
+}
+
+.warning-popup {
+  padding: 1rem;
+}
+
+.warning-header {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.warning-header strong {
+  font-size: 1.7rem;
+  line-height: 1.412;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgb(255, 134, 20);
+}
+body[data-color-mode=dark] .warning-header strong {
+  color: rgb(255, 137, 26);
+}
+
+.warning-content {
+  font-size: 1.2rem;
+  line-height: 1.429;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgb(255, 134, 20);
+  line-height: 1.6;
+}
+body[data-color-mode=dark] .warning-content {
+  color: rgb(255, 137, 26);
+}
+
+.warning-content p {
+  margin-bottom: 0.75rem;
+}
+.warning-content p:last-child {
+  margin-bottom: 0;
+}
+.warning-content strong {
+  font-size: 1.2rem;
+  line-height: 1.429;
+  font-weight: 600;
+  font-family: "Pretendard";
+  color: rgb(255, 134, 20);
+}
+body[data-color-mode=dark] .warning-content strong {
+  color: rgb(255, 137, 26);
+}
+
+.warning-disclaimer {
+  font-size: 1.2rem;
+  line-height: 1.385;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgb(255, 134, 20);
+  font-style: italic;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #ffc107;
+}
+body[data-color-mode=dark] .warning-disclaimer {
+  color: rgb(255, 137, 26);
+}
+
+.warning-footer {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.warning-footer .n-checkbox {
+  font-size: 1.2rem;
+  line-height: 1.429;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgb(255, 134, 20);
+}
+body[data-color-mode=dark] .warning-footer .n-checkbox {
+  color: rgb(255, 137, 26);
+}
+
 .example-area {
   position: absolute;
   top: -100000px;
   left: 0;
-}/*# sourceMappingURL=app.css.map */
+}

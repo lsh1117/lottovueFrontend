@@ -7,6 +7,7 @@ import RecommendPopup from '@/views/popup/RecommendPopup.vue'
 import MyNumberPopup from '@/views/popup/MyNumberPopup.vue'
 import AccountPopup from '@/views/popup/AccountPopup.vue'
 import AIRecommendationPopup from '@/views/popup/AIRecommendationPopup.vue'
+import WarningPopup from '@/views/popup/WarningPopup.vue'
 
 /**
  * defaultProps
@@ -91,6 +92,14 @@ export const popupList = {
 			usage: null,
 			loading: false,
 			error: null,
+		},
+	},
+	warning: {
+		title: '⚠️ 중요 안내',
+		type:'dialog',
+		component: WarningPopup,
+		options: {
+			
 		},
 	},
 }

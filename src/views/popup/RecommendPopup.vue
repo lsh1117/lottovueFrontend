@@ -141,15 +141,25 @@
 
 	// 다음 회차 번호 (안전하게 처리)
 	const _nextDrw = computed(() => {
-		if (!drwStore.numbers || drwStore.numbers.length === 0) {
+		const numbers = drwStore.getNumbers();
+		if (!numbers || numbers.length === 0) {
 			// 기본값: 현재 날짜 기준으로 추정 회차 (임시)
+			console.warn('회차 정보가 없습니다. 기본값 1을 사용합니다.');
 			return 1;
 		}
-		const latestDrw = drwStore.numbers[0];
+		
+		// 최신 회차 찾기 (내림차순 정렬되어 있다고 가정하지만, 안전을 위해 정렬)
+		const sortedNumbers = [...numbers].sort((a, b) => Number(b.drwNo) - Number(a.drwNo));
+		const latestDrw = sortedNumbers[0];
+		
 		if (!latestDrw || !latestDrw.drwNo) {
+			console.warn('최신 회차 정보를 찾을 수 없습니다. 기본값 1을 사용합니다.');
 			return 1;
 		}
-		return Number(latestDrw.drwNo) + 1;
+		
+		const nextDrw = Number(latestDrw.drwNo) + 1;
+		console.log('다음 회차 계산:', { latestDrw: latestDrw.drwNo, nextDrw });
+		return nextDrw;
 	});
 
 	// AI 추천시 제외할 번호. ( 제외번호+고정번호 )

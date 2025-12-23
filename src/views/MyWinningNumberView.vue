@@ -189,12 +189,37 @@
 	const error = ref(null);
 	const currentDrawResult = ref(null); // 선택된 회차의 당첨 정보
 
-	// 회차 목록 옵션
+	// 다음 회차 번호 계산
+	const nextDrwNo = computed(() => {
+		const numbers = drwStore.getNumbers();
+		if (numbers && numbers.length > 0 && numbers[0]?.drwNo) {
+			return Number(numbers[0].drwNo) + 1;
+		}
+		// API에서 가져온 회차 목록이 있으면 그것을 사용
+		if (draws.value.length > 0) {
+			return draws.value[0].drw_no + 1;
+		}
+		return 1; // 기본값 1
+	});
+
+	// 회차 목록 옵션 (다음 회차 포함)
 	const drwOptions = computed(() => {
-		return draws.value.map(d => ({
+		const options = draws.value.map(d => ({
 			label: `${d.drw_no}회`,
 			value: d.drw_no,
 		}));
+		
+		// 다음 회차 추가 (이미 목록에 없을 경우만)
+		const nextDrw = nextDrwNo.value;
+		const hasNextDrw = options.some(opt => opt.value === nextDrw);
+		if (!hasNextDrw) {
+			options.unshift({
+				label: `${nextDrw}회 (다음 회차)`,
+				value: nextDrw,
+			});
+		}
+		
+		return options;
 	});
 
     // 선택된 회차 (기본값은 최신 회차로 설정)
@@ -284,6 +309,12 @@
 	async function fetchDrawByNumber(drwNo) {
 		if (!drwNo) return;
 		
+		// 다음 회차는 아직 당첨 정보가 없으므로 API 호출하지 않음
+		if (drwNo === nextDrwNo.value) {
+			currentDrawResult.value = null;
+			return;
+		}
+		
 		try {
 			console.log(`회차 ${drwNo} 당첨 정보 요청 시작...`);
 			const data = await getDrawByNumber(drwNo);
@@ -317,7 +348,7 @@
         } catch (_) {
             myPickList.value = myPickStore.getMyPicks(selectedDrwNo.value)
         }
-		const lastDrw = getLastDrwNo();
+		const lastDrw = nextDrwNo.value;
 		myPickList.value.forEach(item => {
 			// 저장한 회차가 다음 추첨 회차(최신 회차 + 1) 이상이면 아직 미추첨 처리
 			if (Number(item.drw) >= Number(lastDrw) ) {

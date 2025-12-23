@@ -438,7 +438,7 @@
 				console.log('백엔드에 추천번호 저장 완료:', recommendationData);
 			} catch (apiError) {
 				// 백엔드 저장 실패는 로그만 남기고 계속 진행
-				// (같은 회차에 이미 저장된 경우 등)
+				// (네트워크 오류 등 - 로컬 저장은 정상적으로 완료됨)
 				console.warn('백엔드에 추천번호 저장 실패 (무시):', apiError.response?.data?.detail || apiError.message);
 			}
 		} catch (e) {
@@ -474,7 +474,7 @@
 			const numbersForStore = nums.map(n => ({ number: n }))
 			myPickStore.addMyPick(numbersForStore, _nextDrw.value)
 			
-			// 백엔드 API에 저장 (이미 저장된 경우 에러 무시)
+			// 백엔드 API에 저장
 			try {
 				const recommendationData = {
 					drw_no: _nextDrw.value,
@@ -490,7 +490,7 @@
 				console.log('백엔드에 추천번호 저장 완료 (수동):', recommendationData);
 			} catch (apiError) {
 				// 백엔드 저장 실패는 로그만 남기고 계속 진행
-				// (같은 회차에 이미 저장된 경우 등)
+				// (네트워크 오류 등 - 로컬 저장은 정상적으로 완료됨)
 				console.warn('백엔드에 추천번호 저장 실패 (무시):', apiError.response?.data?.detail || apiError.message);
 			}
 			

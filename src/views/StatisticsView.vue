@@ -31,8 +31,16 @@
 		</section>
 		<section class="section section-area fixed-bottom">
 			<div class="btn-area btn-area-center">
-				<button class="btn-primary btn-large" @click="openAIRecommendationPopup"
-				:disabled="loading || aiLoading || !drwStore.numbers.length" >{{ aiLoading ? 'AI 분석 중...' : 'AI 추천 받기' }}</button>
+				<button 
+					class="btn-primary btn-large" 
+					@click="openAIRecommendationPopup"
+					:disabled="loading || aiLoading || !drwStore.numbers.length || !isProPlanOrAbove"
+				>
+					{{ aiLoading ? 'AI 분석 중...' : (isProPlanOrAbove ? 'AI 추천 받기' : 'AI 분석 (Pro 플랜 필요)') }}
+				</button>
+				<p v-if="!isProPlanOrAbove" style="text-align: center; margin-top: 10px; color: #666; font-size: 14px;">
+					AI 분석 기능은 Pro 플랜 이상에서 이용 가능합니다.
+				</p>
 			</div>
 		</section>
 		<!-- 
@@ -353,6 +361,15 @@
 
 	// AI 추천 팝업 열기
 	async function openAIRecommendationPopup() {
+		// Pro 플랜 이상인지 확인
+		if (!isProPlanOrAbove.value) {
+			// Pro 플랜이 아니면 업그레이드 안내
+			if (confirm('AI 분석 기능은 Pro 플랜 이상에서 이용 가능합니다.\n플랜 업그레이드 페이지로 이동하시겠습니까?')) {
+				router.push('/plan-upgrade')
+			}
+			return
+		}
+
 		// 기존에 받은 데이터가 있으면 팝업만 열고 API 호출하지 않음
 		if (aiRecommendationData.value && aiRecommendationData.value.recommendation) {
 			console.log('기존 AI 추천 데이터 사용')

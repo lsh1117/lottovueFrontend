@@ -75,7 +75,7 @@
                         </div>
                         <div class="plan-features">
                             <ul>
-                                <li>회차별 최대 <strong>2개</strong>까지 AI 추천 번호 저장</li>
+                                <li>회차별 최대 <strong>2개</strong>까지 생성 번호 저장</li>
                                 <li>주간 크레딧: <strong>2개</strong> (크레딧 1개 = 랜덤번호 1개 생성)</li>
                                 <li>모든 통계 기능</li>
                             </ul>
@@ -120,9 +120,10 @@
                         </div>
                         <div class="plan-features">
                             <ul>
-                                <li>회차별 최대 <strong>100개</strong>까지 AI 추천 번호 저장</li>
+                                <li>회차별 최대 <strong>100개</strong>까지 생성 번호 저장</li>
                                 <li>주간 크레딧: <strong>100개</strong> (크레딧 1개 = 랜덤번호 1개 생성)</li>
                                 <li>모든 통계 기능</li>
+                                <li>통계 기반 AI 분석 기능</li>
                             </ul>
                         </div>
                         <div class="plan-action">
@@ -165,9 +166,10 @@
                         </div>
                         <div class="plan-features">
                             <ul>
-                                <li>회차별 최대 <strong>1000개</strong>까지 AI 추천 번호 저장</li>
+                                <li>회차별 최대 <strong>1000개</strong>까지 생성 번호 저장</li>
                                 <li>주간 크레딧: <strong>1000개</strong> (크레딧 1개 = 랜덤번호 1개 생성)</li>
                                 <li>모든 통계 기능</li>
+                                <li>통계 기반 AI 분석 기능</li>
                             </ul>
                         </div>
                         <div class="plan-action">

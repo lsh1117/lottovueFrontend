@@ -40,15 +40,29 @@
 	
 	// 연속 미등장 횟수 분석
 	function getAppearInSuccessionUntil(){
+		const draws = drwStore.getNumbers();
+		if (!draws || draws.length === 0) {
+			return null;
+		}
+
 		// 현재까지 연속 미등장 횟수 가져오기
-		const _statsArray = drwStore.getNotAppearInSuccessionUntil(drwStore.getNumbers());
+		const _statsArray = drwStore.getNotAppearInSuccessionUntil(draws);
+		if (!_statsArray || _statsArray.length === 0) {
+			return null;
+		}
+		
 		_statsArray.sort((a, b) => b.count - a.count);
 
 		// 연속으로 미등장한 횟수 가져오기
-		const _notAppearInSuccession = drwStore.getNotAppearInSuccession(drwStore.getNumbers());
-		// 연속으로 미등장한 횟수중 가장 많이 미등장한 횟수
-		// 연속 140 미등장한 번호는 고정번호로 추천
-		const _cnt = 140;//_notAppearInSuccession[0].count;
+		const _notAppearInSuccession = drwStore.getNotAppearInSuccession(draws);
+		if (!_notAppearInSuccession || _notAppearInSuccession.length === 0) {
+			return null;
+		}
+		
+		// 연속으로 미등장한 횟수중 가장 많이 미등장한 횟수 찾기
+		const maxNotAppearCount = Math.max(..._notAppearInSuccession.map(item => item.count));
+		// 가장 많이 미등장한 횟수의 70%를 기준으로 설정
+		const _cnt = Math.floor(maxNotAppearCount * 0.7);
 
 		let _message = "";
 		let items = [];
@@ -69,18 +83,34 @@
 
 	// 최근 100 회 등장 횟수 분석
 	function getLastAppear(){
-		// 최근 100 회 데이터
-		let _max = {count:0};
-		let _min = {count:100};
+		const allNumbers = drwStore.getNumbers();
+		if (!allNumbers || allNumbers.length === 0) {
+			return null;
+		}
+
+		// 회차번호 기준으로 내림차순 정렬하여 최신 회차부터 정렬
+		const sortedNumbers = [...allNumbers].sort((a, b) => Number(b.drwNo) - Number(a.drwNo));
+		// 최신 100회만 가져오기
+		let _lastNumbers = sortedNumbers.slice(0, 100);
+		
+		if (_lastNumbers.length === 0) {
+			return null;
+		}
+
 		let _totalAppear = [];
 		let _fixeds = [];
 
 		// 최근 100회 동안 가장 많이 나왔던 횟수 25, 가장 적게 나왔던 횟수 5
 		// 5번 이하로 나온 번호는 고정번호로 추천
-		let _lastNumbers = drwStore.getNumbers().slice(0,100);
-
 		_totalAppear = drwStore.getTotalAppear(_lastNumbers);
+		if (!_totalAppear || _totalAppear.length === 0) {
+			return null;
+		}
+		
 		_totalAppear.sort((a, b) => b.count - a.count);
+
+		// 최소 등장 횟수 찾기 (정렬 후 마지막 요소가 최소값)
+		const _minCount = _totalAppear[_totalAppear.length - 1]?.count || 0;
 
 		_totalAppear.forEach(item=>{
 			if(Number(item.count) < 5){
@@ -88,12 +118,9 @@
 			}
 		})
 
-		_max = _totalAppear[0];
-		_min = _totalAppear[44];
-
 		let _message ='';
 		if(_fixeds.length > 0){
-			_message = _fixeds.join() + " : 최근 100회동안 " + _min.count + "번 등장으로 적게 나왔음.";
+			_message = _fixeds.join() + " : 최근 100회동안 " + _minCount + "번 등장으로 적게 나왔음.";
 			return _message;
 		}
 		else{

@@ -20,9 +20,9 @@
 .ball-645{
     position: relative;
     display: block;
-    width:3rem;
-    height:3rem;
-    border-radius: 3rem;
+    width:5rem;
+    height:5rem;
+    border-radius: 5rem;
     display:flex;
     align-items: center;
     justify-content: center;
@@ -31,21 +31,37 @@
     @include themeProperty(color, color-text-primary, !important);
 
     &-medium{
-        width:3rem;
-        height:3rem;
-        border-radius: 3rem;
+        width:5rem;
+        height:5rem;
+        border-radius: 5rem;
         @include text-B1-Regular(color-text-primary);
     }
 
     &-small{
-        width:2rem;
-        height:2rem;
-        border-radius: 2rem;
+        width:3.5rem;
+        height:3.5rem;
+        border-radius: 3.5rem;
         @include text-D1-Regular(color-text-primary);
     }
 
     &-disable{
-        opacity: 0.3;
+        opacity: 0.5;
+    }
+    @media (max-width: 768px) {
+        width:3rem;
+        height:3rem;
+        border-radius: 3rem;
+        &-medium{
+            width:3rem;
+            height:3rem;
+            border-radius: 3rem;
+        }
+    
+        &-small{
+            width:2rem;
+            height:2rem;
+            border-radius: 2rem;
+        }
     }
 }
 

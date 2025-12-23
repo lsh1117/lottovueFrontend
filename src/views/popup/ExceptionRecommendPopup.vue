@@ -42,10 +42,19 @@
 	
 	// 연속 등장 횟수 분석
 	function getAppearInSuccessionUntil(){
+		const draws = drwStore.getNumbers();
+		if (!draws || draws.length === 0) {
+			return null;
+		}
+
 		// 연속 등장 횟수 계산
-		const appearInSuccessionUntil = drwStore.getAppearInSuccessionUntil(drwStore.getNumbers());
+		const appearInSuccessionUntil = drwStore.getAppearInSuccessionUntil(draws);
+		if (!appearInSuccessionUntil || appearInSuccessionUntil.length === 0) {
+			return null;
+		}
+		
 		appearInSuccessionUntil.sort((a, b) => b.count - a.count);
-		// 연속 3회 이상 등장한 한 번호 모음
+		// 연속 2회 이상 등장한 번호 모음
 		let thirdAppears = [];
 		appearInSuccessionUntil.forEach((item) => {
 			if(item.count > 1){
@@ -107,16 +116,30 @@
 			null;
 		}
 		*/
-		let _max = {count:0};
-		let _min = {count:100};
+		const allNumbers = drwStore.getNumbers();
+		if (!allNumbers || allNumbers.length === 0) {
+			return null;
+		}
+
+		// 회차번호 기준으로 내림차순 정렬하여 최신 회차부터 정렬
+		const sortedNumbers = [...allNumbers].sort((a, b) => Number(b.drwNo) - Number(a.drwNo));
+		// 최신 100회만 가져오기
+		let _lastNumbers = sortedNumbers.slice(0, 100);
+		
+		if (_lastNumbers.length === 0) {
+			return null;
+		}
+
 		let _totalAppear = [];
 		let _exceptions = [];
 
 		// 최근 100회 동안 가장 많이 나왔던 횟수 25, 가장 적게 나왔던 횟수 5
 		// 20번 이상 나온 번호 제외 추천
-		let _lastNumbers = drwStore.getNumbers().slice(0,100);
-
 		_totalAppear = drwStore.getTotalAppear(_lastNumbers);
+		if (!_totalAppear || _totalAppear.length === 0) {
+			return null;
+		}
+		
 		_totalAppear.sort((a, b) => b.count - a.count);
 
 		_totalAppear.forEach(item=>{
@@ -128,9 +151,6 @@
 				}
 			}
 		})
-
-		_max = _totalAppear[0];
-		_min = _totalAppear[44];
 
 		if(_exceptions.length > 0 ){
 			const _message = _exceptions.join(", ") + " 번 : 최근 100회동안 20번 이상 등장으로 많이 나왔음.";

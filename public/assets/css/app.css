@@ -1400,9 +1400,9 @@ body[data-color-mode=dark] .box.box-round-bg {
 .ball-645 {
   position: relative;
   display: block;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 3rem;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 5rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1429,9 +1429,9 @@ body[data-color-mode=dark] .ball-645 {
 }
 
 .ball-645-medium {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 3rem;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 5rem;
   font-size: 1.4rem;
   line-height: 140%;
   font-weight: 400;
@@ -1443,9 +1443,9 @@ body[data-color-mode=dark] .ball-645-medium {
 }
 
 .ball-645-small {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 2rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 3.5rem;
   font-size: 1.2rem;
   line-height: 1.385;
   font-weight: 400;
@@ -1457,7 +1457,24 @@ body[data-color-mode=dark] .ball-645-small {
 }
 
 .ball-645-disable {
-  opacity: 0.3;
+  opacity: 0.5;
+}
+@media (max-width: 768px) {
+  .ball-645 {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 3rem;
+  }
+  .ball-645-medium {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 3rem;
+  }
+  .ball-645-small {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 2rem;
+  }
 }
 
 .ball-1 {

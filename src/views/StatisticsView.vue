@@ -35,6 +35,7 @@
 				:disabled="loading || aiLoading || !drwStore.numbers.length" >{{ aiLoading ? 'AI 분석 중...' : 'AI 추천 받기' }}</button>
 			</div>
 		</section>
+		<!-- 
 		<section class="section sample-area" v-if="!loading">
 			<div class="accordion accordion-area">
 				<div class="accordion-header">
@@ -42,7 +43,6 @@
 				</div>
 				<div class="accordion-body">
 					<div style="padding: 20px;">
-						<!-- 번호 선택 셀렉트 박스 -->
 						<div style="margin-bottom: 20px;">
 							<label for="number-select" style="display: block; margin-bottom: 10px; font-weight: bold;">번호 선택:</label>
 							<select 
@@ -55,7 +55,6 @@
 							</select>
 						</div>
 
-						<!-- 선택된 번호의 등장 정보 표시 -->
 						<div v-if="selectedNumber && selectedNumberInfo.count > 0" style="margin-top: 20px;">
 							<div style="margin-bottom: 20px; padding: 15px; background-color: #f5f5f5; border-radius: 4px;">
 								<h5 style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">
@@ -83,8 +82,6 @@
 								</div>
 							</div>
 						</div>
-
-						<!-- 선택된 번호가 최근 100회에 등장하지 않은 경우 -->
 						<div v-else-if="selectedNumber && selectedNumberInfo.count === 0" style="margin-top: 20px; padding: 15px; background-color: #fff3cd; border-radius: 4px;">
 							<p style="font-size: 16px; color: #856404;">
 								<span class="ball-645" :class="'ball-' + getGroup(selectedNumber)">{{ selectedNumber }}</span>
@@ -95,9 +92,7 @@
 				</div>
 			</div>
 		</section>
-		<section class="section sample-area2">
-
-		</section>
+		-->
 	</div>
 </template>
 

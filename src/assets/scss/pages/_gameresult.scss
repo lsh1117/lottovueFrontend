@@ -88,4 +88,37 @@
             }
         }
     }
+
+    @media (max-width: 377px) {
+        .num-win{
+            margin-top:0.5rem;
+        }
+        .title-medium {
+            @include text-H5-SemiBold(color-text-primary);
+        }
+        .prize-info-table {
+            margin-top: 1rem;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        .info-table {
+            @include text-B2-Regular(color-text-primary);
+            min-width: 600px;
+
+            th {
+                @include text-B2-SemiBold(color-text-primary);
+                padding: 0.5rem;
+            }
+
+            td {
+                @include text-B2-Regular(color-text-primary);
+                padding: 0.5rem;
+
+                strong {
+                    @include text-B2-SemiBold(color-text-primary);
+                }
+            }
+        }
+    }
 }

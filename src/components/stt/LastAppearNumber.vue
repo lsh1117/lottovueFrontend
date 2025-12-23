@@ -51,7 +51,11 @@
 
 	// 번호 등장 횟수 계산 함수
 	const calculateNumberStats = () => {
-        let _lastNumbers = drwStore.getNumbers().slice(0,100);
+		const allNumbers = drwStore.getNumbers();
+		// 회차번호 기준으로 내림차순 정렬하여 최신 회차부터 정렬
+		const sortedNumbers = [...allNumbers].sort((a, b) => Number(b.drwNo) - Number(a.drwNo));
+		// 최신 100회만 가져오기
+		let _lastNumbers = sortedNumbers.slice(0, 100);
 		return drwStore.getTotalAppear(_lastNumbers);
 	};
 

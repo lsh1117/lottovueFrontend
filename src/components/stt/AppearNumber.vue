@@ -51,12 +51,22 @@
 
 	// 번호 등장 횟수 계산 함수
 	const calculateNumberStats = () => {
-		return drwStore.getTotalAppear(drwStore.getNumbers());
+		const allNumbers = drwStore.getNumbers();
+		// 데이터가 없으면 빈 배열 반환
+		if (!allNumbers || allNumbers.length === 0) {
+			return [];
+		}
+		return drwStore.getTotalAppear(allNumbers);
 	};
 
 	// 번호별 등장 횟수를 반응형 데이터로 관리 (내림차순 정렬 추가)
 	const numberStats = computed(() => {
 		const statsArray = calculateNumberStats();
+		
+		// 데이터가 없으면 빈 배열 반환
+		if (!statsArray || statsArray.length === 0) {
+			return [];
+		}
 
 		// 등장 횟수를 기준으로 내림차순 정렬
 		return statsArray.sort((a, b) => b.count - a.count);

@@ -1230,6 +1230,13 @@ body[data-color-mode=dark] .select-area select {
   width: 120px;
 }
 
+.n-base-selection,
+.n-base-selection .n-base-selection__border,
+.n-base-selection .n-base-selection__state-border,
+.n-base-selection .n-base-selection-label {
+  height: 26px !important;
+}
+
 .accordion .accordion-header {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1864,6 +1871,69 @@ body[data-color-mode=dark] .GameResultView .info-table td strong {
   border-bottom: none;
 }
 @media (max-width: 768px) {
+  .GameResultView .prize-info-table {
+    margin-top: 1rem;
+    padding: 1rem;
+    overflow-x: auto;
+  }
+  .GameResultView .info-table {
+    font-size: 1.2rem;
+    line-height: 1.429;
+    font-weight: 400;
+    font-family: "Pretendard";
+    color: rgb(255, 255, 255);
+    min-width: 600px;
+  }
+  body[data-color-mode=dark] .GameResultView .info-table {
+    color: rgb(22, 22, 22);
+  }
+  .GameResultView .info-table th {
+    font-size: 1.2rem;
+    line-height: 1.429;
+    font-weight: 600;
+    font-family: "Pretendard";
+    color: rgb(255, 255, 255);
+    padding: 0.5rem;
+  }
+  body[data-color-mode=dark] .GameResultView .info-table th {
+    color: rgb(22, 22, 22);
+  }
+  .GameResultView .info-table td {
+    font-size: 1.2rem;
+    line-height: 1.429;
+    font-weight: 400;
+    font-family: "Pretendard";
+    color: rgb(255, 255, 255);
+    padding: 0.5rem;
+  }
+  body[data-color-mode=dark] .GameResultView .info-table td {
+    color: rgb(22, 22, 22);
+  }
+  .GameResultView .info-table td strong {
+    font-size: 1.2rem;
+    line-height: 1.429;
+    font-weight: 600;
+    font-family: "Pretendard";
+    color: rgb(255, 255, 255);
+  }
+  body[data-color-mode=dark] .GameResultView .info-table td strong {
+    color: rgb(22, 22, 22);
+  }
+}
+@media (max-width: 377px) {
+  .GameResultView .num-win {
+    margin-top: 0.5rem;
+  }
+  .GameResultView .title-medium {
+    font-size: 1.7rem;
+    line-height: 1.412;
+    font-weight: 600;
+    font-family: "Pretendard";
+    color: rgb(255, 255, 255);
+  }
+  body[data-color-mode=dark] .GameResultView .title-medium {
+    color: rgb(22, 22, 22);
+  }
   .GameResultView .prize-info-table {
     margin-top: 1rem;
     padding: 1rem;

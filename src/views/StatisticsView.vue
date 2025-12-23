@@ -35,6 +35,69 @@
 				:disabled="loading || aiLoading || !drwStore.numbers.length" >{{ aiLoading ? 'AI 분석 중...' : 'AI 추천 받기' }}</button>
 			</div>
 		</section>
+		<section class="section sample-area" v-if="!loading">
+			<div class="accordion accordion-area">
+				<div class="accordion-header">
+					<label class="label-medium">번호별 최근 100회 등장 정보 조회</label>
+				</div>
+				<div class="accordion-body">
+					<div style="padding: 20px;">
+						<!-- 번호 선택 셀렉트 박스 -->
+						<div style="margin-bottom: 20px;">
+							<label for="number-select" style="display: block; margin-bottom: 10px; font-weight: bold;">번호 선택:</label>
+							<select 
+								id="number-select"
+								v-model="selectedNumber" 
+								style="width: 100%; padding: 10px; font-size: 16px; border: 1px solid #ddd; border-radius: 4px;"
+							>
+								<option value="">번호를 선택하세요</option>
+								<option v-for="num in 45" :key="num" :value="num">{{ num }}번</option>
+							</select>
+						</div>
+
+						<!-- 선택된 번호의 등장 정보 표시 -->
+						<div v-if="selectedNumber && selectedNumberInfo.count > 0" style="margin-top: 20px;">
+							<div style="margin-bottom: 20px; padding: 15px; background-color: #f5f5f5; border-radius: 4px;">
+								<h5 style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">
+									<span class="ball-645" :class="'ball-' + getGroup(selectedNumber)">{{ selectedNumber }}</span>
+									번 최근 100회 등장 정보
+								</h5>
+								<p style="font-size: 16px; margin-bottom: 5px;"><strong>총 등장 횟수:</strong> {{ selectedNumberInfo.count }}회</p>
+								<p style="font-size: 14px; color: #666;">최근 100회 중 등장 비율: {{ selectedNumberInfo.percentage }}%</p>
+								<p v-if="selectedNumberInfo.latest" style="font-size: 14px; color: #666; margin-top: 5px;">
+									<strong>가장 최근 등장:</strong> {{ selectedNumberInfo.latest.drwNo }}회차 ({{ selectedNumberInfo.latest.drwNoDate }})
+								</p>
+							</div>
+
+							<div style="margin-top: 20px;">
+								<h6 style="font-size: 16px; font-weight: bold; margin-bottom: 10px;">등장한 회차 목록:</h6>
+								<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+									<span 
+										v-for="(appearance, index) in selectedNumberInfo.appearances" 
+										:key="index"
+										style="display: inline-block; padding: 8px 12px; background-color: #e8f4f8; border-radius: 4px; font-size: 14px; cursor: pointer;"
+										:title="`당첨번호: ${appearance.numbers.join(', ')}`"
+									>
+										{{ appearance.drwNo }}회차 ({{ appearance.drwNoDate }})
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<!-- 선택된 번호가 최근 100회에 등장하지 않은 경우 -->
+						<div v-else-if="selectedNumber && selectedNumberInfo.count === 0" style="margin-top: 20px; padding: 15px; background-color: #fff3cd; border-radius: 4px;">
+							<p style="font-size: 16px; color: #856404;">
+								<span class="ball-645" :class="'ball-' + getGroup(selectedNumber)">{{ selectedNumber }}</span>
+								번은 최근 100회 동안 등장하지 않았습니다.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="section sample-area2">
+
+		</section>
 	</div>
 </template>
 
@@ -77,6 +140,74 @@
 	const isProPlanOrAbove = computed(() => {
 		const user = getUser()
 		return user?.plan === 'pro' || user?.plan === 'max'
+	})
+
+	// 선택된 번호
+	const selectedNumber = ref(null)
+
+	// 그룹(색상) 계산 함수
+	function getGroup(number) {
+		// (number - 1)을 10으로 나누고 1을 더해 그룹 계산
+		return Math.floor((number - 1) / 10) + 1
+	}
+
+	// 선택된 번호의 최근 100회 등장 정보 계산
+	const selectedNumberInfo = computed(() => {
+		if (!selectedNumber.value) {
+			return {
+				count: 0,
+				percentage: 0,
+				appearances: [],
+				latest: null
+			}
+		}
+
+		const allNumbers = drwStore.getNumbers()
+		if (!allNumbers || allNumbers.length === 0) {
+			return {
+				count: 0,
+				percentage: 0,
+				appearances: [],
+				latest: null
+			}
+		}
+
+		// 회차번호 기준으로 내림차순 정렬하여 최신 회차부터 정렬
+		const sortedNumbers = [...allNumbers].sort((a, b) => Number(b.drwNo) - Number(a.drwNo))
+		// 최신 100회만 가져오기
+		const last100 = sortedNumbers.slice(0, 100)
+
+		// 선택된 번호가 등장한 회차 찾기
+		const appearances = []
+		let count = 0
+		const targetNumber = Number(selectedNumber.value)
+
+		last100.forEach((draw) => {
+			const numbers = [
+				Number(draw.drwtNo1),
+				Number(draw.drwtNo2),
+				Number(draw.drwtNo3),
+				Number(draw.drwtNo4),
+				Number(draw.drwtNo5),
+				Number(draw.drwtNo6)
+			]
+
+			if (numbers.includes(targetNumber)) {
+				count++
+				appearances.push({
+					drwNo: draw.drwNo,
+					drwNoDate: draw.drwNoDate,
+					numbers: numbers
+				})
+			}
+		})
+
+		return {
+			count: count,
+			percentage: Math.round((count / 100) * 100),
+			appearances: appearances,
+			latest: appearances.length > 0 ? appearances[0] : null
+		}
 	})
 
 	// 백엔드 응답(snake_case)을 DrwStore 형식(camelCase)으로 변환

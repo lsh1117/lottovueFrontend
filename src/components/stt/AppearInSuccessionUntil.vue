@@ -47,15 +47,24 @@
 	// 아코디언 상태 (열림/닫힘)
 	const isOpen = ref(false);
 
-	// 전체 데이터에서 현재까지 연속 미등장 횟수 계산
+	// 전체 데이터에서 현재까지 연속 등장 횟수 계산
 	const appearInSuccessionUntil = () => {
 		const draws = drwStore.getNumbers(); // Store에서 당첨 번호들 가져오기
+		// 데이터가 없으면 빈 배열 반환
+		if (!draws || draws.length === 0) {
+			return [];
+		}
 		return drwStore.getAppearInSuccessionUntil(draws); // 연속 등장 횟수 계산
 	};
 
-	// 현재까지 연속 미등장 횟수를 반응형 데이터로 관리 (내림차순 정렬 추가)
+	// 현재까지 연속 등장 횟수를 반응형 데이터로 관리 (내림차순 정렬 추가)
 	const numberStats = computed(() => {
 		const statsArray = appearInSuccessionUntil();
+		
+		// 데이터가 없으면 빈 배열 반환
+		if (!statsArray || statsArray.length === 0) {
+			return [];
+		}
 
 		// 등장 횟수를 기준으로 내림차순 정렬
 		return statsArray.sort((a, b) => b.count - a.count);

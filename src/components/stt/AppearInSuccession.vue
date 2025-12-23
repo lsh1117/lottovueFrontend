@@ -48,12 +48,23 @@
 	// 전체 데이터에서 연속 등장 횟수 계산
 	const appearInSuccession = () => {
 		const draws = drwStore.getNumbers(); // Store에서 당첨 번호들 가져오기
-		return drwStore.getAppearInSuccession(draws); // 연속 등장 횟수 계산
+		// 데이터가 없으면 빈 배열 반환
+		if (!draws || draws.length === 0) {
+			return [];
+		}
+		// 연속 등장 횟수 계산을 위해 시간 순서대로 정렬 (1회차부터 최신 회차까지)
+		const sortedDraws = [...draws].sort((a, b) => Number(a.drwNo) - Number(b.drwNo));
+		return drwStore.getAppearInSuccession(sortedDraws); // 연속 등장 횟수 계산
 	};
 
 	// 번호별 등장 횟수를 반응형 데이터로 관리 (내림차순 정렬 추가)
 	const numberStats = computed(() => {
 		const statsArray = appearInSuccession();
+		
+		// 데이터가 없으면 빈 배열 반환
+		if (!statsArray || statsArray.length === 0) {
+			return [];
+		}
 
 		// 등장 횟수를 기준으로 내림차순 정렬
 		return statsArray.sort((a, b) => b.count - a.count);

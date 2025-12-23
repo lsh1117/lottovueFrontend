@@ -19,3 +19,9 @@
 .n-select{
     width:120px;
 }
+.n-base-selection,
+.n-base-selection .n-base-selection__border,
+.n-base-selection .n-base-selection__state-border,
+.n-base-selection .n-base-selection-label{
+    height:26px !important;
+}

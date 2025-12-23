@@ -51,7 +51,7 @@
 		</section>
 		<section class="section section-area fixed-bottom">
 			<div class="btn-area btn-area-center">
-				<button class="btn-primary btn-large" @click="openRecommendPopup" >AI 추천</button>
+				<button class="btn-primary btn-large" @click="openRecommendPopup" >번호 생성</button>
 				<button class="btn-primary btn-large" @click="openMyNumberPopup" >내번호보기</button>
 			</div>
 		</section>
@@ -176,7 +176,7 @@
 		}
 		eventStore.emit('popup',{
 			id:"recommend",
-			title:"AI 추천 번호",
+			title:"번호 생성",
 		});
 	}
 

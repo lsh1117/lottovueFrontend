@@ -72,14 +72,14 @@
 				<!-- 프리 버전 메시지 -->
 				<template v-if="!isPremium">
 					<p>
-						무료 버전에서는 <strong>회차별 최대 2개</strong>의 AI 추천 번호만 저장할 수 있습니다.<br>
+						무료 버전에서는 <strong>회차별 최대 {{ planMaxCount }}개</strong>의 AI 추천 번호만 저장할 수 있습니다.<br>
 						더 많은 번호를 저장하려면 <strong>프로버전으로 업그레이드</strong>가 필요합니다.
 					</p>
 				</template>
 				<!-- 프로 버전 메시지 -->
 				<template v-else>
 					<p>
-						프로 버전에서는 <strong>회차별 최대 100개</strong>까지 AI 추천 번호를 저장할 수 있습니다.<br>
+						프로 버전에서는 <strong>회차별 최대 {{ planMaxCount }}개</strong>까지 AI 추천 번호를 저장할 수 있습니다.<br>
 						현재 <strong>{{ _nextDrw.value }}회차</strong>는 이미 최대 개수인 <strong>{{ currentPickCount }}개</strong>에 도달했습니다.
 					</p>
 				</template>
@@ -117,8 +117,11 @@
 	// 현재 저장된 개수
 	const currentPickCount = ref(0);
 	
-	// 프로 버전 여부
-	const isPremium = ref(false);
+	// 프로 버전 여부 (computed로 변경하여 사용자 정보에서 자동으로 확인)
+	const isPremium = computed(() => {
+		const user = getUser();
+		return user?.plan === 'pro' || user?.plan === 'max';
+	});
 	
 	// EventStore 가져오기
 	const eventStore = useEventStore();
@@ -185,9 +188,28 @@
 	// 선택한 번호 개수
 	const selectedCount = ref(1);
 
+	// 플랜별 최대 선택 가능한 개수
+	const planMaxCount = computed(() => {
+		const user = getUser();
+		if (!user || !user.plan) {
+			return 2; // 기본값: free 플랜
+		}
+		// 플랜별 최대 개수 설정
+		switch (user.plan) {
+			case 'free':
+				return 2;
+			case 'pro':
+				return 100;
+			case 'max':
+				return 1000; // max 플랜도 100개 (필요시 변경 가능)
+			default:
+				return 2;
+		}
+	});
+
 	// 최대 선택 가능한 개수 (크레딧과 플랜 제한 중 작은 값)
 	const maxSelectableCount = computed(() => {
-		const planMax = isPremium.value ? 100 : 2;
+		const planMax = planMaxCount.value;
 		const creditsMax = userCredits.value;
 		return Math.min(planMax, creditsMax);
 	});
@@ -196,8 +218,9 @@
 	let _recommendCnt = 0;
 
 	function checkRecommendCount(){
-		// 기본값 설정 (웹 환경)
-		_recommendCnt = isPremium.value ? 100 : 2;
+		// 기본값 설정 (웹 환경) - 플랜별 최대 개수 사용
+		_recommendCnt = planMaxCount.value;
+		maxPickCount.value = planMaxCount.value;
 		currentPickCount.value = 0; // 웹에서는 0으로 설정
 
 		// 저장 가능한 번호 조합이 0개인 경우 모달 표시
@@ -293,8 +316,7 @@
 			id: 'account',
 			title: '계정 정보',
 			onClose: () => {
-				// 팝업 닫힌 후 프리미엄 상태 다시 확인 (웹에서는 이벤트로 처리)
-				maxPickCount.value = isPremium.value ? 100 : 2;
+				// 팝업 닫힌 후 플랜 상태 다시 확인 (computed로 자동 업데이트됨)
 				checkRecommendCount();
 			}
 		});
@@ -485,12 +507,11 @@
 		allSaved.value = true;
 	}
 
-	// 프로 상태 변경 이벤트 리스너
+	// 프로 상태 변경 이벤트 리스너 (computed로 변경되어 자동 업데이트되므로 필요시에만 사용)
 	const handlePremiumStatusChange = (event) => {
-		if (event.detail && typeof event.detail.isPremium === 'boolean') {
-			isPremium.value = event.detail.isPremium;
-			maxPickCount.value = isPremium.value ? 100 : 2;
-		}
+		// isPremium이 computed로 변경되어 사용자 정보가 업데이트되면 자동으로 반영됨
+		// 필요시 추가 로직 구현 가능
+		checkRecommendCount();
 	}
 
     onMounted(() => {
@@ -501,11 +522,12 @@
 		
 		// 사용자 정보 업데이트 이벤트 리스너 등록
 		window.addEventListener('lottovue:userUpdated', () => {
-			// 크레딧이 업데이트되면 자동으로 반영됨
+			// 크레딧과 플랜 정보가 업데이트되면 computed로 자동으로 반영됨
+			checkRecommendCount();
 		});
 		
-		// 초기 프로 상태는 이벤트로 처리 (웹 환경)
-		maxPickCount.value = isPremium.value ? 100 : 2;
+		// 초기 플랜 상태 설정
+		maxPickCount.value = planMaxCount.value;
 		
 		// 초기 선택 개수 설정 (크레딧이 있으면 1개, 없으면 0개)
 		selectedCount.value = userCredits.value > 0 ? 1 : 0;

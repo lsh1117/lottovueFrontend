@@ -14,7 +14,7 @@
 							v-model:value="selectedDrwNo"
 							:options="drwOptions"
 							size="large"
-							:loading="loading"
+							:loading="loading || loadingRecommendations"
 							@update:value="updateResult"
 						/>
 					</div>
@@ -37,7 +37,10 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr v-if="myPickList.length === 0">
+								<tr v-if="loadingRecommendations">
+									<td colspan="3" class="empty-cell">추천번호를 불러오는 중...</td>
+								</tr>
+								<tr v-else-if="myPickList.length === 0">
 									<td colspan="3" class="empty-cell">저장된 번호가 없습니다.</td>
 								</tr>
 								<tr v-else v-for="recommend in myPickList" :key="recommend">
@@ -164,13 +167,11 @@
 		watch
 	} from "vue";
 	import {
-		useMyPickStore
-	} from "@/stores/MyPickStore";
-	import {
 		useDrwStore
 	} from "@/stores/DrwStore";
 	import { NSelect } from "naive-ui";
 	import { getDraws, getDrawByNumber } from "@/api/lotto";
+	import { getUserRecommendations } from "@/api/recommendation";
 	import { useEventStore } from '@/stores/EventStore';
 
 	const instance = getCurrentInstance();
@@ -178,8 +179,6 @@
 
 	// 회차 정보
 	const drwStore = useDrwStore();
-	// AI 추천 번호 정보
-	const myPickStore = useMyPickStore();
 	// 이벤트 스토어
 	const eventStore = useEventStore();
 
@@ -264,8 +263,9 @@
 		}
 	}
 
-	// AI 추천 번호 리스트
-	const myPickList = ref(myPickStore.getMyPicks());
+	// 생성 번호 리스트 (DB에서 가져옴)
+	const myPickList = ref([]);
+	const loadingRecommendations = ref(false);
 
 	const no1 = ref(0);
 	const no2 = ref(0);
@@ -326,6 +326,45 @@
 		}
 	}
 
+	// DB에서 회차별 추천번호 가져오기
+	async function fetchRecommendations(drwNo) {
+		if (!drwNo) {
+			myPickList.value = [];
+			return;
+		}
+
+		loadingRecommendations.value = true;
+		try {
+			console.log(`회차 ${drwNo} 추천번호 조회 시작...`);
+			const data = await getUserRecommendations(0, 1000, drwNo);
+			console.log(`회차 ${drwNo} 추천번호 응답:`, data);
+			
+			// API 응답을 myPickList 형식으로 변환
+			// API 응답: [{ id, drw_no, no1, no2, no3, no4, no5, no6, rank, ... }]
+			// myPickList 형식: [{ drw, numbers: [{ number }], result, no, ... }]
+			myPickList.value = data.map(item => ({
+				id: item.id,
+				drw: item.drw_no,
+				numbers: [
+					{ number: item.no1 },
+					{ number: item.no2 },
+					{ number: item.no3 },
+					{ number: item.no4 },
+					{ number: item.no5 },
+					{ number: item.no6 }
+				].sort((a, b) => a.number - b.number), // 번호 정렬
+				result: null, // 나중에 계산됨
+				no: item.rank || null,
+				rank: item.rank || null
+			}));
+		} catch (err) {
+			console.error(`회차 ${drwNo} 추천번호를 가져오는데 실패했습니다:`, err);
+			myPickList.value = [];
+		} finally {
+			loadingRecommendations.value = false;
+		}
+	}
+
 	// 회차 변경 시 결과 업데이트
     async function updateResult() {
 		//console.log("##### 회차 변경 시 결과 업데이트 :", selectedDrwNo.value);
@@ -340,14 +379,11 @@
 		// 선택된 회차의 당첨 정보 가져오기
 		if (selectedDrwNo.value) {
 			await fetchDrawByNumber(selectedDrwNo.value);
+			// DB에서 추천번호 가져오기
+			await fetchRecommendations(selectedDrwNo.value);
+		} else {
+			myPickList.value = [];
 		}
-		
-        // 웹 환경에서는 MyPickStore에서 데이터 가져오기
-        try {
-            myPickList.value = myPickStore.getMyPicks(selectedDrwNo.value)
-        } catch (_) {
-            myPickList.value = myPickStore.getMyPicks(selectedDrwNo.value)
-        }
 		const lastDrw = nextDrwNo.value;
 		myPickList.value.forEach(item => {
 			// 저장한 회차가 다음 추첨 회차(최신 회차 + 1) 이상이면 아직 미추첨 처리

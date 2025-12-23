@@ -2,13 +2,13 @@
 	<div>
 		<!-- 히스토리 표시 안내 메시지 -->
 		<div v-if="showingHistory" class="history-notice">
-			<p>{{ _nextDrw.value }}회차에 저장된 AI 추천 번호 목록 (총 {{ currentPickCount }}개)</p>
+			<p>{{ _nextDrw.value }}회차에 저장된 생성 번호 목록 (총 {{ currentPickCount }}개)</p>
 		</div>
 		
 		<!-- 번호 개수 선택 영역 (히스토리 모드가 아닐 때만 표시) -->
 		<div v-if="!showingHistory && recommends.length === 0" class="pick-count-selector">
 			<div class="selector-header">
-				<h5>추천 번호 개수 선택</h5>
+				<h5>생성 번호 개수 선택</h5>
 				<p class="credits-info">잔여 크레딧: <strong>{{ userCredits ?? 0 }}</strong>개</p>
 			</div>
 			<div class="selector-body">
@@ -36,7 +36,7 @@
 					@click="handleGenerateRecommend"
 					:disabled="selectedCount <= 0 || selectedCount > maxSelectableCount || selectedCount > userCredits"
 				>
-					AI 추천 번호 생성
+					생성 번호 생성
 				</button>
 			</div>
 		</div>
@@ -72,14 +72,14 @@
 				<!-- 프리 버전 메시지 -->
 				<template v-if="!isPremium">
 					<p>
-						무료 버전에서는 <strong>회차별 최대 {{ planMaxCount }}개</strong>의 AI 추천 번호만 저장할 수 있습니다.<br>
+						무료 버전에서는 <strong>회차별 최대 {{ planMaxCount }}개</strong>의 생성 번호만 저장할 수 있습니다.<br>
 						더 많은 번호를 저장하려면 <strong>프로버전으로 업그레이드</strong>가 필요합니다.
 					</p>
 				</template>
 				<!-- 프로 버전 메시지 -->
 				<template v-else>
 					<p>
-						프로 버전에서는 <strong>회차별 최대 {{ planMaxCount }}개</strong>까지 AI 추천 번호를 저장할 수 있습니다.<br>
+						프로 버전에서는 <strong>회차별 최대 {{ planMaxCount }}개</strong>까지 생성 번호를 저장할 수 있습니다.<br>
 						현재 <strong>{{ _nextDrw.value }}회차</strong>는 이미 최대 개수인 <strong>{{ currentPickCount }}개</strong>에 도달했습니다.
 					</p>
 				</template>
@@ -182,7 +182,7 @@
 		return 6 - _fixedNumber.length;
 	});
 
-	// 추천 번호 리스트
+	// 생성 번호 리스트
 	const recommends = ref([]);
 	// 각 항목 저장 상태
 	const saved = ref([]);
@@ -224,7 +224,7 @@
 		return Math.min(planMax, creditsMax);
 	});
 
-	// 추천 번호 갯수 정의
+	// 생성 번호 갯수 정의
 	let _recommendCnt = 0;
 
 	function checkRecommendCount(){
@@ -252,7 +252,7 @@
 		}
 	}
 
-	// AI 추천 번호 생성 처리
+	// 생성 번호 생성 처리
 	async function handleGenerateRecommend() {
 		if (selectedCount.value <= 0) {
 			alert('1개 이상 선택해주세요.');
@@ -280,7 +280,7 @@
 				window.dispatchEvent(new CustomEvent('lottovue:userUpdated'));
 			}
 
-			// 추천 번호 생성
+			// 생성 번호 생성
 			_recommendCnt = selectedCount.value;
 			await createRecommend();
 		} catch (error) {
@@ -359,7 +359,7 @@
 	async function createRecommend(){
 		// 사용 가능한 번호가 충분한지 확인
 		if (_newTotalNumbers.value.length < _cnt.value) {
-			alert(`추천 번호를 생성할 수 없습니다.\n제외할 번호가 너무 많거나 사용 가능한 번호가 부족합니다.\n(필요: ${_cnt.value}개, 사용 가능: ${_newTotalNumbers.value.length}개)`);
+			alert(`생성 번호를 생성할 수 없습니다.\n제외할 번호가 너무 많거나 사용 가능한 번호가 부족합니다.\n(필요: ${_cnt.value}개, 사용 가능: ${_newTotalNumbers.value.length}개)`);
 			return;
 		}
 
@@ -383,7 +383,7 @@
 			
 			// 필요한 번호가 모두 선택되지 않은 경우 건너뛰기
 			if (_numbers.length < _cnt.value) {
-				console.warn(`추천 번호 생성 실패: 필요한 번호 ${_cnt.value}개, 선택된 번호 ${_numbers.length}개`);
+				console.warn(`생성 번호 생성 실패: 필요한 번호 ${_cnt.value}개, 선택된 번호 ${_numbers.length}개`);
 				continue;
 			}
 

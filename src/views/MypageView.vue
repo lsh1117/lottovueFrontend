@@ -168,7 +168,7 @@
 		}
 		eventStore.emit('popup',{
 			id:"recommend",
-			title:"AI 추천 번호",
+			title:"생성 번호",
 		});
 	}
 

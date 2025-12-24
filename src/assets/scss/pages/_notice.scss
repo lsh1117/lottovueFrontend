@@ -1,0 +1,178 @@
+@charset "UTF-8";
+
+.NoticeListView,
+.NoticeDetailView {
+    .notice-container,
+    .notice-detail-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem;
+
+        @media (max-width: 768px) {
+            padding: 1rem;
+        }
+    }
+
+    .page-title {
+        @include text-H1-Bold(color-text-primary);
+        margin-bottom: 2rem;
+    }
+
+    .loading,
+    .error {
+        text-align: center;
+        padding: 2rem;
+        @include text-B1-Regular(color-text-primary);
+
+        .retry-button {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    }
+
+    .important-notices {
+        margin-bottom: 2rem;
+
+        .section-title {
+            @include text-H2-Bold(color-text-primary);
+            margin-bottom: 1rem;
+        }
+    }
+
+    .notice-list {
+        .notice-item {
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(51, 51, 51, 0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            @include themeProperty(background-color, color-bg-secondary);
+            @include themeProperty(border-color, color-border-primary);
+
+            &:hover {
+                @include themeProperty(background-color, color-bg-primary);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            &.important {
+                border-left: 4px solid #ff4444;
+            }
+
+            .notice-header {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin-bottom: 0.5rem;
+
+                .notice-badge {
+                    padding: 0.25rem 0.75rem;
+                    background-color: #ff4444;
+                    color: white;
+                    border-radius: 4px;
+                    font-size: 12px;
+                    font-weight: 600;
+                }
+
+                .notice-title {
+                    flex: 1;
+                    @include text-B1-Bold(color-text-primary);
+                    margin: 0;
+                }
+
+                .notice-date {
+                    @include text-D1-Regular(color-text-secondary);
+                    color: #999;
+                }
+            }
+
+            .notice-meta {
+                display: flex;
+                gap: 1rem;
+                @include text-D1-Regular(color-text-secondary);
+                color: #999;
+            }
+        }
+    }
+
+    .no-notice {
+        text-align: center;
+        padding: 3rem;
+        @include text-B1-Regular(color-text-secondary);
+        color: #999;
+    }
+
+    .notice-detail {
+        .notice-detail-header {
+            margin-bottom: 2rem;
+
+            .back-btn {
+                margin-bottom: 1rem;
+                padding: 0.5rem 1rem;
+                background: none;
+                border: 1px solid rgba(51, 51, 51, 0.3);
+                border-radius: 4px;
+                @include text-B2-Regular(color-text-primary);
+                cursor: pointer;
+                transition: all 0.2s ease;
+
+                &:hover {
+                    @include themeProperty(background-color, color-bg-primary);
+                }
+            }
+
+            .notice-detail-title-section {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin-bottom: 1rem;
+
+                .notice-badge {
+                    padding: 0.5rem 1rem;
+                    background-color: #ff4444;
+                    color: white;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    font-weight: 600;
+                }
+
+                .notice-detail-title {
+                    flex: 1;
+                    @include text-H1-Bold(color-text-primary);
+                    margin: 0;
+                }
+            }
+
+            .notice-detail-meta {
+                display: flex;
+                gap: 1.5rem;
+                @include text-D1-Regular(color-text-secondary);
+                color: #999;
+
+                .notice-meta-item {
+                    display: inline-block;
+                }
+            }
+        }
+
+        .notice-detail-content {
+            padding: 2rem;
+            border: 1px solid rgba(51, 51, 51, 0.3);
+            border-radius: 8px;
+            @include text-B2-Regular(color-text-primary);
+            @include themeProperty(background-color, color-bg-secondary);
+            @include themeProperty(border-color, color-border-primary);
+            line-height: 1.8;
+
+            @media (max-width: 768px) {
+                padding: 1rem;
+            }
+        }
+    }
+}
+

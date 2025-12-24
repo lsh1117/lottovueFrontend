@@ -32,22 +32,127 @@
 					</svg>
 				</button>
 			</div>
+			<!-- 햄버거 메뉴 버튼 (모바일만 표시) -->
+			<div class="header-right-item mobile-menu-btn">
+				<button class="hamburger-btn" @click="toggleMobileMenu" :class="{ 'active': isMobileMenuOpen }" title="메뉴">
+					<span class="hamburger-line"></span>
+					<span class="hamburger-line"></span>
+					<span class="hamburger-line"></span>
+				</button>
+			</div>
 		</div>
 	</header>
-	<div class="gnb-area">
-		<nav class="gnb">
-			<ul class="gnb-list">
-				<li class="gnb-item"><router-link class="btn-gnb" active-class="on" to="/gameresult">회차 결과</router-link></li>
-				<li class="gnb-item"><a href="javascript:void(0)" class="btn-gnb" :class="{ 'on': route.path === '/contact' }" @click.prevent="handleNumberPickClick">번호 생성</a></li>
-				<li class="gnb-item"><a href="javascript:void(0)" class="btn-gnb" :class="{ 'on': route.path === '/statistics' }" @click.prevent="handleStatisticsClick">통계</a></li>
-				<li v-if="isAuthenticated()" class="gnb-item"><router-link class="btn-gnb" active-class="on" to="/my-winning-number">My Page</router-link></li>
-			</ul>
-		</nav>
-	</div>
+	
+	<!-- PC용 좌측 고정 GNB -->
+	<nav class="gnb-area gnb-desktop">
+		<ul class="gnb-list">
+			<li class="gnb-item">
+				<router-link class="btn-gnb" active-class="on" to="/gameresult">회차 결과</router-link>
+			</li>
+			<li class="gnb-item">
+				<a href="javascript:void(0)" class="btn-gnb" :class="{ 'on': route.path === '/contact' }" @click.prevent="handleNumberPickClick">번호 생성</a>
+			</li>
+			<li class="gnb-item">
+				<a href="javascript:void(0)" class="btn-gnb" :class="{ 'on': route.path === '/statistics' }" @click.prevent="handleStatisticsClick">통계</a>
+			</li>
+			<li v-if="isAuthenticated()" class="gnb-item">
+				<router-link class="btn-gnb" active-class="on" to="/my-winning-number">My Page</router-link>
+			</li>
+			<!-- 고객센터 메뉴 (2뎁스) -->
+			<li class="gnb-item gnb-item-submenu" :class="{ 'open': isCustomerCenterOpen }">
+				<a href="javascript:void(0)" class="btn-gnb btn-gnb-parent" @click.prevent="toggleCustomerCenter">
+					<span>고객센터</span>
+					<span class="submenu-icon">{{ isCustomerCenterOpen ? '▲' : '▼' }}</span>
+				</a>
+				<ul class="gnb-submenu">
+					<li class="gnb-submenu-item">
+						<router-link class="btn-gnb-sub" :class="{ 'on': route.path.startsWith('/notice') }" to="/notice/list">공지사항</router-link>
+					</li>
+					<li class="gnb-submenu-item">
+						<router-link class="btn-gnb-sub" :class="{ 'on': route.path.startsWith('/inquiry') }" to="/inquiry/list">문의하기</router-link>
+					</li>
+					<li class="gnb-submenu-item">
+						<router-link class="btn-gnb-sub" :class="{ 'on': route.path === '/terms' && route.query.group === 'TOS' }" to="/terms?group=TOS">이용약관</router-link>
+					</li>
+					<li class="gnb-submenu-item">
+						<router-link class="btn-gnb-sub" :class="{ 'on': route.path === '/privacy-policy' }" to="/privacy-policy">개인정보처리방침</router-link>
+					</li>
+					<li class="gnb-submenu-item">
+						<router-link class="btn-gnb-sub" :class="{ 'on': route.path === '/terms' && route.query.group === 'PS' }" to="/terms?group=PS">유료서비스 약관</router-link>
+					</li>
+					<li class="gnb-submenu-item">
+						<router-link class="btn-gnb-sub" :class="{ 'on': route.path === '/terms' && route.query.group === 'CP' }" to="/terms?group=CP">크레딧 규칙</router-link>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</nav>
+
+	<!-- 모바일용 슬라이드 메뉴 -->
+	<div class="mobile-menu-overlay" :class="{ 'active': isMobileMenuOpen }" @click="closeMobileMenu"></div>
+	<nav class="gnb-mobile" :class="{ 'active': isMobileMenuOpen }">
+		<div class="mobile-menu-header">
+			<h3>메뉴</h3>
+			<button class="mobile-menu-close" @click="closeMobileMenu" title="닫기">
+				<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+				</svg>
+			</button>
+		</div>
+		<ul class="mobile-gnb-list">
+			<li class="mobile-gnb-item">
+				<router-link class="mobile-btn-gnb" active-class="on" to="/gameresult" @click="closeMobileMenu">
+					<span>회차 결과</span>
+				</router-link>
+			</li>
+			<li class="mobile-gnb-item">
+				<a href="javascript:void(0)" class="mobile-btn-gnb" :class="{ 'on': route.path === '/contact' }" @click.prevent="handleMobileNumberPickClick">
+					<span>번호 생성</span>
+				</a>
+			</li>
+			<li class="mobile-gnb-item">
+				<a href="javascript:void(0)" class="mobile-btn-gnb" :class="{ 'on': route.path === '/statistics' }" @click.prevent="handleMobileStatisticsClick">
+					<span>통계</span>
+				</a>
+			</li>
+			<li v-if="isAuthenticated()" class="mobile-gnb-item">
+				<router-link class="mobile-btn-gnb" active-class="on" to="/my-winning-number" @click="closeMobileMenu">
+					<span>My Page</span>
+				</router-link>
+			</li>
+			<!-- 고객센터 메뉴 (2뎁스) -->
+			<li class="mobile-gnb-item mobile-gnb-item-submenu" :class="{ 'open': isMobileCustomerCenterOpen }">
+				<a href="javascript:void(0)" class="mobile-btn-gnb mobile-btn-gnb-parent" @click.prevent="toggleMobileCustomerCenter">
+					<span>고객센터</span>
+					<span class="mobile-submenu-icon">{{ isMobileCustomerCenterOpen ? '▲' : '▼' }}</span>
+				</a>
+				<ul class="mobile-gnb-submenu">
+					<li class="mobile-gnb-submenu-item">
+						<router-link class="mobile-btn-gnb-sub" :class="{ 'on': route.path.startsWith('/notice') }" to="/notice/list" @click="closeMobileMenu">공지사항</router-link>
+					</li>
+					<li class="mobile-gnb-submenu-item">
+						<router-link class="mobile-btn-gnb-sub" :class="{ 'on': route.path.startsWith('/inquiry') }" to="/inquiry/list" @click="closeMobileMenu">문의하기</router-link>
+					</li>
+					<li class="mobile-gnb-submenu-item">
+						<router-link class="mobile-btn-gnb-sub" :class="{ 'on': route.path === '/terms' && route.query.group === 'TOS' }" to="/terms?group=TOS" @click="closeMobileMenu">이용약관</router-link>
+					</li>
+					<li class="mobile-gnb-submenu-item">
+						<router-link class="mobile-btn-gnb-sub" :class="{ 'on': route.path === '/privacy-policy' }" to="/privacy-policy" @click="closeMobileMenu">개인정보처리방침</router-link>
+					</li>
+					<li class="mobile-gnb-submenu-item">
+						<router-link class="mobile-btn-gnb-sub" :class="{ 'on': route.path === '/terms' && route.query.group === 'PS' }" to="/terms?group=PS" @click="closeMobileMenu">유료서비스 약관</router-link>
+					</li>
+					<li class="mobile-gnb-submenu-item">
+						<router-link class="mobile-btn-gnb-sub" :class="{ 'on': route.path === '/terms' && route.query.group === 'CP' }" to="/terms?group=CP" @click="closeMobileMenu">크레딧 규칙</router-link>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</nav>
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, onUnmounted, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { NModal } from 'naive-ui'
 import { usePremiumStore } from '@/stores/PremiumStore'
@@ -59,6 +164,28 @@ const route = useRoute()
 const eventStore = useEventStore();
 
 const premiumStore = usePremiumStore();
+
+// 모바일 메뉴 상태
+const isMobileMenuOpen = ref(false)
+// 고객센터 메뉴 열림 상태
+const isCustomerCenterOpen = ref(false)
+const isMobileCustomerCenterOpen = ref(false)
+
+// 고객센터 관련 경로인지 확인
+const isCustomerCenterRoute = computed(() => {
+	return route.path.startsWith('/notice') ||
+		   route.path.startsWith('/inquiry') ||
+		   (route.path === '/terms' && route.query.group) ||
+		   route.path === '/privacy-policy'
+})
+
+// 경로 변경 시 고객센터 메뉴 상태 업데이트
+watch(() => [route.path, route.query.group], () => {
+	if (isCustomerCenterRoute.value) {
+		isCustomerCenterOpen.value = true
+		isMobileCustomerCenterOpen.value = true
+	}
+}, { immediate: true })
 
 // 사용자 플랜 가져오기
 const userPlan = computed(() => {
@@ -115,6 +242,45 @@ function handleStatisticsClick() {
 	router.push('/statistics')
 }
 
+// 모바일 메뉴 토글
+function toggleMobileMenu() {
+	isMobileMenuOpen.value = !isMobileMenuOpen.value
+	if (isMobileMenuOpen.value) {
+		document.body.style.overflow = 'hidden'
+	} else {
+		document.body.style.overflow = ''
+	}
+}
+
+// 모바일 메뉴 닫기
+function closeMobileMenu() {
+	isMobileMenuOpen.value = false
+	document.body.style.overflow = ''
+}
+
+// 모바일 번호 생성 클릭 핸들러
+function handleMobileNumberPickClick() {
+	closeMobileMenu()
+	handleNumberPickClick()
+}
+
+// 모바일 통계 클릭 핸들러
+function handleMobileStatisticsClick() {
+	closeMobileMenu()
+	handleStatisticsClick()
+}
+
+// 고객센터 메뉴 토글 (PC)
+function toggleCustomerCenter() {
+	isCustomerCenterOpen.value = !isCustomerCenterOpen.value
+}
+
+
+// 고객센터 메뉴 토글 (모바일)
+function toggleMobileCustomerCenter() {
+	isMobileCustomerCenterOpen.value = !isMobileCustomerCenterOpen.value
+}
+
 // 홈으로 이동
 function goToHome() {
 	router.push('/home')
@@ -130,5 +296,10 @@ onMounted(() => {
 	window.addEventListener('lottovue:premium', handlePremiumStatus)
 	// Listen for user updated event
 	window.addEventListener('lottovue:userUpdated', handleUserUpdated)
+})
+
+onUnmounted(() => {
+	// 컴포넌트 언마운트 시 body overflow 초기화
+	document.body.style.overflow = ''
 })
 </script>

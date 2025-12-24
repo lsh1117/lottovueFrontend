@@ -55,6 +55,30 @@ const routes = [
         component: () => import(/* webpackChunkName: "myWinningNumber" */ '../views/MyWinningNumberView.vue'),
         meta: { hidden: true }
       },
+      {
+        path: 'notice/list',
+        name: 'NoticeListView',
+        component: () => import(/* webpackChunkName: "noticeList" */ '../views/NoticeListView.vue'),
+        meta: { hidden: true }
+      },
+      {
+        path: 'notice/:noticeId',
+        name: 'NoticeDetailView',
+        component: () => import(/* webpackChunkName: "noticeDetail" */ '../views/NoticeDetailView.vue'),
+        meta: { hidden: true }
+      },
+      {
+        path: 'inquiry/list',
+        name: 'InquiryListView',
+        component: () => import(/* webpackChunkName: "inquiryList" */ '../views/InquiryListView.vue'),
+        meta: { hidden: true }
+      },
+      {
+        path: 'inquiry/create',
+        name: 'InquiryCreateView',
+        component: () => import(/* webpackChunkName: "inquiryCreate" */ '../views/InquiryCreateView.vue'),
+        meta: { hidden: true }
+      },
     ],
   },
 ]

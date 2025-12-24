@@ -4203,6 +4203,18 @@ body[data-color-mode=dark] .ai-recommendation-popup .usage-info {
 .MyWinningNumberView {
   padding: 1rem;
 }
+@media (max-width: 768px) {
+  .MyWinningNumberView .ball-645 {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 2.5rem;
+  }
+  .MyWinningNumberView .ball-645-medium {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 2.5rem;
+  }
+}
 
 .warning-box {
   background-color: #fff3cd;

@@ -25,6 +25,6 @@ Object.keys(globalMethods).forEach((method) => {
 
 // 카카오 SDK 초기화
 window.Kakao.init('838a5c93a2abc20701620e873c519934'); // JavaScript 키를 여기에 넣으세요.
-console.log('Kakao SDK initialized:', window.Kakao.isInitialized());
+//console.log('Kakao SDK initialized:', window.Kakao.isInitialized());
 
 app.mount('#app')

@@ -12,7 +12,7 @@ export const kakaoLogin = () => {
 		window.Kakao.Auth.login({
 			scope: 'profile_nickname,account_email', // 요청 권한
 			success: (authObj) => {
-				console.log('Kakao authentication successful:', authObj);
+				//console.log('Kakao authentication successful:', authObj);
 				
 				// 액세스 토큰 반환
 				const accessToken = authObj.access_token;

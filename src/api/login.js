@@ -10,7 +10,7 @@ export default {
 	getKakaoLoginRedirectUrl: function () {
 		// 백엔드 API 엔드포인트만 호출 (redirect URI는 백엔드에서 관리)
 		const url = http.defaults.baseURL + 'auth/kakao/login/redirect'
-		console.log('카카오 로그인 API 호출:', url)
+		//console.log('카카오 로그인 API 호출:', url)
 		return url
 	},
 	
@@ -22,7 +22,7 @@ export default {
 	getKakaoSignupRedirectUrl: function () {
 		// 백엔드 API 엔드포인트만 호출 (redirect URI는 백엔드에서 관리)
 		const url = http.defaults.baseURL + 'auth/kakao/signup/redirect'
-		console.log('카카오 회원가입 API 호출:', url)
+		//console.log('카카오 회원가입 API 호출:', url)
 		return url
 	},
 	

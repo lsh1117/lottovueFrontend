@@ -14,7 +14,7 @@ let http = axios.create({
 // 인터셉터 추가
 http.interceptors.request.use(
 	config => {
-		console.log('API 요청:', config.method?.toUpperCase(), config.url)
+		//console.log('API 요청:', config.method?.toUpperCase(), config.url)
 		
 		// JWT 토큰이 있으면 헤더에 추가
 		const token = getToken()
@@ -33,7 +33,7 @@ http.interceptors.request.use(
 //응답 인터셉터
 http.interceptors.response.use(
 	res => {
-		console.log('API 응답 성공:', res.config.url, res.status)
+		//console.log('API 응답 성공:', res.config.url, res.status)
 		return res.data
 	},
 	err => {

@@ -17,7 +17,7 @@ const drwStore = useDrwStore();
 // 모든 회차 정보 가져오기 (페이지네이션 방식)
 async function fetchAllDraws() {
 	try {
-		console.log('모든 회차 정보 요청 시작...');
+		//console.log('모든 회차 정보 요청 시작...');
 		const allData = [];
 		const limit = 1000; // 한 번에 가져올 최대 개수
 		let skip = 0;
@@ -40,7 +40,7 @@ async function fetchAllDraws() {
 			}
 		}
 		
-		console.log('회차 정보 응답:', allData);
+		//console.log('회차 정보 응답:', allData);
 		
 		// 회차번호 내림차순 정렬 (최신 회차가 먼저)
 		const sortedData = allData.sort((a, b) => b.drw_no - a.drw_no);
@@ -75,7 +75,7 @@ async function fetchAllDraws() {
 		}));
 		
 		drwStore.setNumbers(convertedData);
-		console.log('모든 회차 정보를 DrwStore에 저장 완료:', convertedData.length, '개');
+		//console.log('모든 회차 정보를 DrwStore에 저장 완료:', convertedData.length, '개');
 	} catch (err) {
 		console.error('회차 정보를 가져오는데 실패했습니다:', err);
 		// 에러가 발생해도 앱은 계속 실행되도록 함

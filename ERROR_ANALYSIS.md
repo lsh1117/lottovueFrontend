@@ -121,8 +121,8 @@ cd C:\dev\workspace\lottovue\backend\lottovue-backend
 ```javascript
 // 브라우저 콘솔에서 실행
 const token = sessionStorage.getItem('lottovue_access_token');
-console.log('토큰 존재:', !!token);
-console.log('토큰:', token);
+//console.log('토큰 존재:', !!token);
+//console.log('토큰:', token);
 ```
 
 ## 예상되는 해결 방법

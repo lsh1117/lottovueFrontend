@@ -1,127 +1,181 @@
 <template>
 	<div class="HomeView">
-		<section class="section section-area" v-if="result && result.drw_no">
+		<!-- 히어로 섹션: 로또뷰 소개 -->
+		<section class="section section-area hero-section">
 			<div class="section-header">
-				<h4 class="title-big">
-					<strong>{{ result.drw_no }}회</strong> 당첨결과
-				</h4>
-				<p><span class="text-description-medium">({{ formatDate(result.drw_no_date) }} 추첨)</span></p>
+				<h1 class="hero-title">로또뷰</h1>
+				<p class="hero-subtitle">스마트한 로또 번호 분석과 추천 서비스</p>
+				<p class="hero-description">
+					로또뷰는 통계 기반 분석과 AI 추천 기능을 통해<br>
+					더 나은 로또 번호 선택을 도와드립니다.
+				</p>
+			</div>
+		</section>
+
+		<!-- 주요 기능 소개 -->
+		<section class="section section-area features-section">
+			<div class="section-header">
+				<h2 class="title-big">주요 기능</h2>
 			</div>
 			<div class="section-body">
-				<div class="nums">
-					<!-- 당첨 번호 -->
-					<div class="num-win">
-						<h4 class="title-medium">당첨번호</h4>
-						<div class="ball-area">
-							<ul class="ball-list">
-								<li class="ball-item" v-for="(number, index) in winningNumbers" :key="index">
-									<span class="ball-645" :class="'ball-' + getGroup(number)">{{ number }}</span>
-								</li>
-							</ul>
-						</div>
+				<div class="features-grid">
+					<div class="feature-card">
+						<div class="feature-icon">📊</div>
+						<h3 class="feature-title">통계 분석</h3>
+						<p class="feature-description">
+							과거 당첨 번호를 기반으로 한<br>
+							다양한 통계 분석 제공
+						</p>
 					</div>
-					<!-- 보너스 번호 -->
-					<div class="num-bonus">
-						<h4 class="title-medium">보너스</h4>
-						<div class="ball-area">
-							<ul class="ball-list">
-								<li class="ball-item">
-									<span class="ball-645"
-										:class="'ball-' + getGroup(result.bnus_no)">{{ result.bnus_no }}</span>
-								</li>
-							</ul>
-						</div>
+					<div class="feature-card">
+						<div class="feature-icon">🤖</div>
+						<h3 class="feature-title">AI 추천</h3>
+						<p class="feature-description">
+							통계 기반 AI 분석을 통한<br>
+							스마트한 번호 추천
+						</p>
+					</div>
+					<div class="feature-card">
+						<div class="feature-icon">💾</div>
+						<h3 class="feature-title">번호 저장</h3>
+						<p class="feature-description">
+							생성한 번호를 저장하고<br>
+							관리할 수 있습니다
+						</p>
+					</div>
+					<div class="feature-card">
+						<div class="feature-icon">🎯</div>
+						<h3 class="feature-title">당첨 결과 확인</h3>
+						<p class="feature-description">
+							최신 당첨 결과를 확인하고<br>
+							내 번호와 비교해보세요
+						</p>
 					</div>
 				</div>
 			</div>
 		</section>
-		<section class="section section-area" v-else-if="loading">
-			<div class="section-body">
-				<p class="text-description-medium" style="text-align: center;">로딩 중...</p>
+
+		<!-- 유료 플랜 소개 -->
+		<section class="section section-area plans-section">
+			<div class="section-header">
+				<h2 class="title-big">플랜 선택</h2>
+				<p class="section-description">나에게 맞는 플랜을 선택하세요</p>
 			</div>
-		</section>
-		<section class="section section-area" v-else-if="error">
 			<div class="section-body">
-				<p class="text-description-medium" style="text-align: center; color: #ff4444;">{{ error }}</p>
-			</div>
-		</section>
-		<section class="section section-area" v-else>
-			<div class="section-body">
-				<p class="text-description-medium" style="text-align: center;">데이터 없음</p>
+				<div class="plan-list">
+					<!-- Free 플랜 -->
+					<div class="plan-card">
+						<div class="plan-header">
+							<div class="plan-badge free-badge">
+								<svg viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<defs>
+										<linearGradient id="homeGreenGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+											<stop offset="0%" style="stop-color:#4CAF50;stop-opacity:1" />
+											<stop offset="50%" style="stop-color:#66BB6A;stop-opacity:1" />
+											<stop offset="100%" style="stop-color:#81C784;stop-opacity:1" />
+										</linearGradient>
+									</defs>
+									<rect x="0" y="0" width="80" height="32" rx="16" fill="url(#homeGreenGradient)"/>
+									<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">free</text>
+								</svg>
+							</div>
+							<h3 class="plan-title">Free 플랜</h3>
+							<p class="plan-price">무료</p>
+						</div>
+						<div class="plan-features">
+							<ul>
+								<li>회차별 최대 <strong>2개</strong>까지 생성 번호 저장</li>
+								<li>주간 크레딧: <strong>2개</strong></li>
+								<li>모든 통계 기능</li>
+							</ul>
+						</div>
+						<div class="plan-action">
+							<button class="btn btn-secondary btn-large" disabled>
+								현재 플랜
+							</button>
+						</div>
+					</div>
+
+					<!-- Pro 플랜 -->
+					<div class="plan-card recommended">
+						<div class="plan-badge-recommended">추천</div>
+						<div class="plan-header">
+							<div class="plan-badge premium-badge">
+								<svg viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<defs>
+										<linearGradient id="homeGoldGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+											<stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
+											<stop offset="50%" style="stop-color:#FFA500;stop-opacity:1" />
+											<stop offset="100%" style="stop-color:#FF8C00;stop-opacity:1" />
+										</linearGradient>
+									</defs>
+									<rect x="0" y="0" width="80" height="32" rx="16" fill="url(#homeGoldGradient)"/>
+									<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">pro</text>
+								</svg>
+							</div>
+							<h3 class="plan-title">Pro 플랜</h3>
+							<p class="plan-price">월 990원</p>
+						</div>
+						<div class="plan-features">
+							<ul>
+								<li>회차별 최대 <strong>100개</strong>까지 생성 번호 저장</li>
+								<li>주간 크레딧: <strong>100개</strong></li>
+								<li>모든 통계 기능</li>
+								<li>통계 기반 AI 분석 기능</li>
+							</ul>
+						</div>
+						<div class="plan-action">
+							<button class="btn btn-primary btn-large" @click="goToPlanUpgrade">
+								구독하기
+							</button>
+						</div>
+					</div>
+
+					<!-- Max 플랜 -->
+					<div class="plan-card">
+						<div class="plan-header">
+							<div class="plan-badge max-badge">
+								<svg viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<defs>
+										<linearGradient id="homePurpleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+											<stop offset="0%" style="stop-color:#9C27B0;stop-opacity:1" />
+											<stop offset="50%" style="stop-color:#7B1FA2;stop-opacity:1" />
+											<stop offset="100%" style="stop-color:#6A1B9A;stop-opacity:1" />
+										</linearGradient>
+									</defs>
+									<rect x="0" y="0" width="80" height="32" rx="16" fill="url(#homePurpleGradient)"/>
+									<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">max</text>
+								</svg>
+							</div>
+							<h3 class="plan-title">Max 플랜</h3>
+							<p class="plan-price">월 4,900원</p>
+						</div>
+						<div class="plan-features">
+							<ul>
+								<li>회차별 최대 <strong>1000개</strong>까지 생성 번호 저장</li>
+								<li>주간 크레딧: <strong>1000개</strong></li>
+								<li>모든 통계 기능</li>
+								<li>통계 기반 AI 분석 기능</li>
+							</ul>
+						</div>
+						<div class="plan-action">
+							<button class="btn btn-primary btn-large" @click="goToPlanUpgrade">
+								구독하기
+							</button>
+						</div>
+					</div>
+				</div>
 			</div>
 		</section>
 	</div>
 </template>
 
 <script setup>
-	import { onMounted, onBeforeUnmount, ref, computed } from "vue";
-	import { getLatestDraw } from "@/api/lotto";
+	import { useRouter } from "vue-router";
 
-	const result = ref(null);
-	const loading = ref(false);
-	const error = ref(null);
+	const router = useRouter();
 
-	const winningNumbers = computed(() => {
-		if (!result.value) return []
-		return [
-			result.value.drwt_no1,
-			result.value.drwt_no2,
-			result.value.drwt_no3,
-			result.value.drwt_no4,
-			result.value.drwt_no5,
-			result.value.drwt_no6,
-		]
-	})
-
-	// 그룹(색상) 계산 함수
-	function getGroup(number) {
-		// (number - 1)을 10으로 나누고 1을 더해 그룹 계산
-		return Math.floor((number - 1) / 10) + 1;
+	function goToPlanUpgrade() {
+		router.push('/plan-upgrade');
 	}
-
-	// 날짜 포맷팅 함수
-	function formatDate(dateString) {
-		if (!dateString) return ''
-		// YYYY-MM-DD 형식으로 반환
-		return dateString
-	}
-
-	// 최신 당첨 정보 가져오기
-	async function fetchLatestDraw() {
-		loading.value = true
-		error.value = null
-		try {
-			//console.log('최신 당첨 정보 요청 시작...')
-			const data = await getLatestDraw()
-			//console.log('최신 당첨 정보 응답:', data)
-			result.value = data
-		} catch (err) {
-			console.error('최신 당첨 정보를 가져오는데 실패했습니다:', err)
-			console.error('에러 상세:', {
-				message: err.message,
-				code: err.code,
-				response: err.response,
-				status: err.response?.status,
-				data: err.response?.data,
-				config: err.config
-			})
-			
-			// 타임아웃 또는 네트워크 에러인 경우 사용자 친화적인 메시지 표시
-			if (err.code === 'ECONNABORTED' || err.message?.includes('timeout')) {
-				error.value = '서버 응답이 지연되고 있습니다. 잠시 후 다시 시도해주세요.'
-			} else if (err.code === 'ERR_NETWORK' || !err.response) {
-				error.value = '서버에 연결할 수 없습니다. 백엔드 서버가 실행 중인지 확인해주세요.'
-			} else {
-				error.value = err.response?.data?.detail || err.message || '데이터를 불러올 수 없습니다.'
-			}
-			result.value = null
-		} finally {
-			loading.value = false
-		}
-	}
-	
-	onMounted(() => {
-		fetchLatestDraw()
-	})
-
 </script>

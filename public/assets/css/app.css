@@ -3433,12 +3433,334 @@ body[data-color-mode=dark] .GameResultView .info-table td strong {
 
 .HomeView {
   margin-top: 5rem;
+  padding: 0 20px;
+}
+.HomeView .section-area {
+  margin-bottom: 4rem;
 }
 .HomeView .section-area .section-header .title-big {
+  font-size: 2.5rem;
+  line-height: 140%;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
   text-align: center;
+  margin-bottom: 1rem;
 }
+body[data-color-mode=dark] .HomeView .section-area .section-header .title-big {
+  color: rgb(22, 22, 22);
+}
+
 .HomeView .section-area .section-header p {
   text-align: center;
+}
+.HomeView .hero-section {
+  padding: 4rem 0;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(37, 137, 244, 0.1) 0%, rgba(8, 113, 243, 0.05) 100%);
+  border-radius: 16px;
+  margin-bottom: 4rem;
+}
+.HomeView .hero-section .hero-title {
+  font-size: 2.9rem;
+  line-height: 137.931%;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #2589F4 0%, #0871F3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+body[data-color-mode=dark] .HomeView .hero-section .hero-title {
+  color: rgb(22, 22, 22);
+}
+
+.HomeView .hero-section .hero-subtitle {
+  font-size: 2.5rem;
+  line-height: 140%;
+  font-weight: 600;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
+  margin-bottom: 1rem;
+}
+body[data-color-mode=dark] .HomeView .hero-section .hero-subtitle {
+  color: rgb(22, 22, 22);
+}
+
+.HomeView .hero-section .hero-description {
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
+  line-height: 1.8;
+}
+body[data-color-mode=dark] .HomeView .hero-section .hero-description {
+  color: rgb(22, 22, 22);
+}
+
+.HomeView .features-section .features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+@media (max-width: 768px) {
+  .HomeView .features-section .features-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+.HomeView .features-section .feature-card {
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  text-align: center;
+  -webkit-transition: -webkit-transform 0.3s ease, -webkit-box-shadow 0.3s ease;
+  transition: -webkit-transform 0.3s ease, -webkit-box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, -webkit-transform 0.3s ease, -webkit-box-shadow 0.3s ease;
+}
+.HomeView .features-section .feature-card:hover {
+  -webkit-transform: translateY(-5px);
+          transform: translateY(-5px);
+  -webkit-box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+.HomeView .features-section .feature-card .feature-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.HomeView .features-section .feature-card .feature-title {
+  font-size: 2rem;
+  line-height: 140%;
+  font-weight: 600;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
+  margin-bottom: 0.8rem;
+}
+body[data-color-mode=dark] .HomeView .features-section .feature-card .feature-title {
+  color: rgba(248, 249, 252, 0.9);
+}
+
+.HomeView .features-section .feature-card .feature-description {
+  font-size: 1.2rem;
+  line-height: 1.429;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(12, 23, 35, 0.6);
+  line-height: 1.6;
+}
+body[data-color-mode=dark] .HomeView .features-section .feature-card .feature-description {
+  color: rgba(228, 234, 241, 0.74);
+}
+
+.HomeView .plans-section .section-description {
+  text-align: center;
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
+  margin-bottom: 2rem;
+}
+body[data-color-mode=dark] .HomeView .plans-section .section-description {
+  color: rgb(22, 22, 22);
+}
+
+.HomeView .plans-section .plan-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: stretch;
+      -ms-flex-align: stretch;
+          align-items: stretch;
+  gap: 20px;
+  margin-top: 2rem;
+}
+@media (max-width: 768px) {
+  .HomeView .plans-section .plan-list {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: stretch;
+        -ms-flex-align: stretch;
+            align-items: stretch;
+    gap: 16px;
+  }
+}
+.HomeView .plans-section .plan-card {
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 24px;
+  background: white;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: relative;
+}
+.HomeView .plans-section .plan-card.recommended {
+  border-color: #FFD700;
+  -webkit-box-shadow: 0 4px 12px rgba(255, 215, 0, 0.2);
+          box-shadow: 0 4px 12px rgba(255, 215, 0, 0.2);
+}
+.HomeView .plans-section .plan-card .plan-badge-recommended {
+  position: absolute;
+  top: -12px;
+  right: 20px;
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  font-size: 1.1rem;
+  line-height: 1.334;
+  font-weight: 600;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
+  padding: 4px 16px;
+  border-radius: 12px;
+}
+body[data-color-mode=dark] .HomeView .plans-section .plan-card .plan-badge-recommended {
+  color: #16181a;
+}
+
+.HomeView .plans-section .plan-card .plan-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.HomeView .plans-section .plan-card .plan-badge {
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin-bottom: 12px;
+}
+.HomeView .plans-section .plan-card .plan-badge svg {
+  width: 64px;
+  height: 24px;
+}
+.HomeView .plans-section .plan-card .plan-title {
+  font-size: 20px;
+  line-height: 140%;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
+  margin: 12px 0 8px 0;
+}
+body[data-color-mode=dark] .HomeView .plans-section .plan-card .plan-title {
+  color: rgba(248, 249, 252, 0.9);
+}
+
+@media (max-width: 768px) {
+  .HomeView .plans-section .plan-card .plan-title {
+    font-size: 20px;
+    line-height: 140%;
+    font-weight: 700;
+    font-family: "Pretendard";
+    color: rgba(7, 15, 22, 0.82);
+    margin: 10px 0 6px 0;
+  }
+  body[data-color-mode=dark] .HomeView .plans-section .plan-card .plan-title {
+    color: rgba(248, 249, 252, 0.9);
+  }
+}
+.HomeView .plans-section .plan-card .plan-price {
+  font-size: 20px;
+  line-height: 140%;
+  font-weight: 600;
+  font-family: "Pretendard";
+  color: rgba(12, 23, 35, 0.6);
+  margin: 0;
+}
+body[data-color-mode=dark] .HomeView .plans-section .plan-card .plan-price {
+  color: rgba(228, 234, 241, 0.74);
+}
+
+@media (max-width: 768px) {
+  .HomeView .plans-section .plan-card .plan-price {
+    font-size: 20px;
+    line-height: 140%;
+    font-weight: 600;
+    font-family: "Pretendard";
+    color: rgba(12, 23, 35, 0.6);
+  }
+  body[data-color-mode=dark] .HomeView .plans-section .plan-card .plan-price {
+    color: rgba(228, 234, 241, 0.74);
+  }
+}
+.HomeView .plans-section .plan-card .plan-features {
+  margin: 24px 0;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.HomeView .plans-section .plan-card .plan-features ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.HomeView .plans-section .plan-card .plan-features li {
+  padding: 10px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(12, 23, 35, 0.6);
+}
+body[data-color-mode=dark] .HomeView .plans-section .plan-card .plan-features li {
+  color: rgba(228, 234, 241, 0.74);
+}
+
+.HomeView .plans-section .plan-card .plan-features li:last-child {
+  border-bottom: none;
+}
+.HomeView .plans-section .plan-card .plan-features li strong {
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 600;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
+}
+body[data-color-mode=dark] .HomeView .plans-section .plan-card .plan-features li strong {
+  color: rgba(248, 249, 252, 0.9);
+}
+
+.HomeView .plans-section .plan-card .plan-action {
+  margin-top: auto;
+  padding-top: 24px;
+}
+.HomeView .plans-section .plan-card .plan-action button {
+  width: 100%;
+}
+@media (max-width: 768px) {
+  .HomeView .plans-section .plan-card .plan-action {
+    padding-top: 20px;
+  }
+}
+@media (max-width: 768px) {
+  .HomeView .plans-section .plan-card {
+    padding: 20px;
+  }
 }
 
 .StatisticsView {
@@ -4433,4 +4755,4 @@ body[data-color-mode=dark] .warning-footer .n-checkbox {
   position: absolute;
   top: -100000px;
   left: 0;
-}
+}/*# sourceMappingURL=app.css.map */

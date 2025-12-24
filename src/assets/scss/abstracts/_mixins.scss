@@ -180,26 +180,46 @@
  * - 적용방법
     @include font-rem-package($size: 폰트사이즈, $height: 폰트 높이 간격, $weight: 폰트 굵기, $family: 폰트 종류)
  */
-@mixin font-rem-package($size: 14, $height: 1.5, $weight: 400, $color: color-text-gray-800, $pxType: false, $maxSize: false) {
+@mixin font-rem-package($size: 14, $height: 1.5, $weight: 400, $color: color-text-gray-800, $pxType: false, $maxSize: false, $important: false) {
     $family: 'Pretendard';
-    @if($pxType){
-        font-size: ($size) + px;
-    } @else {
-        $size: ($size * 0.1) + rem;
-        @if($maxSize) {
-            font-size: min($size, $maxSize);
+    @if($important) {
+        @if($pxType){
+            font-size: ($size) + px !important;
         } @else {
-            font-size: $size;
+            $size: ($size * 0.1) + rem;
+            @if($maxSize) {
+                font-size: min($size, $maxSize) !important;
+            } @else {
+                font-size: $size !important;
+            }
         }
+        line-height: $height !important;
+        font-weight: $weight !important;
+        font-family: $family !important;
+    } @else {
+        @if($pxType){
+            font-size: ($size) + px;
+        } @else {
+            $size: ($size * 0.1) + rem;
+            @if($maxSize) {
+                font-size: min($size, $maxSize);
+            } @else {
+                font-size: $size;
+            }
+        }
+        line-height: $height;
+        font-weight: $weight;
+        font-family: $family;
     }
-    line-height: $height;
-    font-weight: $weight;
-    font-family: $family;
 	// color: $color
     @if($color == false) {
         @warn 'none color';
     } @else {
-        @include themeProperty(color, $color);
+        @if($important) {
+            @include themeProperty(color, $color, $imp: true);
+        } @else {
+            @include themeProperty(color, $color);
+        }
     }
 }
 
@@ -211,68 +231,68 @@
 /* H1
  * - 화면에서 예외적으로 크게 강조되어야 하는 타이틀이나 금액 등에서 사용
  */
-@mixin text-H1-Bold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(29, 137.931%, 700, $color, $pxType, $maxSize); // line-height : 40px
+@mixin text-H1-Bold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(29, 137.931%, 700, $color, $pxType, $maxSize, $important); // line-height : 40px
 }
 
-@mixin text-H1-SemiBold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(29, 137.931%, 600, $color, $pxType, $maxSize); // line-height : 40px
+@mixin text-H1-SemiBold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(29, 137.931%, 600, $color, $pxType, $maxSize, $important); // line-height : 40px
 }
 
-@mixin text-H1-Medium($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(29, 137.931%, 500, $color, $pxType, $maxSize); // line-height : 40px
+@mixin text-H1-Medium($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(29, 137.931%, 500, $color, $pxType, $maxSize, $important); // line-height : 40px
 }
 
 /* H2
  * - 가장 큰 사이즈의 타이틀
  * - 두 줄 이상의 문장형 텍스트에 스타일로 사용
  */
-@mixin text-H2-Bold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(25, 140%, 700, $color, $pxType, $maxSize); // line-height : 35px
+@mixin text-H2-Bold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(25, 140%, 700, $color, $pxType, $maxSize, $important); // line-height : 35px
 }
 
-@mixin text-H2-SemiBold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(25, 140%, 600, $color, $pxType, $maxSize); // line-height : 35px
+@mixin text-H2-SemiBold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(25, 140%, 600, $color, $pxType, $maxSize, $important); // line-height : 35px
 }
 
-@mixin text-H2-Medium($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(25, 140%, 500, $color, $pxType, $maxSize); // line-height : 35px
+@mixin text-H2-Medium($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(25, 140%, 500, $color, $pxType, $maxSize, $important); // line-height : 35px
 }
 
 /* H3
  * - 큰 사이즈의 타이틀
  * - 두 줄 이상의 문장형 텍스트에 스타일로 사용
  */
-@mixin text-H3-Bold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(18, 136.364%, 700, $color, $pxType, $maxSize); // line-height : 30px
+@mixin text-H3-Bold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(18, 136.364%, 700, $color, $pxType, $maxSize, $important); // line-height : 30px
 }
 
-@mixin text-H3-SemiBold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(18, 136.364%, 600, $color, $pxType, $maxSize); // line-height : 30px
+@mixin text-H3-SemiBold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(18, 136.364%, 600, $color, $pxType, $maxSize, $important); // line-height : 30px
 }
 
-@mixin text-H3-Medium($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(18, 136.364%, 500, $color, $pxType, $maxSize); // line-height : 30px
+@mixin text-H3-Medium($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(18, 136.364%, 500, $color, $pxType, $maxSize, $important); // line-height : 30px
 }
 
 /* H4
  * - 보통 사이즈의 타이틀
  * - 두 줄 이상의 문장형 텍스트에 스타일로 사용
  */
-@mixin text-H4-Bold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(20, 140%, 700, $color, $pxType, $maxSize); // line-height : 28px
+@mixin text-H4-Bold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(20, 140%, 700, $color, $pxType, $maxSize, $important); // line-height : 28px
 }
 
-@mixin text-H4-SemiBold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(20, 140%, 600, $color, $pxType, $maxSize); // line-height : 28px
+@mixin text-H4-SemiBold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(20, 140%, 600, $color, $pxType, $maxSize, $important); // line-height : 28px
 }
 
-@mixin text-H4-Medium($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(20, 140%, 500, $color, $pxType, $maxSize); // line-height : 28px
+@mixin text-H4-Medium($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(20, 140%, 500, $color, $pxType, $maxSize, $important); // line-height : 28px
 }
 
-@mixin text-H4-Regular($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(20, 140%, 400, $color, $pxType, $maxSize); // line-height : 28px
+@mixin text-H4-Regular($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(20, 140%, 400, $color, $pxType, $maxSize, $important); // line-height : 28px
 }
 
 /* H5
@@ -280,142 +300,142 @@
  * - H5 이하는 화면을 대표하는 타이틀로 사용할 수 없음
  * - 주 사용 Weight는 SemiBold
  */
-@mixin text-H5-Bold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(17, 1.412, 700, $color, $pxType, $maxSize); // line-height : 24px
+@mixin text-H5-Bold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(17, 1.412, 700, $color, $pxType, $maxSize, $important); // line-height : 24px
 }
 
-@mixin text-H5-SemiBold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(17, 1.412, 600, $color, $pxType, $maxSize); // line-height : 24px
+@mixin text-H5-SemiBold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(17, 1.412, 600, $color, $pxType, $maxSize, $important); // line-height : 24px
 }
 
-@mixin text-H5-Medium($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(17, 1.412, 500, $color, $pxType, $maxSize); // line-height : 24px
+@mixin text-H5-Medium($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(17, 1.412, 500, $color, $pxType, $maxSize, $important); // line-height : 24px
 }
 
-@mixin text-H5-Regular($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(17, 1.412, 400, $color, $pxType, $maxSize); // line-height : 24px
+@mixin text-H5-Regular($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(17, 1.412, 400, $color, $pxType, $maxSize, $important); // line-height : 24px
 }
 
 /* H6
  * - 리스트, 카드 등 컴포넌트 항목의 타이틀로 사용
  * - 두 줄 이상의 문장형 텍스트에 스타일로 사용
  */
-@mixin text-H6-Bold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(16, 1.375, 700, $color, $pxType, $maxSize); // line-height : 22px
+@mixin text-H6-Bold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(16, 1.375, 700, $color, $pxType, $maxSize, $important); // line-height : 22px
 }
 
-@mixin text-H6-SemiBold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(16, 1.375, 600, $color, $pxType, $maxSize); // line-height : 22px
+@mixin text-H6-SemiBold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(16, 1.375, 600, $color, $pxType, $maxSize, $important); // line-height : 22px
 }
 
-@mixin text-H6-Medium($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(16, 1.375, 500, $color, $pxType, $maxSize); // line-height : 22px
+@mixin text-H6-Medium($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(16, 1.375, 500, $color, $pxType, $maxSize, $important); // line-height : 22px
 }
 
-@mixin text-H6-Regular($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(16, 1.375, 400, $color, $pxType, $maxSize); // line-height : 22px
+@mixin text-H6-Regular($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(16, 1.375, 400, $color, $pxType, $maxSize, $important); // line-height : 22px
 }
 
 /* B1 */
-@mixin text-B1-Bold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(14, 140%, 700, $color, $pxType, $maxSize); // line-height : 21px
+@mixin text-B1-Bold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(14, 140%, 700, $color, $pxType, $maxSize, $important); // line-height : 21px
 }
 
-@mixin text-B1-SemiBold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(14, 140%, 600, $color, $pxType, $maxSize); // line-height : 21px
+@mixin text-B1-SemiBold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(14, 140%, 600, $color, $pxType, $maxSize, $important); // line-height : 21px
 }
 
-@mixin text-B1-Medium($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(14, 140%, 500, $color, $pxType, $maxSize); // line-height : 21px
+@mixin text-B1-Medium($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(14, 140%, 500, $color, $pxType, $maxSize, $important); // line-height : 21px
 }
 
-@mixin text-B1-Regular($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(14, 140%, 400, $color, $pxType, $maxSize); // line-height : 21px
+@mixin text-B1-Regular($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(14, 140%, 400, $color, $pxType, $maxSize, $important); // line-height : 21px
 }
 
 /* B2 */
-@mixin text-B2-Bold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(12, 1.429, 700, $color, $pxType, $maxSize); // line-height : 20px
+@mixin text-B2-Bold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(12, 1.429, 700, $color, $pxType, $maxSize, $important); // line-height : 20px
 }
 
-@mixin text-B2-SemiBold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(12, 1.429, 600, $color, $pxType, $maxSize); // line-height : 20px
+@mixin text-B2-SemiBold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(12, 1.429, 600, $color, $pxType, $maxSize, $important); // line-height : 20px
 }
 
-@mixin text-B2-Medium($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(12, 1.429, 500, $color, $pxType, $maxSize); // line-height : 20px
+@mixin text-B2-Medium($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(12, 1.429, 500, $color, $pxType, $maxSize, $important); // line-height : 20px
 }
 
-@mixin text-B2-Regular($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(12, 1.429, 400, $color, $pxType, $maxSize); // line-height : 20px
+@mixin text-B2-Regular($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(12, 1.429, 400, $color, $pxType, $maxSize, $important); // line-height : 20px
 }
 
 /* D1 */
-@mixin text-D1-Bold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(12, 1.385, 700, $color, $pxType, $maxSize); // line-height : 18px
+@mixin text-D1-Bold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(12, 1.385, 700, $color, $pxType, $maxSize, $important); // line-height : 18px
 }
 
-@mixin text-D1-SemiBold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(12, 1.385, 600, $color, $pxType, $maxSize); // line-height : 18px
+@mixin text-D1-SemiBold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(12, 1.385, 600, $color, $pxType, $maxSize, $important); // line-height : 18px
 }
 
-@mixin text-D1-Medium($color, $pxType: false, $maxSize: false){
-    @include font-rem-package(12, 1.385, 500, $color, $pxType, $maxSize); // line-height : 18px
+@mixin text-D1-Medium($color, $pxType: false, $maxSize: false, $important: false){
+    @include font-rem-package(12, 1.385, 500, $color, $pxType, $maxSize, $important); // line-height : 18px
 }
 
-@mixin text-D1-Regular($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(12, 1.385, 400, $color, $pxType, $maxSize); // line-height : 18px
+@mixin text-D1-Regular($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(12, 1.385, 400, $color, $pxType, $maxSize, $important); // line-height : 18px
 }
 
 /* D2 */
-@mixin text-D2-Bold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(11, 1.334, 700, $color, $pxType, $maxSize); // line-height : 16px
+@mixin text-D2-Bold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(11, 1.334, 700, $color, $pxType, $maxSize, $important); // line-height : 16px
 }
 
-@mixin text-D2-SemiBold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(11, 1.334, 600, $color, $pxType, $maxSize); // line-height : 16px
+@mixin text-D2-SemiBold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(11, 1.334, 600, $color, $pxType, $maxSize, $important); // line-height : 16px
 }
 
-@mixin text-D2-Medium($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(11, 1.334, 500, $color, $pxType, $maxSize); // line-height : 16px
+@mixin text-D2-Medium($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(11, 1.334, 500, $color, $pxType, $maxSize, $important); // line-height : 16px
 }
 
-@mixin text-D2-Regular($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(11, 1.334, 400, $color, $pxType, $maxSize); // line-height : 16px
+@mixin text-D2-Regular($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(11, 1.334, 400, $color, $pxType, $maxSize, $important); // line-height : 16px
 }
 
 /* D3 */
-@mixin text-D3-Bold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(11, 136.364%, 700, $color, $pxType, $maxSize); // line-height : 15px
+@mixin text-D3-Bold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(11, 136.364%, 700, $color, $pxType, $maxSize, $important); // line-height : 15px
 }
 
-@mixin text-D3-SemiBold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(11, 136.364%, 600, $color, $pxType, $maxSize); // line-height : 15px
+@mixin text-D3-SemiBold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(11, 136.364%, 600, $color, $pxType, $maxSize, $important); // line-height : 15px
 }
 
-@mixin text-D3-Medium($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(11, 136.364%, 500, $color, $pxType, $maxSize); // line-height : 15px
+@mixin text-D3-Medium($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(11, 136.364%, 500, $color, $pxType, $maxSize, $important); // line-height : 15px
 }
 
-@mixin text-D3-Regular($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(11, 136.364%, 400, $color, $pxType, $maxSize); // line-height : 15px
+@mixin text-D3-Regular($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(11, 136.364%, 400, $color, $pxType, $maxSize, $important); // line-height : 15px
 }
 
 /* D4 */
-@mixin text-D4-Bold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(10, 140%, 700, $color, $pxType, $maxSize); // line-height : 14px
+@mixin text-D4-Bold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(10, 140%, 700, $color, $pxType, $maxSize, $important); // line-height : 14px
 }
 
-@mixin text-D4-SemiBold($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(10, 140%, 600, $color, $pxType, $maxSize); // line-height : 14px
+@mixin text-D4-SemiBold($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(10, 140%, 600, $color, $pxType, $maxSize, $important); // line-height : 14px
 }
 
-@mixin text-D4-Medium($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(10, 140%, 500, $color, $pxType, $maxSize); // line-height : 14px
+@mixin text-D4-Medium($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(10, 140%, 500, $color, $pxType, $maxSize, $important); // line-height : 14px
 }
 
-@mixin text-D4-Regular($color, $pxType: false, $maxSize: false) {
-    @include font-rem-package(10, 140%, 400, $color, $pxType, $maxSize); // line-height : 14px
+@mixin text-D4-Regular($color, $pxType: false, $maxSize: false, $important: false) {
+    @include font-rem-package(10, 140%, 400, $color, $pxType, $maxSize, $important); // line-height : 14px
 }
 
 @mixin box-bg-gray($color: 300, $size: normal) {

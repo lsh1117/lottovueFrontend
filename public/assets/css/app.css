@@ -1400,9 +1400,9 @@ body[data-color-mode=dark] .box.box-round-bg {
 .ball-645 {
   position: relative;
   display: block;
-  width: 5rem;
-  height: 5rem;
-  border-radius: 5rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 3rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1412,16 +1412,16 @@ body[data-color-mode=dark] .box.box-round-bg {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  font-size: 1.4rem;
-  line-height: 140%;
-  font-weight: 400;
-  font-family: "Pretendard";
-  color: rgb(255, 255, 255);
+  font-size: 1.4rem !important;
+  line-height: 140% !important;
+  font-weight: 400 !important;
+  font-family: "Pretendard" !important;
+  color: rgb(255, 255, 255) !important;
   text-shadow: 1px 1px 2px #222;
   color: rgb(255, 255, 255) !important;
 }
 body[data-color-mode=dark] .ball-645 {
-  color: rgb(22, 22, 22);
+  color: rgb(22, 22, 22) !important;
 }
 
 body[data-color-mode=dark] .ball-645 {
@@ -1429,35 +1429,35 @@ body[data-color-mode=dark] .ball-645 {
 }
 
 .ball-645-medium {
-  width: 5rem;
-  height: 5rem;
-  border-radius: 5rem;
-  font-size: 1.4rem;
-  line-height: 140%;
-  font-weight: 400;
-  font-family: "Pretendard";
-  color: rgb(255, 255, 255);
+  width: 3rem;
+  height: 3rem;
+  border-radius: 3rem;
+  font-size: 1.4rem !important;
+  line-height: 140% !important;
+  font-weight: 400 !important;
+  font-family: "Pretendard" !important;
+  color: rgb(255, 255, 255) !important;
 }
 body[data-color-mode=dark] .ball-645-medium {
-  color: rgb(22, 22, 22);
+  color: rgb(22, 22, 22) !important;
 }
 
 .ball-645-small {
-  width: 3.5rem;
-  height: 3.5rem;
-  border-radius: 3.5rem;
-  font-size: 1.2rem;
-  line-height: 1.385;
-  font-weight: 400;
-  font-family: "Pretendard";
-  color: rgb(255, 255, 255);
+  width: 2rem;
+  height: 2rem;
+  border-radius: 2rem;
+  font-size: 1.2rem !important;
+  line-height: 1.385 !important;
+  font-weight: 400 !important;
+  font-family: "Pretendard" !important;
+  color: rgb(255, 255, 255) !important;
 }
 body[data-color-mode=dark] .ball-645-small {
-  color: rgb(22, 22, 22);
+  color: rgb(22, 22, 22) !important;
 }
 
 .ball-645-disable {
-  opacity: 0.5;
+  opacity: 0.7;
 }
 @media (max-width: 768px) {
   .ball-645 {

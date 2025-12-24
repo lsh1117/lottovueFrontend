@@ -2,7 +2,7 @@
 	<div>
 		<!-- 히스토리 표시 안내 메시지 -->
 		<div v-if="showingHistory" class="history-notice">
-			<p>{{ _nextDrw.value }}회차에 저장된 생성 번호 목록 (총 {{ currentPickCount }}개)</p>
+			<p>{{ _nextDrw }}회차에 저장된 생성 번호 목록 (총 {{ currentPickCount }}개)</p>
 		</div>
 		
 		<!-- 번호 개수 선택 영역 (히스토리 모드가 아닐 때만 표시) -->
@@ -80,7 +80,7 @@
 				<template v-else>
 					<p>
 						프로 버전에서는 <strong>회차별 최대 {{ planMaxCount }}개</strong>까지 생성 번호를 저장할 수 있습니다.<br>
-						현재 <strong>{{ _nextDrw.value }}회차</strong>는 이미 최대 개수인 <strong>{{ currentPickCount }}개</strong>에 도달했습니다.
+						현재 <strong>{{ _nextDrw }}회차</strong>는 이미 최대 개수인 <strong>{{ currentPickCount }}개</strong>에 도달했습니다.
 					</p>
 				</template>
 			</div>
@@ -89,7 +89,7 @@
 </template>
 
 <script setup>
-	import { onMounted, onUnmounted, ref, computed } from "vue";
+	import { onMounted, onUnmounted, ref, computed, watch } from "vue";
 	import { NModal } from "naive-ui";
 	import { useCalculateStore } from "@/stores/CalculateStore";
 	import { useExceptionStore } from "@/stores/ExceptionStore";
@@ -139,28 +139,42 @@
 	// 고정 번호
 	const _fixedNumber = fixedStore.numbers;
 
-	// 다음 회차 번호 (안전하게 처리)
-	const _nextDrw = computed(() => {
+	// 다음 회차 번호 (DrwStore의 데이터로 계산)
+	const _nextDrw = ref(1); // 기본값 1
+	
+	// DrwStore에서 최신 회차 정보를 가져와서 다음 회차 계산
+	const updateNextDrw = () => {
 		const numbers = drwStore.getNumbers();
 		if (!numbers || numbers.length === 0) {
-			// 기본값: 현재 날짜 기준으로 추정 회차 (임시)
-			console.warn('회차 정보가 없습니다. 기본값 1을 사용합니다.');
-			return 1;
+			console.warn('DrwStore에 회차 정보가 없습니다. 기본값 1을 사용합니다.');
+			_nextDrw.value = 1;
+			return;
 		}
 		
-		// 최신 회차 찾기 (내림차순 정렬되어 있다고 가정하지만, 안전을 위해 정렬)
+		// 최신 회차 찾기 (내림차순 정렬)
 		const sortedNumbers = [...numbers].sort((a, b) => Number(b.drwNo) - Number(a.drwNo));
 		const latestDrw = sortedNumbers[0];
 		
 		if (!latestDrw || !latestDrw.drwNo) {
 			console.warn('최신 회차 정보를 찾을 수 없습니다. 기본값 1을 사용합니다.');
-			return 1;
+			_nextDrw.value = 1;
+			return;
 		}
 		
-		const nextDrw = Number(latestDrw.drwNo) + 1;
-		console.log('다음 회차 계산:', { latestDrw: latestDrw.drwNo, nextDrw });
-		return nextDrw;
+		const latestDrwNo = Number(latestDrw.drwNo);
+		_nextDrw.value = latestDrwNo + 1;
+		console.log('DrwStore에서 다음 회차 계산:', { latestDrwNo, nextDrw: _nextDrw.value });
+	};
+	
+	// 컴포넌트 마운트 시 최신 회차 정보 계산
+	onMounted(() => {
+		updateNextDrw();
 	});
+	
+	// DrwStore가 변경될 때마다 다음 회차 재계산 (watch 사용)
+	watch(() => drwStore.getNumbers(), () => {
+		updateNextDrw();
+	}, { deep: true });
 
 	// AI 추천시 제외할 번호. ( 제외번호+고정번호 )
 	const _exc = computed(() => {

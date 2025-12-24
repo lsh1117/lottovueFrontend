@@ -237,7 +237,7 @@
 		loading.value = true
 		error.value = null
 		try {
-			console.log('모든 당첨 정보 요청 시작...')
+			//console.log('모든 당첨 정보 요청 시작...')
 			
 			// 한 번에 최대 1000개까지 가져올 수 있으므로, 여러 번 호출하여 모든 데이터 가져오기
 			let allDraws = []
@@ -260,7 +260,7 @@
 				}
 			}
 
-			console.log(`총 ${allDraws.length}개의 당첨 정보를 가져왔습니다.`)
+			//console.log(`총 ${allDraws.length}개의 당첨 정보를 가져왔습니다.`)
 
 			// 회차번호 오름차순 정렬 (1회차부터)
 			allDraws.sort((a, b) => a.drw_no - b.drw_no)
@@ -271,7 +271,7 @@
 			// DrwStore에 설정
 			drwStore.setNumbers(convertedDraws)
 			
-			console.log('DrwStore에 당첨 정보 설정 완료')
+			//console.log('DrwStore에 당첨 정보 설정 완료')
 		} catch (err) {
 			console.error('당첨 정보를 가져오는데 실패했습니다:', err)
 			error.value = err.response?.data?.detail || err.message || '데이터를 불러올 수 없습니다.'
@@ -372,7 +372,7 @@
 
 		// 기존에 받은 데이터가 있으면 팝업만 열고 API 호출하지 않음
 		if (aiRecommendationData.value && aiRecommendationData.value.recommendation) {
-			console.log('기존 AI 추천 데이터 사용')
+			//console.log('기존 AI 추천 데이터 사용')
 			eventStore.emit('popup', {
 				id: "aiRecommendation",
 				title: "AI 추천 결과",
@@ -414,13 +414,13 @@
 			// 통계 데이터 수집
 			const statisticsData = collectStatisticsData()
 			
-			console.log('통계 데이터 수집 완료:', statisticsData)
-			console.log('JSON 데이터:', JSON.stringify(statisticsData, null, 2))
+			//console.log('통계 데이터 수집 완료:', statisticsData)
+			//console.log('JSON 데이터:', JSON.stringify(statisticsData, null, 2))
 
 			// API 호출
 			const response = await getAIRecommendation(statisticsData)
 			
-			console.log('AI 추천 응답:', response)
+			//console.log('AI 추천 응답:', response)
 
 			// 응답 처리
 			if (response && response.recommendation) {

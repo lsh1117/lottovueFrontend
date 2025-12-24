@@ -82,7 +82,7 @@ const handlePremiumStatus = (event) => {
 
 // 계정 정보 팝업 호출
 function openAccountPopup() {
-	//console.log("계정 정보");
+	////console.log("계정 정보");
 	eventStore.emit('popup',{
 		id:"account",
 		title:"계정 정보",
@@ -92,7 +92,7 @@ function openAccountPopup() {
 
 //  계정 정보 팝업 닫기 핸들러.
 function onAccountPopupClose(e){
-	//console.log("계정 정보 팝업 닫기 :",e);
+	////console.log("계정 정보 팝업 닫기 :",e);
 }
 
 // AI 추천 클릭 핸들러

@@ -186,7 +186,7 @@
 
 	const totalWon = ref(0);
 
-	//console.log("####### 회차 리스트",drwList)
+	////console.log("####### 회차 리스트",drwList)
 
 	// 번호 그룹 계산 함수
 	function getGroup(n) {
@@ -195,7 +195,7 @@
 
 	// 회차 변경 시 결과 업데이트
     async function updateResult() {
-		//console.log("##### 회차 변경 시 결과 업데이트 :", selectedDrwNo.value);
+		////console.log("##### 회차 변경 시 결과 업데이트 :", selectedDrwNo.value);
 		totalWon.value = 0;
 		no1.value = 0;
 		no2.value = 0;
@@ -214,10 +214,10 @@
 			if (Number(item.drw) >= Number(_lastDrw) ) {
 				// 결과 발표 안됨
 				item.result = false;
-				//console.log("결과 발표 안됨",item.drw)
+				////console.log("결과 발표 안됨",item.drw)
 			} else {
 				// 결과 발표 됨
-				//console.log("결과 발표 됨",item.drw)
+				////console.log("결과 발표 됨",item.drw)
 				item.result = true;
 				const _drw = item.drw;
 				const _numbers = item.numbers;
@@ -301,7 +301,7 @@
 				return false;
 			}
 		} catch (e) {
-			console.log("error:",e.message);
+			//console.log("error:",e.message);
 			return null;
 		}
 	}
@@ -321,8 +321,8 @@
 			// }
 			const _drwNo = drwStore.getDrwNo(drw);
 
-			console.log("### 2등 체크 여부 보너스 번호 : ", Number(_drwNo.bnusNo))
-			console.log("### 2등 체크 여부 선택 번호 : ", number)
+			//console.log("### 2등 체크 여부 보너스 번호 : ", Number(_drwNo.bnusNo))
+			//console.log("### 2등 체크 여부 선택 번호 : ", number)
 
 			if (Number(_drwNo.bnusNo) === number) {
 				return true;
@@ -331,7 +331,7 @@
 			}
 
 		} catch (e) {
-			console.log("error:",e.message);
+			//console.log("error:",e.message);
 			return null;
 		}
 	}

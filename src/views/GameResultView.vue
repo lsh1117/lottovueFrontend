@@ -180,9 +180,9 @@
 		loading.value = true
 		error.value = null
 		try {
-			console.log('회차 목록 요청 시작...')
+			//console.log('회차 목록 요청 시작...')
 			const data = await getDraws(0, 1000) // 최대 1000개까지 가져오기
-			console.log('회차 목록 응답:', data)
+			//console.log('회차 목록 응답:', data)
 			
 			// 회차번호 내림차순 정렬 (최신 회차가 먼저)
 			draws.value = data.sort((a, b) => b.drw_no - a.drw_no)
@@ -207,9 +207,9 @@
 		loading.value = true
 		error.value = null
 		try {
-			console.log(`회차 ${drwNo} 당첨 정보 요청 시작...`)
+			//console.log(`회차 ${drwNo} 당첨 정보 요청 시작...`)
 			const data = await getDrawByNumber(drwNo)
-			console.log(`회차 ${drwNo} 당첨 정보 응답:`, data)
+			//console.log(`회차 ${drwNo} 당첨 정보 응답:`, data)
 			result.value = data
 		} catch (err) {
 			console.error(`회차 ${drwNo} 당첨 정보를 가져오는데 실패했습니다:`, err)

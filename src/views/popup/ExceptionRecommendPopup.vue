@@ -96,8 +96,8 @@
 			}
 		}
 
-		//console.log("#### _max :", _max);
-		//console.log("#### _min :", _min);
+		////console.log("#### _max :", _max);
+		////console.log("#### _min :", _min);
 
 		const _message = _max.number + " 번 : 최근 100회동안 " + _max.count + "번 나왔음.";
 		return _message;
@@ -109,7 +109,7 @@
 		const _totalAppear = drwStore.getTotalAppear(_lastNumbers);
 		if(_totalAppear){
 			_totalAppear.sort((a, b) => b.count - a.count);
-			//console.log(_totalAppear)
+			////console.log(_totalAppear)
 			return "_totalAppear";
 		}
 		else {

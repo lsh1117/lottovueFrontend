@@ -228,7 +228,7 @@ const upgradePlan = async (plan) => {
 	try {
 		// TODO: 백엔드 API 연동 필요
 		alert(`${plan.toUpperCase()} 플랜으로 업그레이드 기능은 아직 구현되지 않았습니다.`)
-		console.log('플랜 업그레이드:', plan)
+		//console.log('플랜 업그레이드:', plan)
 	} catch (error) {
 		console.error('플랜 업그레이드 오류:', error)
 		alert('플랜 업그레이드 중 오류가 발생했습니다.')

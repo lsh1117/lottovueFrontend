@@ -242,9 +242,9 @@
 		loading.value = true;
 		error.value = null;
 		try {
-			console.log('회차 목록 요청 시작...');
+			//console.log('회차 목록 요청 시작...');
 			const data = await getDraws(0, 1000); // 최대 1000개까지 가져오기
-			console.log('회차 목록 응답:', data);
+			//console.log('회차 목록 응답:', data);
 			
 			// 회차번호 내림차순 정렬 (최신 회차가 먼저)
 			draws.value = data.sort((a, b) => b.drw_no - a.drw_no);
@@ -316,9 +316,9 @@
 		}
 		
 		try {
-			console.log(`회차 ${drwNo} 당첨 정보 요청 시작...`);
+			//console.log(`회차 ${drwNo} 당첨 정보 요청 시작...`);
 			const data = await getDrawByNumber(drwNo);
-			console.log(`회차 ${drwNo} 당첨 정보 응답:`, data);
+			//console.log(`회차 ${drwNo} 당첨 정보 응답:`, data);
 			currentDrawResult.value = data;
 		} catch (err) {
 			console.error(`회차 ${drwNo} 당첨 정보를 가져오는데 실패했습니다:`, err);
@@ -335,9 +335,9 @@
 
 		loadingRecommendations.value = true;
 		try {
-			console.log(`회차 ${drwNo} 추천번호 조회 시작...`);
+			//console.log(`회차 ${drwNo} 추천번호 조회 시작...`);
 			const data = await getUserRecommendations(0, 1000, drwNo);
-			console.log(`회차 ${drwNo} 추천번호 응답:`, data);
+			//console.log(`회차 ${drwNo} 추천번호 응답:`, data);
 			
 			// API 응답을 myPickList 형식으로 변환
 			// API 응답: [{ id, drw_no, no1, no2, no3, no4, no5, no6, rank, ... }]
@@ -367,7 +367,7 @@
 
 	// 회차 변경 시 결과 업데이트
     async function updateResult() {
-		//console.log("##### 회차 변경 시 결과 업데이트 :", selectedDrwNo.value);
+		////console.log("##### 회차 변경 시 결과 업데이트 :", selectedDrwNo.value);
 		totalWon.value = 0;
 		no1.value = 0;
 		no2.value = 0;
@@ -390,10 +390,10 @@
 			if (Number(item.drw) >= Number(lastDrw) ) {
 				// 결과 발표 안됨
 				item.result = false;
-				//console.log("결과 발표 안됨",item.drw)
+				////console.log("결과 발표 안됨",item.drw)
 			} else {
 				// 결과 발표 됨
-				//console.log("결과 발표 됨",item.drw)
+				////console.log("결과 발표 됨",item.drw)
 				item.result = true;
 				const _drw = item.drw;
 				const _numbers = item.numbers;
@@ -484,7 +484,7 @@
 				return false;
 			}
 		} catch (e) {
-			console.log("error:",e.message);
+			//console.log("error:",e.message);
 			return null;
 		}
 	}
@@ -493,8 +493,8 @@
 		try {
 			const _drwNo = drwStore.getDrwNo(drw);
 
-			console.log("### 2등 체크 여부 보너스 번호 : ", Number(_drwNo.bnusNo))
-			console.log("### 2등 체크 여부 선택 번호 : ", number)
+			//console.log("### 2등 체크 여부 보너스 번호 : ", Number(_drwNo.bnusNo))
+			//console.log("### 2등 체크 여부 선택 번호 : ", number)
 
 			if (Number(_drwNo.bnusNo) === number) {
 				return true;
@@ -503,7 +503,7 @@
 			}
 
 		} catch (e) {
-			console.log("error:",e.message);
+			//console.log("error:",e.message);
 			return null;
 		}
 	}

@@ -91,9 +91,9 @@
 		loading.value = true
 		error.value = null
 		try {
-			console.log('최신 당첨 정보 요청 시작...')
+			//console.log('최신 당첨 정보 요청 시작...')
 			const data = await getLatestDraw()
-			console.log('최신 당첨 정보 응답:', data)
+			//console.log('최신 당첨 정보 응답:', data)
 			result.value = data
 		} catch (err) {
 			console.error('최신 당첨 정보를 가져오는데 실패했습니다:', err)

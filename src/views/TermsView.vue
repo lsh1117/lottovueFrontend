@@ -90,7 +90,7 @@ async function loadTermGroups() {
 		} else {
 			termGroups.value = []
 		}
-		console.log('약관 그룹 로드 완료:', termGroups.value)
+		//console.log('약관 그룹 로드 완료:', termGroups.value)
 	} catch (err) {
 		console.error('약관 그룹 로드 실패:', err)
 		termGroups.value = []
@@ -109,19 +109,19 @@ async function loadTerms() {
 		let response
 		if (selectedTermGroup.value) {
 			// 특정 그룹의 활성화된 약관만 조회
-			console.log('약관 그룹별 활성화된 약관 조회:', selectedTermGroup.value)
+			//console.log('약관 그룹별 활성화된 약관 조회:', selectedTermGroup.value)
 			response = await getActiveTermsByGroup(selectedTermGroup.value)
 		} else {
 			// 전체 약관 조회 (활성화된 것만)
-			console.log('전체 활성화된 약관 조회')
+			//console.log('전체 활성화된 약관 조회')
 			// 전체 약관 조회 후 클라이언트에서 활성화된 것만 필터링
 			const allTerms = await getTermsList(0, 1000)
 			response = Array.isArray(allTerms) ? allTerms.filter(term => term.is_active === true) : []
 		}
 		
-		console.log('약관 API 응답:', response)
-		console.log('약관 API 응답 타입:', typeof response)
-		console.log('약관 API 응답이 배열인가?', Array.isArray(response))
+		//console.log('약관 API 응답:', response)
+		//console.log('약관 API 응답 타입:', typeof response)
+		//console.log('약관 API 응답이 배열인가?', Array.isArray(response))
 		
 		// 백엔드 API는 배열을 직접 반환하므로 배열인지 확인
 		if (Array.isArray(response)) {
@@ -142,14 +142,14 @@ async function loadTerms() {
 		// 활성화된 약관만 필터링 (추가 안전장치)
 		termsList.value = termsList.value.filter(term => term.is_active === true)
 		
-		console.log('약관 목록:', termsList.value)
-		console.log('약관 목록 개수:', termsList.value.length)
+		//console.log('약관 목록:', termsList.value)
+		//console.log('약관 목록 개수:', termsList.value.length)
 		
 		if (termsList.value.length === 0) {
 			console.warn('활성화된 약관이 없습니다.')
 			console.warn('응답 전체:', JSON.stringify(response, null, 2))
 		} else {
-			console.log('약관 첫 번째 항목:', termsList.value[0])
+			//console.log('약관 첫 번째 항목:', termsList.value[0])
 		}
 	} catch (err) {
 		console.error('약관 로드 실패:', err)

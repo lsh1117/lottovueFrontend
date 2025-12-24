@@ -170,7 +170,7 @@ const handleKakaoLogin = () => {
 		error.value = null;
 		
 		const redirectUrl = loginApi.getKakaoLoginRedirectUrl();
-		console.log('카카오 로그인 URL:', redirectUrl);
+		//console.log('카카오 로그인 URL:', redirectUrl);
 		
 		if (!redirectUrl) {
 			error.value = '로그인 URL을 가져올 수 없습니다.';
@@ -223,7 +223,7 @@ const handleKakaoLogin = () => {
 				}
 			}
 			
-			console.log('postMessage 수신:', event.data, 'from:', event.origin)
+			//console.log('postMessage 수신:', event.data, 'from:', event.origin)
 			
 			if (event.data && event.data.type === 'kakao-login-success') {
 				window.removeEventListener('message', messageHandler);
@@ -294,7 +294,7 @@ const handleKakaoSignup = () => {
 		error.value = null;
 		
 		const redirectUrl = loginApi.getKakaoSignupRedirectUrl();
-		console.log('카카오 회원가입 URL:', redirectUrl);
+		//console.log('카카오 회원가입 URL:', redirectUrl);
 		
 		if (!redirectUrl) {
 			error.value = '회원가입 URL을 가져올 수 없습니다.';
@@ -347,7 +347,7 @@ const handleKakaoSignup = () => {
 				}
 			}
 			
-			console.log('postMessage 수신:', event.data, 'from:', event.origin)
+			//console.log('postMessage 수신:', event.data, 'from:', event.origin)
 			
 			if (event.data && event.data.type === 'kakao-signup-success') {
 				window.removeEventListener('message', messageHandler);
@@ -437,7 +437,7 @@ const goToPlanUpgrade = () => {
 
 // 프로 상태 변경 이벤트 리스너
 const handlePremiumStatusChange = (event) => {
-	console.log('프로 상태 변경:', event.detail)
+	//console.log('프로 상태 변경:', event.detail)
 	isPremium.value = event.detail.isPremium
 	// ProStore도 업데이트
 	premiumStore.updateStatus(event.detail.isPremium ? 'premium' : '')
@@ -461,7 +461,7 @@ const handleSubscriptionError = (event) => {
 
 // 구독 성공 이벤트 리스너
 const handleSubscriptionSuccess = (event) => {
-	console.log('구독 성공:', event.detail.message)
+	//console.log('구독 성공:', event.detail.message)
 	isSubscribing.value = false
 	alert(event.detail.message)
 	// 프로 상태 업데이트

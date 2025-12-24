@@ -79,7 +79,7 @@
 	
 	// 제외번호 팝업 호출
 	function openExceptionPopup() {
-		//console.log("제외번호 변경");
+		////console.log("제외번호 변경");
 		eventStore.emit('popup',{
 			id:"exception",
 			title:"제외번호1",
@@ -91,17 +91,17 @@
 	// 제외번호 확인 핸들러.
 	function onExceptionPopupConfirm(e){
 		exceptionNumbers.value = [...exceptionStore.numbers];
-		//console.log("제외번호 확인 핸들러 :",e);
+		////console.log("제외번호 확인 핸들러 :",e);
 	}
 
 	// 제외번호 닫기 핸들러.
 	function onExceptionPopupClose(e){
-		//console.log("제외번호 닫기 핸들러 :",e);
+		////console.log("제외번호 닫기 핸들러 :",e);
 	}
 
 	// 추천 제외번호 팝업 호출
 	function openExceptionRecommendPopup() {
-		//console.log("추천 제외번호 보기");
+		////console.log("추천 제외번호 보기");
 		eventStore.emit('popup',{
 			id:"exceptionRecommend",
 			title:"추천 제외번호 보기",
@@ -111,7 +111,7 @@
 
 	// 추천 제외번호 닫기 핸들러.
 	function onExceptionRecommendPopupClose(e){
-		//console.log("추천 제외번호 닫기 핸들러 :",e);
+		////console.log("추천 제외번호 닫기 핸들러 :",e);
 	}
 
 	// 고정번호
@@ -119,7 +119,7 @@
 	
 	// 고정번호 팝업 호출
 	function openFixedPopup() {
-		//console.log("고정번호 변경");
+		////console.log("고정번호 변경");
 		eventStore.emit('popup',{
 			id:"fixed",
 			title:"고정번호",
@@ -131,17 +131,17 @@
 	// 고정번호 확인 핸들러.
 	function onFixedPopupConfirm(e){
 		fixedNumbers.value = [...fixedStore.numbers];
-		//console.log("고정번호 확인 핸들러 :",e);
+		////console.log("고정번호 확인 핸들러 :",e);
 	}
 
 	// 고정번호 닫기 핸들러.
 	function onFixedPopupClose(e){
-		//console.log("고정번호 닫기 핸들러 :",e);
+		////console.log("고정번호 닫기 핸들러 :",e);
 	}
 
 	// 추천 고정번호 팝업 호출
 	function openFixedRecommendPopup() {
-		//console.log("추천 고정번호 보기");
+		////console.log("추천 고정번호 보기");
 		eventStore.emit('popup',{
 			id:"fixedRecommend",
 			title:"추천 고정번호 보기",
@@ -151,7 +151,7 @@
 
 	// 추천 고정번호 닫기 핸들러.
 	function onFixedRecommendPopupClose(e){
-		//console.log("추천 고정번호 닫기 핸들러 :",e);
+		////console.log("추천 고정번호 닫기 핸들러 :",e);
 	}
 
 	function getGroup(n) {
@@ -161,7 +161,7 @@
 
 	// AI 추천 팝업 호출
 	function openRecommendPopup() {
-		//console.log("AI 추천 팝업 호출");
+		////console.log("AI 추천 팝업 호출");
 
 		if(calculateStore.getState() === false) {
 			calculate();
@@ -197,7 +197,7 @@
 
 		calculateStore.setNumbers(calculateNumbers);
 
-		//console.log("@@@@@",calculateNumbers);
+		////console.log("@@@@@",calculateNumbers);
 	}
 
 	onMounted(() => {

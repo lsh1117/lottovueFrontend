@@ -59,10 +59,10 @@ async function loadPrivacyPolicy() {
 	error.value = null
 	
 	try {
-		console.log('개인정보처리방침 조회 시작')
+		//console.log('개인정보처리방침 조회 시작')
 		const response = await getActivePrivacyPolicy()
 		
-		console.log('개인정보처리방침 API 응답:', response)
+		//console.log('개인정보처리방침 API 응답:', response)
 		
 		// 응답이 객체면 그대로 사용, 배열이면 첫 번째 항목 사용
 		if (response && typeof response === 'object') {
@@ -77,7 +77,7 @@ async function loadPrivacyPolicy() {
 			privacyPolicy.value = null
 		}
 		
-		console.log('개인정보처리방침:', privacyPolicy.value)
+		//console.log('개인정보처리방침:', privacyPolicy.value)
 		
 		if (!privacyPolicy.value) {
 			console.warn('개인정보처리방침이 없습니다.')

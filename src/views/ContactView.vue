@@ -84,7 +84,7 @@
 	
 	// 제외번호 팝업 호출
 	function openExceptionPopup() {
-		//console.log("제외번호 변경");
+		////console.log("제외번호 변경");
 		eventStore.emit('popup',{
 			id:"exception",
 			title:"제외번호1",
@@ -96,18 +96,18 @@
 	// 제외번호 확인 핸들러.
 	function onExceptionPopupConfirm(e){
 		// computed로 자동 반영되므로 수동 업데이트 불필요
-		//console.log("제외번호 확인 핸들러 :",e);
+		////console.log("제외번호 확인 핸들러 :",e);
 	}
 
 	// 제외번호 닫기 핸들러.
 	function onExceptionPopupClose(e){
 		// computed로 자동 반영되므로 수동 업데이트 불필요
-		//console.log("제외번호 닫기 핸들러 :",e);
+		////console.log("제외번호 닫기 핸들러 :",e);
 	}
 
 	// 추천 제외번호 팝업 호출
 	function openExceptionRecommendPopup() {
-		//console.log("추천 제외번호 보기");
+		////console.log("추천 제외번호 보기");
 		eventStore.emit('popup',{
 			id:"exceptionRecommend",
 			title:"추천 제외번호 보기",
@@ -118,7 +118,7 @@
 	// 추천 제외번호 닫기 핸들러.
 	function onExceptionRecommendPopupClose(e){
 		// computed로 자동 반영되므로 수동 업데이트 불필요
-		//console.log("추천 제외번호 닫기 핸들러 :",e);
+		////console.log("추천 제외번호 닫기 핸들러 :",e);
 	}
 
 	// 고정번호 - computed로 변경하여 자동 반영
@@ -126,7 +126,7 @@
 	
 	// 고정번호 팝업 호출
 	function openFixedPopup() {
-		//console.log("고정번호 변경");
+		////console.log("고정번호 변경");
 		eventStore.emit('popup',{
 			id:"fixed",
 			title:"고정번호",
@@ -138,18 +138,18 @@
 	// 고정번호 확인 핸들러.
 	function onFixedPopupConfirm(e){
 		// computed로 자동 반영되므로 수동 업데이트 불필요
-		//console.log("고정번호 확인 핸들러 :",e);
+		////console.log("고정번호 확인 핸들러 :",e);
 	}
 
 	// 고정번호 닫기 핸들러.
 	function onFixedPopupClose(e){
 		// computed로 자동 반영되므로 수동 업데이트 불필요
-		//console.log("고정번호 닫기 핸들러 :",e);
+		////console.log("고정번호 닫기 핸들러 :",e);
 	}
 
 	// 추천 고정번호 팝업 호출
 	function openFixedRecommendPopup() {
-		//console.log("추천 고정번호 보기");
+		////console.log("추천 고정번호 보기");
 		eventStore.emit('popup',{
 			id:"fixedRecommend",
 			title:"추천 고정번호 보기",
@@ -159,7 +159,7 @@
 
 	// 추천 고정번호 닫기 핸들러.
 	function onFixedRecommendPopupClose(e){
-		//console.log("추천 고정번호 닫기 핸들러 :",e);
+		////console.log("추천 고정번호 닫기 핸들러 :",e);
 	}
 
 	function getGroup(n) {
@@ -169,7 +169,7 @@
 
 	// AI 추천 팝업 호출
 	function openRecommendPopup() {
-		//console.log("AI 추천 팝업 호출");
+		////console.log("AI 추천 팝업 호출");
 
 		if(calculateStore.getState() === false) {
 			calculate();
@@ -182,7 +182,7 @@
 
 	// 내번호 보기 화면으로 이동
 	function openMyNumberPopup() {
-		//console.log("내번호 보기 화면으로 이동");
+		////console.log("내번호 보기 화면으로 이동");
 		if (!isAuthenticated()) {
 			alert('내 당첨번호 확인 기능은 로그인 후 이용 가능합니다.\n계정 정보에서 로그인해주세요.');
 			return;

@@ -163,7 +163,7 @@
 		
 		const latestDrwNo = Number(latestDrw.drwNo);
 		_nextDrw.value = latestDrwNo + 1;
-		console.log('DrwStore에서 다음 회차 계산:', { latestDrwNo, nextDrw: _nextDrw.value });
+		//console.log('DrwStore에서 다음 회차 계산:', { latestDrwNo, nextDrw: _nextDrw.value });
 	};
 	
 	// 컴포넌트 마운트 시 최신 회차 정보 계산
@@ -434,7 +434,7 @@
 			const numbersForStore = nums.map(n => ({ number: n }));
 			myPickStore.addMyPick(numbersForStore, _nextDrw.value);
 			
-			console.log('pickHistory에 번호 저장 saveToHistory:', nums);
+			//console.log('pickHistory에 번호 저장 saveToHistory:', nums);
 			
 			// 백엔드 API에 저장
 			try {
@@ -449,7 +449,7 @@
 				};
 				
 				await createUserRecommendation(recommendationData);
-				console.log('백엔드에 추천번호 저장 완료:', recommendationData);
+				//console.log('백엔드에 추천번호 저장 완료:', recommendationData);
 			} catch (apiError) {
 				// 백엔드 저장 실패는 로그만 남기고 계속 진행
 				// (네트워크 오류 등 - 로컬 저장은 정상적으로 완료됨)
@@ -501,7 +501,7 @@
 				};
 				
 				await createUserRecommendation(recommendationData);
-				console.log('백엔드에 추천번호 저장 완료 (수동):', recommendationData);
+				//console.log('백엔드에 추천번호 저장 완료 (수동):', recommendationData);
 			} catch (apiError) {
 				// 백엔드 저장 실패는 로그만 남기고 계속 진행
 				// (네트워크 오류 등 - 로컬 저장은 정상적으로 완료됨)
@@ -539,7 +539,7 @@
 	}
 
     onMounted(() => {
-		//console.log("###### AI 추천 onMounted" );
+		////console.log("###### AI 추천 onMounted" );
 		
 		// 프로 상태 이벤트 리스너 등록
 		window.addEventListener('lottovue:premium', handlePremiumStatusChange);

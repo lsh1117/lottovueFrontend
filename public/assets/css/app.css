@@ -2076,8 +2076,13 @@ body[data-color-mode=dark] .nums > .num-bonus::after {
 }
 
 .recommend-list {
-  max-height: 160px;
+  max-height: 360px;
   overflow-y: auto;
+}
+@media (max-width: 768px) {
+  .recommend-list {
+    max-height: 160px;
+  }
 }
 
 .message-info {

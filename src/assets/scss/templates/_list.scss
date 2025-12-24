@@ -8,6 +8,9 @@
     }
 }
 .recommend-list{
-    max-height:160px;
+    max-height:360px;
     overflow-y: auto;
+    @media (max-width: 768px) {
+        max-height:160px;
+    }
 }

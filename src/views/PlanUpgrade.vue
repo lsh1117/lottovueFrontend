@@ -162,7 +162,7 @@
                                 </svg>
                             </div>
                             <h3 class="plan-title">Max 플랜</h3>
-                            <p class="plan-price">월 4,900원</p>
+                            <p class="plan-price">월 6,990원</p>
                         </div>
                         <div class="plan-features">
                             <ul>
@@ -187,6 +187,44 @@
                                 :disabled="isUpgrading"
                             >
                                 {{ isUpgrading ? '처리 중...' : '구독하기' }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 크레딧 추가 구매 -->
+                    <div class="plan-card credit-card">
+                        <div class="plan-header">
+                            <div class="plan-badge credit-badge">
+                                <svg viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <linearGradient id="planBlueGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" style="stop-color:#2196F3;stop-opacity:1" />
+                                            <stop offset="50%" style="stop-color:#42A5F5;stop-opacity:1" />
+                                            <stop offset="100%" style="stop-color:#64B5F6;stop-opacity:1" />
+                                        </linearGradient>
+                                    </defs>
+                                    <rect x="0" y="0" width="80" height="32" rx="16" fill="url(#planBlueGradient)"/>
+                                    <text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">credit</text>
+                                </svg>
+                            </div>
+                            <h3 class="plan-title">크레딧 추가 구매</h3>
+                            <p class="plan-price">4,990원</p>
+                        </div>
+                        <div class="plan-features">
+                            <ul>
+                                <li>크레딧 <strong>500개</strong> 추가 구매</li>
+                                <li>크레딧 1개 = 랜덤번호 1개 생성</li>
+                                <li>소멸되지 않는 크레딧</li>
+                                <li>언제든지 사용 가능</li>
+                            </ul>
+                        </div>
+                        <div class="plan-action">
+                            <button 
+                                class="btn-primary btn-large" 
+                                @click="purchaseCredits"
+                                :disabled="isUpgrading"
+                            >
+                                {{ isUpgrading ? '처리 중...' : '구매하기' }}
                             </button>
                         </div>
                     </div>
@@ -232,6 +270,32 @@ const upgradePlan = async (plan) => {
 	} catch (error) {
 		console.error('플랜 업그레이드 오류:', error)
 		alert('플랜 업그레이드 중 오류가 발생했습니다.')
+	} finally {
+		isUpgrading.value = false
+	}
+}
+
+// 크레딧 구매 함수
+const purchaseCredits = async () => {
+	if (isUpgrading.value) {
+		return
+	}
+
+	if (!user.value) {
+		alert('로그인이 필요합니다.')
+		router.push('/home')
+		return
+	}
+
+	isUpgrading.value = true
+
+	try {
+		// TODO: 백엔드 API 연동 필요
+		alert('크레딧 구매 기능은 아직 구현되지 않았습니다.')
+		//console.log('크레딧 구매')
+	} catch (error) {
+		console.error('크레딧 구매 오류:', error)
+		alert('크레딧 구매 중 오류가 발생했습니다.')
 	} finally {
 		isUpgrading.value = false
 	}

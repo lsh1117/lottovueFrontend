@@ -148,7 +148,7 @@
 								</svg>
 							</div>
 							<h3 class="plan-title">Max 플랜</h3>
-							<p class="plan-price">월 4,900원</p>
+							<p class="plan-price">월 6,990원</p>
 						</div>
 						<div class="plan-features">
 							<ul>
@@ -161,6 +161,40 @@
 						<div class="plan-action">
 							<button class="btn btn-primary btn-large" @click="goToPlanUpgrade">
 								구독하기
+							</button>
+						</div>
+					</div>
+
+					<!-- 크레딧 추가 구매 -->
+					<div class="plan-card credit-card">
+						<div class="plan-header">
+							<div class="plan-badge credit-badge">
+								<svg viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+									<defs>
+										<linearGradient id="homeBlueGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+											<stop offset="0%" style="stop-color:#2196F3;stop-opacity:1" />
+											<stop offset="50%" style="stop-color:#42A5F5;stop-opacity:1" />
+											<stop offset="100%" style="stop-color:#64B5F6;stop-opacity:1" />
+										</linearGradient>
+									</defs>
+									<rect x="0" y="0" width="80" height="32" rx="16" fill="url(#homeBlueGradient)"/>
+									<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">credit</text>
+								</svg>
+							</div>
+							<h3 class="plan-title">크레딧 추가 구매</h3>
+							<p class="plan-price">4,990원</p>
+						</div>
+						<div class="plan-features">
+							<ul>
+								<li>크레딧 <strong>500개</strong> 추가 구매</li>
+								<li>크레딧 1개 = 랜덤번호 1개 생성</li>
+								<li>소멸되지 않는 크레딧</li>
+								<li>언제든지 사용 가능</li>
+							</ul>
+						</div>
+						<div class="plan-action">
+							<button class="btn btn-primary btn-large" @click="goToCreditPurchase">
+								구매하기
 							</button>
 						</div>
 					</div>
@@ -177,5 +211,9 @@
 
 	function goToPlanUpgrade() {
 		router.push('/plan-upgrade');
+	}
+
+	function goToCreditPurchase() {
+		router.push('/credit-purchase');
 	}
 </script>

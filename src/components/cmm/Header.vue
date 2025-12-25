@@ -58,6 +58,9 @@
 			<li v-if="isAuthenticated()" class="gnb-item">
 				<router-link class="btn-gnb" active-class="on" to="/my-winning-number">My Page</router-link>
 			</li>
+			<li v-if="isAuthenticated()" class="gnb-item">
+				<router-link class="btn-gnb" active-class="on" to="/plan-upgrade">플랜</router-link>
+			</li>
 			<!-- 고객센터 메뉴 (2뎁스) -->
 			<li class="gnb-item gnb-item-submenu" :class="{ 'open': isCustomerCenterOpen }">
 				<a href="javascript:void(0)" class="btn-gnb btn-gnb-parent" @click.prevent="toggleCustomerCenter">
@@ -118,6 +121,11 @@
 			<li v-if="isAuthenticated()" class="mobile-gnb-item">
 				<router-link class="mobile-btn-gnb" active-class="on" to="/my-winning-number" @click="closeMobileMenu">
 					<span>My Page</span>
+				</router-link>
+			</li>
+			<li v-if="isAuthenticated()" class="mobile-gnb-item">
+				<router-link class="mobile-btn-gnb" active-class="on" to="/plan-upgrade" @click="closeMobileMenu">
+					<span>플랜</span>
 				</router-link>
 			</li>
 			<!-- 고객센터 메뉴 (2뎁스) -->

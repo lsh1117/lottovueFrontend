@@ -208,7 +208,7 @@
                                 </svg>
                             </div>
                             <h3 class="plan-title">크레딧 추가 구매</h3>
-                            <p class="plan-price">4,990원</p>
+                            <p class="plan-price">2,500원</p>
                         </div>
                         <div class="plan-features">
                             <ul>

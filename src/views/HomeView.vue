@@ -148,7 +148,7 @@
 								</svg>
 							</div>
 							<h3 class="plan-title">Max Plan</h3>
-							<p class="plan-price">월 6,990원</p>
+							<p class="plan-price">월 4,990원</p>
 						</div>
 						<div class="plan-features">
 							<ul>

@@ -2086,6 +2086,16 @@ body[data-color-mode=dark] .nums > .num-bonus::after {
   }
 }
 
+ol li {
+  position: relative;
+  list-style: disc;
+}
+
+ul li {
+  position: relative;
+  list-style: disc;
+}
+
 .message-info {
   font-size: 1.2rem;
   line-height: 1.385;
@@ -4155,25 +4165,59 @@ body[data-color-mode=dark] .ai-recommendation-popup .usage-info {
 .TermsView .terms-group-selector label {
   display: inline-block;
   margin-right: 1rem;
+  font-size: 1.4rem;
+  line-height: 140%;
   font-weight: 600;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
 }
+body[data-color-mode=dark] .TermsView .terms-group-selector label {
+  color: rgba(248, 249, 252, 0.9);
+}
+
 .TermsView .terms-group-selector select {
   padding: 0.5rem 1rem;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 1rem;
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
 }
+body[data-color-mode=dark] .TermsView .terms-group-selector select {
+  color: rgba(248, 249, 252, 0.9);
+}
+
 .TermsView .loading,
 .TermsView .error,
 .TermsView .no-terms {
   text-align: center;
   padding: 3rem;
-  color: #666;
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(12, 23, 35, 0.6);
 }
+body[data-color-mode=dark] .TermsView .loading,
+body[data-color-mode=dark] .TermsView .error,
+body[data-color-mode=dark] .TermsView .no-terms {
+  color: rgba(228, 234, 241, 0.74);
+}
+
 .TermsView .loading p {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(12, 23, 35, 0.6);
 }
+body[data-color-mode=dark] .TermsView .loading p {
+  color: rgba(228, 234, 241, 0.74);
+}
+
 .TermsView .error {
   color: #d32f2f;
 }
@@ -4187,14 +4231,21 @@ body[data-color-mode=dark] .ai-recommendation-popup .usage-info {
   margin-top: 1rem;
   padding: 0.5rem 1.5rem;
   background-color: #1976d2;
-  color: white;
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 1rem;
   -webkit-transition: background-color 0.2s ease;
   transition: background-color 0.2s ease;
 }
+body[data-color-mode=dark] .TermsView .retry-button {
+  color: #16181a;
+}
+
 .TermsView .retry-button:hover {
   background-color: #1565c0;
 }
@@ -4202,10 +4253,17 @@ body[data-color-mode=dark] .ai-recommendation-popup .usage-info {
   margin: 0.5rem 0;
 }
 .TermsView .no-terms .no-terms-hint {
-  font-size: 0.9rem;
-  color: #999;
+  font-size: 1.2rem;
+  line-height: 1.429;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(12, 23, 35, 0.6);
   margin-top: 0.5rem;
 }
+body[data-color-mode=dark] .TermsView .no-terms .no-terms-hint {
+  color: rgba(228, 234, 241, 0.74);
+}
+
 .TermsView .terms-list {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -4229,82 +4287,197 @@ body[data-color-mode=dark] .ai-recommendation-popup .usage-info {
 }
 .TermsView .terms-title {
   margin: 0 0 0.5rem 0;
-  font-size: 1.5rem;
-  color: #333;
+  font-size: 1.8rem;
+  line-height: 136.364%;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
 }
+body[data-color-mode=dark] .TermsView .terms-title {
+  color: rgba(248, 249, 252, 0.9);
+}
+
 .TermsView .terms-meta {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   gap: 1rem;
-  font-size: 0.875rem;
-  color: #666;
+  font-size: 1.2rem;
+  line-height: 1.429;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(12, 23, 35, 0.6);
 }
+body[data-color-mode=dark] .TermsView .terms-meta {
+  color: rgba(228, 234, 241, 0.74);
+}
+
 .TermsView .terms-version {
+  font-size: 1.2rem;
+  line-height: 1.429;
   font-weight: 500;
+  font-family: "Pretendard";
+  color: rgba(12, 23, 35, 0.6);
 }
+body[data-color-mode=dark] .TermsView .terms-version {
+  color: rgba(228, 234, 241, 0.74);
+}
+
 .TermsView .terms-required {
   background: #ff5722;
-  color: #fff;
+  font-size: 1.1rem;
+  line-height: 1.334;
+  font-weight: 600;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
-  font-size: 0.75rem;
-  font-weight: 600;
 }
+body[data-color-mode=dark] .TermsView .terms-required {
+  color: #16181a;
+}
+
 .TermsView .terms-date {
   margin-left: auto;
 }
 .TermsView .terms-content {
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
   line-height: 1.8;
-  color: #333;
-  /* HTML 콘텐츠 스타일링 */
+  font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", sans-serif;
   /* HTML 콘텐츠 내부 요소 스타일링 */
+  /* 특수 클래스 스타일 */
+  /* 푸터 스타일 */
 }
-.TermsView .terms-content h1,
-.TermsView .terms-content h2,
-.TermsView .terms-content h3 {
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
-  color: #333;
+body[data-color-mode=dark] .TermsView .terms-content {
+  color: rgba(248, 249, 252, 0.9);
 }
+
 .TermsView .terms-content h1 {
-  font-size: 1.75rem;
+  font-size: 2.9rem;
+  line-height: 137.931%;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 3px solid #3498db;
 }
+body[data-color-mode=dark] .TermsView .terms-content h1 {
+  color: rgba(248, 249, 252, 0.9);
+}
+
 .TermsView .terms-content h2 {
-  font-size: 1.5rem;
+  font-size: 2.5rem;
+  line-height: 140%;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgba(2, 12, 21, 0.72);
+  margin-top: 1.875rem;
+  margin-bottom: 0.9375rem;
 }
+body[data-color-mode=dark] .TermsView .terms-content h2 {
+  color: rgba(232, 237, 242, 0.83);
+}
+
 .TermsView .terms-content h3 {
-  font-size: 1.25rem;
+  font-size: 1.8rem;
+  line-height: 136.364%;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgba(12, 23, 35, 0.6);
+  margin-top: 1.25rem;
+  margin-bottom: 0.625rem;
 }
+body[data-color-mode=dark] .TermsView .terms-content h3 {
+  color: rgba(228, 234, 241, 0.74);
+}
+
 .TermsView .terms-content p {
-  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
+  margin-bottom: 0.9375rem;
 }
+body[data-color-mode=dark] .TermsView .terms-content p {
+  color: rgba(248, 249, 252, 0.9);
+}
+
 .TermsView .terms-content ul,
 .TermsView .terms-content ol {
-  margin-bottom: 1rem;
-  padding-left: 2rem;
+  margin-bottom: 0.9375rem;
+  padding-left: 1.875rem;
 }
 .TermsView .terms-content li {
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
+  margin-bottom: 0.5rem;
+  line-height: 1.8;
+}
+body[data-color-mode=dark] .TermsView .terms-content li {
+  color: rgba(248, 249, 252, 0.9);
+}
+
+.TermsView .terms-content ul {
+  list-style-type: disc;
+}
+.TermsView .terms-content ol {
+  list-style-type: decimal;
+}
+.TermsView .terms-content ul ul,
+.TermsView .terms-content ol ol,
+.TermsView .terms-content ul ol,
+.TermsView .terms-content ol ul {
+  margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 }
 .TermsView .terms-content strong {
+  font-size: 1.4rem;
+  line-height: 140%;
   font-weight: 600;
-  color: #333;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
 }
+body[data-color-mode=dark] .TermsView .terms-content strong {
+  color: rgba(248, 249, 252, 0.9);
+}
+
 .TermsView .terms-content em {
   font-style: italic;
 }
 .TermsView .terms-content a {
-  color: #1976d2;
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgb(8, 113, 243);
   text-decoration: underline;
 }
-.TermsView .terms-content a:hover {
-  color: #1565c0;
+body[data-color-mode=dark] .TermsView .terms-content a {
+  color: rgb(57, 150, 243);
 }
+
+.TermsView .terms-content a:hover {
+  color: rgb(8, 113, 243);
+  opacity: 0.8;
+}
+body[data-color-mode=dark] .TermsView .terms-content a:hover {
+  color: rgb(57, 150, 243);
+}
+
 .TermsView .terms-content table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 1rem;
+  margin: 1.25rem 0;
 }
 .TermsView .terms-content th,
 .TermsView .terms-content td {
@@ -4313,9 +4486,99 @@ body[data-color-mode=dark] .ai-recommendation-popup .usage-info {
   text-align: left;
 }
 .TermsView .terms-content th {
-  background: #f5f5f5;
+  font-size: 1.4rem;
+  line-height: 140%;
   font-weight: 600;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
+  background-color: rgba(115, 132, 149, 0.05);
 }
+body[data-color-mode=dark] .TermsView .terms-content th {
+  color: rgba(248, 249, 252, 0.9);
+}
+
+body[data-color-mode=dark] .TermsView .terms-content th {
+  background-color: rgba(208, 234, 241, 0.05);
+}
+
+.TermsView .terms-content td {
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
+}
+body[data-color-mode=dark] .TermsView .terms-content td {
+  color: rgba(248, 249, 252, 0.9);
+}
+
+.TermsView .terms-content .important {
+  background-color: #fff3cd;
+  border-left: 4px solid #ffc107;
+  padding: 0.9375rem;
+  margin: 1.25rem 0;
+  border-radius: 4px;
+}
+.TermsView .terms-content .important h3 {
+  margin-top: 0;
+}
+.TermsView .terms-content .important p:last-child {
+  margin-bottom: 0;
+}
+.TermsView .terms-content .disclaimer {
+  background-color: rgba(115, 132, 149, 0.05);
+  border: 1px solid #dee2e6;
+  padding: 0.9375rem;
+  margin: 1.25rem 0;
+  border-radius: 5px;
+}
+body[data-color-mode=dark] .TermsView .terms-content .disclaimer {
+  background-color: rgba(208, 234, 241, 0.05);
+}
+
+.TermsView .terms-content .plan-box {
+  background-color: #e7f3ff;
+  border: 2px solid #3498db;
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin: 1.25rem 0;
+}
+.TermsView .terms-content .plan-box h3 {
+  margin-top: 0;
+}
+.TermsView .terms-content .plan-box table {
+  margin: 1rem 0;
+}
+.TermsView .terms-content .plan-box ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+.TermsView .terms-content .credit-box {
+  background-color: #e7f3ff;
+  border: 2px solid #3498db;
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin: 1.25rem 0;
+}
+.TermsView .terms-content .credit-box h3 {
+  margin-top: 0;
+}
+.TermsView .terms-content .credit-box table {
+  margin: 1rem 0;
+}
+.TermsView .terms-content .terms-footer {
+  text-align: center;
+  margin-top: 3.125rem;
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(12, 23, 35, 0.6);
+}
+body[data-color-mode=dark] .TermsView .terms-content .terms-footer {
+  color: rgba(228, 234, 241, 0.74);
+}
+
 @media (max-width: 768px) {
   .TermsView {
     padding: 1rem;
@@ -4324,7 +4587,14 @@ body[data-color-mode=dark] .ai-recommendation-popup .usage-info {
     padding: 1rem;
   }
   .TermsView .terms-title {
-    font-size: 1.25rem;
+    font-size: 2rem;
+    line-height: 140%;
+    font-weight: 700;
+    font-family: "Pretendard";
+    color: rgba(7, 15, 22, 0.82);
+  }
+  body[data-color-mode=dark] .TermsView .terms-title {
+    color: rgba(248, 249, 252, 0.9);
   }
   .TermsView .terms-meta {
     -webkit-box-orient: vertical;
@@ -4353,12 +4623,30 @@ body[data-color-mode=dark] .ai-recommendation-popup .usage-info {
 .PrivacyPolicyView .no-privacy {
   text-align: center;
   padding: 3rem;
-  color: #666;
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(12, 23, 35, 0.6);
 }
+body[data-color-mode=dark] .PrivacyPolicyView .loading,
+body[data-color-mode=dark] .PrivacyPolicyView .error,
+body[data-color-mode=dark] .PrivacyPolicyView .no-privacy {
+  color: rgba(228, 234, 241, 0.74);
+}
+
 .PrivacyPolicyView .loading p {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(12, 23, 35, 0.6);
 }
+body[data-color-mode=dark] .PrivacyPolicyView .loading p {
+  color: rgba(228, 234, 241, 0.74);
+}
+
 .PrivacyPolicyView .error {
   color: #d32f2f;
 }
@@ -4372,123 +4660,370 @@ body[data-color-mode=dark] .ai-recommendation-popup .usage-info {
   margin-top: 1rem;
   padding: 0.5rem 1.5rem;
   background-color: #1976d2;
-  color: white;
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgb(255, 255, 255);
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 1rem;
   -webkit-transition: background-color 0.2s ease;
   transition: background-color 0.2s ease;
 }
+body[data-color-mode=dark] .PrivacyPolicyView .retry-button {
+  color: #16181a;
+}
+
 .PrivacyPolicyView .retry-button:hover {
   background-color: #1565c0;
 }
 .PrivacyPolicyView .no-privacy p {
   margin: 0.5rem 0;
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-header {
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
+.PrivacyPolicyView .no-privacy .no-privacy-hint {
+  font-size: 1.2rem;
+  line-height: 1.429;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(12, 23, 35, 0.6);
+  margin-top: 0.5rem;
+}
+body[data-color-mode=dark] .PrivacyPolicyView .no-privacy .no-privacy-hint {
+  color: rgba(228, 234, 241, 0.74);
+}
+
+.PrivacyPolicyView .privacy-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 2rem;
+}
+.PrivacyPolicyView .privacy-item {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background: #fafafa;
+}
+.PrivacyPolicyView .privacy-header {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
   border-bottom: 2px solid #e0e0e0;
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-title {
-  margin: 0 0 1rem 0;
-  font-size: 2rem;
-  color: #333;
+.PrivacyPolicyView .privacy-title {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.8rem;
+  line-height: 136.364%;
   font-weight: 700;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-meta {
+body[data-color-mode=dark] .PrivacyPolicyView .privacy-title {
+  color: rgba(248, 249, 252, 0.9);
+}
+
+.PrivacyPolicyView .privacy-meta {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   gap: 1rem;
-  font-size: 0.875rem;
-  color: #666;
+  font-size: 1.2rem;
+  line-height: 1.429;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(12, 23, 35, 0.6);
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-version {
+body[data-color-mode=dark] .PrivacyPolicyView .privacy-meta {
+  color: rgba(228, 234, 241, 0.74);
+}
+
+.PrivacyPolicyView .privacy-version {
+  font-size: 1.2rem;
+  line-height: 1.429;
   font-weight: 500;
+  font-family: "Pretendard";
+  color: rgba(12, 23, 35, 0.6);
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-effective-date {
+body[data-color-mode=dark] .PrivacyPolicyView .privacy-version {
+  color: rgba(228, 234, 241, 0.74);
+}
+
+.PrivacyPolicyView .privacy-effective-date {
+  font-size: 1.2rem;
+  line-height: 1.429;
   font-weight: 500;
+  font-family: "Pretendard";
+  color: rgba(12, 23, 35, 0.6);
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-date {
+body[data-color-mode=dark] .PrivacyPolicyView .privacy-effective-date {
+  color: rgba(228, 234, 241, 0.74);
+}
+
+.PrivacyPolicyView .privacy-date {
   margin-left: auto;
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content {
+.PrivacyPolicyView .privacy-content {
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
   line-height: 1.8;
-  color: #333;
-  font-size: 1rem;
+  font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", sans-serif;
   /* HTML 콘텐츠 내부 요소 스타일링 */
+  /* 특수 클래스 스타일 */
+  /* 푸터 스타일 */
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content h1,
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content h2,
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content h3,
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content h4,
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content h5,
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content h6 {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  color: #333;
-  font-weight: 600;
+body[data-color-mode=dark] .PrivacyPolicyView .privacy-content {
+  color: rgba(248, 249, 252, 0.9);
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content h1 {
-  font-size: 1.75rem;
+
+.PrivacyPolicyView .privacy-content h1 {
+  font-size: 2.9rem;
+  line-height: 137.931%;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 3px solid #3498db;
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content h2 {
-  font-size: 1.5rem;
+body[data-color-mode=dark] .PrivacyPolicyView .privacy-content h1 {
+  color: rgba(248, 249, 252, 0.9);
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content h3 {
-  font-size: 1.25rem;
+
+.PrivacyPolicyView .privacy-content h2 {
+  font-size: 2.5rem;
+  line-height: 140%;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgba(2, 12, 21, 0.72);
+  margin-top: 1.875rem;
+  margin-bottom: 0.9375rem;
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content h4 {
-  font-size: 1.1rem;
+body[data-color-mode=dark] .PrivacyPolicyView .privacy-content h2 {
+  color: rgba(232, 237, 242, 0.83);
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content p {
-  margin-bottom: 1rem;
+
+.PrivacyPolicyView .privacy-content h3 {
+  font-size: 1.8rem;
+  line-height: 136.364%;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgba(12, 23, 35, 0.6);
+  margin-top: 1.25rem;
+  margin-bottom: 0.625rem;
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content ul,
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content ol {
-  margin-bottom: 1rem;
-  padding-left: 2rem;
+body[data-color-mode=dark] .PrivacyPolicyView .privacy-content h3 {
+  color: rgba(228, 234, 241, 0.74);
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content li {
+
+.PrivacyPolicyView .privacy-content h4 {
+  font-size: 2rem;
+  line-height: 140%;
+  font-weight: 700;
+  font-family: "Pretendard";
+  color: rgba(12, 23, 35, 0.6);
+  margin-top: 1rem;
   margin-bottom: 0.5rem;
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content strong {
-  font-weight: 600;
-  color: #333;
+body[data-color-mode=dark] .PrivacyPolicyView .privacy-content h4 {
+  color: rgba(228, 234, 241, 0.74);
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content em {
+
+.PrivacyPolicyView .privacy-content p {
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
+  margin-bottom: 0.9375rem;
+}
+body[data-color-mode=dark] .PrivacyPolicyView .privacy-content p {
+  color: rgba(248, 249, 252, 0.9);
+}
+
+.PrivacyPolicyView .privacy-content ul,
+.PrivacyPolicyView .privacy-content ol {
+  margin-bottom: 0.9375rem;
+  padding-left: 1.875rem;
+}
+.PrivacyPolicyView .privacy-content li {
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
+  margin-bottom: 0.5rem;
+  line-height: 1.8;
+}
+body[data-color-mode=dark] .PrivacyPolicyView .privacy-content li {
+  color: rgba(248, 249, 252, 0.9);
+}
+
+.PrivacyPolicyView .privacy-content ul {
+  list-style-type: disc;
+}
+.PrivacyPolicyView .privacy-content ol {
+  list-style-type: decimal;
+}
+.PrivacyPolicyView .privacy-content ul ul,
+.PrivacyPolicyView .privacy-content ol ol,
+.PrivacyPolicyView .privacy-content ul ol,
+.PrivacyPolicyView .privacy-content ol ul {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.PrivacyPolicyView .privacy-content strong {
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 600;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
+}
+body[data-color-mode=dark] .PrivacyPolicyView .privacy-content strong {
+  color: rgba(248, 249, 252, 0.9);
+}
+
+.PrivacyPolicyView .privacy-content em {
   font-style: italic;
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content a {
-  color: #1976d2;
+.PrivacyPolicyView .privacy-content a {
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgb(8, 113, 243);
   text-decoration: underline;
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content a:hover {
-  color: #1565c0;
+body[data-color-mode=dark] .PrivacyPolicyView .privacy-content a {
+  color: rgb(57, 150, 243);
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content table {
+
+.PrivacyPolicyView .privacy-content a:hover {
+  color: rgb(8, 113, 243);
+  opacity: 0.8;
+}
+body[data-color-mode=dark] .PrivacyPolicyView .privacy-content a:hover {
+  color: rgb(57, 150, 243);
+}
+
+.PrivacyPolicyView .privacy-content table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 1.5rem;
+  margin: 1.25rem 0;
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content th,
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content td {
+.PrivacyPolicyView .privacy-content th,
+.PrivacyPolicyView .privacy-content td {
   border: 1px solid #ddd;
   padding: 0.75rem;
   text-align: left;
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content th {
-  background: #f5f5f5;
+.PrivacyPolicyView .privacy-content th {
+  font-size: 1.4rem;
+  line-height: 140%;
   font-weight: 600;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
+  background-color: rgba(115, 132, 149, 0.05);
 }
-.PrivacyPolicyView .privacy-content-wrapper .privacy-content blockquote {
+body[data-color-mode=dark] .PrivacyPolicyView .privacy-content th {
+  color: rgba(248, 249, 252, 0.9);
+}
+
+body[data-color-mode=dark] .PrivacyPolicyView .privacy-content th {
+  background-color: rgba(208, 234, 241, 0.05);
+}
+
+.PrivacyPolicyView .privacy-content td {
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(7, 15, 22, 0.82);
+}
+body[data-color-mode=dark] .PrivacyPolicyView .privacy-content td {
+  color: rgba(248, 249, 252, 0.9);
+}
+
+.PrivacyPolicyView .privacy-content .important {
+  background-color: #fff3cd;
+  border-left: 4px solid #ffc107;
+  padding: 0.9375rem;
+  margin: 1.25rem 0;
+  border-radius: 4px;
+}
+.PrivacyPolicyView .privacy-content .important h3 {
+  margin-top: 0;
+}
+.PrivacyPolicyView .privacy-content .important p:last-child {
+  margin-bottom: 0;
+}
+.PrivacyPolicyView .privacy-content .disclaimer {
+  background-color: rgba(115, 132, 149, 0.05);
+  border: 1px solid #dee2e6;
+  padding: 0.9375rem;
+  margin: 1.25rem 0;
+  border-radius: 5px;
+}
+body[data-color-mode=dark] .PrivacyPolicyView .privacy-content .disclaimer {
+  background-color: rgba(208, 234, 241, 0.05);
+}
+
+.PrivacyPolicyView .privacy-content .plan-box {
+  background-color: #e7f3ff;
+  border: 2px solid #3498db;
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin: 1.25rem 0;
+}
+.PrivacyPolicyView .privacy-content .plan-box h3 {
+  margin-top: 0;
+}
+.PrivacyPolicyView .privacy-content .plan-box table {
+  margin: 1rem 0;
+}
+.PrivacyPolicyView .privacy-content .plan-box ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+.PrivacyPolicyView .privacy-content .credit-box {
+  background-color: #e7f3ff;
+  border: 2px solid #3498db;
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin: 1.25rem 0;
+}
+.PrivacyPolicyView .privacy-content .credit-box h3 {
+  margin-top: 0;
+}
+.PrivacyPolicyView .privacy-content .credit-box table {
+  margin: 1rem 0;
+}
+.PrivacyPolicyView .privacy-content blockquote {
   margin: 1rem 0;
   padding: 1rem;
   border-left: 4px solid #1976d2;
   background: #f5f5f5;
 }
+.PrivacyPolicyView .privacy-content .privacy-footer {
+  text-align: center;
+  margin-top: 3.125rem;
+  font-size: 1.4rem;
+  line-height: 140%;
+  font-weight: 400;
+  font-family: "Pretendard";
+  color: rgba(12, 23, 35, 0.6);
+}
+body[data-color-mode=dark] .PrivacyPolicyView .privacy-content .privacy-footer {
+  color: rgba(228, 234, 241, 0.74);
+}
+
 @media (max-width: 768px) {
   .PrivacyPolicyView {
     padding: 1rem;
@@ -4496,30 +5031,25 @@ body[data-color-mode=dark] .ai-recommendation-popup .usage-info {
   .PrivacyPolicyView .privacy-container {
     padding: 1rem;
   }
-  .PrivacyPolicyView .privacy-content-wrapper .privacy-title {
-    font-size: 1.5rem;
+  .PrivacyPolicyView .privacy-title {
+    font-size: 2rem;
+    line-height: 140%;
+    font-weight: 700;
+    font-family: "Pretendard";
+    color: rgba(7, 15, 22, 0.82);
   }
-  .PrivacyPolicyView .privacy-content-wrapper .privacy-meta {
+  body[data-color-mode=dark] .PrivacyPolicyView .privacy-title {
+    color: rgba(248, 249, 252, 0.9);
+  }
+  .PrivacyPolicyView .privacy-meta {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
     gap: 0.5rem;
   }
-  .PrivacyPolicyView .privacy-content-wrapper .privacy-date {
+  .PrivacyPolicyView .privacy-date {
     margin-left: 0;
-  }
-  .PrivacyPolicyView .privacy-content-wrapper .privacy-content {
-    font-size: 0.9rem;
-  }
-  .PrivacyPolicyView .privacy-content-wrapper .privacy-content h1 {
-    font-size: 1.5rem;
-  }
-  .PrivacyPolicyView .privacy-content-wrapper .privacy-content h2 {
-    font-size: 1.25rem;
-  }
-  .PrivacyPolicyView .privacy-content-wrapper .privacy-content h3 {
-    font-size: 1.1rem;
   }
 }
 

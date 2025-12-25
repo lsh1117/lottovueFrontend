@@ -1107,6 +1107,7 @@ body[data-color-mode=dark] .gnb-mobile .mobile-gnb-list .mobile-gnb-item .mobile
           justify-content: space-between;
 }
 .gnb-mobile .mobile-gnb-list .mobile-gnb-item .mobile-btn-gnb.mobile-btn-gnb-parent .mobile-submenu-icon {
+  text-align: right;
   font-size: 10px;
   -webkit-transition: -webkit-transform 0.2s ease;
   transition: -webkit-transform 0.2s ease;

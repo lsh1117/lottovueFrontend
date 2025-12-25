@@ -68,7 +68,7 @@
 					<li class="gnb-submenu-item">
 						<router-link class="btn-gnb-sub" :class="{ 'on': route.path.startsWith('/notice') }" to="/notice/list">공지사항</router-link>
 					</li>
-					<li class="gnb-submenu-item">
+					<li v-if="isAuthenticated()" class="gnb-submenu-item">
 						<router-link class="btn-gnb-sub" :class="{ 'on': route.path.startsWith('/inquiry') }" to="/inquiry/list">문의하기</router-link>
 					</li>
 					<li class="gnb-submenu-item">
@@ -130,7 +130,7 @@
 					<li class="mobile-gnb-submenu-item">
 						<router-link class="mobile-btn-gnb-sub" :class="{ 'on': route.path.startsWith('/notice') }" to="/notice/list" @click="closeMobileMenu">공지사항</router-link>
 					</li>
-					<li class="mobile-gnb-submenu-item">
+					<li v-if="isAuthenticated()" class="mobile-gnb-submenu-item">
 						<router-link class="mobile-btn-gnb-sub" :class="{ 'on': route.path.startsWith('/inquiry') }" to="/inquiry/list" @click="closeMobileMenu">문의하기</router-link>
 					</li>
 					<li class="mobile-gnb-submenu-item">

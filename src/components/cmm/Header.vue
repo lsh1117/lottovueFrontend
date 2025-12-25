@@ -59,7 +59,7 @@
 				<router-link class="btn-gnb" active-class="on" to="/my-winning-number">My Page</router-link>
 			</li>
 			<li v-if="isAuthenticated()" class="gnb-item">
-				<router-link class="btn-gnb" active-class="on" to="/plan-upgrade">플랜</router-link>
+				<router-link class="btn-gnb" active-class="on" to="/plan-upgrade">Plan</router-link>
 			</li>
 			<!-- 고객센터 메뉴 (2뎁스) -->
 			<li class="gnb-item gnb-item-submenu" :class="{ 'open': isCustomerCenterOpen }">

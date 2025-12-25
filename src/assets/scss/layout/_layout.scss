@@ -243,12 +243,11 @@ body{
                 display: block;
                 width: 100%;
                 padding: 5px 10px 5px 20px;
-                color: #6c757d;
                 font-weight: 500;
                 text-align: left;
                 text-decoration: none;
                 transition: all 0.2s ease;
-                @include themeProperty(color, color-text-secondary);
+                @include themeProperty(color, color-text-gnb);
 
                 &:hover {
                     @include themeProperty(color, color-text-primary);

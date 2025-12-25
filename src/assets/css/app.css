@@ -872,10 +872,10 @@ body[data-color-mode=dark] .gnb-area.gnb-desktop ul.gnb-list li.gnb-item.gnb-ite
   text-decoration: none;
   -webkit-transition: all 0.2s ease;
   transition: all 0.2s ease;
-  color: rgb(28, 211, 12);
+  color: rgba(255, 255, 255, 0.5);
 }
 body[data-color-mode=dark] .gnb-area.gnb-desktop ul.gnb-list li.gnb-item.gnb-item-submenu .gnb-submenu .gnb-submenu-item .btn-gnb-sub {
-  color: rgb(220, 220, 220);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .gnb-area.gnb-desktop ul.gnb-list li.gnb-item.gnb-item-submenu .gnb-submenu .gnb-submenu-item .btn-gnb-sub:hover {

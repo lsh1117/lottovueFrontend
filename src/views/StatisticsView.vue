@@ -36,10 +36,10 @@
 					@click="openAIRecommendationPopup"
 					:disabled="loading || aiLoading || !drwStore.numbers.length || !isProPlanOrAbove"
 				>
-					{{ aiLoading ? 'AI 분석 중...' : (isProPlanOrAbove ? 'AI 추천 받기' : 'AI 분석 (Pro 플랜 필요)') }}
+					{{ aiLoading ? 'AI 분석 중...' : (isProPlanOrAbove ? 'AI 추천 받기' : 'AI 분석 (Pro Plan 필요)') }}
 				</button>
 				<p v-if="!isProPlanOrAbove" style="text-align: center; margin-top: 10px; color: #666; font-size: 14px;">
-					AI 분석 기능은 Pro 플랜 이상에서 이용 가능합니다.
+					AI 분석 기능은 Pro Plan 이상에서 이용 가능합니다.
 				</p>
 			</div>
 		</section>
@@ -139,7 +139,7 @@
 		usage: null
 	})
 
-	// 프로플랜 이상인지 확인
+	// 프로Plan 이상인지 확인
 	const isProPlanOrAbove = computed(() => {
 		const user = getUser()
 		return user?.plan === 'pro' || user?.plan === 'max'
@@ -361,10 +361,10 @@
 
 	// AI 추천 팝업 열기
 	async function openAIRecommendationPopup() {
-		// Pro 플랜 이상인지 확인
+		// Pro Plan 이상인지 확인
 		if (!isProPlanOrAbove.value) {
-			// Pro 플랜이 아니면 업그레이드 안내
-			if (confirm('AI 분석 기능은 Pro 플랜 이상에서 이용 가능합니다.\n플랜 업그레이드 페이지로 이동하시겠습니까?')) {
+			// Pro Plan이 아니면 업그레이드 안내
+			if (confirm('AI 분석 기능은 Pro Plan 이상에서 이용 가능합니다.\nPlan 업그레이드 페이지로 이동하시겠습니까?')) {
 				router.push('/plan-upgrade')
 			}
 			return

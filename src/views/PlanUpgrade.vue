@@ -2,11 +2,11 @@
 	<div class="PlanUpgradeView">
 		<section class="section section-area">
 			<div class="section-header">
-				<h4 class="title-big">플랜 업그레이드</h4>
+				<h4 class="title-big">Plan 업그레이드</h4>
 			</div>
 			<div class="section-body">
 				<div v-if="user" class="current-plan-info">
-					<p>현재 플랜</p>
+					<p>현재 Plan</p>
 					<div>
 						<span v-if="user.plan === 'free'" class="free-badge">
 							<svg viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -20,7 +20,7 @@
 								<rect x="0" y="0" width="80" height="32" rx="16" fill="url(#currentGreenGradient)"/>
 								<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">free</text>
 							</svg>
-							<span>Free 플랜</span>
+							<span>Free Plan</span>
 						</span>
 						<span v-else-if="user.plan === 'pro'" class="premium-badge">
 							<svg viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -34,7 +34,7 @@
 								<rect x="0" y="0" width="80" height="32" rx="16" fill="url(#currentGoldGradient)"/>
 								<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">pro</text>
 							</svg>
-							<span>Pro 플랜</span>
+							<span>Pro Plan</span>
 						</span>
 						<span v-else-if="user.plan === 'max'" class="max-badge">
 							<svg viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -48,13 +48,13 @@
 								<rect x="0" y="0" width="80" height="32" rx="16" fill="url(#currentPurpleGradient)"/>
 								<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">max</text>
 							</svg>
-							<span>Max 플랜</span>
+							<span>Max Plan</span>
 						</span>
 					</div>
 				</div>
-                <!-- 플랜 리스트 -->
+                <!-- Plan 리스트 -->
                 <div class="plan-list">
-                    <!-- Free 플랜 -->
+                    <!-- Free Plan -->
                     <div class="plan-card" :class="{ 'current': user && user.plan === 'free', 'disabled': user && user.plan !== 'free' }">
                         <div class="plan-header">
                             <div class="plan-badge free-badge">
@@ -70,7 +70,7 @@
                                     <text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">free</text>
                                 </svg>
                             </div>
-                            <h3 class="plan-title">Free 플랜</h3>
+                            <h3 class="plan-title">Free Plan</h3>
                             <p class="plan-price">무료</p>
                         </div>
                         <div class="plan-features">
@@ -86,7 +86,7 @@
                                 class="btn-secondary btn-large" 
                                 disabled
                             >
-                                현재 플랜
+                                현재 Plan
                             </button>
                             <button 
                                 v-else
@@ -99,7 +99,7 @@
                         </div>
                     </div>
 
-                    <!-- Pro 플랜 -->
+                    <!-- Pro Plan -->
                     <div class="plan-card" :class="{ 'current': user && user.plan === 'pro', 'recommended': user && user.plan === 'free' }">
                         <div class="plan-header">
                             <div class="plan-badge premium-badge">
@@ -115,7 +115,7 @@
                                     <text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">pro</text>
                                 </svg>
                             </div>
-                            <h3 class="plan-title">Pro 플랜</h3>
+                            <h3 class="plan-title">Pro Plan</h3>
                             <p class="plan-price">월 990원</p>
                         </div>
                         <div class="plan-features">
@@ -132,7 +132,7 @@
                                 class="btn-secondary btn-large" 
                                 disabled
                             >
-                                현재 플랜
+                                현재 Plan
                             </button>
                             <button 
                                 v-else
@@ -145,7 +145,7 @@
                         </div>
                     </div>
 
-                    <!-- Max 플랜 -->
+                    <!-- Max Plan -->
                     <div class="plan-card" :class="{ 'current': user && user.plan === 'max' }">
                         <div class="plan-header">
                             <div class="plan-badge max-badge">
@@ -161,7 +161,7 @@
                                     <text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">max</text>
                                 </svg>
                             </div>
-                            <h3 class="plan-title">Max 플랜</h3>
+                            <h3 class="plan-title">Max Plan</h3>
                             <p class="plan-price">월 6,990원</p>
                         </div>
                         <div class="plan-features">
@@ -178,7 +178,7 @@
                                 class="btn-secondary btn-large" 
                                 disabled
                             >
-                                현재 플랜
+                                현재 Plan
                             </button>
                             <button 
                                 v-else
@@ -244,7 +244,7 @@ const router = useRouter()
 const user = ref(null)
 const isUpgrading = ref(false)
 
-// 플랜 업그레이드 함수
+// Plan 업그레이드 함수
 const upgradePlan = async (plan) => {
 	if (isUpgrading.value) {
 		return
@@ -257,7 +257,7 @@ const upgradePlan = async (plan) => {
 	}
 
 	if (user.value.plan === plan) {
-		alert('이미 해당 플랜입니다.')
+		alert('이미 해당 Plan입니다.')
 		return
 	}
 
@@ -265,11 +265,11 @@ const upgradePlan = async (plan) => {
 
 	try {
 		// TODO: 백엔드 API 연동 필요
-		alert(`${plan.toUpperCase()} 플랜으로 업그레이드 기능은 아직 구현되지 않았습니다.`)
-		//console.log('플랜 업그레이드:', plan)
+		alert(`${plan.toUpperCase()} Plan으로 업그레이드 기능은 아직 구현되지 않았습니다.`)
+		//console.log('Plan 업그레이드:', plan)
 	} catch (error) {
-		console.error('플랜 업그레이드 오류:', error)
-		alert('플랜 업그레이드 중 오류가 발생했습니다.')
+		console.error('Plan 업그레이드 오류:', error)
+		alert('Plan 업그레이드 중 오류가 발생했습니다.')
 	} finally {
 		isUpgrading.value = false
 	}
@@ -304,7 +304,7 @@ const purchaseCredits = async () => {
 onMounted(() => {
 	// 로그인 체크
 	if (!isAuthenticated()) {
-		alert('플랜 업그레이드는 로그인 사용자만 이용 가능합니다.')
+		alert('Plan 업그레이드는 로그인 사용자만 이용 가능합니다.')
 		router.push('/home')
 		return
 	}

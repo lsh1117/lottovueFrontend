@@ -212,26 +212,26 @@
 	// 선택한 번호 개수
 	const selectedCount = ref(1);
 
-	// 플랜별 최대 선택 가능한 개수
+	// Plan별 최대 선택 가능한 개수
 	const planMaxCount = computed(() => {
 		const user = getUser();
 		if (!user || !user.plan) {
-			return 2; // 기본값: free 플랜
+			return 2; // 기본값: free Plan
 		}
-		// 플랜별 최대 개수 설정
+		// Plan별 최대 개수 설정
 		switch (user.plan) {
 			case 'free':
 				return 2;
 			case 'pro':
 				return 100;
 			case 'max':
-				return 1000; // max 플랜도 100개 (필요시 변경 가능)
+				return 1000; // max Plan도 100개 (필요시 변경 가능)
 			default:
 				return 2;
 		}
 	});
 
-	// 최대 선택 가능한 개수 (크레딧과 플랜 제한 중 작은 값)
+	// 최대 선택 가능한 개수 (크레딧과 Plan 제한 중 작은 값)
 	const maxSelectableCount = computed(() => {
 		const planMax = planMaxCount.value;
 		const creditsMax = userCredits.value;
@@ -242,7 +242,7 @@
 	let _recommendCnt = 0;
 
 	function checkRecommendCount(){
-		// 기본값 설정 (웹 환경) - 플랜별 최대 개수 사용
+		// 기본값 설정 (웹 환경) - Plan별 최대 개수 사용
 		_recommendCnt = planMaxCount.value;
 		maxPickCount.value = planMaxCount.value;
 		currentPickCount.value = 0; // 웹에서는 0으로 설정
@@ -340,7 +340,7 @@
 			id: 'account',
 			title: '계정 정보',
 			onClose: () => {
-				// 팝업 닫힌 후 플랜 상태 다시 확인 (computed로 자동 업데이트됨)
+				// 팝업 닫힌 후 Plan 상태 다시 확인 (computed로 자동 업데이트됨)
 				checkRecommendCount();
 			}
 		});
@@ -546,11 +546,11 @@
 		
 		// 사용자 정보 업데이트 이벤트 리스너 등록
 		window.addEventListener('lottovue:userUpdated', () => {
-			// 크레딧과 플랜 정보가 업데이트되면 computed로 자동으로 반영됨
+			// 크레딧과 Plan 정보가 업데이트되면 computed로 자동으로 반영됨
 			checkRecommendCount();
 		});
 		
-		// 초기 플랜 상태 설정
+		// 초기 Plan 상태 설정
 		maxPickCount.value = planMaxCount.value;
 		
 		// 초기 선택 개수 설정 (크레딧이 있으면 1개, 없으면 0개)

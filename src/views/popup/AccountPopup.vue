@@ -42,8 +42,8 @@
 					<!-- 사용자 정보 섹션 -->
 					<div class="box box-round-border">
 						<div class="user-status">
-							<!-- MAX 플랜 배지 -->
-							<span v-if="user && user.plan === 'max'" class="max-badge" title="최대 플랜 사용자">
+							<!-- MAX Plan 배지 -->
+							<span v-if="user && user.plan === 'max'" class="max-badge" title="최대 Plan 사용자">
 								<svg class="max-icon" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<defs>
 										<linearGradient id="accountPurpleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -57,9 +57,9 @@
 									<!-- max 텍스트 -->
 									<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">max</text>
 								</svg>
-								<span class="status-text">최대 플랜 사용자</span>
+								<span class="status-text">최대 Plan 사용자</span>
 							</span>
-							<!-- PRO 플랜 배지 -->
+							<!-- PRO Plan 배지 -->
 							<span v-else-if="isPremium && user && user.plan === 'pro'" class="premium-badge" title="프로 사용자">
 								<svg class="premium-icon" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<defs>
@@ -76,7 +76,7 @@
 								</svg>
 								<span class="status-text">프로 사용자</span>
 							</span>
-							<!-- FREE 플랜 배지 -->
+							<!-- FREE Plan 배지 -->
 							<span v-else class="free-badge" title="무료 사용자">
 								<svg class="free-icon" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<defs>
@@ -99,17 +99,17 @@
 							<p v-if="user && user.email"><span class="message-info">이메일: {{ user.email }}</span></p>
 							<div v-if="user" style="margin-top: 15px;">
 								<p v-if="user.plan === 'free'" class="message-info">
-									<strong>Free 플랜</strong><br>
+									<strong>Free Plan</strong><br>
 									• 회차별 최대 2개까지 생성 번호 저장 가능<br>
 									• 주간 크레딧: 2개 (크레딧 1개 = 랜덤번호 1개 생성)
 								</p>
 								<p v-else-if="user.plan === 'pro'" class="message-info">
-									<strong>Pro 플랜</strong><br>
+									<strong>Pro Plan</strong><br>
 									• 회차별 최대 100개까지 생성 번호 저장 가능<br>
 									• 주간 크레딧: 100개 (크레딧 1개 = 랜덤번호 1개 생성)
 								</p>
 								<p v-else-if="user.plan === 'max'" class="message-info">
-									<strong>Max 플랜</strong><br>
+									<strong>Max Plan</strong><br>
 									• 회차별 최대 1000개까지 생성 번호 저장 가능<br>
 									• 주간 크레딧: 1000개 (크레딧 1개 = 랜덤번호 1개 생성)
 								</p>
@@ -118,14 +118,14 @@
 					</div>
 				</div>
 				<div v-if="user && user.plan !== 'max'" class="article-footer">
-					<!-- 플랜 업그레이드 하기 -->
+					<!-- Plan 업그레이드 하기 -->
 					<button 
 						class="btn-secondary btn-large" 
 						@click="goToPlanUpgrade"
 						:disabled="isSubscribing"
 					>
 						<span v-if="isSubscribing">처리 중...</span>
-						<span v-else>플랜 업그레이드 하기</span>
+						<span v-else>Plan 업그레이드 하기</span>
 					</button>
 				</div>
 			</article>
@@ -422,14 +422,14 @@ const handleLogout = () => {
 
 // 프로 상태 확인
 const checkPremiumStatus = () => {
-	// 사용자 정보에서 플랜 확인
+	// 사용자 정보에서 Plan 확인
 	if (user.value) {
 		isPremium.value = user.value.plan === 'pro' || user.value.plan === 'max'
 		premiumStore.updateStatus(isPremium.value ? 'premium' : '')
 	}
 }
 
-// 플랜 업그레이드 페이지로 이동
+// Plan 업그레이드 페이지로 이동
 const goToPlanUpgrade = () => {
 	emit('close')
 	router.push('/plan-upgrade')

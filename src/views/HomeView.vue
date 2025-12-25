@@ -55,15 +55,15 @@
 			</div>
 		</section>
 
-		<!-- 유료 플랜 소개 -->
+		<!-- 유료 Plan 소개 -->
 		<section class="section section-area plans-section">
 			<div class="section-header">
-				<h2 class="title-big">플랜 선택</h2>
-				<p class="section-description">나에게 맞는 플랜을 선택하세요</p>
+				<h2 class="title-big">Plan 선택</h2>
+				<p class="section-description">나에게 맞는 Plan을 선택하세요</p>
 			</div>
 			<div class="section-body">
 				<div class="plan-list">
-					<!-- Free 플랜 -->
+					<!-- Free Plan -->
 					<div class="plan-card">
 						<div class="plan-header">
 							<div class="plan-badge free-badge">
@@ -79,7 +79,7 @@
 									<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">free</text>
 								</svg>
 							</div>
-							<h3 class="plan-title">Free 플랜</h3>
+							<h3 class="plan-title">Free Plan</h3>
 							<p class="plan-price">무료</p>
 						</div>
 						<div class="plan-features">
@@ -91,12 +91,12 @@
 						</div>
 						<div class="plan-action">
 							<button class="btn btn-secondary btn-large" disabled>
-								현재 플랜
+								현재 Plan
 							</button>
 						</div>
 					</div>
 
-					<!-- Pro 플랜 -->
+					<!-- Pro Plan -->
 					<div class="plan-card recommended">
 						<div class="plan-badge-recommended">추천</div>
 						<div class="plan-header">
@@ -113,7 +113,7 @@
 									<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">pro</text>
 								</svg>
 							</div>
-							<h3 class="plan-title">Pro 플랜</h3>
+							<h3 class="plan-title">Pro Plan</h3>
 							<p class="plan-price">월 990원</p>
 						</div>
 						<div class="plan-features">
@@ -131,7 +131,7 @@
 						</div>
 					</div>
 
-					<!-- Max 플랜 -->
+					<!-- Max Plan -->
 					<div class="plan-card">
 						<div class="plan-header">
 							<div class="plan-badge max-badge">
@@ -147,7 +147,7 @@
 									<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">max</text>
 								</svg>
 							</div>
-							<h3 class="plan-title">Max 플랜</h3>
+							<h3 class="plan-title">Max Plan</h3>
 							<p class="plan-price">월 6,990원</p>
 						</div>
 						<div class="plan-features">

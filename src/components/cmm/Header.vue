@@ -11,15 +11,15 @@
 		
 		<div class="header-right">
 			<div class="header-right-item" v-if="isAuthenticated()">
-				<!-- MAX 플랜 배지 -->
-				<span v-if="userPlan === 'max'" class="plan-badge max-badge" :title="`최대 플랜 사용자 - 잔여 크레딧: ${userCredits ?? 0}개`">
+				<!-- MAX Plan 배지 -->
+				<span v-if="userPlan === 'max'" class="plan-badge max-badge" :title="`최대 Plan 사용자 - 잔여 크레딧: ${userCredits ?? 0}개`">
 					{{ userCredits ?? 0 }}
 				</span>
-				<!-- PRO 플랜 배지 -->
+				<!-- PRO Plan 배지 -->
 				<span v-else-if="userPlan === 'pro'" class="plan-badge premium-badge" :title="`프로 사용자 - 잔여 크레딧: ${userCredits ?? 0}개`">
 					{{ userCredits ?? 0 }}
 				</span>
-				<!-- FREE 플랜 배지 -->
+				<!-- FREE Plan 배지 -->
 				<span v-else class="plan-badge free-badge" :title="`무료 사용자 - 잔여 크레딧: ${userCredits ?? 0}개`">
 					{{ userCredits ?? 0 }}
 				</span>
@@ -125,7 +125,7 @@
 			</li>
 			<li v-if="isAuthenticated()" class="mobile-gnb-item">
 				<router-link class="mobile-btn-gnb" active-class="on" to="/plan-upgrade" @click="closeMobileMenu">
-					<span>플랜</span>
+					<span>Plan</span>
 				</router-link>
 			</li>
 			<!-- 고객센터 메뉴 (2뎁스) -->
@@ -195,7 +195,7 @@ watch(() => [route.path, route.query.group], () => {
 	}
 }, { immediate: true })
 
-// 사용자 플랜 가져오기
+// 사용자 Plan 가져오기
 const userPlan = computed(() => {
 	const user = getUser()
 	return user?.plan || 'free'

@@ -1,7 +1,7 @@
 <template>
 	<div class="HomeView">
-		<!-- 광고 영역 -->
-		<section class="section section-area adsense-section">
+		<!-- 광고 영역 (Free Plan만 표시) -->
+		<section v-if="isFreePlan" class="section section-area adsense-section">
 			<AdSense 
 				ad-slot="4776127952"
 				ad-format="auto"
@@ -73,11 +73,19 @@
 </template>
 
 <script setup>
+	import { computed } from "vue";
 	import { useRouter } from "vue-router";
 	import AdSense from "@/components/cmm/AdSense.vue";
 	import PlansSection from "@/components/home/PlansSection.vue";
+	import { getUser } from '@/utils/auth';
 
 	const router = useRouter();
+	
+	// Free Plan 여부 확인 (Pro, Max 플랜은 광고 미표시)
+	const isFreePlan = computed(() => {
+		const user = getUser();
+		return !user || !user.plan || user.plan === 'free';
+	});
 
 	function goToPlanUpgrade() {
 		router.push('/plan-upgrade');

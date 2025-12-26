@@ -1,7 +1,7 @@
 <template>
 	<div class="ContactView">
-		<!-- 광고 영역 -->
-		<section class="section section-area adsense-section">
+		<!-- 광고 영역 (Free Plan만 표시) -->
+		<section v-if="isFreePlan" class="section section-area adsense-section">
 			<AdSense 
 				ad-slot="4556458490"
 				ad-format="auto"
@@ -76,7 +76,7 @@
 	import { useRecommendStore } from "@/stores/RecommendStore";
 	import { useCalculateStore } from "@/stores/CalculateStore";
 	import { useDrwStore } from "@/stores/DrwStore";
-	import { isAuthenticated } from '@/utils/auth';
+	import { isAuthenticated, getUser } from '@/utils/auth';
 	import AdSense from "@/components/cmm/AdSense.vue";
 
 	const router = useRouter();
@@ -88,6 +88,12 @@
 	const calculateStore = useCalculateStore();
 	// Pinia store 가져오기
 	const drwStore = useDrwStore();
+	
+	// Free Plan 여부 확인 (Pro, Max 플랜은 광고 미표시)
+	const isFreePlan = computed(() => {
+		const user = getUser();
+		return !user || !user.plan || user.plan === 'free';
+	});
 	
 	// 제외 번호 - computed로 변경하여 자동 반영
 	const exceptionNumbers = computed(() => exceptionStore.numbers);

@@ -1,7 +1,7 @@
 <template>
 	<div class="StatisticsView">
-		<!-- 광고 영역 -->
-		<section class="section section-area adsense-section">
+		<!-- 광고 영역 (Free Plan만 표시) -->
+		<section v-if="isFreePlan" class="section section-area adsense-section">
 			<AdSense 
 				ad-slot="1125298182"
 				ad-format="auto"
@@ -153,6 +153,12 @@
 	const isProPlanOrAbove = computed(() => {
 		const user = getUser()
 		return user?.plan === 'pro' || user?.plan === 'max'
+	})
+	
+	// Free Plan 여부 확인 (Pro, Max 플랜은 광고 미표시)
+	const isFreePlan = computed(() => {
+		const user = getUser()
+		return !user || !user.plan || user.plan === 'free'
 	})
 
 	// 선택된 번호

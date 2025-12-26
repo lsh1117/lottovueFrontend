@@ -539,7 +539,7 @@
 	}
 
     onMounted(() => {
-		////console.log("###### AI 추천 onMounted" );
+		//console.log("###### AI 추천 onMounted" );
 		
 		// 프로 상태 이벤트 리스너 등록
 		window.addEventListener('lottovue:premium', handlePremiumStatusChange);

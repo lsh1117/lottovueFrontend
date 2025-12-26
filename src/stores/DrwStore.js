@@ -54,7 +54,7 @@ export const useDrwStore = defineStore('drwStore', {
 						currentConsecutive[i - 1]++; // 연속 등장 횟수 증가
 
 						if (currentConsecutive[i - 1] == 4) {
-							////console.log("#############", i, item)
+							//console.log("#############", i, item)
 						}
 
 					} else {

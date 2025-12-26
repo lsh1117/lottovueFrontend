@@ -367,7 +367,7 @@
 
 	// 회차 변경 시 결과 업데이트
     async function updateResult() {
-		////console.log("##### 회차 변경 시 결과 업데이트 :", selectedDrwNo.value);
+		//console.log("##### 회차 변경 시 결과 업데이트 :", selectedDrwNo.value);
 		totalWon.value = 0;
 		no1.value = 0;
 		no2.value = 0;
@@ -390,10 +390,10 @@
 			if (Number(item.drw) >= Number(lastDrw) ) {
 				// 결과 발표 안됨
 				item.result = false;
-				////console.log("결과 발표 안됨",item.drw)
+				//console.log("결과 발표 안됨",item.drw)
 			} else {
 				// 결과 발표 됨
-				////console.log("결과 발표 됨",item.drw)
+				//console.log("결과 발표 됨",item.drw)
 				item.result = true;
 				const _drw = item.drw;
 				const _numbers = item.numbers;

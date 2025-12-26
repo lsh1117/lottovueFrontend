@@ -152,7 +152,27 @@
 	// 회차 정보
 	const drwStore = useDrwStore();
     // 마지막 회차 번호 (DrwStore에서 최신 회차)
-    const _lastDrw = Number(drwStore.getNumbers()[0].drwNo) + 1;
+    // 다음 회차 계산 (안전하게 처리)
+    const getNextDrw = () => {
+		const numbers = drwStore.getNumbers();
+		if (!numbers || numbers.length === 0) {
+			console.warn('DrwStore에 회차 정보가 없습니다. 기본값 1을 사용합니다.');
+			return 1;
+		}
+		
+		// 최신 회차 찾기 (내림차순 정렬)
+		const sortedNumbers = [...numbers].sort((a, b) => Number(b.drwNo) - Number(a.drwNo));
+		const latestDrw = sortedNumbers[0];
+		
+		if (!latestDrw || !latestDrw.drwNo) {
+			console.warn('최신 회차 정보를 찾을 수 없습니다. 기본값 1을 사용합니다.');
+			return 1;
+		}
+		
+		const latestDrwNo = Number(latestDrw.drwNo);
+		return latestDrwNo + 1; // 다음 회차
+	};
+    const _lastDrw = getNextDrw();
 
 	// 생성 번호 정보
 	const myPickStore = useMyPickStore();
@@ -342,11 +362,16 @@
 	}
 
     onMounted(() => {
-        // 1 ~ 마지막 회차까지 생성 (오름차순)
+        // 다음 회차를 다시 계산 (DrwStore가 업데이트되었을 수 있음)
+        const nextDrw = getNextDrw();
+        
+        // 1 ~ 다음 회차까지 생성 (오름차순)
         const list = [];
-        for (let i = 1; i <= _lastDrw; i++) list.push(i);
+        for (let i = 1; i <= nextDrw; i++) list.push(i);
         drwList.value = list.reverse(); // 최신 회차가 위에 오도록 내림차순 정렬
-        selectedDrwNo.value = _lastDrw;
+        
+        // 다음 회차를 기본값으로 설정
+        selectedDrwNo.value = nextDrw;
         updateResult();
     });
 </script>

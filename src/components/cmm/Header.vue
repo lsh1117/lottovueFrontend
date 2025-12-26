@@ -58,9 +58,11 @@
 			<li v-if="isAuthenticated()" class="gnb-item">
 				<router-link class="btn-gnb" active-class="on" to="/my-winning-number">My Page</router-link>
 			</li>
+			<!--
 			<li v-if="isAuthenticated()" class="gnb-item">
 				<router-link class="btn-gnb" active-class="on" to="/plan-upgrade">Plan</router-link>
 			</li>
+			-->
 			<!-- 고객센터 메뉴 (2뎁스) -->
 			<li class="gnb-item gnb-item-submenu" :class="{ 'open': isCustomerCenterOpen }">
 				<a href="javascript:void(0)" class="btn-gnb btn-gnb-parent" @click.prevent="toggleCustomerCenter">
@@ -80,12 +82,14 @@
 					<li class="gnb-submenu-item">
 						<router-link class="btn-gnb-sub" :class="{ 'on': route.path === '/privacy-policy' }" to="/privacy-policy">개인정보처리방침</router-link>
 					</li>
+					<!--
 					<li class="gnb-submenu-item">
 						<router-link class="btn-gnb-sub" :class="{ 'on': route.path === '/terms' && route.query.group === 'PS' }" to="/terms?group=PS">유료서비스 약관</router-link>
 					</li>
 					<li class="gnb-submenu-item">
 						<router-link class="btn-gnb-sub" :class="{ 'on': route.path === '/terms' && route.query.group === 'CP' }" to="/terms?group=CP">크레딧 규칙</router-link>
 					</li>
+					-->
 				</ul>
 			</li>
 		</ul>
@@ -123,11 +127,13 @@
 					<span>My Page</span>
 				</router-link>
 			</li>
+			<!--
 			<li v-if="isAuthenticated()" class="mobile-gnb-item">
 				<router-link class="mobile-btn-gnb" active-class="on" to="/plan-upgrade" @click="closeMobileMenu">
 					<span>Plan</span>
 				</router-link>
 			</li>
+			-->
 			<!-- 고객센터 메뉴 (2뎁스) -->
 			<li class="mobile-gnb-item mobile-gnb-item-submenu" :class="{ 'open': isMobileCustomerCenterOpen }">
 				<a href="javascript:void(0)" class="mobile-btn-gnb mobile-btn-gnb-parent" @click.prevent="toggleMobileCustomerCenter">
@@ -147,12 +153,14 @@
 					<li class="mobile-gnb-submenu-item">
 						<router-link class="mobile-btn-gnb-sub" :class="{ 'on': route.path === '/privacy-policy' }" to="/privacy-policy" @click="closeMobileMenu">개인정보처리방침</router-link>
 					</li>
+					<!--
 					<li class="mobile-gnb-submenu-item">
 						<router-link class="mobile-btn-gnb-sub" :class="{ 'on': route.path === '/terms' && route.query.group === 'PS' }" to="/terms?group=PS" @click="closeMobileMenu">유료서비스 약관</router-link>
 					</li>
 					<li class="mobile-gnb-submenu-item">
 						<router-link class="mobile-btn-gnb-sub" :class="{ 'on': route.path === '/terms' && route.query.group === 'CP' }" to="/terms?group=CP" @click="closeMobileMenu">크레딧 규칙</router-link>
 					</li>
+					-->
 				</ul>
 			</li>
 		</ul>

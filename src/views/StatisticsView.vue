@@ -1,5 +1,14 @@
 <template>
 	<div class="StatisticsView">
+		<!-- 광고 영역 -->
+		<section class="section section-area adsense-section">
+			<AdSense 
+				ad-slot="1125298182"
+				ad-format="auto"
+				container-class="statistics-adsense"
+			/>
+		</section>
+		
 		<section class="section section-area">
 			<div class="section-header">
 				<h4 class="title-big">통계 보기</h4>
@@ -125,6 +134,7 @@
 	import { getDraws, getAIRecommendation } from "@/api/lotto"
 	import { isAuthenticated, getUser } from '@/utils/auth'
 	import { useEventStore } from '@/stores/EventStore'
+	import AdSense from "@/components/cmm/AdSense.vue"
 
 	const router = useRouter()
 	const drwStore = useDrwStore()

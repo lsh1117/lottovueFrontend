@@ -1,5 +1,14 @@
 <template>
 	<div class="ContactView">
+		<!-- 광고 영역 -->
+		<section class="section section-area adsense-section">
+			<AdSense 
+				ad-slot="4556458490"
+				ad-format="auto"
+				container-class="contact-adsense"
+			/>
+		</section>
+		
 		<section class="section section-area">
 			<div class="section-header">
 				<h4 class="title-big">고정번호</h4>
@@ -68,6 +77,7 @@
 	import { useCalculateStore } from "@/stores/CalculateStore";
 	import { useDrwStore } from "@/stores/DrwStore";
 	import { isAuthenticated } from '@/utils/auth';
+	import AdSense from "@/components/cmm/AdSense.vue";
 
 	const router = useRouter();
 

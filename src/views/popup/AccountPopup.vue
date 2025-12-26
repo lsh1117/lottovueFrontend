@@ -42,7 +42,8 @@
 					<!-- 사용자 정보 섹션 -->
 					<div class="box box-round-border">
 						<div class="user-status">
-							<!-- MAX Plan 배지 -->
+							<!-- MAX Plan 배지 (주석 처리) -->
+							<!--
 							<span v-if="user && user.plan === 'max'" class="max-badge" title="최대 Plan 사용자">
 								<svg class="max-icon" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<defs>
@@ -52,14 +53,12 @@
 											<stop offset="100%" style="stop-color:#6A1B9A;stop-opacity:1" />
 										</linearGradient>
 									</defs>
-									<!-- 보라색 그라데이션 배지 -->
 									<rect x="0" y="0" width="80" height="32" rx="16" fill="url(#accountPurpleGradient)"/>
-									<!-- max 텍스트 -->
 									<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">max</text>
 								</svg>
 								<span class="status-text">최대 Plan 사용자</span>
 							</span>
-							<!-- PRO Plan 배지 -->
+							PRO Plan 배지 (주석 처리)
 							<span v-else-if="isPremium && user && user.plan === 'pro'" class="premium-badge" title="프로 사용자">
 								<svg class="premium-icon" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<defs>
@@ -69,15 +68,14 @@
 											<stop offset="100%" style="stop-color:#FF8C00;stop-opacity:1" />
 										</linearGradient>
 									</defs>
-									<!-- 골드색 그라데이션 배지 -->
 									<rect x="0" y="0" width="80" height="32" rx="16" fill="url(#accountGoldGradient)"/>
-									<!-- pro 텍스트 -->
 									<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">pro</text>
 								</svg>
 								<span class="status-text">프로 사용자</span>
 							</span>
+							-->
 							<!-- FREE Plan 배지 -->
-							<span v-else class="free-badge" title="무료 사용자">
+							<span class="free-badge" title="무료 사용자">
 								<svg class="free-icon" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<defs>
 										<linearGradient id="accountGreenGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -98,11 +96,12 @@
 							<p v-if="user"><span class="message-info">닉네임: {{ user.nickname }}</span></p>
 							<p v-if="user && user.email"><span class="message-info">이메일: {{ user.email }}</span></p>
 							<div v-if="user" style="margin-top: 15px;">
-								<p v-if="user.plan === 'free'" class="message-info">
+								<p class="message-info">
 									<strong>Free Plan</strong><br>
 									• 회차별 최대 2개까지 생성 번호 저장 가능<br>
 									• 주간 크레딧: 2개 (크레딧 1개 = 랜덤번호 1개 생성)
 								</p>
+								<!--
 								<p v-else-if="user.plan === 'pro'" class="message-info">
 									<strong>Pro Plan</strong><br>
 									• 회차별 최대 100개까지 생성 번호 저장 가능<br>
@@ -113,12 +112,14 @@
 									• 회차별 최대 1000개까지 생성 번호 저장 가능<br>
 									• 주간 크레딧: 1000개 (크레딧 1개 = 랜덤번호 1개 생성)
 								</p>
+								-->
 							</div>
 						</div>
 					</div>
 				</div>
+				<!-- Plan 업그레이드 버튼 (주석 처리) -->
+				<!--
 				<div v-if="user && user.plan !== 'max'" class="article-footer">
-					<!-- Plan 업그레이드 하기 -->
 					<button 
 						class="btn-secondary btn-large" 
 						@click="goToPlanUpgrade"
@@ -128,6 +129,7 @@
 						<span v-else>Plan 업그레이드 하기</span>
 					</button>
 				</div>
+				-->
 			</article>
 		</div>
 		

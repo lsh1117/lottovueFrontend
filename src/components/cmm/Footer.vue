@@ -15,6 +15,7 @@
                 >
                     개인정보처리방침
                 </router-link>
+                <!--
                 <span class="footer-separator">|</span>
                 <router-link 
                     to="/terms?group=PS" 
@@ -29,9 +30,10 @@
                 >
                     크레딧 규칙
                 </router-link>
+                -->
             </div>
             <div class="copyright-area">
-                <p>SAMDORY Inc. All rights reserved.</p>
+                <p>LOTTOVUE Inc. All rights reserved.</p>
             </div>
         </div>
     </footer>

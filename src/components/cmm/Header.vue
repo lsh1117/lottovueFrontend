@@ -238,10 +238,10 @@ function onAccountPopupClose(e){
 	//console.log("계정 정보 팝업 닫기 :",e);
 }
 
-// AI 추천 클릭 핸들러
+// AI 분석 클릭 핸들러
 function handleNumberPickClick() {
 	if (!isAuthenticated()) {
-		alert('AI 추천 기능은 로그인 후 이용 가능합니다.\n계정 정보에서 로그인해주세요.')
+		alert('AI 분석 기능은 로그인 후 이용 가능합니다.\n계정 정보에서 로그인해주세요.')
 		openAccountPopup()
 		return
 	}

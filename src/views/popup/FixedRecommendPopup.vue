@@ -34,7 +34,7 @@
 		}
 
 		if(_message1 === null && _message2 === null){
-			messages.value.push('이번주 추천 고정번호는 없음.')
+			messages.value.push('이번주 분석 고정번호는 없음.')
 		}
 	});
 	
@@ -101,7 +101,7 @@
 		let _fixeds = [];
 
 		// 최근 100회 동안 가장 많이 나왔던 횟수 25, 가장 적게 나왔던 횟수 5
-		// 5번 이하로 나온 번호는 고정번호로 추천
+		// 5번 이하로 나온 번호는 고정번호로 분석
 		_totalAppear = drwStore.getTotalAppear(_lastNumbers);
 		if (!_totalAppear || _totalAppear.length === 0) {
 			return null;

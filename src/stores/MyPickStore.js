@@ -4,9 +4,9 @@ import {
 
 export const useMyPickStore = defineStore('MyPickStore', {
 	state: () => ({
-		// 추천 받은 번호 컬랙션
+		// 분석 받은 번호 컬랙션
 		// 컬랙션 타입 object
-		// 회차별 컬랙션 데이터 numbers(추천 받은 번호 배열), drw ( 회차 ) : {MyPicks:[], drw:0000}
+		// 회차별 컬랙션 데이터 numbers(분석 받은 번호 배열), drw ( 회차 ) : {MyPicks:[], drw:0000}
 
 		collections: [
 		],

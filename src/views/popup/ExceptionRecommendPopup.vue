@@ -134,7 +134,7 @@
 		let _exceptions = [];
 
 		// 최근 100회 동안 가장 많이 나왔던 횟수 25, 가장 적게 나왔던 횟수 5
-		// 20번 이상 나온 번호 제외 추천
+		// 20번 이상 나온 번호 제외 분석
 		_totalAppear = drwStore.getTotalAppear(_lastNumbers);
 		if (!_totalAppear || _totalAppear.length === 0) {
 			return null;

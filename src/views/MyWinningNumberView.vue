@@ -38,7 +38,7 @@
 							</thead>
 							<tbody>
 								<tr v-if="loadingRecommendations">
-									<td colspan="3" class="empty-cell">추천번호를 불러오는 중...</td>
+									<td colspan="3" class="empty-cell">분석번호를 불러오는 중...</td>
 								</tr>
 								<tr v-else-if="myPickList.length === 0">
 									<td colspan="3" class="empty-cell">저장된 번호가 없습니다.</td>
@@ -326,7 +326,7 @@
 		}
 	}
 
-	// DB에서 회차별 추천번호 가져오기
+	// DB에서 회차별 분석번호 가져오기
 	async function fetchRecommendations(drwNo) {
 		if (!drwNo) {
 			myPickList.value = [];
@@ -335,9 +335,9 @@
 
 		loadingRecommendations.value = true;
 		try {
-			//console.log(`회차 ${drwNo} 추천번호 조회 시작...`);
+			//console.log(`회차 ${drwNo} 분석번호 조회 시작...`);
 			const data = await getUserRecommendations(0, 1000, drwNo);
-			//console.log(`회차 ${drwNo} 추천번호 응답:`, data);
+			//console.log(`회차 ${drwNo} 분석번호 응답:`, data);
 			
 			// API 응답을 myPickList 형식으로 변환
 			// API 응답: [{ id, drw_no, no1, no2, no3, no4, no5, no6, rank, ... }]
@@ -358,7 +358,7 @@
 				rank: item.rank || null
 			}));
 		} catch (err) {
-			console.error(`회차 ${drwNo} 추천번호를 가져오는데 실패했습니다:`, err);
+			console.error(`회차 ${drwNo} 분석번호를 가져오는데 실패했습니다:`, err);
 			myPickList.value = [];
 		} finally {
 			loadingRecommendations.value = false;
@@ -379,7 +379,7 @@
 		// 선택된 회차의 당첨 정보 가져오기
 		if (selectedDrwNo.value) {
 			await fetchDrawByNumber(selectedDrwNo.value);
-			// DB에서 추천번호 가져오기
+			// DB에서 분석번호 가져오기
 			await fetchRecommendations(selectedDrwNo.value);
 		} else {
 			myPickList.value = [];

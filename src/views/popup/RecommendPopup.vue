@@ -176,7 +176,7 @@
 		updateNextDrw();
 	}, { deep: true });
 
-	// AI 추천시 제외할 번호. ( 제외번호+고정번호 )
+	// AI 분석시 제외할 번호. ( 제외번호+고정번호 )
 	const _exc = computed(() => {
 		return _exceptionNumber.concat(_fixedNumber);
 	});
@@ -186,7 +186,7 @@
 		return [...calculateStore.getNumbers()];
 	});
 
-	// AI 추천시 제외할 번호 제외 한 전체 번호 (computed로 변경)
+	// AI 분석시 제외할 번호 제외 한 전체 번호 (computed로 변경)
 	const _newTotalNumbers = computed(() => {
 		return _totalNumbers.value.filter(item => !_exc.value.includes(item));
 	});
@@ -416,7 +416,7 @@
 			recommends.value.push(_recommend);
 			recommendStore.addRecommend(_numbers, _nextDrw.value);
 			
-			// AI 추천된 번호를 바로 pickHistory와 백엔드에 저장
+			// AI 분석된 번호를 바로 pickHistory와 백엔드에 저장
 			await saveToHistory(_numbers);
 		}
 
@@ -449,11 +449,11 @@
 				};
 				
 				await createUserRecommendation(recommendationData);
-				//console.log('백엔드에 추천번호 저장 완료:', recommendationData);
+				//console.log('백엔드에 분석번호 저장 완료:', recommendationData);
 			} catch (apiError) {
 				// 백엔드 저장 실패는 로그만 남기고 계속 진행
 				// (네트워크 오류 등 - 로컬 저장은 정상적으로 완료됨)
-				console.warn('백엔드에 추천번호 저장 실패 (무시):', apiError.response?.data?.detail || apiError.message);
+				console.warn('백엔드에 분석번호 저장 실패 (무시):', apiError.response?.data?.detail || apiError.message);
 			}
 		} catch (e) {
 			console.error('saveToHistory error:', e);
@@ -501,11 +501,11 @@
 				};
 				
 				await createUserRecommendation(recommendationData);
-				//console.log('백엔드에 추천번호 저장 완료 (수동):', recommendationData);
+				//console.log('백엔드에 분석번호 저장 완료 (수동):', recommendationData);
 			} catch (apiError) {
 				// 백엔드 저장 실패는 로그만 남기고 계속 진행
 				// (네트워크 오류 등 - 로컬 저장은 정상적으로 완료됨)
-				console.warn('백엔드에 추천번호 저장 실패 (무시):', apiError.response?.data?.detail || apiError.message);
+				console.warn('백엔드에 분석번호 저장 실패 (무시):', apiError.response?.data?.detail || apiError.message);
 			}
 			
 			// 저장 완료 처리
@@ -522,7 +522,7 @@
     }
 
 	function saveAll(){
-		// 각 추천 항목 저장 시도 및 상태 반영
+		// 각 분석 항목 저장 시도 및 상태 반영
 		recommends.value.forEach((rec, i) => {
 			if (!saved.value[i]) {
 				saveMyPick(rec, i);
@@ -539,7 +539,7 @@
 	}
 
     onMounted(() => {
-		//console.log("###### AI 추천 onMounted" );
+		//console.log("###### AI 분석 onMounted" );
 		
 		// 프로 상태 이벤트 리스너 등록
 		window.addEventListener('lottovue:premium', handlePremiumStatusChange);

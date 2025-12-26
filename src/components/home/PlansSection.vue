@@ -42,7 +42,7 @@
 
 				<!-- Pro Plan -->
 				<div class="plan-card recommended">
-					<div class="plan-badge-recommended">추천</div>
+					<div class="plan-badge-recommended">분석</div>
 					<div class="plan-header">
 						<div class="plan-badge premium-badge">
 							<svg viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">

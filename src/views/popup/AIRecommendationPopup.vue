@@ -9,7 +9,7 @@
 		</div>
 		
 		<div v-else-if="recommendation" class="recommendation-content">
-			<!-- 마크다운 형식의 추천 내용을 HTML로 변환하여 표시 -->
+			<!-- 마크다운 형식의 분석 내용을 HTML로 변환하여 표시 -->
 			<div class="recommendation-text" v-html="formattedRecommendation"></div>
 			
 			<!-- 사용량 정보 (선택사항) -->

@@ -29,7 +29,7 @@
 			<div class="section-footer">
 				<div class="btn-area btn-area-center">
 					<button class="btn-primary btn-small"  @click="openFixedPopup">변경</button>
-					<button class="btn-primary btn-small"  @click="openFixedRecommendPopup">추천 고정번호</button>
+					<button class="btn-primary btn-small"  @click="openFixedRecommendPopup">분석 고정번호</button>
 				</div>
 			</div>
 		</section>
@@ -54,7 +54,7 @@
 			<div class="section-footer">
 				<div class="btn-area btn-area-center">
 					<button class="btn-primary btn-small" @click="openExceptionPopup">변경</button>
-					<button class="btn-primary btn-small" @click="openExceptionRecommendPopup">추천 제외번호</button>
+					<button class="btn-primary btn-small" @click="openExceptionRecommendPopup">분석 제외번호</button>
 				</div>
 			</div>
 		</section>
@@ -121,20 +121,20 @@
 		//console.log("제외번호 닫기 핸들러 :",e);
 	}
 
-	// 추천 제외번호 팝업 호출
+	// 분석 제외번호 팝업 호출
 	function openExceptionRecommendPopup() {
-		//console.log("추천 제외번호 보기");
+		//console.log("분석 제외번호 보기");
 		eventStore.emit('popup',{
 			id:"exceptionRecommend",
-			title:"추천 제외번호 보기",
+			title:"분석 제외번호 보기",
 			onClose:onExceptionRecommendPopupClose,
 		});
 	}
 
-	// 추천 제외번호 닫기 핸들러.
+	// 분석 제외번호 닫기 핸들러.
 	function onExceptionRecommendPopupClose(e){
 		// computed로 자동 반영되므로 수동 업데이트 불필요
-		//console.log("추천 제외번호 닫기 핸들러 :",e);
+		//console.log("분석 제외번호 닫기 핸들러 :",e);
 	}
 
 	// 고정번호 - computed로 변경하여 자동 반영
@@ -163,19 +163,19 @@
 		//console.log("고정번호 닫기 핸들러 :",e);
 	}
 
-	// 추천 고정번호 팝업 호출
+	// 분석 고정번호 팝업 호출
 	function openFixedRecommendPopup() {
-		//console.log("추천 고정번호 보기");
+		//console.log("분석 고정번호 보기");
 		eventStore.emit('popup',{
 			id:"fixedRecommend",
-			title:"추천 고정번호 보기",
+			title:"분석 고정번호 보기",
 			onClose:onFixedRecommendPopupClose,
 		});
 	}
 
-	// 추천 고정번호 닫기 핸들러.
+	// 분석 고정번호 닫기 핸들러.
 	function onFixedRecommendPopupClose(e){
-		//console.log("추천 고정번호 닫기 핸들러 :",e);
+		//console.log("분석 고정번호 닫기 핸들러 :",e);
 	}
 
 	function getGroup(n) {
@@ -183,9 +183,9 @@
 		return Math.floor((n - 1) / 10) + 1;
 	}
 
-	// AI 추천 팝업 호출
+	// AI 분석 팝업 호출
 	function openRecommendPopup() {
-		//console.log("AI 추천 팝업 호출");
+		//console.log("AI 분석 팝업 호출");
 
 		if(calculateStore.getState() === false) {
 			calculate();
@@ -269,7 +269,7 @@
 	// 로그인 체크
 	onMounted(() => {
 		if (!isAuthenticated()) {
-			alert('AI 추천 기능은 로그인 사용자만 이용 가능합니다.');
+			alert('AI 분석 기능은 로그인 사용자만 이용 가능합니다.');
 			router.push('/home');
 		}
 	});

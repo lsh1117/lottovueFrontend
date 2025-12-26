@@ -68,7 +68,7 @@ POST http://localhost:8030/api/recommendations/ net::ERR_FAILED 500 (Internal Se
   1. **인증 토큰 문제**: `get_current_user` 의존성 실패 (토큰이 없거나 유효하지 않음)
   2. **데이터베이스 연결 문제**: DB 연결 실패 또는 쿼리 오류
   3. **스키마 검증 실패**: 요청 데이터 형식이 맞지 않음
-  4. **중복 저장 시도**: 같은 회차에 이미 추천번호가 있음 (ValueError → 400 Bad Request로 변환되어야 함)
+  4. **중복 저장 시도**: 같은 회차에 이미 분석번호가 있음 (ValueError → 400 Bad Request로 변환되어야 함)
 
 **해결 방법:**
 
@@ -102,7 +102,7 @@ POST http://localhost:8030/api/recommendations/ net::ERR_FAILED 500 (Internal Se
 4. **데이터베이스 확인**
    - 데이터베이스 연결 상태 확인
    - `user_recommendations` 테이블이 존재하는지 확인
-   - 같은 회차에 이미 추천번호가 있는지 확인
+   - 같은 회차에 이미 분석번호가 있는지 확인
 
 ## 디버깅 단계
 

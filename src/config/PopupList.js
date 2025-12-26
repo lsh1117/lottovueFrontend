@@ -43,7 +43,7 @@ export const popupList = {
 		},
 	},
 	fixedRecommend: {
-		title: '추천 고정번호',
+		title: '분석 고정번호',
 		type:'dialog',
 		component: FixedRecommendPopup,
 		options: {
@@ -51,7 +51,7 @@ export const popupList = {
 		},
 	},
 	exceptionRecommend: {
-		title: '추천 제외번호',
+		title: '분석 제외번호',
 		type:'dialog',
 		component: ExceptionRecommendPopup,
 		options: {
@@ -83,7 +83,7 @@ export const popupList = {
 		},
 	},
 	aiRecommendation: {
-		title: 'AI 추천 결과',
+		title: 'AI 분석 결과',
 		type:'dialog',
 		component: AIRecommendationPopup,
 		options: {

@@ -45,7 +45,7 @@
 					@click="openAIRecommendationPopup"
 					:disabled="loading || aiLoading || !drwStore.numbers.length || !isProPlanOrAbove"
 				>
-					{{ aiLoading ? 'AI 분석 중...' : (isProPlanOrAbove ? 'AI 추천 받기' : 'AI 분석 (Pro Plan 필요)') }}
+					{{ aiLoading ? 'AI 분석 중...' : (isProPlanOrAbove ? 'AI 분석 받기' : 'AI 분석 (Pro Plan 필요)') }}
 				</button>
 				<p v-if="!isProPlanOrAbove" style="text-align: center; margin-top: 10px; color: #666; font-size: 14px;">
 					AI 분석 기능은 Pro Plan 이상에서 이용 가능합니다.
@@ -375,7 +375,7 @@
 		return statisticsData
 	}
 
-	// AI 추천 팝업 열기
+	// AI 분석 팝업 열기
 	async function openAIRecommendationPopup() {
 		// Pro Plan 이상인지 확인
 		if (!isProPlanOrAbove.value) {
@@ -388,10 +388,10 @@
 
 		// 기존에 받은 데이터가 있으면 팝업만 열고 API 호출하지 않음
 		if (aiRecommendationData.value && aiRecommendationData.value.recommendation) {
-			//console.log('기존 AI 추천 데이터 사용')
+			//console.log('기존 AI 분석 데이터 사용')
 			eventStore.emit('popup', {
 				id: "aiRecommendation",
-				title: "AI 추천 결과",
+				title: "AI 분석 결과",
 				onClose: onAIRecommendationPopupClose,
 				options: {
 					recommendation: aiRecommendationData.value.recommendation,
@@ -407,7 +407,7 @@
 		// 팝업 먼저 열기 (로딩 상태로)
 		eventStore.emit('popup', {
 			id: "aiRecommendation",
-			title: "AI 추천 결과",
+			title: "AI 분석 결과",
 			onClose: onAIRecommendationPopupClose,
 			options: {
 				recommendation: null,
@@ -436,7 +436,7 @@
 			// API 호출
 			const response = await getAIRecommendation(statisticsData)
 			
-			//console.log('AI 추천 응답:', response)
+			//console.log('AI 분석 응답:', response)
 
 			// 응답 처리
 			if (response && response.recommendation) {
@@ -453,7 +453,7 @@
 				}
 			} else {
 				aiRecommendationData.value = {
-					recommendation: 'AI 추천 결과를 받았습니다.',
+					recommendation: 'AI 분석 결과를 받았습니다.',
 					model: null,
 					usage: null
 				}
@@ -462,7 +462,7 @@
 			// 데이터 업데이트 후 팝업 다시 열기 (데이터 포함)
 			eventStore.emit('popup', {
 				id: "aiRecommendation",
-				title: "AI 추천 결과",
+				title: "AI 분석 결과",
 				onClose: onAIRecommendationPopupClose,
 				options: {
 					recommendation: aiRecommendationData.value.recommendation,
@@ -473,13 +473,13 @@
 				},
 			})
 		} catch (err) {
-			console.error('AI 추천 요청 오류:', err)
-			aiError.value = err.response?.data?.detail || err.message || 'AI 추천 요청에 실패했습니다.'
+			console.error('AI 분석 요청 오류:', err)
+			aiError.value = err.response?.data?.detail || err.message || 'AI 분석 요청에 실패했습니다.'
 			
 			// 에러 상태로 팝업 다시 열기
 			eventStore.emit('popup', {
 				id: "aiRecommendation",
-				title: "AI 추천 결과",
+				title: "AI 분석 결과",
 				onClose: onAIRecommendationPopupClose,
 				options: {
 					recommendation: null,
@@ -494,7 +494,7 @@
 		}
 	}
 
-	// AI 추천 팝업 닫기 핸들러
+	// AI 분석 팝업 닫기 핸들러
 	function onAIRecommendationPopupClose(e) {
 		aiError.value = null
 		// 데이터는 유지 (다음에 다시 열 때 재사용하기 위해)

@@ -12,9 +12,9 @@
 		<section class="section section-area hero-section">
 			<div class="section-header">
 				<h1 class="hero-title">로또뷰</h1>
-				<p class="hero-subtitle">스마트한 로또 번호 분석과 추천 서비스</p>
+				<p class="hero-subtitle">스마트한 로또 번호 분석과 분석 서비스</p>
 				<p class="hero-description">
-					로또뷰는 통계 기반 분석과 AI 추천 기능을 통해<br>
+					로또뷰는 통계 기반 분석과 AI 분석 기능을 통해<br>
 					더 나은 로또 번호 선택을 도와드립니다.
 				</p>
 			</div>
@@ -37,10 +37,10 @@
 					</div>
 					<div class="feature-card">
 						<div class="feature-icon">🤖</div>
-						<h3 class="feature-title">AI 추천</h3>
+						<h3 class="feature-title">AI 분석</h3>
 						<p class="feature-description">
 							통계 기반 AI 분석을 통한<br>
-							스마트한 번호 추천
+							스마트한 번호 분석
 						</p>
 					</div>
 					<div class="feature-card">

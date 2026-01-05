@@ -5,25 +5,59 @@ import { getToken, logout } from '@/utils/auth'
 // 환경 변수 VITE_API_BASE_URL이 설정되어 있으면 사용하고, 없으면 기본값 사용
 // 프로덕션 환경에서는 HTTPS를 사용하도록 자동 감지
 const getDefaultBaseURL = () => {
-	// 프로덕션 환경 감지 (localhost가 아니고 HTTPS를 사용하는 경우)
-	if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.protocol === 'https:') {
-		return 'https://lottovue-backend.onrender.com/api/'
+	// 환경 변수가 설정되어 있으면 우선 사용
+	if (import.meta.env.VITE_API_BASE_URL) {
+		return import.meta.env.VITE_API_BASE_URL
 	}
+	
+	// 브라우저 환경에서만 실행
+	if (typeof window !== 'undefined' && window.location) {
+		const hostname = window.location.hostname
+		const protocol = window.location.protocol
+		
+		// 프로덕션 환경 감지 (localhost가 아니고 HTTPS를 사용하는 경우)
+		if (hostname !== 'localhost' && hostname !== '127.0.0.1' && protocol === 'https:') {
+			return 'https://lottovue-backend.onrender.com/api/'
+		}
+	}
+	
 	// 로컬 개발 환경
 	return 'http://localhost:8030/api/'
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || getDefaultBaseURL()
+const API_BASE_URL = getDefaultBaseURL()
 
 let http = axios.create({
 	baseURL: API_BASE_URL,
 	timeout: 30000, // 30초로 증가 (데이터베이스 쿼리 시간 고려)
 })
 
+// 런타임에 baseURL이 올바르게 설정되었는지 확인하고 필요시 업데이트
+if (typeof window !== 'undefined' && window.location) {
+	const currentProtocol = window.location.protocol
+	const currentHostname = window.location.hostname
+	
+	// HTTPS 페이지에서 HTTP baseURL을 사용하려고 하면 강제로 HTTPS로 변경
+	if (currentProtocol === 'https:' && http.defaults.baseURL.startsWith('http://')) {
+		http.defaults.baseURL = http.defaults.baseURL.replace('http://', 'https://')
+		console.log('API baseURL이 HTTPS로 자동 변경되었습니다:', http.defaults.baseURL)
+	}
+}
+
 // 인터셉터 추가
 http.interceptors.request.use(
 	config => {
 		//console.log('API 요청:', config.method?.toUpperCase(), config.url)
+		
+		// HTTPS 페이지에서 HTTP 요청을 강제로 HTTPS로 변경
+		if (typeof window !== 'undefined' && window.location.protocol === 'https:') {
+			if (config.url && config.url.startsWith('http://')) {
+				config.url = config.url.replace('http://', 'https://')
+			}
+			if (config.baseURL && config.baseURL.startsWith('http://')) {
+				config.baseURL = config.baseURL.replace('http://', 'https://')
+			}
+		}
 		
 		// JWT 토큰이 있으면 헤더에 추가
 		const token = getToken()

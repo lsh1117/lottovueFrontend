@@ -187,6 +187,11 @@
 	function openRecommendPopup() {
 		//console.log("AI 분석 팝업 호출");
 
+		if (!isAuthenticated()) {
+			alert('번호 생성 기능은 로그인 후 이용 가능합니다.\n계정 정보에서 로그인해주세요.');
+			return;
+		}
+
 		if(calculateStore.getState() === false) {
 			calculate();
 		}
@@ -266,11 +271,8 @@
 		calculateStore.setNumbers(calculateNumbers);
 	}
 
-	// 로그인 체크
+	// 로그인 체크 제거 - 비로그인 사용자도 번호 생성 화면 이용 가능
 	onMounted(() => {
-		if (!isAuthenticated()) {
-			alert('AI 분석 기능은 로그인 사용자만 이용 가능합니다.');
-			router.push('/home');
-		}
+		// 로그인 체크 제거됨
 	});
 </script>

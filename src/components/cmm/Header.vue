@@ -240,21 +240,23 @@ function onAccountPopupClose(e){
 
 // AI 분석 클릭 핸들러
 function handleNumberPickClick() {
-	if (!isAuthenticated()) {
-		alert('AI 분석 기능은 로그인 후 이용 가능합니다.\n계정 정보에서 로그인해주세요.')
-		openAccountPopup()
-		return
-	}
+
+	// if (!isAuthenticated()) {
+	// 	alert('AI 분석 기능은 로그인 후 이용 가능합니다.\n계정 정보에서 로그인해주세요.')
+	// 	openAccountPopup()
+	// 	return
+	// }
 	router.push('/contact')
 }
 
 // 통계 클릭 핸들러
 function handleStatisticsClick() {
-	if (!isAuthenticated()) {
-		alert('통계 기능은 로그인 후 이용 가능합니다.\n계정 정보에서 로그인해주세요.')
-		openAccountPopup()
-		return
-	}
+
+	// if (!isAuthenticated()) {
+	// 	alert('통계 기능은 로그인 후 이용 가능합니다.\n계정 정보에서 로그인해주세요.')
+	// 	openAccountPopup()
+	// 	return
+	// }
 	router.push('/statistics')
 }
 

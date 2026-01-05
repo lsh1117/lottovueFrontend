@@ -43,13 +43,10 @@
 				<button 
 					class="btn-primary btn-large" 
 					@click="openAIRecommendationPopup"
-					:disabled="loading || aiLoading || !drwStore.numbers.length || !isProPlanOrAbove"
+					:disabled="loading || aiLoading || !drwStore.numbers.length"
 				>
-					{{ aiLoading ? 'AI 분석 중...' : (isProPlanOrAbove ? 'AI 분석 받기' : 'AI 분석 (Pro Plan 필요)') }}
+					{{ aiLoading ? 'AI 분석 중...' : 'AI 분석 받기' }}
 				</button>
-				<p v-if="!isProPlanOrAbove" style="text-align: center; margin-top: 10px; color: #666; font-size: 14px;">
-					AI 분석 기능은 Pro Plan 이상에서 이용 가능합니다.
-				</p>
 			</div>
 		</section>
 		<!-- 
@@ -377,14 +374,7 @@
 
 	// AI 분석 팝업 열기
 	async function openAIRecommendationPopup() {
-		// Pro Plan 이상인지 확인
-		if (!isProPlanOrAbove.value) {
-			// Pro Plan이 아니면 업그레이드 안내
-			if (confirm('AI 분석 기능은 Pro Plan 이상에서 이용 가능합니다.\nPlan 업그레이드 페이지로 이동하시겠습니까?')) {
-				router.push('/plan-upgrade')
-			}
-			return
-		}
+		// Pro Plan 체크 제거 - 모든 사용자가 AI 분석 기능 이용 가능
 
 		// 기존에 받은 데이터가 있으면 팝업만 열고 API 호출하지 않음
 		if (aiRecommendationData.value && aiRecommendationData.value.recommendation) {
@@ -501,13 +491,7 @@
 	}
 
 	onMounted(async () => {
-		// 로그인 체크
-		if (!isAuthenticated()) {
-			alert('통계 기능은 로그인 사용자만 이용 가능합니다.');
-			router.push('/home');
-			return;
-		}
-		
+		// 로그인 체크 제거 - 비로그인 사용자도 통계 화면 이용 가능
 		await fetchAllDraws()
 	})
 

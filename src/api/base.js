@@ -3,8 +3,17 @@ import { getToken, logout } from '@/utils/auth'
 
 // 백엔드 API 기본 경로 설정
 // 환경 변수 VITE_API_BASE_URL이 설정되어 있으면 사용하고, 없으면 기본값 사용
-// 기본값: http://localhost:8030/api/
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8030/api/'
+// 프로덕션 환경에서는 HTTPS를 사용하도록 자동 감지
+const getDefaultBaseURL = () => {
+	// 프로덕션 환경 감지 (localhost가 아니고 HTTPS를 사용하는 경우)
+	if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.protocol === 'https:') {
+		return 'https://lottovue-backend.onrender.com/api/'
+	}
+	// 로컬 개발 환경
+	return 'http://localhost:8030/api/'
+}
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || getDefaultBaseURL()
 
 let http = axios.create({
 	baseURL: API_BASE_URL,

@@ -11,7 +11,7 @@ import http from './base'
  * @returns {Promise} 공지사항 목록
  */
 export function getNoticesList(skip = 0, limit = 100) {
-	return http.get('/notices', {
+	return http.get('/notices/', {
 		params: { skip, limit }
 	})
 }

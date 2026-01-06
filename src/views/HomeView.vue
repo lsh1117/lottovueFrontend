@@ -1,6 +1,6 @@
 <template>
 	<div class="HomeView">
-		<!-- 광고 영역 (Free Plan만 표시) -->
+		<!-- 광고 영역 (Free Plan만 표시) 
 		<section v-if="isFreePlan" class="section section-area adsense-section">
 			<AdSense 
 				ad-slot="4776127952"
@@ -8,6 +8,7 @@
 				container-class="home-adsense"
 			/>
 		</section>
+		-->
 		<!-- 히어로 섹션: 로또뷰 소개 -->
 		<section class="section section-area hero-section">
 			<div class="section-header">

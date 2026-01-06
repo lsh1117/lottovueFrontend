@@ -1,6 +1,6 @@
 <template>
 	<div class="ContactView">
-		<!-- 광고 영역 (Free Plan만 표시) -->
+		<!-- 광고 영역 (Free Plan만 표시) 
 		<section v-if="isFreePlan" class="section section-area adsense-section">
 			<AdSense 
 				ad-slot="4556458490"
@@ -8,7 +8,7 @@
 				container-class="contact-adsense"
 			/>
 		</section>
-		
+		-->
 		<section class="section section-area">
 			<div class="section-header">
 				<h4 class="title-big">고정번호</h4>

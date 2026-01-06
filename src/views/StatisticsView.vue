@@ -1,6 +1,6 @@
 <template>
 	<div class="StatisticsView">
-		<!-- 광고 영역 (Free Plan만 표시) -->
+		<!-- 광고 영역 (Free Plan만 표시) 
 		<section v-if="isFreePlan" class="section section-area adsense-section">
 			<AdSense 
 				ad-slot="1125298182"
@@ -8,6 +8,7 @@
 				container-class="statistics-adsense"
 			/>
 		</section>
+		-->
 		
 		<section class="section section-area">
 			<div class="section-header">

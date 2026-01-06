@@ -1592,7 +1592,7 @@ body[data-color-mode=dark] .popup-container .popup-area .popup-overlay {
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
-  border: 0.6rem solid transparent;
+  border: 3px solid transparent;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   border-color: rgb(43, 43, 43);

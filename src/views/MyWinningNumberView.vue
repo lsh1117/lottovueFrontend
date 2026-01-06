@@ -55,7 +55,10 @@
 											</ul>
 										</div>
 									</td>
-									<td v-if="recommend.result"><strong>{{recommend.no}}</strong><span>등</span></td>
+									<td v-if="recommend.result && recommend.no">
+										<strong>{{recommend.no}}</strong><span>등</span>
+										<span v-if="recommend.won > 0" class="win-amount">({{ formatCurrency(recommend.won) }}원)</span>
+									</td>
 									<td v-else><span>미추첨</span></td>
 								</tr>
 							</tbody>
@@ -384,52 +387,70 @@
 		} else {
 			myPickList.value = [];
 		}
+		
+		// 당첨 정보가 없으면 매칭 계산 불가
+		if (!currentDrawResult.value) {
+			myPickList.value.forEach(item => {
+				item.result = false;
+				item.numbers.forEach(numberObj => {
+					numberObj.matching = false;
+				});
+			});
+			return;
+		}
+		
 		const lastDrw = nextDrwNo.value;
 		myPickList.value.forEach(item => {
 			// 저장한 회차가 다음 추첨 회차(최신 회차 + 1) 이상이면 아직 미추첨 처리
 			if (Number(item.drw) >= Number(lastDrw) ) {
 				// 결과 발표 안됨
 				item.result = false;
+				item.numbers.forEach(numberObj => {
+					numberObj.matching = false;
+				});
 				//console.log("결과 발표 안됨",item.drw)
 			} else {
-				// 결과 발표 됨
+				// 결과 발표 됨 - API에서 가져온 당첨 정보로 매칭
 				//console.log("결과 발표 됨",item.drw)
 				item.result = true;
-				const _drw = item.drw;
 				const _numbers = item.numbers;
 				let _cnt = 0;
-				let _no2 = 0;
+				let unmatchedNumber = null;
 
 				_numbers.forEach(numberObj => {
-					const _matching = checkMatching(_drw, numberObj.number);
+					const _matching = checkMatching(numberObj.number);
 					numberObj.matching = _matching;
 					if (_matching) {
 						_cnt++;
 					} else {
-						_no2 = numberObj.number;
+						unmatchedNumber = numberObj.number;
 					}
 				});
 
-				if (_cnt === 3) {
-					no5.value++;
-					item.no = 5;
-				} else if (_cnt === 4) {
-					no4.value++;
-					item.no = 4;
+				// 등수 계산
+				if (_cnt === 6) {
+					no1.value++;
+					item.no = 1;
+					item.won = currentDrawResult.value.first_winamnt_per_game || 0;
 				} else if (_cnt === 5) {
-					// 2등 여부 체크.
-					if (checkNo2(_drw, _no2)) {
+					// 5개 매칭 시 보너스 번호 확인 (2등 vs 3등)
+					if (checkNo2(unmatchedNumber)) {
 						no2.value++;
 						item.no = 2;
+						item.won = currentDrawResult.value.second_winamnt_per_game || 0;
 					} else {
 						no3.value++;
 						item.no = 3;
+						item.won = currentDrawResult.value.third_winamnt_per_game || 0;
 					}
-
-				} else if (_cnt === 6) {
-					no1.value++;
-					item.no = 1;
-
+				} else if (_cnt === 4) {
+					no4.value++;
+					item.no = 4;
+					item.won = currentDrawResult.value.fourth_winamnt_per_game || 0;
+				} else if (_cnt === 3) {
+					no5.value++;
+					item.no = 5;
+					item.won = currentDrawResult.value.fifth_winamnt_per_game || 0;
 				} else {
 					no6.value++;
 					item.no = 6;
@@ -467,44 +488,37 @@
 
 	}
 
-	function checkMatching(drw, number) {
+	function checkMatching(number) {
 		try {
-			const _drwNo = drwStore.getDrwNo(drw);
-			const _numbers = [
-				Number(_drwNo.drwtNo1),
-				Number(_drwNo.drwtNo2),
-				Number(_drwNo.drwtNo3),
-				Number(_drwNo.drwtNo4),
-				Number(_drwNo.drwtNo5),
-				Number(_drwNo.drwtNo6),
-			]
-			if (_numbers.includes(number)) {
-				return true;
-			} else {
+			if (!currentDrawResult.value) {
 				return false;
 			}
+			const _numbers = [
+				Number(currentDrawResult.value.drwt_no1),
+				Number(currentDrawResult.value.drwt_no2),
+				Number(currentDrawResult.value.drwt_no3),
+				Number(currentDrawResult.value.drwt_no4),
+				Number(currentDrawResult.value.drwt_no5),
+				Number(currentDrawResult.value.drwt_no6),
+			]
+			return _numbers.includes(Number(number));
 		} catch (e) {
 			//console.log("error:",e.message);
-			return null;
+			return false;
 		}
 	}
 
-	function checkNo2(drw, number) {
+	function checkNo2(number) {
 		try {
-			const _drwNo = drwStore.getDrwNo(drw);
-
-			//console.log("### 2등 체크 여부 보너스 번호 : ", Number(_drwNo.bnusNo))
-			//console.log("### 2등 체크 여부 선택 번호 : ", number)
-
-			if (Number(_drwNo.bnusNo) === number) {
-				return true;
-			} else {
+			if (!currentDrawResult.value) {
 				return false;
 			}
-
+			//console.log("### 2등 체크 여부 보너스 번호 : ", Number(currentDrawResult.value.bnus_no))
+			//console.log("### 2등 체크 여부 선택 번호 : ", number)
+			return Number(currentDrawResult.value.bnus_no) === Number(number);
 		} catch (e) {
 			//console.log("error:",e.message);
-			return null;
+			return false;
 		}
 	}
 

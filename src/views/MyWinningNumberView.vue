@@ -43,19 +43,19 @@
 								<tr v-else-if="myPickList.length === 0">
 									<td colspan="3" class="empty-cell">저장된 번호가 없습니다.</td>
 								</tr>
-								<tr v-else v-for="recommend in myPickList" :key="recommend">
+								<tr v-else v-for="recommend in myPickList" :key="recommend.id || recommend.drw">
 									<td><span>{{ recommend.drw }}</span><span>회</span></td>
 									<td>
 										<div class="ball-area">
 											<ul class="ball-list">
-												<li class="ball-item" v-for="item in recommend.numbers" :key="item">
+												<li class="ball-item" v-for="(item, idx) in recommend.numbers" :key="`${recommend.id || recommend.drw}-${idx}-${item.number}`">
 													<span v-if="item.matching" class="ball-645 ball-645-medium" :class="'ball-' + getGroup(item.number)">{{item.number}}</span>
 													<span v-else class="ball-645 ball-645-medium ball-645-disable" :class="'ball-' + getGroup(item.number)">{{item.number}}</span>
 												</li>
 											</ul>
 										</div>
 									</td>
-									<td v-if="recommend.result && recommend.no">
+									<td v-if="recommend.result !== null && recommend.result !== false && recommend.no">
 										<strong>{{recommend.no}}</strong><span>등</span>
 										<span v-if="recommend.won > 0" class="win-amount">({{ formatCurrency(recommend.won) }}원)</span>
 									</td>
@@ -344,21 +344,21 @@
 			
 			// API 응답을 myPickList 형식으로 변환
 			// API 응답: [{ id, drw_no, no1, no2, no3, no4, no5, no6, rank, ... }]
-			// myPickList 형식: [{ drw, numbers: [{ number }], result, no, ... }]
+			// myPickList 형식: [{ drw, numbers: [{ number, matching }], result, no, won, ... }]
 			myPickList.value = data.map(item => ({
 				id: item.id,
 				drw: item.drw_no,
 				numbers: [
-					{ number: item.no1 },
-					{ number: item.no2 },
-					{ number: item.no3 },
-					{ number: item.no4 },
-					{ number: item.no5 },
-					{ number: item.no6 }
+					{ number: item.no1, matching: false },
+					{ number: item.no2, matching: false },
+					{ number: item.no3, matching: false },
+					{ number: item.no4, matching: false },
+					{ number: item.no5, matching: false },
+					{ number: item.no6, matching: false }
 				].sort((a, b) => a.number - b.number), // 번호 정렬
 				result: null, // 나중에 계산됨
-				no: item.rank || null,
-				rank: item.rank || null
+				no: null, // 나중에 계산됨
+				won: 0 // 나중에 계산됨
 			}));
 		} catch (err) {
 			console.error(`회차 ${drwNo} 분석번호를 가져오는데 실패했습니다:`, err);
@@ -392,6 +392,8 @@
 		if (!currentDrawResult.value) {
 			myPickList.value.forEach(item => {
 				item.result = false;
+				item.no = null;
+				item.won = 0;
 				item.numbers.forEach(numberObj => {
 					numberObj.matching = false;
 				});
@@ -399,12 +401,29 @@
 			return;
 		}
 		
+		const selectedDrw = Number(selectedDrwNo.value);
 		const lastDrw = nextDrwNo.value;
+		
 		myPickList.value.forEach(item => {
+			const itemDrw = Number(item.drw);
+			
+			// 선택한 회차와 저장된 번호의 회차가 다르면 미추첨 처리
+			if (itemDrw !== selectedDrw) {
+				item.result = false;
+				item.no = null;
+				item.won = 0;
+				item.numbers.forEach(numberObj => {
+					numberObj.matching = false;
+				});
+				return;
+			}
+			
 			// 저장한 회차가 다음 추첨 회차(최신 회차 + 1) 이상이면 아직 미추첨 처리
-			if (Number(item.drw) >= Number(lastDrw) ) {
+			if (itemDrw >= Number(lastDrw)) {
 				// 결과 발표 안됨
 				item.result = false;
+				item.no = null;
+				item.won = 0;
 				item.numbers.forEach(numberObj => {
 					numberObj.matching = false;
 				});
@@ -524,6 +543,7 @@
 
 	function formatCurrency(amount) {
 		// 숫자를 문자열로 변환하고 정규식을 이용하여 3자리마다 ',' 삽입
+		if (amount === null || amount === undefined || amount === 0) return '0';
 		return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 	}
 

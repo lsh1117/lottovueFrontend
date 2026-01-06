@@ -49,7 +49,7 @@
 										<div class="ball-area">
 											<ul class="ball-list">
 												<li class="ball-item" v-for="(item, idx) in recommend.numbers" :key="`${recommend.id || recommend.drw}-${idx}-${item.number}`">
-													<span v-if="item.matching" class="ball-645 ball-645-medium" :class="'ball-' + getGroup(item.number)">{{item.number}}</span>
+													<span v-if="item.matching" class="ball-645 ball-645-medium ball-645-active" :class="'ball-' + getGroup(item.number)">{{item.number}}</span>
 													<span v-else class="ball-645 ball-645-medium ball-645-disable" :class="'ball-' + getGroup(item.number)">{{item.number}}</span>
 												</li>
 											</ul>

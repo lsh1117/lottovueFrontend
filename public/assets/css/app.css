@@ -1589,8 +1589,8 @@ body[data-color-mode=dark] .popup-container .popup-area .popup-overlay {
   display: block;
   top: 0;
   left: 0;
-  width: 4rem;
-  height: 4rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   border: 0.6rem solid transparent;
   -webkit-box-sizing: border-box;
@@ -1920,7 +1920,11 @@ body[data-color-mode=dark] .ball-645-small {
 }
 
 .ball-645-disable {
-  opacity: 0.7;
+  opacity: 0.5;
+}
+.ball-645-active {
+  opacity: 1;
+  border: 2px solid #fff;
 }
 @media (max-width: 768px) {
   .ball-645 {

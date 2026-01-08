@@ -61,6 +61,7 @@
 		<section class="section section-area fixed-bottom">
 			<div class="btn-area btn-area-center">
 				<button class="btn-primary btn-large" @click="openRecommendPopup" >번호 생성</button>
+				<button class="btn-primary btn-large" @click="goToStatistics" >통계보기</button>
 				<button class="btn-primary btn-large" @click="openMyNumberPopup" >내번호보기</button>
 			</div>
 		</section>
@@ -199,6 +200,12 @@
 			id:"recommend",
 			title:"번호 생성",
 		});
+	}
+
+	// 통계 화면으로 이동
+	function goToStatistics() {
+		//console.log("통계 화면으로 이동");
+		router.push('/statistics');
 	}
 
 	// 내번호 보기 화면으로 이동

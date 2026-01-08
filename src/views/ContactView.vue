@@ -60,7 +60,7 @@
 		</section>
 		<section class="section section-area fixed-bottom">
 			<div class="btn-area btn-area-center">
-				<button class="btn-primary btn-large" @click="openRecommendPopup" >번호 생성</button>
+				<button class="btn-primary btn-large" @click="openRecommendPopup" >번호생성</button>
 				<button class="btn-primary btn-large" @click="goToStatistics" >통계보기</button>
 				<button class="btn-primary btn-large" @click="openMyNumberPopup" >내번호보기</button>
 			</div>

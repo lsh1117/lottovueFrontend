@@ -41,53 +41,144 @@
 				<div class="article-body">
 					<!-- 사용자 정보 섹션 -->
 					<div class="box box-round-border">
-						<div class="user-status">
-							<!-- MAX Plan 배지 (주석 처리) -->
-							<!--
-							<span v-if="user && user.plan === 'max'" class="max-badge" title="최대 Plan 사용자">
-								<svg class="max-icon" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<div v-if="user" class="user-status">
+							<span
+								v-if="user.plan === 'max'"
+								class="max-badge"
+								title="Max Plan 사용자"
+							>
+								<svg
+									class="max-icon"
+									viewBox="0 0 80 32"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+									aria-hidden="true"
+								>
 									<defs>
-										<linearGradient id="accountPurpleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-											<stop offset="0%" style="stop-color:#9C27B0;stop-opacity:1" />
-											<stop offset="50%" style="stop-color:#7B1FA2;stop-opacity:1" />
-											<stop offset="100%" style="stop-color:#6A1B9A;stop-opacity:1" />
+										<linearGradient
+											id="accountPopupPurpleGradient"
+											x1="0%"
+											y1="0%"
+											x2="100%"
+											y2="0%"
+										>
+											<stop offset="0%" style="stop-color: #9c27b0; stop-opacity: 1" />
+											<stop offset="50%" style="stop-color: #7b1fa2; stop-opacity: 1" />
+											<stop offset="100%" style="stop-color: #6a1b9a; stop-opacity: 1" />
 										</linearGradient>
 									</defs>
-									<rect x="0" y="0" width="80" height="32" rx="16" fill="url(#accountPurpleGradient)"/>
-									<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">max</text>
+									<rect
+										x="0"
+										y="0"
+										width="80"
+										height="32"
+										rx="6"
+										fill="url(#accountPopupPurpleGradient)"
+									/>
+									<text
+										x="40"
+										y="16"
+										font-family="Arial, sans-serif"
+										font-size="18"
+										font-weight="700"
+										text-anchor="middle"
+										dominant-baseline="middle"
+										fill="white"
+									>
+										max
+									</text>
 								</svg>
-								<span class="status-text">최대 Plan 사용자</span>
+								<span class="status-text">Max Plan 사용자</span>
 							</span>
-							PRO Plan 배지 (주석 처리)
-							<span v-else-if="isPremium && user && user.plan === 'pro'" class="premium-badge" title="프로 사용자">
-								<svg class="premium-icon" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<span
+								v-else-if="user.plan === 'pro'"
+								class="premium-badge"
+								title="Pro Plan 사용자"
+							>
+								<svg
+									class="premium-icon"
+									viewBox="0 0 80 32"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+									aria-hidden="true"
+								>
 									<defs>
-										<linearGradient id="accountGoldGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-											<stop offset="0%" style="stop-color:#FFD700;stop-opacity:1" />
-											<stop offset="50%" style="stop-color:#FFA500;stop-opacity:1" />
-											<stop offset="100%" style="stop-color:#FF8C00;stop-opacity:1" />
+										<linearGradient
+											id="accountPopupGoldGradient"
+											x1="0%"
+											y1="0%"
+											x2="100%"
+											y2="0%"
+										>
+											<stop offset="0%" style="stop-color: #ffd700; stop-opacity: 1" />
+											<stop offset="50%" style="stop-color: #ffa500; stop-opacity: 1" />
+											<stop offset="100%" style="stop-color: #ff8c00; stop-opacity: 1" />
 										</linearGradient>
 									</defs>
-									<rect x="0" y="0" width="80" height="32" rx="16" fill="url(#accountGoldGradient)"/>
-									<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">pro</text>
+									<rect
+										x="0"
+										y="0"
+										width="80"
+										height="32"
+										rx="10"
+										fill="url(#accountPopupGoldGradient)"
+									/>
+									<text
+										x="40"
+										y="16"
+										font-family="Arial, sans-serif"
+										font-size="18"
+										font-weight="700"
+										text-anchor="middle"
+										dominant-baseline="middle"
+										fill="white"
+									>
+										pro
+									</text>
 								</svg>
-								<span class="status-text">프로 사용자</span>
+								<span class="status-text">Pro 사용자</span>
 							</span>
-							-->
-							<!-- FREE Plan 배지 -->
-							<span class="free-badge" title="무료 사용자">
-								<svg class="free-icon" viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<span v-else class="free-badge" title="Free Plan 사용자">
+								<svg
+									class="free-icon"
+									viewBox="0 0 80 32"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+									aria-hidden="true"
+								>
 									<defs>
-										<linearGradient id="accountGreenGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-											<stop offset="0%" style="stop-color:#4CAF50;stop-opacity:1" />
-											<stop offset="50%" style="stop-color:#66BB6A;stop-opacity:1" />
-											<stop offset="100%" style="stop-color:#81C784;stop-opacity:1" />
+										<linearGradient
+											id="accountPopupGreenGradient"
+											x1="0%"
+											y1="0%"
+											x2="100%"
+											y2="0%"
+										>
+											<stop offset="0%" style="stop-color: #4caf50; stop-opacity: 1" />
+											<stop offset="50%" style="stop-color: #66bb6a; stop-opacity: 1" />
+											<stop offset="100%" style="stop-color: #81c784; stop-opacity: 1" />
 										</linearGradient>
 									</defs>
-									<!-- 녹색 그라데이션 배지 -->
-									<rect x="0" y="0" width="80" height="32" rx="16" fill="url(#accountGreenGradient)"/>
-									<!-- free 텍스트 -->
-									<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">free</text>
+									<rect
+										x="0"
+										y="0"
+										width="80"
+										height="32"
+										rx="16"
+										fill="url(#accountPopupGreenGradient)"
+									/>
+									<text
+										x="40"
+										y="16"
+										font-family="Arial, sans-serif"
+										font-size="18"
+										font-weight="700"
+										text-anchor="middle"
+										dominant-baseline="middle"
+										fill="white"
+									>
+										free
+									</text>
 								</svg>
 								<span class="status-text">무료 사용자</span>
 							</span>
@@ -514,21 +605,28 @@ const emit = defineEmits(['close'])
 .max-badge .max-icon,
 .premium-badge .premium-icon,
 .free-badge .free-icon {
-	width: 64px;
-	height: 24px;
 	display: block;
 	flex-shrink: 0;
 }
 
+/* Max: 각진 뱃지, 약간 넓게 */
 .max-badge .max-icon {
-	filter: drop-shadow(0 2px 4px rgba(156, 39, 176, 0.4));
+	width: 70px;
+	height: 26px;
+	filter: drop-shadow(0 2px 6px rgba(106, 27, 154, 0.45));
 }
 
+/* Pro: 중간 라운드 */
 .premium-badge .premium-icon {
-	filter: drop-shadow(0 2px 4px rgba(255, 215, 0, 0.4));
+	width: 66px;
+	height: 25px;
+	filter: drop-shadow(0 2px 5px rgba(255, 140, 0, 0.42));
 }
 
+/* Free: 캡슐(pill) 형태 SVG rx=16 */
 .free-badge .free-icon {
+	width: 64px;
+	height: 24px;
 	filter: drop-shadow(0 2px 4px rgba(76, 175, 80, 0.3));
 }
 

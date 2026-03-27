@@ -96,12 +96,11 @@
 							<p v-if="user"><span class="message-info">닉네임: {{ user.nickname }}</span></p>
 							<p v-if="user && user.email"><span class="message-info">이메일: {{ user.email }}</span></p>
 							<div v-if="user" style="margin-top: 15px;">
-								<p class="message-info">
+								<p v-if="user.plan === 'free'" class="message-info">
 									<strong>Free Plan</strong><br>
 									• 회차별 최대 2개까지 생성 번호 저장 가능<br>
 									• 주간 크레딧: 2개 (크레딧 1개 = 랜덤번호 1개 생성)
 								</p>
-								<!--
 								<p v-else-if="user.plan === 'pro'" class="message-info">
 									<strong>Pro Plan</strong><br>
 									• 회차별 최대 100개까지 생성 번호 저장 가능<br>
@@ -112,13 +111,10 @@
 									• 회차별 최대 1000개까지 생성 번호 저장 가능<br>
 									• 주간 크레딧: 1000개 (크레딧 1개 = 랜덤번호 1개 생성)
 								</p>
-								-->
 							</div>
 						</div>
 					</div>
 				</div>
-				<!-- Plan 업그레이드 버튼 (주석 처리) -->
-				<!--
 				<div v-if="user && user.plan !== 'max'" class="article-footer">
 					<button 
 						class="btn-secondary btn-large" 
@@ -129,7 +125,6 @@
 						<span v-else>Plan 업그레이드 하기</span>
 					</button>
 				</div>
-				-->
 			</article>
 		</div>
 		

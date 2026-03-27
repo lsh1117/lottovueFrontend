@@ -2,6 +2,19 @@
 	<div class="MypageView">
 		<section class="section section-area">
 			<div class="section-header">
+				<h4 class="title-big">플랜 가입정보</h4>
+			</div>
+			<div class="section-body">
+				<div class="box-area">
+					<div class="box box-round-bg plan-info-box">
+						<p class="plan-info-text"><strong>현재 플랜:</strong> {{ planLabel }}</p>
+						<p class="plan-info-text"><strong>잔여 크레딧:</strong> {{ userCredits }}개</p>
+					</div>
+				</div>
+			</div>
+		</section>
+		<section class="section section-area">
+			<div class="section-header">
 				<h4 class="title-big">내정보</h4>
 			</div>
 			<div class="section-body">
@@ -58,13 +71,14 @@
 </template>
 
 <script setup>
-	import { onMounted, ref } from 'vue';
+	import { computed, onMounted, ref } from 'vue';
 	import { useEventStore } from '@/stores/EventStore';
 	import { useExceptionStore } from "@/stores/ExceptionStore";
 	import { useFixedStore } from "@/stores/FixedStore";
 	import { useRecommendStore } from "@/stores/RecommendStore";
 	import { useCalculateStore } from "@/stores/CalculateStore";
 	import { useDrwStore } from "@/stores/DrwStore";
+	import { getUser } from '@/utils/auth';
 
 	const eventStore = useEventStore();
 	const exceptionStore = useExceptionStore();
@@ -73,6 +87,15 @@
 	const calculateStore = useCalculateStore();
 	// Pinia store 가져오기
 	const drwStore = useDrwStore();
+	const user = ref(null);
+
+	const userPlan = computed(() => user.value?.plan || 'free');
+	const userCredits = computed(() => user.value?.credits ?? 0);
+	const planLabel = computed(() => {
+		if (userPlan.value === 'max') return 'Max';
+		if (userPlan.value === 'pro') return 'Pro';
+		return 'Free';
+	});
 	
 	// 제외 번호
 	let exceptionNumbers = ref([]);
@@ -201,7 +224,19 @@
 	}
 
 	onMounted(() => {
+		user.value = getUser();
 		exceptionNumbers.value = [...exceptionStore.numbers];
 		fixedNumbers.value = [...fixedStore.numbers];
 	});
 </script>
+
+<style scoped>
+.plan-info-box {
+	padding: 16px;
+}
+
+.plan-info-text {
+	margin: 4px 0;
+	font-size: 15px;
+}
+</style>

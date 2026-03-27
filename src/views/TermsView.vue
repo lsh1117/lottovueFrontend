@@ -75,6 +75,20 @@ const termGroups = ref([])
 const selectedTermGroup = ref('')
 
 /**
+ * 레거시 그룹 코드(TOS/PS/CP)를 실제 약관 그룹 코드로 변환
+ */
+function normalizeTermGroupCode(groupCode) {
+	if (!groupCode) return ''
+	const code = String(groupCode).trim().toUpperCase()
+	const groupMap = {
+		TOS: 'TERMS_SERVICE',
+		PS: 'TERMS_PAID_SERVICE',
+		CP: 'TERMS_CREDIT_POLICY'
+	}
+	return groupMap[code] || code
+}
+
+/**
  * 약관 그룹 목록 로드
  */
 async function loadTermGroups() {
@@ -107,10 +121,11 @@ async function loadTerms() {
 	
 	try {
 		let response
-		if (selectedTermGroup.value) {
+		const normalizedGroup = normalizeTermGroupCode(selectedTermGroup.value)
+		if (normalizedGroup) {
 			// 특정 그룹의 활성화된 약관만 조회
-			//console.log('약관 그룹별 활성화된 약관 조회:', selectedTermGroup.value)
-			response = await getActiveTermsByGroup(selectedTermGroup.value)
+			//console.log('약관 그룹별 활성화된 약관 조회:', normalizedGroup)
+			response = await getActiveTermsByGroup(normalizedGroup)
 		} else {
 			// 전체 약관 조회 (활성화된 것만)
 			//console.log('전체 활성화된 약관 조회')
@@ -184,7 +199,7 @@ function formatDate(dateString) {
 // 쿼리 파라미터에서 약관 그룹 가져오기
 watch(() => route.query.group, async (newGroup) => {
 	if (newGroup) {
-		selectedTermGroup.value = newGroup
+		selectedTermGroup.value = normalizeTermGroupCode(newGroup)
 		await loadTerms()
 	}
 }, { immediate: true })
@@ -194,7 +209,7 @@ onMounted(async () => {
 	
 	// 쿼리 파라미터에서 약관 그룹이 있으면 설정
 	if (route.query.group) {
-		selectedTermGroup.value = route.query.group
+		selectedTermGroup.value = normalizeTermGroupCode(route.query.group)
 	}
 	
 	await loadTerms()

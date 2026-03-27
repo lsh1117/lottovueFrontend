@@ -1,14 +1,5 @@
 <template>
 	<div class="StatisticsView">
-		<!-- 광고 영역 (Free Plan만 표시) -->
-		<section v-if="isFreePlan" class="section section-area adsense-section">
-			<AdSense 
-				ad-slot="1125298182"
-				ad-format="auto"
-				container-class="statistics-adsense"
-			/>
-		</section>
-		
 		<section class="section section-area">
 			<div class="section-header">
 				<h4 class="title-big">통계 보기</h4>
@@ -131,7 +122,6 @@
 	import { getDraws, getAIRecommendation } from "@/api/lotto"
 	import { isAuthenticated, getUser } from '@/utils/auth'
 	import { useEventStore } from '@/stores/EventStore'
-	import AdSense from "@/components/cmm/AdSense.vue"
 
 	const router = useRouter()
 	const drwStore = useDrwStore()
@@ -152,12 +142,6 @@
 		return user?.plan === 'pro' || user?.plan === 'max'
 	})
 	
-	// Free Plan 여부 확인 (Pro, Max 플랜은 광고 미표시)
-	const isFreePlan = computed(() => {
-		const user = getUser()
-		return !user || !user.plan || user.plan === 'free'
-	})
-
 	// 선택된 번호
 	const selectedNumber = ref(null)
 

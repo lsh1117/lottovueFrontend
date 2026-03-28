@@ -186,6 +186,9 @@
 						<div style="margin-top: 10px;">
 							<p v-if="user"><span class="message-info">닉네임: {{ user.nickname }}</span></p>
 							<p v-if="user && user.email"><span class="message-info">이메일: {{ user.email }}</span></p>
+							<p v-if="user" class="message-info credits-summary">
+								잔여 크레딧: <strong>{{ userCredits }}</strong>개
+							</p>
 							<div v-if="user" style="margin-top: 15px;">
 								<p v-if="user.plan === 'free'" class="message-info">
 									<strong>Free Plan</strong><br>
@@ -206,9 +209,18 @@
 						</div>
 					</div>
 				</div>
-				<div v-if="user && user.plan !== 'max'" class="article-footer">
-					<button 
-						class="btn-secondary btn-large" 
+				<div v-if="user" class="article-footer account-popup-actions">
+					<button
+						type="button"
+						class="btn-primary btn-large btn-full"
+						@click="goToCreditsPurchase"
+					>
+						크레딧 추가 구매
+					</button>
+					<button
+						v-if="user.plan !== 'max'"
+						type="button"
+						class="btn-secondary btn-large btn-full"
 						@click="goToPlanUpgrade"
 						:disabled="isSubscribing"
 					>
@@ -250,6 +262,8 @@ const authenticated = computed(() => {
 const premiumStatus = computed(() => {
 	return premiumStore.status && premiumStore.status.length > 0
 })
+
+const userCredits = computed(() => user.value?.credits ?? 0)
 
 // 카카오 로그인 처리 (새 창으로 열기)
 const handleKakaoLogin = () => {
@@ -517,11 +531,13 @@ const checkPremiumStatus = () => {
 	}
 }
 
-// Plan 업그레이드 페이지로 이동
+// 플랜 정보·업그레이드·크레딧 구매 안내 화면으로 이동
 const goToPlanUpgrade = () => {
 	emit('close')
-	router.push('/plan-upgrade')
+	router.push({ name: 'PlanUpgradeView' })
 }
+
+const goToCreditsPurchase = goToPlanUpgrade
 
 // 프로 상태 변경 이벤트 리스너
 const handlePremiumStatusChange = (event) => {
@@ -633,5 +649,21 @@ const emit = defineEmits(['close'])
 .status-text {
 	font-size: 16px;
 	font-weight: 600;
+}
+
+.credits-summary {
+	margin-top: 10px;
+	margin-bottom: 0;
+}
+
+.account-popup-actions {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	align-items: stretch;
+}
+
+.account-popup-actions .btn-full {
+	width: 100%;
 }
 </style>

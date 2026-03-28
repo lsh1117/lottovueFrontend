@@ -81,26 +81,34 @@
                             </ul>
                         </div>
                         <div class="plan-action">
-                            <button 
-                                v-if="user && user.plan === 'free'" 
-                                class="btn-secondary btn-large" 
+                            <button
+                                v-if="user && user.plan === 'free'"
+                                type="button"
+                                class="btn-secondary btn-large"
                                 disabled
                             >
                                 현재 Plan
                             </button>
-                            <button 
+                            <button
                                 v-else
-                                class="btn-secondary btn-large" 
-                                @click="upgradePlan('free')"
-                                :disabled="isUpgrading"
+                                type="button"
+                                class="btn-secondary btn-large"
+                                disabled
                             >
-                                다운그레이드
+                                다운그레이드 불가
                             </button>
                         </div>
                     </div>
 
                     <!-- Pro Plan -->
-                    <div class="plan-card" :class="{ 'current': user && user.plan === 'pro', 'recommended': user && user.plan === 'free' }">
+                    <div
+                        class="plan-card"
+                        :class="{
+                            'current': user && user.plan === 'pro',
+                            'recommended': user && user.plan === 'free',
+                            'disabled': user && user.plan === 'max',
+                        }"
+                    >
                         <div class="plan-header">
                             <div class="plan-badge premium-badge">
                                 <svg viewBox="0 0 80 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -127,16 +135,26 @@
                             </ul>
                         </div>
                         <div class="plan-action">
-                            <button 
-                                v-if="user && user.plan === 'pro'" 
-                                class="btn-secondary btn-large" 
+                            <button
+                                v-if="user && user.plan === 'pro'"
+                                type="button"
+                                class="btn-secondary btn-large"
                                 disabled
                             >
                                 현재 Plan
                             </button>
-                            <button 
-                                v-else
-                                class="btn-primary btn-large" 
+                            <button
+                                v-else-if="user && user.plan === 'max'"
+                                type="button"
+                                class="btn-secondary btn-large"
+                                disabled
+                            >
+                                낮은 플랜으로 변경 불가
+                            </button>
+                            <button
+                                v-else-if="user && user.plan === 'free'"
+                                type="button"
+                                class="btn-primary btn-large"
                                 @click="upgradePlan('pro')"
                                 :disabled="isUpgrading"
                             >
@@ -173,16 +191,18 @@
                             </ul>
                         </div>
                         <div class="plan-action">
-                            <button 
-                                v-if="user && user.plan === 'max'" 
-                                class="btn-secondary btn-large" 
+                            <button
+                                v-if="user && user.plan === 'max'"
+                                type="button"
+                                class="btn-secondary btn-large"
                                 disabled
                             >
                                 현재 Plan
                             </button>
-                            <button 
+                            <button
                                 v-else
-                                class="btn-primary btn-large" 
+                                type="button"
+                                class="btn-primary btn-large"
                                 @click="upgradePlan('max')"
                                 :disabled="isUpgrading"
                             >
@@ -238,13 +258,22 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { getUser, isAuthenticated } from '@/utils/auth'
+import http from '@/api/base'
+import { getUser, isAuthenticated, setUser } from '@/utils/auth'
 
 const router = useRouter()
 const user = ref(null)
 const isUpgrading = ref(false)
 
-// Plan 업그레이드 함수
+const PLAN_ORDER = { free: 0, pro: 1, max: 2 }
+
+function isUpgradePath(fromPlan, toPlan) {
+	const from = PLAN_ORDER[fromPlan] ?? -1
+	const to = PLAN_ORDER[toPlan] ?? -1
+	return to > from
+}
+
+// Plan 업그레이드 함수 (다운그레이드는 UI·API 모두 차단)
 const upgradePlan = async (plan) => {
 	if (isUpgrading.value) {
 		return
@@ -261,15 +290,30 @@ const upgradePlan = async (plan) => {
 		return
 	}
 
+	if (!isUpgradePath(user.value.plan, plan)) {
+		alert('다운그레이드는 지원하지 않습니다.')
+		return
+	}
+
 	isUpgrading.value = true
 
 	try {
-		// TODO: 백엔드 API 연동 필요
-		alert(`${plan.toUpperCase()} Plan으로 업그레이드 기능은 아직 구현되지 않았습니다.`)
-		//console.log('Plan 업그레이드:', plan)
+		const updated = await http.post('/users/me/upgrade-plan', { plan })
+		if (updated) {
+			setUser(updated)
+			user.value = updated
+			window.dispatchEvent(new CustomEvent('lottovue:userUpdated'))
+			const label = plan === 'max' ? 'Max' : 'Pro'
+			alert(`${label} Plan으로 변경되었습니다.`)
+		}
 	} catch (error) {
 		console.error('Plan 업그레이드 오류:', error)
-		alert('Plan 업그레이드 중 오류가 발생했습니다.')
+		const detail = error.response?.data?.detail
+		alert(
+			typeof detail === 'string'
+				? detail
+				: 'Plan 업그레이드 중 오류가 발생했습니다.',
+		)
 	} finally {
 		isUpgrading.value = false
 	}

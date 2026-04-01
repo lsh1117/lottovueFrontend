@@ -143,12 +143,12 @@ http.interceptors.response.use(
 			})
 		}
 		
-		// 401 Unauthorized 에러 시 로그아웃 처리
+		// 401 Unauthorized 에러 시 로그아웃 처리 후 홈으로 이동
 		if (err.response?.status === 401) {
 			logout()
-			// 로그인 페이지로 리다이렉트 (router는 컴포넌트에서만 사용 가능하므로 window.location 사용)
-			if (window.location.pathname !== '/login') {
-				window.location.href = '/#/login'
+			const hash = window.location.hash || ''
+			if (!hash.startsWith('#/home')) {
+				window.location.href = '/#/home'
 			}
 		}
 		

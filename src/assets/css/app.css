@@ -59,8 +59,7 @@
   height: 1px;
   margin: -1px;
   overflow: hidden;
-  -webkit-clip-path: polygon(0 0, 0 0, 0 0);
-          clip-path: polygon(0 0, 0 0, 0 0);
+  clip-path: polygon(0 0, 0 0, 0 0);
 }
 
 /* font mixin
@@ -332,21 +331,27 @@ html, body {
 body {
   font-size: 1.6rem;
   color: rgba(7, 15, 22, 0.82);
-  color: rgba(7, 15, 22, 0.82);
-  background-color: rgb(255, 255, 255);
-  background-color: rgb(255, 255, 255);
 }
 body[data-color-mode=dark] body {
   color: rgba(248, 249, 252, 0.9);
 }
 
+body {
+  color: rgba(7, 15, 22, 0.82);
+}
 body[data-color-mode=dark] {
   color: rgba(248, 249, 252, 0.9);
+}
+body {
+  background-color: rgb(255, 255, 255);
 }
 body[data-color-mode=dark] body {
   background-color: #16181a;
 }
 
+body {
+  background-color: rgb(255, 255, 255);
+}
 body[data-color-mode=dark] {
   background-color: #16181a;
 }
@@ -745,14 +750,16 @@ body[data-color-mode=dark] .header-area h1 span {
   overflow-y: auto;
   z-index: 900;
   background-color: rgb(24, 24, 24);
-  border-right: 1px solid rgba(51, 51, 51, 0.6);
-  -webkit-box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
-          box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
 }
 body[data-color-mode=dark] .gnb-area.gnb-desktop {
   background-color: rgb(1, 10, 19);
 }
 
+.gnb-area.gnb-desktop {
+  border-right: 1px solid rgba(51, 51, 51, 0.6);
+  -webkit-box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+}
 @media (max-width: 768px) {
   .gnb-area.gnb-desktop {
     display: none;
@@ -800,30 +807,36 @@ body[data-color-mode=dark] .gnb-area.gnb-desktop ul.gnb-list li.gnb-item > .btn-
 
 .gnb-area.gnb-desktop ul.gnb-list li.gnb-item > .btn-gnb:hover {
   color: rgb(255, 255, 255);
-  background-color: rgb(51, 51, 51);
 }
 body[data-color-mode=dark] .gnb-area.gnb-desktop ul.gnb-list li.gnb-item > .btn-gnb:hover {
   color: rgb(22, 22, 22);
 }
 
+.gnb-area.gnb-desktop ul.gnb-list li.gnb-item > .btn-gnb:hover {
+  background-color: rgb(51, 51, 51);
+}
 body[data-color-mode=dark] .gnb-area.gnb-desktop ul.gnb-list li.gnb-item > .btn-gnb:hover {
   background-color: rgb(255, 255, 255);
 }
 
 .gnb-area.gnb-desktop ul.gnb-list li.gnb-item > .btn-gnb.on {
   color: rgb(255, 255, 255);
-  background-color: rgb(51, 51, 51);
-  font-weight: 600;
-  border-left: 3px solid #007bff;
 }
 body[data-color-mode=dark] .gnb-area.gnb-desktop ul.gnb-list li.gnb-item > .btn-gnb.on {
   color: rgb(22, 22, 22);
 }
 
+.gnb-area.gnb-desktop ul.gnb-list li.gnb-item > .btn-gnb.on {
+  background-color: rgb(51, 51, 51);
+}
 body[data-color-mode=dark] .gnb-area.gnb-desktop ul.gnb-list li.gnb-item > .btn-gnb.on {
   background-color: rgb(255, 255, 255);
 }
 
+.gnb-area.gnb-desktop ul.gnb-list li.gnb-item > .btn-gnb.on {
+  font-weight: 600;
+  border-left: 3px solid #007bff;
+}
 .gnb-area.gnb-desktop ul.gnb-list li.gnb-item.gnb-item-submenu {
   position: relative;
 }
@@ -880,38 +893,46 @@ body[data-color-mode=dark] .gnb-area.gnb-desktop ul.gnb-list li.gnb-item.gnb-ite
 
 .gnb-area.gnb-desktop ul.gnb-list li.gnb-item.gnb-item-submenu .gnb-submenu .gnb-submenu-item .btn-gnb-sub:hover {
   color: rgb(255, 255, 255);
-  background-color: rgb(24, 24, 24);
 }
 body[data-color-mode=dark] .gnb-area.gnb-desktop ul.gnb-list li.gnb-item.gnb-item-submenu .gnb-submenu .gnb-submenu-item .btn-gnb-sub:hover {
   color: rgb(22, 22, 22);
 }
 
+.gnb-area.gnb-desktop ul.gnb-list li.gnb-item.gnb-item-submenu .gnb-submenu .gnb-submenu-item .btn-gnb-sub:hover {
+  background-color: rgb(24, 24, 24);
+}
 body[data-color-mode=dark] .gnb-area.gnb-desktop ul.gnb-list li.gnb-item.gnb-item-submenu .gnb-submenu .gnb-submenu-item .btn-gnb-sub:hover {
   background-color: rgb(1, 10, 19);
 }
 
 .gnb-area.gnb-desktop ul.gnb-list li.gnb-item.gnb-item-submenu .gnb-submenu .gnb-submenu-item .btn-gnb-sub.on {
   color: rgb(255, 255, 255);
-  background-color: rgb(24, 24, 24);
-  font-weight: 500;
-  border-left: 3px solid #007bff;
 }
 body[data-color-mode=dark] .gnb-area.gnb-desktop ul.gnb-list li.gnb-item.gnb-item-submenu .gnb-submenu .gnb-submenu-item .btn-gnb-sub.on {
   color: rgb(22, 22, 22);
 }
 
+.gnb-area.gnb-desktop ul.gnb-list li.gnb-item.gnb-item-submenu .gnb-submenu .gnb-submenu-item .btn-gnb-sub.on {
+  background-color: rgb(24, 24, 24);
+}
 body[data-color-mode=dark] .gnb-area.gnb-desktop ul.gnb-list li.gnb-item.gnb-item-submenu .gnb-submenu .gnb-submenu-item .btn-gnb-sub.on {
   background-color: rgb(1, 10, 19);
 }
 
+.gnb-area.gnb-desktop ul.gnb-list li.gnb-item.gnb-item-submenu .gnb-submenu .gnb-submenu-item .btn-gnb-sub.on {
+  font-weight: 500;
+  border-left: 3px solid #007bff;
+}
 .gnb-area.gnb-desktop ul.gnb-list li.gnb-item.gnb-item-submenu.open > .btn-gnb-parent {
   color: rgb(255, 255, 255);
-  background-color: rgb(51, 51, 51);
 }
 body[data-color-mode=dark] .gnb-area.gnb-desktop ul.gnb-list li.gnb-item.gnb-item-submenu.open > .btn-gnb-parent {
   color: rgb(22, 22, 22);
 }
 
+.gnb-area.gnb-desktop ul.gnb-list li.gnb-item.gnb-item-submenu.open > .btn-gnb-parent {
+  background-color: rgb(51, 51, 51);
+}
 body[data-color-mode=dark] .gnb-area.gnb-desktop ul.gnb-list li.gnb-item.gnb-item-submenu.open > .btn-gnb-parent {
   background-color: rgb(255, 255, 255);
 }
@@ -955,13 +976,15 @@ body[data-color-mode=dark] .gnb-area.gnb-desktop ul.gnb-list li.gnb-item.gnb-ite
   transition: right 0.3s ease;
   overflow-y: auto;
   background-color: rgb(24, 24, 24);
-  -webkit-box-shadow: -2px 0 8px rgba(0, 0, 0, 0.3);
-          box-shadow: -2px 0 8px rgba(0, 0, 0, 0.3);
 }
 body[data-color-mode=dark] .gnb-mobile {
   background-color: rgb(1, 10, 19);
 }
 
+.gnb-mobile {
+  -webkit-box-shadow: -2px 0 8px rgba(0, 0, 0, 0.3);
+          box-shadow: -2px 0 8px rgba(0, 0, 0, 0.3);
+}
 @media (min-width: 769px) {
   .gnb-mobile {
     display: none;
@@ -995,12 +1018,14 @@ body[data-color-mode=dark] .gnb-mobile .mobile-menu-header {
   font-weight: 700;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  color: #ffffff;
 }
 body[data-color-mode=dark] .gnb-mobile .mobile-menu-header h3 {
   color: rgb(22, 22, 22);
 }
 
+.gnb-mobile .mobile-menu-header h3 {
+  color: #ffffff;
+}
 .gnb-mobile .mobile-menu-header .mobile-menu-close {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1076,30 +1101,36 @@ body[data-color-mode=dark] .gnb-mobile .mobile-gnb-list .mobile-gnb-item .mobile
 }
 .gnb-mobile .mobile-gnb-list .mobile-gnb-item .mobile-btn-gnb:hover {
   color: rgb(255, 255, 255);
-  background-color: rgb(51, 51, 51);
 }
 body[data-color-mode=dark] .gnb-mobile .mobile-gnb-list .mobile-gnb-item .mobile-btn-gnb:hover {
   color: rgb(22, 22, 22);
 }
 
+.gnb-mobile .mobile-gnb-list .mobile-gnb-item .mobile-btn-gnb:hover {
+  background-color: rgb(51, 51, 51);
+}
 body[data-color-mode=dark] .gnb-mobile .mobile-gnb-list .mobile-gnb-item .mobile-btn-gnb:hover {
   background-color: rgb(255, 255, 255);
 }
 
 .gnb-mobile .mobile-gnb-list .mobile-gnb-item .mobile-btn-gnb.on {
   color: rgb(255, 255, 255);
-  background-color: rgb(51, 51, 51);
-  font-weight: 600;
-  border-left: 3px solid #007bff;
 }
 body[data-color-mode=dark] .gnb-mobile .mobile-gnb-list .mobile-gnb-item .mobile-btn-gnb.on {
   color: rgb(22, 22, 22);
 }
 
+.gnb-mobile .mobile-gnb-list .mobile-gnb-item .mobile-btn-gnb.on {
+  background-color: rgb(51, 51, 51);
+}
 body[data-color-mode=dark] .gnb-mobile .mobile-gnb-list .mobile-gnb-item .mobile-btn-gnb.on {
   background-color: rgb(255, 255, 255);
 }
 
+.gnb-mobile .mobile-gnb-list .mobile-gnb-item .mobile-btn-gnb.on {
+  font-weight: 600;
+  border-left: 3px solid #007bff;
+}
 .gnb-mobile .mobile-gnb-list .mobile-gnb-item .mobile-btn-gnb.mobile-btn-gnb-parent {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
@@ -1148,38 +1179,46 @@ body[data-color-mode=dark] .gnb-mobile .mobile-gnb-list .mobile-gnb-item.mobile-
 
 .gnb-mobile .mobile-gnb-list .mobile-gnb-item.mobile-gnb-item-submenu .mobile-gnb-submenu .mobile-gnb-submenu-item .mobile-btn-gnb-sub:hover {
   color: rgb(255, 255, 255);
-  background-color: rgb(24, 24, 24);
 }
 body[data-color-mode=dark] .gnb-mobile .mobile-gnb-list .mobile-gnb-item.mobile-gnb-item-submenu .mobile-gnb-submenu .mobile-gnb-submenu-item .mobile-btn-gnb-sub:hover {
   color: rgb(22, 22, 22);
 }
 
+.gnb-mobile .mobile-gnb-list .mobile-gnb-item.mobile-gnb-item-submenu .mobile-gnb-submenu .mobile-gnb-submenu-item .mobile-btn-gnb-sub:hover {
+  background-color: rgb(24, 24, 24);
+}
 body[data-color-mode=dark] .gnb-mobile .mobile-gnb-list .mobile-gnb-item.mobile-gnb-item-submenu .mobile-gnb-submenu .mobile-gnb-submenu-item .mobile-btn-gnb-sub:hover {
   background-color: rgb(1, 10, 19);
 }
 
 .gnb-mobile .mobile-gnb-list .mobile-gnb-item.mobile-gnb-item-submenu .mobile-gnb-submenu .mobile-gnb-submenu-item .mobile-btn-gnb-sub.on {
   color: rgb(255, 255, 255);
-  background-color: rgb(24, 24, 24);
-  font-weight: 500;
-  border-left: 3px solid #007bff;
 }
 body[data-color-mode=dark] .gnb-mobile .mobile-gnb-list .mobile-gnb-item.mobile-gnb-item-submenu .mobile-gnb-submenu .mobile-gnb-submenu-item .mobile-btn-gnb-sub.on {
   color: rgb(22, 22, 22);
 }
 
+.gnb-mobile .mobile-gnb-list .mobile-gnb-item.mobile-gnb-item-submenu .mobile-gnb-submenu .mobile-gnb-submenu-item .mobile-btn-gnb-sub.on {
+  background-color: rgb(24, 24, 24);
+}
 body[data-color-mode=dark] .gnb-mobile .mobile-gnb-list .mobile-gnb-item.mobile-gnb-item-submenu .mobile-gnb-submenu .mobile-gnb-submenu-item .mobile-btn-gnb-sub.on {
   background-color: rgb(1, 10, 19);
 }
 
+.gnb-mobile .mobile-gnb-list .mobile-gnb-item.mobile-gnb-item-submenu .mobile-gnb-submenu .mobile-gnb-submenu-item .mobile-btn-gnb-sub.on {
+  font-weight: 500;
+  border-left: 3px solid #007bff;
+}
 .gnb-mobile .mobile-gnb-list .mobile-gnb-item.mobile-gnb-item-submenu.open > .mobile-btn-gnb-parent {
   color: rgb(255, 255, 255);
-  background-color: rgb(51, 51, 51);
 }
 body[data-color-mode=dark] .gnb-mobile .mobile-gnb-list .mobile-gnb-item.mobile-gnb-item-submenu.open > .mobile-btn-gnb-parent {
   color: rgb(22, 22, 22);
 }
 
+.gnb-mobile .mobile-gnb-list .mobile-gnb-item.mobile-gnb-item-submenu.open > .mobile-btn-gnb-parent {
+  background-color: rgb(51, 51, 51);
+}
 body[data-color-mode=dark] .gnb-mobile .mobile-gnb-list .mobile-gnb-item.mobile-gnb-item-submenu.open > .mobile-btn-gnb-parent {
   background-color: rgb(255, 255, 255);
 }
@@ -1250,12 +1289,14 @@ body[data-color-mode=dark] .footer-area {
   font-weight: 500;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  color: #6c757d;
 }
 body[data-color-mode=dark] .footer-area .copyright-area p {
   color: rgb(22, 22, 22);
 }
 
+.footer-area .copyright-area p {
+  color: #6c757d;
+}
 @media (max-width: 768px) {
   .footer-area .copyright-area p {
     font-size: 12px;
@@ -1311,16 +1352,18 @@ article.article-area > .article-footer {
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
+}
+body[data-color-mode=dark] .footer-area .footer-link {
+  color: rgb(22, 22, 22);
+}
+
+.footer-area .footer-link {
   color: #6c757d;
   text-decoration: none;
   -webkit-transition: color 0.2s ease;
   transition: color 0.2s ease;
   cursor: pointer;
 }
-body[data-color-mode=dark] .footer-area .footer-link {
-  color: rgb(22, 22, 22);
-}
-
 .footer-area .footer-link:hover {
   color: #007bff;
   text-decoration: underline;
@@ -1335,25 +1378,29 @@ body[data-color-mode=dark] .footer-area .footer-link {
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  color: #6c757d;
 }
 body[data-color-mode=dark] .footer-area .footer-separator {
   color: rgb(22, 22, 22);
 }
 
+.footer-area .footer-separator {
+  color: #6c757d;
+}
 .footer-area .copyright-area p {
   font-size: 1.2rem;
   line-height: 1.429;
   font-weight: 500;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  color: #6c757d;
-  margin: 0;
 }
 body[data-color-mode=dark] .footer-area .copyright-area p {
   color: rgb(22, 22, 22);
 }
 
+.footer-area .copyright-area p {
+  color: #6c757d;
+  margin: 0;
+}
 @media (max-width: 768px) {
   .footer-area .footer-content {
     padding: 0.3rem 0.5rem;
@@ -1383,12 +1430,14 @@ body[data-color-mode=dark] .footer-area .copyright-area p {
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  line-height: 3.8rem;
 }
 body[data-color-mode=dark] .btn-gnb {
   color: rgb(22, 22, 22);
 }
 
+.btn-gnb {
+  line-height: 3.8rem;
+}
 .btn-primary {
   display: block;
   border-radius: 0.5rem;
@@ -1401,7 +1450,6 @@ body[data-color-mode=dark] .btn-primary {
 .btn-secondary {
   display: block;
   border-radius: 0.5rem;
-  background-color: rgb(51, 51, 51);
 }
 .btn-secondary > span {
   color: rgb(255, 255, 255) !important;
@@ -1410,6 +1458,9 @@ body[data-color-mode=dark] .btn-secondary > span {
   color: #16181a !important;
 }
 
+.btn-secondary {
+  background-color: rgb(51, 51, 51);
+}
 body[data-color-mode=dark] .btn-secondary {
   background-color: rgb(255, 255, 255);
 }
@@ -1446,26 +1497,33 @@ body[data-color-mode=dark] .btn-large {
   width: 40px;
   height: 40px;
   background-image: url("/assets/images/light/common/ic_24_line_lg-close.svg");
-  background-size: 20px 20px;
-  background-position: center;
-  background-repeat: no-repeat;
-  text-indent: -10000px;
 }
 body[data-color-mode=dark] .btn-close {
   background-image: url("/assets/images/light/common/ic_24_line_lg-close.svg");
 }
 
+.btn-close {
+  background-size: 20px 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  text-indent: -10000px;
+}
 .btn:disabled {
   color: rgb(80, 80, 80);
-  background-color: rgb(227, 231, 235);
-  pointer-events: none;
 }
 body[data-color-mode=dark] .btn:disabled {
   color: rgb(80, 80, 80);
 }
 
+.btn:disabled {
+  background-color: rgb(227, 231, 235);
+}
 body[data-color-mode=dark] .btn:disabled {
   background-color: rgb(68, 75, 81);
+}
+
+.btn:disabled {
+  pointer-events: none;
 }
 
 .btn-area {
@@ -1499,10 +1557,6 @@ body[data-color-mode=dark] .btn:disabled {
   display: block;
   width: 100%;
   height: 100%;
-}
-.popup-container .popup-area .popup-content {
-  background-color: rgb(255, 255, 255);
-  z-index: 1200;
 }
 .popup-container .popup-area .popup-content.popup-type-full {
   position: absolute;
@@ -1543,10 +1597,16 @@ body[data-color-mode=dark] .btn:disabled {
   width: 40px;
   height: 40px;
 }
+.popup-container .popup-area .popup-content {
+  background-color: rgb(255, 255, 255);
+}
 body[data-color-mode=dark] .popup-container .popup-area .popup-content {
   background-color: rgb(50, 50, 50);
 }
 
+.popup-container .popup-area .popup-content {
+  z-index: 1200;
+}
 .popup-container .popup-area .popup-content span, .popup-container .popup-area .popup-content label, .popup-container .popup-area .popup-content p, .popup-container .popup-area .popup-content strong {
   color: rgb(2, 2, 2);
 }
@@ -1560,12 +1620,14 @@ body[data-color-mode=dark] .popup-container .popup-area .popup-content span, bod
   font-weight: 500;
   font-family: "Pretendard";
   color: rgb(2, 2, 2);
-  background-color: rgb(255, 255, 255);
 }
 body[data-color-mode=dark] .popup-container .popup-area .popup-content select {
   color: rgb(22, 22, 22);
 }
 
+.popup-container .popup-area .popup-content select {
+  background-color: rgb(255, 255, 255);
+}
 body[data-color-mode=dark] .popup-container .popup-area .popup-content select {
   background-color: rgb(50, 50, 50);
 }
@@ -1577,10 +1639,13 @@ body[data-color-mode=dark] .popup-container .popup-area .popup-content select {
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.3);
-  z-index: 1100;
 }
 body[data-color-mode=dark] .popup-container .popup-area .popup-overlay {
   background-color: rgba(255, 255, 255, 0.3);
+}
+
+.popup-container .popup-area .popup-overlay {
+  z-index: 1100;
 }
 
 .checkbox-area input:checked + label::after {
@@ -1589,8 +1654,8 @@ body[data-color-mode=dark] .popup-container .popup-area .popup-overlay {
   display: block;
   top: 0;
   left: 0;
-  width: 4rem;
-  height: 4rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
   border: 0.6rem solid transparent;
   -webkit-box-sizing: border-box;
@@ -1627,17 +1692,21 @@ body[data-color-mode=dark] .checkbox-area input:disabled + label::after {
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  color: rgb(255, 255, 255) !important;
-  line-height: 3rem;
 }
 body[data-color-mode=dark] .checkbox-area label {
   color: rgb(22, 22, 22);
 }
 
+.checkbox-area label {
+  color: rgb(255, 255, 255) !important;
+}
 body[data-color-mode=dark] .checkbox-area label {
   color: rgb(22, 22, 22) !important;
 }
 
+.checkbox-area label {
+  line-height: 3rem;
+}
 .checkbox-area.ball-645.disabled {
   pointer-events: none;
 }
@@ -1679,12 +1748,14 @@ body[data-color-mode=dark] .checkbox-area.ball-645.disabled label::after {
   font-weight: 500;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  background-color: rgb(51, 51, 51);
 }
 body[data-color-mode=dark] .select-area select {
   color: rgb(22, 22, 22);
 }
 
+.select-area select {
+  background-color: rgb(51, 51, 51);
+}
 body[data-color-mode=dark] .select-area select {
   background-color: rgb(255, 255, 255);
 }
@@ -1727,13 +1798,15 @@ body[data-color-mode=dark] .accordion .accordion-header {
   overflow-y: auto;
   padding: 10px;
   background-color: rgb(24, 24, 24);
-  border-top: 1px solid transparent;
-  border-color: rgb(51, 51, 51);
 }
 body[data-color-mode=dark] .accordion .accordion-body {
   background-color: rgb(1, 10, 19);
 }
 
+.accordion .accordion-body {
+  border-top: 1px solid transparent;
+  border-color: rgb(51, 51, 51);
+}
 body[data-color-mode=dark] .accordion .accordion-body {
   border-color: rgb(255, 255, 255);
 }
@@ -1880,6 +1953,12 @@ body[data-color-mode=dark] .box.box-round-bg {
   font-weight: 400 !important;
   font-family: "Pretendard" !important;
   color: rgb(255, 255, 255) !important;
+}
+body[data-color-mode=dark] .ball-645 {
+  color: rgb(22, 22, 22) !important;
+}
+
+.ball-645 {
   text-shadow: 1px 1px 2px #222;
   color: rgb(255, 255, 255) !important;
 }
@@ -1887,13 +1966,10 @@ body[data-color-mode=dark] .ball-645 {
   color: rgb(22, 22, 22) !important;
 }
 
-body[data-color-mode=dark] .ball-645 {
-  color: rgb(22, 22, 22) !important;
-}
-
 .ball-645-medium {
   width: 3rem;
   height: 3rem;
+  border: 3px solid white;
   border-radius: 3rem;
   font-size: 1.4rem !important;
   line-height: 140% !important;
@@ -1909,6 +1985,7 @@ body[data-color-mode=dark] .ball-645-medium {
   width: 2rem;
   height: 2rem;
   border-radius: 2rem;
+  border: 2px solid white;
   font-size: 1.2rem !important;
   line-height: 1.385 !important;
   font-weight: 400 !important;
@@ -1921,6 +1998,7 @@ body[data-color-mode=dark] .ball-645-small {
 
 .ball-645-disable {
   opacity: 0.7;
+  border: 0;
 }
 @media (max-width: 768px) {
   .ball-645 {
@@ -2157,16 +2235,20 @@ body[data-color-mode=dark] .table-list {
 .table-list tr th {
   padding: 2px;
   background-color: rgba(130, 149, 166, 0.11);
-  border-bottom: 1px solid transparent;
-  border-left: 1px solid transparent;
-  border-color: rgb(109, 116, 123) !important;
 }
 body[data-color-mode=dark] .table-list tr th {
   background-color: rgba(199, 228, 255, 0.11);
 }
 
+.table-list tr th {
+  border-bottom: 1px solid transparent;
+  border-left: 1px solid transparent;
+}
 .table-list tr th:last-child {
   border-right: 1px solid transparent;
+}
+.table-list tr th {
+  border-color: rgb(109, 116, 123) !important;
 }
 body[data-color-mode=dark] .table-list tr th {
   border-color: rgb(173, 179, 184) !important;
@@ -2186,16 +2268,20 @@ body[data-color-mode=dark] .table-list tr th span {
 .table-list tr td {
   padding: 3px;
   background-color: rgba(115, 132, 149, 0.05);
-  border-bottom: 1px solid transparent;
-  border-left: 1px solid transparent;
-  border-color: rgb(109, 116, 123) !important;
 }
 body[data-color-mode=dark] .table-list tr td {
   background-color: rgba(208, 234, 241, 0.05);
 }
 
+.table-list tr td {
+  border-bottom: 1px solid transparent;
+  border-left: 1px solid transparent;
+}
 .table-list tr td:last-child {
   border-right: 1px solid transparent;
+}
+.table-list tr td {
+  border-color: rgb(109, 116, 123) !important;
 }
 body[data-color-mode=dark] .table-list tr td {
   border-color: rgb(173, 179, 184) !important;
@@ -2223,16 +2309,20 @@ body[data-color-mode=dark] .table-item {
 .table-item tr th {
   padding: 2px;
   background-color: rgba(130, 149, 166, 0.11);
-  border-bottom: 1px solid transparent;
-  border-left: 1px solid transparent;
-  border-color: rgb(109, 116, 123) !important;
 }
 body[data-color-mode=dark] .table-item tr th {
   background-color: rgba(199, 228, 255, 0.11);
 }
 
+.table-item tr th {
+  border-bottom: 1px solid transparent;
+  border-left: 1px solid transparent;
+}
 .table-item tr th:last-child {
   border-right: 1px solid transparent;
+}
+.table-item tr th {
+  border-color: rgb(109, 116, 123) !important;
 }
 body[data-color-mode=dark] .table-item tr th {
   border-color: rgb(173, 179, 184) !important;
@@ -2252,16 +2342,20 @@ body[data-color-mode=dark] .table-item tr th span {
 .table-item tr td {
   padding: 3px;
   background-color: rgba(115, 132, 149, 0.05);
-  border-bottom: 1px solid transparent;
-  border-left: 1px solid transparent;
-  border-color: rgb(109, 116, 123) !important;
 }
 body[data-color-mode=dark] .table-item tr td {
   background-color: rgba(208, 234, 241, 0.05);
 }
 
+.table-item tr td {
+  border-bottom: 1px solid transparent;
+  border-left: 1px solid transparent;
+}
 .table-item tr td:last-child {
   border-right: 1px solid transparent;
+}
+.table-item tr td {
+  border-color: rgb(109, 116, 123) !important;
 }
 body[data-color-mode=dark] .table-item tr td {
   border-color: rgb(173, 179, 184) !important;
@@ -2301,13 +2395,16 @@ body[data-color-mode=dark] .table-item tr td span, body[data-color-mode=dark] .t
   font-weight: 700;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  margin-bottom: 2rem;
 }
 body[data-color-mode=dark] .NoticeListView .page-title,
 body[data-color-mode=dark] .NoticeDetailView .page-title {
   color: rgb(22, 22, 22);
 }
 
+.NoticeListView .page-title,
+.NoticeDetailView .page-title {
+  margin-bottom: 2rem;
+}
 .NoticeListView .loading,
 .NoticeListView .error,
 .NoticeDetailView .loading,
@@ -2350,13 +2447,16 @@ body[data-color-mode=dark] .NoticeDetailView .error {
   font-weight: 700;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  margin-bottom: 1rem;
 }
 body[data-color-mode=dark] .NoticeListView .important-notices .section-title,
 body[data-color-mode=dark] .NoticeDetailView .important-notices .section-title {
   color: rgb(22, 22, 22);
 }
 
+.NoticeListView .important-notices .section-title,
+.NoticeDetailView .important-notices .section-title {
+  margin-bottom: 1rem;
+}
 .NoticeListView .notice-list .notice-item,
 .NoticeDetailView .notice-list .notice-item {
   padding: 1.5rem;
@@ -2367,13 +2467,16 @@ body[data-color-mode=dark] .NoticeDetailView .important-notices .section-title {
   -webkit-transition: all 0.2s ease;
   transition: all 0.2s ease;
   background-color: rgb(24, 24, 24);
-  border-color: rgb(43, 43, 43);
 }
 body[data-color-mode=dark] .NoticeListView .notice-list .notice-item,
 body[data-color-mode=dark] .NoticeDetailView .notice-list .notice-item {
   background-color: rgb(1, 10, 19);
 }
 
+.NoticeListView .notice-list .notice-item,
+.NoticeDetailView .notice-list .notice-item {
+  border-color: rgb(43, 43, 43);
+}
 body[data-color-mode=dark] .NoticeListView .notice-list .notice-item,
 body[data-color-mode=dark] .NoticeDetailView .notice-list .notice-item {
   border-color: rgb(200, 200, 200);
@@ -2382,14 +2485,17 @@ body[data-color-mode=dark] .NoticeDetailView .notice-list .notice-item {
 .NoticeListView .notice-list .notice-item:hover,
 .NoticeDetailView .notice-list .notice-item:hover {
   background-color: rgb(51, 51, 51);
-  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 body[data-color-mode=dark] .NoticeListView .notice-list .notice-item:hover,
 body[data-color-mode=dark] .NoticeDetailView .notice-list .notice-item:hover {
   background-color: rgb(255, 255, 255);
 }
 
+.NoticeListView .notice-list .notice-item:hover,
+.NoticeDetailView .notice-list .notice-item:hover {
+  -webkit-box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
 .NoticeListView .notice-list .notice-item.important,
 .NoticeDetailView .notice-list .notice-item.important {
   border-left: 4px solid #ff4444;
@@ -2424,13 +2530,16 @@ body[data-color-mode=dark] .NoticeDetailView .notice-list .notice-item:hover {
   font-weight: 700;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  margin: 0;
 }
 body[data-color-mode=dark] .NoticeListView .notice-list .notice-item .notice-header .notice-title,
 body[data-color-mode=dark] .NoticeDetailView .notice-list .notice-item .notice-header .notice-title {
   color: rgb(22, 22, 22);
 }
 
+.NoticeListView .notice-list .notice-item .notice-header .notice-title,
+.NoticeDetailView .notice-list .notice-item .notice-header .notice-title {
+  margin: 0;
+}
 .NoticeListView .notice-list .notice-item .notice-header .notice-date,
 .NoticeDetailView .notice-list .notice-item .notice-header .notice-date {
   font-size: 1.2rem;
@@ -2438,13 +2547,16 @@ body[data-color-mode=dark] .NoticeDetailView .notice-list .notice-item .notice-h
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(28, 211, 12);
-  color: #999;
 }
 body[data-color-mode=dark] .NoticeListView .notice-list .notice-item .notice-header .notice-date,
 body[data-color-mode=dark] .NoticeDetailView .notice-list .notice-item .notice-header .notice-date {
   color: rgb(220, 220, 220);
 }
 
+.NoticeListView .notice-list .notice-item .notice-header .notice-date,
+.NoticeDetailView .notice-list .notice-item .notice-header .notice-date {
+  color: #999;
+}
 .NoticeListView .notice-list .notice-item .notice-meta,
 .NoticeDetailView .notice-list .notice-item .notice-meta {
   display: -webkit-box;
@@ -2456,13 +2568,16 @@ body[data-color-mode=dark] .NoticeDetailView .notice-list .notice-item .notice-h
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(28, 211, 12);
-  color: #999;
 }
 body[data-color-mode=dark] .NoticeListView .notice-list .notice-item .notice-meta,
 body[data-color-mode=dark] .NoticeDetailView .notice-list .notice-item .notice-meta {
   color: rgb(220, 220, 220);
 }
 
+.NoticeListView .notice-list .notice-item .notice-meta,
+.NoticeDetailView .notice-list .notice-item .notice-meta {
+  color: #999;
+}
 .NoticeListView .no-notice,
 .NoticeDetailView .no-notice {
   text-align: center;
@@ -2472,13 +2587,16 @@ body[data-color-mode=dark] .NoticeDetailView .notice-list .notice-item .notice-m
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(28, 211, 12);
-  color: #999;
 }
 body[data-color-mode=dark] .NoticeListView .no-notice,
 body[data-color-mode=dark] .NoticeDetailView .no-notice {
   color: rgb(220, 220, 220);
 }
 
+.NoticeListView .no-notice,
+.NoticeDetailView .no-notice {
+  color: #999;
+}
 .NoticeListView .notice-detail .notice-detail-header,
 .NoticeDetailView .notice-detail .notice-detail-header {
   margin-bottom: 2rem;
@@ -2495,15 +2613,18 @@ body[data-color-mode=dark] .NoticeDetailView .no-notice {
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  cursor: pointer;
-  -webkit-transition: all 0.2s ease;
-  transition: all 0.2s ease;
 }
 body[data-color-mode=dark] .NoticeListView .notice-detail .notice-detail-header .back-btn,
 body[data-color-mode=dark] .NoticeDetailView .notice-detail .notice-detail-header .back-btn {
   color: rgb(22, 22, 22);
 }
 
+.NoticeListView .notice-detail .notice-detail-header .back-btn,
+.NoticeDetailView .notice-detail .notice-detail-header .back-btn {
+  cursor: pointer;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
 .NoticeListView .notice-detail .notice-detail-header .back-btn:hover,
 .NoticeDetailView .notice-detail .notice-detail-header .back-btn:hover {
   background-color: rgb(51, 51, 51);
@@ -2543,13 +2664,16 @@ body[data-color-mode=dark] .NoticeDetailView .notice-detail .notice-detail-heade
   font-weight: 700;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  margin: 0;
 }
 body[data-color-mode=dark] .NoticeListView .notice-detail .notice-detail-header .notice-detail-title-section .notice-detail-title,
 body[data-color-mode=dark] .NoticeDetailView .notice-detail .notice-detail-header .notice-detail-title-section .notice-detail-title {
   color: rgb(22, 22, 22);
 }
 
+.NoticeListView .notice-detail .notice-detail-header .notice-detail-title-section .notice-detail-title,
+.NoticeDetailView .notice-detail .notice-detail-header .notice-detail-title-section .notice-detail-title {
+  margin: 0;
+}
 .NoticeListView .notice-detail .notice-detail-header .notice-detail-meta,
 .NoticeDetailView .notice-detail .notice-detail-header .notice-detail-meta {
   display: -webkit-box;
@@ -2561,13 +2685,16 @@ body[data-color-mode=dark] .NoticeDetailView .notice-detail .notice-detail-heade
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(28, 211, 12);
-  color: #999;
 }
 body[data-color-mode=dark] .NoticeListView .notice-detail .notice-detail-header .notice-detail-meta,
 body[data-color-mode=dark] .NoticeDetailView .notice-detail .notice-detail-header .notice-detail-meta {
   color: rgb(220, 220, 220);
 }
 
+.NoticeListView .notice-detail .notice-detail-header .notice-detail-meta,
+.NoticeDetailView .notice-detail .notice-detail-header .notice-detail-meta {
+  color: #999;
+}
 .NoticeListView .notice-detail .notice-detail-header .notice-detail-meta .notice-meta-item,
 .NoticeDetailView .notice-detail .notice-detail-header .notice-detail-meta .notice-meta-item {
   display: inline-block;
@@ -2582,25 +2709,34 @@ body[data-color-mode=dark] .NoticeDetailView .notice-detail .notice-detail-heade
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  background-color: rgb(24, 24, 24);
-  border-color: rgb(43, 43, 43);
-  line-height: 1.8;
 }
 body[data-color-mode=dark] .NoticeListView .notice-detail .notice-detail-content,
 body[data-color-mode=dark] .NoticeDetailView .notice-detail .notice-detail-content {
   color: rgb(22, 22, 22);
 }
 
+.NoticeListView .notice-detail .notice-detail-content,
+.NoticeDetailView .notice-detail .notice-detail-content {
+  background-color: rgb(24, 24, 24);
+}
 body[data-color-mode=dark] .NoticeListView .notice-detail .notice-detail-content,
 body[data-color-mode=dark] .NoticeDetailView .notice-detail .notice-detail-content {
   background-color: rgb(1, 10, 19);
 }
 
+.NoticeListView .notice-detail .notice-detail-content,
+.NoticeDetailView .notice-detail .notice-detail-content {
+  border-color: rgb(43, 43, 43);
+}
 body[data-color-mode=dark] .NoticeListView .notice-detail .notice-detail-content,
 body[data-color-mode=dark] .NoticeDetailView .notice-detail .notice-detail-content {
   border-color: rgb(200, 200, 200);
 }
 
+.NoticeListView .notice-detail .notice-detail-content,
+.NoticeDetailView .notice-detail .notice-detail-content {
+  line-height: 1.8;
+}
 @media (max-width: 768px) {
   .NoticeListView .notice-detail .notice-detail-content,
   .NoticeDetailView .notice-detail .notice-detail-content {
@@ -2648,7 +2784,6 @@ body[data-color-mode=dark] .NoticeDetailView .notice-detail .notice-detail-conte
   font-weight: 700;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  margin: 0;
 }
 body[data-color-mode=dark] .InquiryListView .inquiry-header .page-title,
 body[data-color-mode=dark] .InquiryListView .inquiry-create-header .page-title,
@@ -2657,6 +2792,12 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-create-header .page-title
   color: rgb(22, 22, 22);
 }
 
+.InquiryListView .inquiry-header .page-title,
+.InquiryListView .inquiry-create-header .page-title,
+.InquiryCreateView .inquiry-header .page-title,
+.InquiryCreateView .inquiry-create-header .page-title {
+  margin: 0;
+}
 .InquiryListView .inquiry-header .btn-create,
 .InquiryListView .inquiry-header .back-btn,
 .InquiryListView .inquiry-create-header .btn-create,
@@ -2675,9 +2816,6 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-create-header .page-title
   font-weight: 700;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  cursor: pointer;
-  -webkit-transition: all 0.2s ease;
-  transition: all 0.2s ease;
 }
 body[data-color-mode=dark] .InquiryListView .inquiry-header .btn-create,
 body[data-color-mode=dark] .InquiryListView .inquiry-header .back-btn,
@@ -2690,6 +2828,18 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-create-header .back-btn {
   color: rgb(22, 22, 22);
 }
 
+.InquiryListView .inquiry-header .btn-create,
+.InquiryListView .inquiry-header .back-btn,
+.InquiryListView .inquiry-create-header .btn-create,
+.InquiryListView .inquiry-create-header .back-btn,
+.InquiryCreateView .inquiry-header .btn-create,
+.InquiryCreateView .inquiry-header .back-btn,
+.InquiryCreateView .inquiry-create-header .btn-create,
+.InquiryCreateView .inquiry-create-header .back-btn {
+  cursor: pointer;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
 .InquiryListView .inquiry-header .btn-create:hover,
 .InquiryListView .inquiry-header .back-btn:hover,
 .InquiryListView .inquiry-create-header .btn-create:hover,
@@ -2711,7 +2861,6 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-create-header .back-btn {
   background: none;
   border: 1px solid rgba(51, 51, 51, 0.3);
   color: rgb(255, 255, 255);
-  border-color: rgb(43, 43, 43);
 }
 body[data-color-mode=dark] .InquiryListView .inquiry-header .btn-create.back-btn,
 body[data-color-mode=dark] .InquiryListView .inquiry-header .back-btn.back-btn,
@@ -2724,6 +2873,16 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-create-header .back-btn.b
   color: rgb(22, 22, 22);
 }
 
+.InquiryListView .inquiry-header .btn-create.back-btn,
+.InquiryListView .inquiry-header .back-btn.back-btn,
+.InquiryListView .inquiry-create-header .btn-create.back-btn,
+.InquiryListView .inquiry-create-header .back-btn.back-btn,
+.InquiryCreateView .inquiry-header .btn-create.back-btn,
+.InquiryCreateView .inquiry-header .back-btn.back-btn,
+.InquiryCreateView .inquiry-create-header .btn-create.back-btn,
+.InquiryCreateView .inquiry-create-header .back-btn.back-btn {
+  border-color: rgb(43, 43, 43);
+}
 body[data-color-mode=dark] .InquiryListView .inquiry-header .btn-create.back-btn,
 body[data-color-mode=dark] .InquiryListView .inquiry-header .back-btn.back-btn,
 body[data-color-mode=dark] .InquiryListView .inquiry-create-header .btn-create.back-btn,
@@ -2810,13 +2969,16 @@ body[data-color-mode=dark] .InquiryCreateView .error {
   -webkit-transition: all 0.2s ease;
   transition: all 0.2s ease;
   background-color: rgb(24, 24, 24);
-  border-color: rgb(43, 43, 43);
 }
 body[data-color-mode=dark] .InquiryListView .inquiry-list .inquiry-item .accordion-header,
 body[data-color-mode=dark] .InquiryCreateView .inquiry-list .inquiry-item .accordion-header {
   background-color: rgb(1, 10, 19);
 }
 
+.InquiryListView .inquiry-list .inquiry-item .accordion-header,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-header {
+  border-color: rgb(43, 43, 43);
+}
 body[data-color-mode=dark] .InquiryListView .inquiry-list .inquiry-item .accordion-header,
 body[data-color-mode=dark] .InquiryCreateView .inquiry-list .inquiry-item .accordion-header {
   border-color: rgb(200, 200, 200);
@@ -2858,13 +3020,16 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-list .inquiry-item .accor
   font-weight: 700;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  margin: 0;
 }
 body[data-color-mode=dark] .InquiryListView .inquiry-list .inquiry-item .accordion-header .inquiry-header-content .inquiry-title-section .inquiry-title,
 body[data-color-mode=dark] .InquiryCreateView .inquiry-list .inquiry-item .accordion-header .inquiry-header-content .inquiry-title-section .inquiry-title {
   color: rgb(22, 22, 22);
 }
 
+.InquiryListView .inquiry-list .inquiry-item .accordion-header .inquiry-header-content .inquiry-title-section .inquiry-title,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-header .inquiry-header-content .inquiry-title-section .inquiry-title {
+  margin: 0;
+}
 .InquiryListView .inquiry-list .inquiry-item .accordion-header .inquiry-header-content .inquiry-meta,
 .InquiryCreateView .inquiry-list .inquiry-item .accordion-header .inquiry-header-content .inquiry-meta {
   font-size: 1.2rem;
@@ -2872,13 +3037,16 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-list .inquiry-item .accor
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(28, 211, 12);
-  color: #999;
 }
 body[data-color-mode=dark] .InquiryListView .inquiry-list .inquiry-item .accordion-header .inquiry-header-content .inquiry-meta,
 body[data-color-mode=dark] .InquiryCreateView .inquiry-list .inquiry-item .accordion-header .inquiry-header-content .inquiry-meta {
   color: rgb(220, 220, 220);
 }
 
+.InquiryListView .inquiry-list .inquiry-item .accordion-header .inquiry-header-content .inquiry-meta,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-header .inquiry-header-content .inquiry-meta {
+  color: #999;
+}
 .InquiryListView .inquiry-list .inquiry-item .accordion-header .inquiry-status,
 .InquiryCreateView .inquiry-list .inquiry-item .accordion-header .inquiry-status {
   padding: 0.25rem 0.75rem;
@@ -2903,13 +3071,16 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-list .inquiry-item .accor
   border-top: none;
   border-radius: 0 0 8px 8px;
   background-color: rgb(24, 24, 24);
-  border-color: rgb(43, 43, 43);
 }
 body[data-color-mode=dark] .InquiryListView .inquiry-list .inquiry-item .accordion-body,
 body[data-color-mode=dark] .InquiryCreateView .inquiry-list .inquiry-item .accordion-body {
   background-color: rgb(1, 10, 19);
 }
 
+.InquiryListView .inquiry-list .inquiry-item .accordion-body,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-body {
+  border-color: rgb(43, 43, 43);
+}
 body[data-color-mode=dark] .InquiryListView .inquiry-list .inquiry-item .accordion-body,
 body[data-color-mode=dark] .InquiryCreateView .inquiry-list .inquiry-item .accordion-body {
   border-color: rgb(200, 200, 200);
@@ -2936,7 +3107,6 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-list .inquiry-item .accor
   font-weight: 700;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  margin-bottom: 0.75rem;
 }
 body[data-color-mode=dark] .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content h4,
 body[data-color-mode=dark] .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply h4,
@@ -2945,6 +3115,12 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-list .inquiry-item .accor
   color: rgb(22, 22, 22);
 }
 
+.InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content h4,
+.InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply h4,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content h4,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply h4 {
+  margin-bottom: 0.75rem;
+}
 .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .content-text,
 .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .reply-text,
 .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply .content-text,
@@ -2961,10 +3137,6 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-list .inquiry-item .accor
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  background-color: rgb(51, 51, 51);
-  border-color: rgb(43, 43, 43);
-  line-height: 1.8;
-  white-space: pre-wrap;
 }
 body[data-color-mode=dark] .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .content-text,
 body[data-color-mode=dark] .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .reply-text,
@@ -2977,6 +3149,16 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-list .inquiry-item .accor
   color: rgb(22, 22, 22);
 }
 
+.InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .content-text,
+.InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .reply-text,
+.InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply .content-text,
+.InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply .reply-text,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .content-text,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .reply-text,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply .content-text,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply .reply-text {
+  background-color: rgb(51, 51, 51);
+}
 body[data-color-mode=dark] .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .content-text,
 body[data-color-mode=dark] .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .reply-text,
 body[data-color-mode=dark] .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply .content-text,
@@ -2988,6 +3170,16 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-list .inquiry-item .accor
   background-color: rgb(255, 255, 255);
 }
 
+.InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .content-text,
+.InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .reply-text,
+.InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply .content-text,
+.InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply .reply-text,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .content-text,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .reply-text,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply .content-text,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply .reply-text {
+  border-color: rgb(43, 43, 43);
+}
 body[data-color-mode=dark] .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .content-text,
 body[data-color-mode=dark] .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .reply-text,
 body[data-color-mode=dark] .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply .content-text,
@@ -2999,6 +3191,17 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-list .inquiry-item .accor
   border-color: rgb(200, 200, 200);
 }
 
+.InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .content-text,
+.InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .reply-text,
+.InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply .content-text,
+.InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply .reply-text,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .content-text,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .reply-text,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply .content-text,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply .reply-text {
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
 .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .reply-date,
 .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply .reply-date,
 .InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .reply-date,
@@ -3009,7 +3212,6 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-list .inquiry-item .accor
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(28, 211, 12);
-  color: #999;
 }
 body[data-color-mode=dark] .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .reply-date,
 body[data-color-mode=dark] .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply .reply-date,
@@ -3018,6 +3220,12 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-list .inquiry-item .accor
   color: rgb(220, 220, 220);
 }
 
+.InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .reply-date,
+.InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply .reply-date,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content .reply-date,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply .reply-date {
+  color: #999;
+}
 .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content.pending,
 .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply.pending,
 .InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content.pending,
@@ -3029,9 +3237,6 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-list .inquiry-item .accor
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(28, 211, 12);
-  color: #999;
-  background-color: rgb(51, 51, 51);
-  border-radius: 4px;
 }
 body[data-color-mode=dark] .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content.pending,
 body[data-color-mode=dark] .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply.pending,
@@ -3040,6 +3245,13 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-list .inquiry-item .accor
   color: rgb(220, 220, 220);
 }
 
+.InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content.pending,
+.InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply.pending,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content.pending,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply.pending {
+  color: #999;
+  background-color: rgb(51, 51, 51);
+}
 body[data-color-mode=dark] .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content.pending,
 body[data-color-mode=dark] .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply.pending,
 body[data-color-mode=dark] .InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content.pending,
@@ -3047,6 +3259,12 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-list .inquiry-item .accor
   background-color: rgb(255, 255, 255);
 }
 
+.InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content.pending,
+.InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply.pending,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-content.pending,
+.InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply.pending {
+  border-radius: 4px;
+}
 .InquiryListView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply,
 .InquiryCreateView .inquiry-list .inquiry-item .accordion-body .inquiry-content-section .inquiry-reply {
   border-top: 2px solid rgba(51, 51, 51, 0.3);
@@ -3061,13 +3279,16 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-list .inquiry-item .accor
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(28, 211, 12);
-  color: #999;
 }
 body[data-color-mode=dark] .InquiryListView .no-inquiry,
 body[data-color-mode=dark] .InquiryCreateView .no-inquiry {
   color: rgb(220, 220, 220);
 }
 
+.InquiryListView .no-inquiry,
+.InquiryCreateView .no-inquiry {
+  color: #999;
+}
 .InquiryListView .inquiry-form .form-group,
 .InquiryCreateView .inquiry-form .form-group {
   margin-bottom: 1.5rem;
@@ -3104,8 +3325,6 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-form .form-group .form-la
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  background-color: rgb(24, 24, 24);
-  border-color: rgb(43, 43, 43);
 }
 body[data-color-mode=dark] .InquiryListView .inquiry-form .form-group .form-input,
 body[data-color-mode=dark] .InquiryListView .inquiry-form .form-group .form-textarea,
@@ -3114,6 +3333,12 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-form .form-group .form-te
   color: rgb(22, 22, 22);
 }
 
+.InquiryListView .inquiry-form .form-group .form-input,
+.InquiryListView .inquiry-form .form-group .form-textarea,
+.InquiryCreateView .inquiry-form .form-group .form-input,
+.InquiryCreateView .inquiry-form .form-group .form-textarea {
+  background-color: rgb(24, 24, 24);
+}
 body[data-color-mode=dark] .InquiryListView .inquiry-form .form-group .form-input,
 body[data-color-mode=dark] .InquiryListView .inquiry-form .form-group .form-textarea,
 body[data-color-mode=dark] .InquiryCreateView .inquiry-form .form-group .form-input,
@@ -3121,6 +3346,12 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-form .form-group .form-te
   background-color: rgb(1, 10, 19);
 }
 
+.InquiryListView .inquiry-form .form-group .form-input,
+.InquiryListView .inquiry-form .form-group .form-textarea,
+.InquiryCreateView .inquiry-form .form-group .form-input,
+.InquiryCreateView .inquiry-form .form-group .form-textarea {
+  border-color: rgb(43, 43, 43);
+}
 body[data-color-mode=dark] .InquiryListView .inquiry-form .form-group .form-input,
 body[data-color-mode=dark] .InquiryListView .inquiry-form .form-group .form-textarea,
 body[data-color-mode=dark] .InquiryCreateView .inquiry-form .form-group .form-input,
@@ -3182,9 +3413,6 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-form .error-message {
   font-weight: 700;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  cursor: pointer;
-  -webkit-transition: all 0.2s ease;
-  transition: all 0.2s ease;
 }
 body[data-color-mode=dark] .InquiryListView .inquiry-form .form-actions .btn-cancel,
 body[data-color-mode=dark] .InquiryListView .inquiry-form .form-actions .btn-submit,
@@ -3193,6 +3421,14 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-form .form-actions .btn-s
   color: rgb(22, 22, 22);
 }
 
+.InquiryListView .inquiry-form .form-actions .btn-cancel,
+.InquiryListView .inquiry-form .form-actions .btn-submit,
+.InquiryCreateView .inquiry-form .form-actions .btn-cancel,
+.InquiryCreateView .inquiry-form .form-actions .btn-submit {
+  cursor: pointer;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
 .InquiryListView .inquiry-form .form-actions .btn-cancel:disabled,
 .InquiryListView .inquiry-form .form-actions .btn-submit:disabled,
 .InquiryCreateView .inquiry-form .form-actions .btn-cancel:disabled,
@@ -3205,13 +3441,16 @@ body[data-color-mode=dark] .InquiryCreateView .inquiry-form .form-actions .btn-s
   background: none;
   border: 1px solid rgba(51, 51, 51, 0.3);
   color: rgb(255, 255, 255);
-  border-color: rgb(43, 43, 43);
 }
 body[data-color-mode=dark] .InquiryListView .inquiry-form .form-actions .btn-cancel,
 body[data-color-mode=dark] .InquiryCreateView .inquiry-form .form-actions .btn-cancel {
   color: rgb(22, 22, 22);
 }
 
+.InquiryListView .inquiry-form .form-actions .btn-cancel,
+.InquiryCreateView .inquiry-form .form-actions .btn-cancel {
+  border-color: rgb(43, 43, 43);
+}
 body[data-color-mode=dark] .InquiryListView .inquiry-form .form-actions .btn-cancel,
 body[data-color-mode=dark] .InquiryCreateView .inquiry-form .form-actions .btn-cancel {
   border-color: rgb(200, 200, 200);
@@ -3287,12 +3526,14 @@ body[data-color-mode=dark] .GameResultView .info-table {
   font-weight: 600;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
 }
 body[data-color-mode=dark] .GameResultView .info-table th {
   color: rgb(22, 22, 22);
 }
 
+.GameResultView .info-table th {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
 .GameResultView .info-table td {
   padding: 0.75rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -3335,10 +3576,12 @@ body[data-color-mode=dark] .GameResultView .info-table td strong {
     font-weight: 400;
     font-family: "Pretendard";
     color: rgb(255, 255, 255);
-    min-width: 600px;
   }
   body[data-color-mode=dark] .GameResultView .info-table {
     color: rgb(22, 22, 22);
+  }
+  .GameResultView .info-table {
+    min-width: 600px;
   }
   .GameResultView .info-table th {
     font-size: 1.2rem;
@@ -3346,10 +3589,12 @@ body[data-color-mode=dark] .GameResultView .info-table td strong {
     font-weight: 600;
     font-family: "Pretendard";
     color: rgb(255, 255, 255);
-    padding: 0.5rem;
   }
   body[data-color-mode=dark] .GameResultView .info-table th {
     color: rgb(22, 22, 22);
+  }
+  .GameResultView .info-table th {
+    padding: 0.5rem;
   }
   .GameResultView .info-table td {
     font-size: 1.2rem;
@@ -3357,10 +3602,12 @@ body[data-color-mode=dark] .GameResultView .info-table td strong {
     font-weight: 400;
     font-family: "Pretendard";
     color: rgb(255, 255, 255);
-    padding: 0.5rem;
   }
   body[data-color-mode=dark] .GameResultView .info-table td {
     color: rgb(22, 22, 22);
+  }
+  .GameResultView .info-table td {
+    padding: 0.5rem;
   }
   .GameResultView .info-table td strong {
     font-size: 1.2rem;
@@ -3398,10 +3645,12 @@ body[data-color-mode=dark] .GameResultView .info-table td strong {
     font-weight: 400;
     font-family: "Pretendard";
     color: rgb(255, 255, 255);
-    min-width: 600px;
   }
   body[data-color-mode=dark] .GameResultView .info-table {
     color: rgb(22, 22, 22);
+  }
+  .GameResultView .info-table {
+    min-width: 600px;
   }
   .GameResultView .info-table th {
     font-size: 1.2rem;
@@ -3409,10 +3658,12 @@ body[data-color-mode=dark] .GameResultView .info-table td strong {
     font-weight: 600;
     font-family: "Pretendard";
     color: rgb(255, 255, 255);
-    padding: 0.5rem;
   }
   body[data-color-mode=dark] .GameResultView .info-table th {
     color: rgb(22, 22, 22);
+  }
+  .GameResultView .info-table th {
+    padding: 0.5rem;
   }
   .GameResultView .info-table td {
     font-size: 1.2rem;
@@ -3420,10 +3671,12 @@ body[data-color-mode=dark] .GameResultView .info-table td strong {
     font-weight: 400;
     font-family: "Pretendard";
     color: rgb(255, 255, 255);
-    padding: 0.5rem;
   }
   body[data-color-mode=dark] .GameResultView .info-table td {
     color: rgb(22, 22, 22);
+  }
+  .GameResultView .info-table td {
+    padding: 0.5rem;
   }
   .GameResultView .info-table td strong {
     font-size: 1.2rem;
@@ -3454,13 +3707,15 @@ body[data-color-mode=dark] .GameResultView .info-table td strong {
   font-weight: 700;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  text-align: center;
-  margin-bottom: 1rem;
 }
 body[data-color-mode=dark] .HomeView .section-area .section-header .title-big {
   color: rgb(22, 22, 22);
 }
 
+.HomeView .section-area .section-header .title-big {
+  text-align: center;
+  margin-bottom: 1rem;
+}
 .HomeView .section-area .section-header p {
   text-align: center;
 }
@@ -3477,40 +3732,46 @@ body[data-color-mode=dark] .HomeView .section-area .section-header .title-big {
   font-weight: 700;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
+}
+body[data-color-mode=dark] .HomeView .hero-section .hero-title {
+  color: rgb(22, 22, 22);
+}
+
+.HomeView .hero-section .hero-title {
   margin-bottom: 1rem;
   background: linear-gradient(135deg, #2589F4 0%, #0871F3 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-body[data-color-mode=dark] .HomeView .hero-section .hero-title {
-  color: rgb(22, 22, 22);
-}
-
 .HomeView .hero-section .hero-subtitle {
   font-size: 2.5rem;
   line-height: 140%;
   font-weight: 600;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  margin-bottom: 1rem;
 }
 body[data-color-mode=dark] .HomeView .hero-section .hero-subtitle {
   color: rgb(22, 22, 22);
 }
 
+.HomeView .hero-section .hero-subtitle {
+  margin-bottom: 1rem;
+}
 .HomeView .hero-section .hero-description {
   font-size: 1.4rem;
   line-height: 140%;
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  line-height: 1.8;
 }
 body[data-color-mode=dark] .HomeView .hero-section .hero-description {
   color: rgb(22, 22, 22);
 }
 
+.HomeView .hero-section .hero-description {
+  line-height: 1.8;
+}
 .HomeView .features-section .features-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -3550,24 +3811,28 @@ body[data-color-mode=dark] .HomeView .hero-section .hero-description {
   font-weight: 600;
   font-family: "Pretendard";
   color: rgba(7, 15, 22, 0.82);
-  margin-bottom: 0.8rem;
 }
 body[data-color-mode=dark] .HomeView .features-section .feature-card .feature-title {
   color: rgba(248, 249, 252, 0.9);
 }
 
+.HomeView .features-section .feature-card .feature-title {
+  margin-bottom: 0.8rem;
+}
 .HomeView .features-section .feature-card .feature-description {
   font-size: 1.2rem;
   line-height: 1.429;
   font-weight: 400;
   font-family: "Pretendard";
   color: rgba(12, 23, 35, 0.6);
-  line-height: 1.6;
 }
 body[data-color-mode=dark] .HomeView .features-section .feature-card .feature-description {
   color: rgba(228, 234, 241, 0.74);
 }
 
+.HomeView .features-section .feature-card .feature-description {
+  line-height: 1.6;
+}
 .HomeView .plans-section .section-description {
   text-align: center;
   font-size: 1.4rem;
@@ -3575,12 +3840,14 @@ body[data-color-mode=dark] .HomeView .features-section .feature-card .feature-de
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  margin-bottom: 2rem;
 }
 body[data-color-mode=dark] .HomeView .plans-section .section-description {
   color: rgb(22, 22, 22);
 }
 
+.HomeView .plans-section .section-description {
+  margin-bottom: 2rem;
+}
 .HomeView .plans-section .plan-list {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -3644,13 +3911,15 @@ body[data-color-mode=dark] .HomeView .plans-section .section-description {
   font-weight: 600;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  padding: 4px 16px;
-  border-radius: 12px;
 }
 body[data-color-mode=dark] .HomeView .plans-section .plan-card .plan-badge-recommended {
   color: #16181a;
 }
 
+.HomeView .plans-section .plan-card .plan-badge-recommended {
+  padding: 4px 16px;
+  border-radius: 12px;
+}
 .HomeView .plans-section .plan-card .plan-header {
   text-align: center;
   margin-bottom: 20px;
@@ -3674,12 +3943,14 @@ body[data-color-mode=dark] .HomeView .plans-section .plan-card .plan-badge-recom
   font-weight: 700;
   font-family: "Pretendard";
   color: rgba(7, 15, 22, 0.82);
-  margin: 12px 0 8px 0;
 }
 body[data-color-mode=dark] .HomeView .plans-section .plan-card .plan-title {
   color: rgba(248, 249, 252, 0.9);
 }
 
+.HomeView .plans-section .plan-card .plan-title {
+  margin: 12px 0 8px 0;
+}
 @media (max-width: 768px) {
   .HomeView .plans-section .plan-card .plan-title {
     font-size: 20px;
@@ -3687,10 +3958,12 @@ body[data-color-mode=dark] .HomeView .plans-section .plan-card .plan-title {
     font-weight: 700;
     font-family: "Pretendard";
     color: rgba(7, 15, 22, 0.82);
-    margin: 10px 0 6px 0;
   }
   body[data-color-mode=dark] .HomeView .plans-section .plan-card .plan-title {
     color: rgba(248, 249, 252, 0.9);
+  }
+  .HomeView .plans-section .plan-card .plan-title {
+    margin: 10px 0 6px 0;
   }
 }
 .HomeView .plans-section .plan-card .plan-price {
@@ -3699,12 +3972,14 @@ body[data-color-mode=dark] .HomeView .plans-section .plan-card .plan-title {
   font-weight: 600;
   font-family: "Pretendard";
   color: rgba(12, 23, 35, 0.6);
-  margin: 0;
 }
 body[data-color-mode=dark] .HomeView .plans-section .plan-card .plan-price {
   color: rgba(228, 234, 241, 0.74);
 }
 
+.HomeView .plans-section .plan-card .plan-price {
+  margin: 0;
+}
 @media (max-width: 768px) {
   .HomeView .plans-section .plan-card .plan-price {
     font-size: 20px;
@@ -3787,8 +4062,7 @@ body[data-color-mode=dark] .HomeView .plans-section .plan-card .plan-features li
   width: 100%;
   padding: 16px 20px;
   background: rgba(255, 255, 255, 0.95);
-  -webkit-backdrop-filter: blur(10px);
-          backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   -webkit-box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
           box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
@@ -4076,41 +4350,47 @@ body[data-color-mode=dark] .HomeView .plans-section .plan-card .plan-features li
   font-weight: 400;
   font-family: "Pretendard";
   color: rgba(7, 15, 22, 0.82);
-  line-height: 1.8;
-  text-align: left;
 }
 body[data-color-mode=dark] .ai-recommendation-popup .recommendation-text {
   color: rgba(248, 249, 252, 0.9);
 }
 
+.ai-recommendation-popup .recommendation-text {
+  line-height: 1.8;
+  text-align: left;
+}
 .ai-recommendation-popup .recommendation-text .recommendation-h2 {
   font-size: 2rem;
   line-height: 140%;
   font-weight: 700;
   font-family: "Pretendard";
   color: rgba(7, 15, 22, 0.82);
-  margin-top: 24px;
-  margin-bottom: 16px;
-  border-bottom: 2px solid #3498db;
-  padding-bottom: 8px;
 }
 body[data-color-mode=dark] .ai-recommendation-popup .recommendation-text .recommendation-h2 {
   color: rgba(248, 249, 252, 0.9);
 }
 
+.ai-recommendation-popup .recommendation-text .recommendation-h2 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 8px;
+}
 .ai-recommendation-popup .recommendation-text .recommendation-h3 {
   font-size: 1.7rem;
   line-height: 1.412;
   font-weight: 600;
   font-family: "Pretendard";
   color: rgba(7, 15, 22, 0.82);
-  margin-top: 20px;
-  margin-bottom: 12px;
 }
 body[data-color-mode=dark] .ai-recommendation-popup .recommendation-text .recommendation-h3 {
   color: rgba(248, 249, 252, 0.9);
 }
 
+.ai-recommendation-popup .recommendation-text .recommendation-h3 {
+  margin-top: 20px;
+  margin-bottom: 12px;
+}
 .ai-recommendation-popup .recommendation-text .recommendation-ul {
   margin: 12px 0;
   padding-left: 24px;
@@ -4235,16 +4515,18 @@ body[data-color-mode=dark] .TermsView .loading p {
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
+}
+body[data-color-mode=dark] .TermsView .retry-button {
+  color: #16181a;
+}
+
+.TermsView .retry-button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
   -webkit-transition: background-color 0.2s ease;
   transition: background-color 0.2s ease;
 }
-body[data-color-mode=dark] .TermsView .retry-button {
-  color: #16181a;
-}
-
 .TermsView .retry-button:hover {
   background-color: #1565c0;
 }
@@ -4257,12 +4539,14 @@ body[data-color-mode=dark] .TermsView .retry-button {
   font-weight: 400;
   font-family: "Pretendard";
   color: rgba(12, 23, 35, 0.6);
-  margin-top: 0.5rem;
 }
 body[data-color-mode=dark] .TermsView .no-terms .no-terms-hint {
   color: rgba(228, 234, 241, 0.74);
 }
 
+.TermsView .no-terms .no-terms-hint {
+  margin-top: 0.5rem;
+}
 .TermsView .terms-list {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -4329,13 +4613,15 @@ body[data-color-mode=dark] .TermsView .terms-version {
   font-weight: 600;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
 }
 body[data-color-mode=dark] .TermsView .terms-required {
   color: #16181a;
 }
 
+.TermsView .terms-required {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
 .TermsView .terms-date {
   margin-left: auto;
 }
@@ -4345,69 +4631,77 @@ body[data-color-mode=dark] .TermsView .terms-required {
   font-weight: 400;
   font-family: "Pretendard";
   color: rgba(7, 15, 22, 0.82);
-  line-height: 1.8;
-  font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", sans-serif;
-  /* HTML 콘텐츠 내부 요소 스타일링 */
-  /* 특수 클래스 스타일 */
-  /* 푸터 스타일 */
 }
 body[data-color-mode=dark] .TermsView .terms-content {
   color: rgba(248, 249, 252, 0.9);
 }
 
+.TermsView .terms-content {
+  line-height: 1.8;
+  font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", sans-serif;
+  /* HTML 콘텐츠 내부 요소 스타일링 */
+}
 .TermsView .terms-content h1 {
   font-size: 2.9rem;
   line-height: 137.931%;
   font-weight: 700;
   font-family: "Pretendard";
   color: rgba(7, 15, 22, 0.82);
-  margin-top: 0;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.625rem;
-  border-bottom: 3px solid #3498db;
 }
 body[data-color-mode=dark] .TermsView .terms-content h1 {
   color: rgba(248, 249, 252, 0.9);
 }
 
+.TermsView .terms-content h1 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 3px solid #3498db;
+}
 .TermsView .terms-content h2 {
   font-size: 2.5rem;
   line-height: 140%;
   font-weight: 700;
   font-family: "Pretendard";
   color: rgba(2, 12, 21, 0.72);
-  margin-top: 1.875rem;
-  margin-bottom: 0.9375rem;
 }
 body[data-color-mode=dark] .TermsView .terms-content h2 {
   color: rgba(232, 237, 242, 0.83);
 }
 
+.TermsView .terms-content h2 {
+  margin-top: 1.875rem;
+  margin-bottom: 0.9375rem;
+}
 .TermsView .terms-content h3 {
   font-size: 1.8rem;
   line-height: 136.364%;
   font-weight: 700;
   font-family: "Pretendard";
   color: rgba(12, 23, 35, 0.6);
-  margin-top: 1.25rem;
-  margin-bottom: 0.625rem;
 }
 body[data-color-mode=dark] .TermsView .terms-content h3 {
   color: rgba(228, 234, 241, 0.74);
 }
 
+.TermsView .terms-content h3 {
+  margin-top: 1.25rem;
+  margin-bottom: 0.625rem;
+}
 .TermsView .terms-content p {
   font-size: 1.4rem;
   line-height: 140%;
   font-weight: 400;
   font-family: "Pretendard";
   color: rgba(7, 15, 22, 0.82);
-  margin-bottom: 0.9375rem;
 }
 body[data-color-mode=dark] .TermsView .terms-content p {
   color: rgba(248, 249, 252, 0.9);
 }
 
+.TermsView .terms-content p {
+  margin-bottom: 0.9375rem;
+}
 .TermsView .terms-content ul,
 .TermsView .terms-content ol {
   margin-bottom: 0.9375rem;
@@ -4419,13 +4713,15 @@ body[data-color-mode=dark] .TermsView .terms-content p {
   font-weight: 400;
   font-family: "Pretendard";
   color: rgba(7, 15, 22, 0.82);
-  margin-bottom: 0.5rem;
-  line-height: 1.8;
 }
 body[data-color-mode=dark] .TermsView .terms-content li {
   color: rgba(248, 249, 252, 0.9);
 }
 
+.TermsView .terms-content li {
+  margin-bottom: 0.5rem;
+  line-height: 1.8;
+}
 .TermsView .terms-content ul {
   list-style-type: disc;
 }
@@ -4459,20 +4755,24 @@ body[data-color-mode=dark] .TermsView .terms-content strong {
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(8, 113, 243);
-  text-decoration: underline;
 }
 body[data-color-mode=dark] .TermsView .terms-content a {
   color: rgb(57, 150, 243);
 }
 
+.TermsView .terms-content a {
+  text-decoration: underline;
+}
 .TermsView .terms-content a:hover {
   color: rgb(8, 113, 243);
-  opacity: 0.8;
 }
 body[data-color-mode=dark] .TermsView .terms-content a:hover {
   color: rgb(57, 150, 243);
 }
 
+.TermsView .terms-content a:hover {
+  opacity: 0.8;
+}
 .TermsView .terms-content table {
   width: 100%;
   border-collapse: collapse;
@@ -4490,12 +4790,14 @@ body[data-color-mode=dark] .TermsView .terms-content a:hover {
   font-weight: 600;
   font-family: "Pretendard";
   color: rgba(7, 15, 22, 0.82);
-  background-color: rgba(115, 132, 149, 0.05);
 }
 body[data-color-mode=dark] .TermsView .terms-content th {
   color: rgba(248, 249, 252, 0.9);
 }
 
+.TermsView .terms-content th {
+  background-color: rgba(115, 132, 149, 0.05);
+}
 body[data-color-mode=dark] .TermsView .terms-content th {
   background-color: rgba(208, 234, 241, 0.05);
 }
@@ -4511,6 +4813,9 @@ body[data-color-mode=dark] .TermsView .terms-content td {
   color: rgba(248, 249, 252, 0.9);
 }
 
+.TermsView .terms-content {
+  /* 특수 클래스 스타일 */
+}
 .TermsView .terms-content .important {
   background-color: #fff3cd;
   border-left: 4px solid #ffc107;
@@ -4526,15 +4831,17 @@ body[data-color-mode=dark] .TermsView .terms-content td {
 }
 .TermsView .terms-content .disclaimer {
   background-color: rgba(115, 132, 149, 0.05);
-  border: 1px solid #dee2e6;
-  padding: 0.9375rem;
-  margin: 1.25rem 0;
-  border-radius: 5px;
 }
 body[data-color-mode=dark] .TermsView .terms-content .disclaimer {
   background-color: rgba(208, 234, 241, 0.05);
 }
 
+.TermsView .terms-content .disclaimer {
+  border: 1px solid #dee2e6;
+  padding: 0.9375rem;
+  margin: 1.25rem 0;
+  border-radius: 5px;
+}
 .TermsView .terms-content .plan-box {
   background-color: #e7f3ff;
   border: 2px solid #3498db;
@@ -4564,6 +4871,9 @@ body[data-color-mode=dark] .TermsView .terms-content .disclaimer {
 }
 .TermsView .terms-content .credit-box table {
   margin: 1rem 0;
+}
+.TermsView .terms-content {
+  /* 푸터 스타일 */
 }
 .TermsView .terms-content .terms-footer {
   text-align: center;
@@ -4664,16 +4974,18 @@ body[data-color-mode=dark] .PrivacyPolicyView .loading p {
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(255, 255, 255);
+}
+body[data-color-mode=dark] .PrivacyPolicyView .retry-button {
+  color: #16181a;
+}
+
+.PrivacyPolicyView .retry-button {
   border: none;
   border-radius: 4px;
   cursor: pointer;
   -webkit-transition: background-color 0.2s ease;
   transition: background-color 0.2s ease;
 }
-body[data-color-mode=dark] .PrivacyPolicyView .retry-button {
-  color: #16181a;
-}
-
 .PrivacyPolicyView .retry-button:hover {
   background-color: #1565c0;
 }
@@ -4686,12 +4998,14 @@ body[data-color-mode=dark] .PrivacyPolicyView .retry-button {
   font-weight: 400;
   font-family: "Pretendard";
   color: rgba(12, 23, 35, 0.6);
-  margin-top: 0.5rem;
 }
 body[data-color-mode=dark] .PrivacyPolicyView .no-privacy .no-privacy-hint {
   color: rgba(228, 234, 241, 0.74);
 }
 
+.PrivacyPolicyView .no-privacy .no-privacy-hint {
+  margin-top: 0.5rem;
+}
 .PrivacyPolicyView .privacy-list {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -4771,82 +5085,92 @@ body[data-color-mode=dark] .PrivacyPolicyView .privacy-effective-date {
   font-weight: 400;
   font-family: "Pretendard";
   color: rgba(7, 15, 22, 0.82);
-  line-height: 1.8;
-  font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", sans-serif;
-  /* HTML 콘텐츠 내부 요소 스타일링 */
-  /* 특수 클래스 스타일 */
-  /* 푸터 스타일 */
 }
 body[data-color-mode=dark] .PrivacyPolicyView .privacy-content {
   color: rgba(248, 249, 252, 0.9);
 }
 
+.PrivacyPolicyView .privacy-content {
+  line-height: 1.8;
+  font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", sans-serif;
+  /* HTML 콘텐츠 내부 요소 스타일링 */
+}
 .PrivacyPolicyView .privacy-content h1 {
   font-size: 2.9rem;
   line-height: 137.931%;
   font-weight: 700;
   font-family: "Pretendard";
   color: rgba(7, 15, 22, 0.82);
-  margin-top: 0;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.625rem;
-  border-bottom: 3px solid #3498db;
 }
 body[data-color-mode=dark] .PrivacyPolicyView .privacy-content h1 {
   color: rgba(248, 249, 252, 0.9);
 }
 
+.PrivacyPolicyView .privacy-content h1 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.625rem;
+  border-bottom: 3px solid #3498db;
+}
 .PrivacyPolicyView .privacy-content h2 {
   font-size: 2.5rem;
   line-height: 140%;
   font-weight: 700;
   font-family: "Pretendard";
   color: rgba(2, 12, 21, 0.72);
-  margin-top: 1.875rem;
-  margin-bottom: 0.9375rem;
 }
 body[data-color-mode=dark] .PrivacyPolicyView .privacy-content h2 {
   color: rgba(232, 237, 242, 0.83);
 }
 
+.PrivacyPolicyView .privacy-content h2 {
+  margin-top: 1.875rem;
+  margin-bottom: 0.9375rem;
+}
 .PrivacyPolicyView .privacy-content h3 {
   font-size: 1.8rem;
   line-height: 136.364%;
   font-weight: 700;
   font-family: "Pretendard";
   color: rgba(12, 23, 35, 0.6);
-  margin-top: 1.25rem;
-  margin-bottom: 0.625rem;
 }
 body[data-color-mode=dark] .PrivacyPolicyView .privacy-content h3 {
   color: rgba(228, 234, 241, 0.74);
 }
 
+.PrivacyPolicyView .privacy-content h3 {
+  margin-top: 1.25rem;
+  margin-bottom: 0.625rem;
+}
 .PrivacyPolicyView .privacy-content h4 {
   font-size: 2rem;
   line-height: 140%;
   font-weight: 700;
   font-family: "Pretendard";
   color: rgba(12, 23, 35, 0.6);
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
 }
 body[data-color-mode=dark] .PrivacyPolicyView .privacy-content h4 {
   color: rgba(228, 234, 241, 0.74);
 }
 
+.PrivacyPolicyView .privacy-content h4 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
 .PrivacyPolicyView .privacy-content p {
   font-size: 1.4rem;
   line-height: 140%;
   font-weight: 400;
   font-family: "Pretendard";
   color: rgba(7, 15, 22, 0.82);
-  margin-bottom: 0.9375rem;
 }
 body[data-color-mode=dark] .PrivacyPolicyView .privacy-content p {
   color: rgba(248, 249, 252, 0.9);
 }
 
+.PrivacyPolicyView .privacy-content p {
+  margin-bottom: 0.9375rem;
+}
 .PrivacyPolicyView .privacy-content ul,
 .PrivacyPolicyView .privacy-content ol {
   margin-bottom: 0.9375rem;
@@ -4858,13 +5182,15 @@ body[data-color-mode=dark] .PrivacyPolicyView .privacy-content p {
   font-weight: 400;
   font-family: "Pretendard";
   color: rgba(7, 15, 22, 0.82);
-  margin-bottom: 0.5rem;
-  line-height: 1.8;
 }
 body[data-color-mode=dark] .PrivacyPolicyView .privacy-content li {
   color: rgba(248, 249, 252, 0.9);
 }
 
+.PrivacyPolicyView .privacy-content li {
+  margin-bottom: 0.5rem;
+  line-height: 1.8;
+}
 .PrivacyPolicyView .privacy-content ul {
   list-style-type: disc;
 }
@@ -4898,20 +5224,24 @@ body[data-color-mode=dark] .PrivacyPolicyView .privacy-content strong {
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(8, 113, 243);
-  text-decoration: underline;
 }
 body[data-color-mode=dark] .PrivacyPolicyView .privacy-content a {
   color: rgb(57, 150, 243);
 }
 
+.PrivacyPolicyView .privacy-content a {
+  text-decoration: underline;
+}
 .PrivacyPolicyView .privacy-content a:hover {
   color: rgb(8, 113, 243);
-  opacity: 0.8;
 }
 body[data-color-mode=dark] .PrivacyPolicyView .privacy-content a:hover {
   color: rgb(57, 150, 243);
 }
 
+.PrivacyPolicyView .privacy-content a:hover {
+  opacity: 0.8;
+}
 .PrivacyPolicyView .privacy-content table {
   width: 100%;
   border-collapse: collapse;
@@ -4929,12 +5259,14 @@ body[data-color-mode=dark] .PrivacyPolicyView .privacy-content a:hover {
   font-weight: 600;
   font-family: "Pretendard";
   color: rgba(7, 15, 22, 0.82);
-  background-color: rgba(115, 132, 149, 0.05);
 }
 body[data-color-mode=dark] .PrivacyPolicyView .privacy-content th {
   color: rgba(248, 249, 252, 0.9);
 }
 
+.PrivacyPolicyView .privacy-content th {
+  background-color: rgba(115, 132, 149, 0.05);
+}
 body[data-color-mode=dark] .PrivacyPolicyView .privacy-content th {
   background-color: rgba(208, 234, 241, 0.05);
 }
@@ -4950,6 +5282,9 @@ body[data-color-mode=dark] .PrivacyPolicyView .privacy-content td {
   color: rgba(248, 249, 252, 0.9);
 }
 
+.PrivacyPolicyView .privacy-content {
+  /* 특수 클래스 스타일 */
+}
 .PrivacyPolicyView .privacy-content .important {
   background-color: #fff3cd;
   border-left: 4px solid #ffc107;
@@ -4965,15 +5300,17 @@ body[data-color-mode=dark] .PrivacyPolicyView .privacy-content td {
 }
 .PrivacyPolicyView .privacy-content .disclaimer {
   background-color: rgba(115, 132, 149, 0.05);
-  border: 1px solid #dee2e6;
-  padding: 0.9375rem;
-  margin: 1.25rem 0;
-  border-radius: 5px;
 }
 body[data-color-mode=dark] .PrivacyPolicyView .privacy-content .disclaimer {
   background-color: rgba(208, 234, 241, 0.05);
 }
 
+.PrivacyPolicyView .privacy-content .disclaimer {
+  border: 1px solid #dee2e6;
+  padding: 0.9375rem;
+  margin: 1.25rem 0;
+  border-radius: 5px;
+}
 .PrivacyPolicyView .privacy-content .plan-box {
   background-color: #e7f3ff;
   border: 2px solid #3498db;
@@ -5009,6 +5346,9 @@ body[data-color-mode=dark] .PrivacyPolicyView .privacy-content .disclaimer {
   padding: 1rem;
   border-left: 4px solid #1976d2;
   background: #f5f5f5;
+}
+.PrivacyPolicyView .privacy-content {
+  /* 푸터 스타일 */
 }
 .PrivacyPolicyView .privacy-content .privacy-footer {
   text-align: center;
@@ -5108,6 +5448,12 @@ body[data-color-mode=dark] .warning-header strong {
   font-weight: 700;
   font-family: "Pretendard";
   color: rgb(255, 134, 20);
+}
+body[data-color-mode=dark] .warning-close {
+  color: rgb(255, 137, 26);
+}
+
+.warning-close {
   cursor: pointer;
   padding: 0;
   width: 24px;
@@ -5123,16 +5469,16 @@ body[data-color-mode=dark] .warning-header strong {
           justify-content: center;
   line-height: 1;
 }
-body[data-color-mode=dark] .warning-close {
+
+.warning-close:hover {
+  color: rgb(255, 134, 20);
+}
+body[data-color-mode=dark] .warning-close:hover {
   color: rgb(255, 137, 26);
 }
 
 .warning-close:hover {
-  color: rgb(255, 134, 20);
   opacity: 0.8;
-}
-body[data-color-mode=dark] .warning-close:hover {
-  color: rgb(255, 137, 26);
 }
 
 .warning-content {
@@ -5141,10 +5487,13 @@ body[data-color-mode=dark] .warning-close:hover {
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(255, 134, 20);
-  line-height: 1.6;
 }
 body[data-color-mode=dark] .warning-content {
   color: rgb(255, 137, 26);
+}
+
+.warning-content {
+  line-height: 1.6;
 }
 
 .warning-content p {
@@ -5172,13 +5521,16 @@ body[data-color-mode=dark] .warning-content strong {
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(255, 134, 20);
+}
+body[data-color-mode=dark] .warning-disclaimer {
+  color: rgb(255, 137, 26);
+}
+
+.warning-disclaimer {
   font-style: italic;
   margin-top: 0.75rem;
   padding-top: 0.75rem;
   border-top: 1px solid #ffc107;
-}
-body[data-color-mode=dark] .warning-disclaimer {
-  color: rgb(255, 137, 26);
 }
 
 .empty-cell {
@@ -5219,12 +5571,14 @@ body[data-color-mode=dark] .warning-header strong {
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(255, 134, 20);
-  line-height: 1.6;
 }
 body[data-color-mode=dark] .warning-content {
   color: rgb(255, 137, 26);
 }
 
+.warning-content {
+  line-height: 1.6;
+}
 .warning-content p {
   margin-bottom: 0.75rem;
 }
@@ -5248,13 +5602,16 @@ body[data-color-mode=dark] .warning-content strong {
   font-weight: 400;
   font-family: "Pretendard";
   color: rgb(255, 134, 20);
+}
+body[data-color-mode=dark] .warning-disclaimer {
+  color: rgb(255, 137, 26);
+}
+
+.warning-disclaimer {
   font-style: italic;
   margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid #ffc107;
-}
-body[data-color-mode=dark] .warning-disclaimer {
-  color: rgb(255, 137, 26);
 }
 
 .warning-footer {

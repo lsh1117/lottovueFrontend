@@ -467,44 +467,46 @@
 
 	}
 
+	/** API·스토어가 snake_case(drw_no, drwt_no1) 또는 camelCase(drwNo, drwtNo1)로 올 수 있음 */
+	function resolveDrawRow(drw) {
+		if (
+			currentDrawResult.value != null &&
+			Number(currentDrawResult.value.drw_no) === Number(drw)
+		) {
+			return currentDrawResult.value;
+		}
+		const fromGetter = drwStore.getDrwNo(drw);
+		if (fromGetter) return fromGetter;
+		const list = drwStore.getNumbers();
+		return list.find((item) => Number(item.drw_no ?? item.drwNo) === Number(drw));
+	}
+
 	function checkMatching(drw, number) {
 		try {
-			const _drwNo = drwStore.getDrwNo(drw);
-			const _numbers = [
-				Number(_drwNo.drwtNo1),
-				Number(_drwNo.drwtNo2),
-				Number(_drwNo.drwtNo3),
-				Number(_drwNo.drwtNo4),
-				Number(_drwNo.drwtNo5),
-				Number(_drwNo.drwtNo6),
-			]
-			if (_numbers.includes(number)) {
-				return true;
-			} else {
-				return false;
-			}
+			const row = resolveDrawRow(drw);
+			if (!row) return false;
+			const n = Number(number);
+			const winning = [
+				Number(row.drwt_no1 ?? row.drwtNo1),
+				Number(row.drwt_no2 ?? row.drwtNo2),
+				Number(row.drwt_no3 ?? row.drwtNo3),
+				Number(row.drwt_no4 ?? row.drwtNo4),
+				Number(row.drwt_no5 ?? row.drwtNo5),
+				Number(row.drwt_no6 ?? row.drwtNo6),
+			];
+			return winning.includes(n);
 		} catch (e) {
-			//console.log("error:",e.message);
-			return null;
+			return false;
 		}
 	}
 
 	function checkNo2(drw, number) {
 		try {
-			const _drwNo = drwStore.getDrwNo(drw);
-
-			//console.log("### 2등 체크 여부 보너스 번호 : ", Number(_drwNo.bnusNo))
-			//console.log("### 2등 체크 여부 선택 번호 : ", number)
-
-			if (Number(_drwNo.bnusNo) === number) {
-				return true;
-			} else {
-				return false;
-			}
-
+			const row = resolveDrawRow(drw);
+			if (!row) return false;
+			return Number(row.bnus_no ?? row.bnusNo) === Number(number);
 		} catch (e) {
-			//console.log("error:",e.message);
-			return null;
+			return false;
 		}
 	}
 

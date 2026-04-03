@@ -79,6 +79,24 @@ const routes = [
         component: () => import(/* webpackChunkName: "inquiryCreate" */ '../views/InquiryCreateView.vue'),
         meta: { hidden: true }
       },
+      {
+        path: 'email-login',
+        name: 'EmailLoginView',
+        component: () => import(/* webpackChunkName: "emailLogin" */ '../views/members/EmailLoginView.vue'),
+        meta: { hidden: true }
+      },
+      {
+        path: 'email-register',
+        name: 'EmailRegisterView',
+        component: () => import(/* webpackChunkName: "emailRegister" */ '../views/members/EmailRegisterView.vue'),
+        meta: { hidden: true }
+      },
+      {
+        path: 'account',
+        name: 'AccountView',
+        component: () => import(/* webpackChunkName: "account" */ '../views/members/AccountView.vue'),
+        meta: { hidden: true }
+      },
     ],
   },
 ]

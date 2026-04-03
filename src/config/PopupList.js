@@ -5,9 +5,10 @@ import FixedRecommendPopup from '@/views/popup/FixedRecommendPopup.vue'
 import ExceptionRecommendPopup from '@/views/popup/ExceptionRecommendPopup.vue'
 import RecommendPopup from '@/views/popup/RecommendPopup.vue'
 import MyNumberPopup from '@/views/popup/MyNumberPopup.vue'
-import AccountPopup from '@/views/popup/AccountPopup.vue'
 import AIRecommendationPopup from '@/views/popup/AIRecommendationPopup.vue'
 import WarningPopup from '@/views/popup/WarningPopup.vue'
+import EmailChangePasswordPopup from '@/views/popup/EmailChangePasswordPopup.vue'
+import EmailVerificationPopup from '@/views/popup/EmailVerificationPopup.vue'
 
 /**
  * defaultProps
@@ -74,12 +75,18 @@ export const popupList = {
 			
 		},
 	},
-	account: {
-		title: '계정 정보',
+	emailChangePassword: {
+		title: '비밀번호 변경',
 		type:'dialog',
-		component: AccountPopup,
+		component: EmailChangePasswordPopup,
 		options: {
-			
+		},
+	},
+	emailVerification: {
+		title: '이메일 인증',
+		type:'dialog',
+		component: EmailVerificationPopup,
+		options: {
 		},
 	},
 	aiRecommendation: {

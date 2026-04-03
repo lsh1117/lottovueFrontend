@@ -29,3 +29,15 @@
         @include themeProperty(background-color,color-bg-secondary);
     }
 }
+
+.tl{
+    text-align: left !important;
+}
+
+.tc{
+    text-align: center !important;
+}
+
+.tr{
+    text-align: right !important;
+}

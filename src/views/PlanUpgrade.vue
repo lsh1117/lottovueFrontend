@@ -258,10 +258,11 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import http from '@/api/base'
-import { getUser, isAuthenticated, setUser } from '@/utils/auth'
+import { useMessage } from 'naive-ui'
+import { getUser, isAuthenticated } from '@/utils/auth'
 
 const router = useRouter()
+const message = useMessage()
 const user = ref(null)
 const isUpgrading = ref(false)
 
@@ -280,40 +281,28 @@ const upgradePlan = async (plan) => {
 	}
 
 	if (!user.value) {
-		alert('로그인이 필요합니다.')
+        message.warning('로그인이 필요합니다.')
 		router.push('/home')
 		return
 	}
 
 	if (user.value.plan === plan) {
-		alert('이미 해당 Plan입니다.')
+        message.warning('이미 해당 Plan입니다.')
 		return
 	}
 
 	if (!isUpgradePath(user.value.plan, plan)) {
-		alert('다운그레이드는 지원하지 않습니다.')
+        message.warning('다운그레이드는 지원하지 않습니다.')
 		return
 	}
 
 	isUpgrading.value = true
 
 	try {
-		const updated = await http.post('/users/me/upgrade-plan', { plan })
-		if (updated) {
-			setUser(updated)
-			user.value = updated
-			window.dispatchEvent(new CustomEvent('lottovue:userUpdated'))
-			const label = plan === 'max' ? 'Max' : 'Pro'
-			alert(`${label} Plan으로 변경되었습니다.`)
-		}
+		message.warning('구독 기능은 아직 구현되지 않았습니다.')
 	} catch (error) {
 		console.error('Plan 업그레이드 오류:', error)
-		const detail = error.response?.data?.detail
-		alert(
-			typeof detail === 'string'
-				? detail
-				: 'Plan 업그레이드 중 오류가 발생했습니다.',
-		)
+		message.error('구독 기능 처리 중 오류가 발생했습니다.')
 	} finally {
 		isUpgrading.value = false
 	}
@@ -326,7 +315,7 @@ const purchaseCredits = async () => {
 	}
 
 	if (!user.value) {
-		alert('로그인이 필요합니다.')
+        message.warning('로그인이 필요합니다.')
 		router.push('/home')
 		return
 	}
@@ -335,11 +324,11 @@ const purchaseCredits = async () => {
 
 	try {
 		// TODO: 백엔드 API 연동 필요
-		alert('크레딧 구매 기능은 아직 구현되지 않았습니다.')
+        message.warning('크레딧 구매 기능은 아직 구현되지 않았습니다.')
 		//console.log('크레딧 구매')
 	} catch (error) {
 		console.error('크레딧 구매 오류:', error)
-		alert('크레딧 구매 중 오류가 발생했습니다.')
+        message.warning('크레딧 구매 중 오류가 발생했습니다.')
 	} finally {
 		isUpgrading.value = false
 	}
@@ -348,7 +337,7 @@ const purchaseCredits = async () => {
 onMounted(() => {
 	// 로그인 체크
 	if (!isAuthenticated()) {
-		alert('Plan 업그레이드는 로그인 사용자만 이용 가능합니다.')
+        message.warning('Plan 업그레이드는 로그인 사용자만 이용 가능합니다.')
 		router.push('/home')
 		return
 	}
@@ -357,7 +346,7 @@ onMounted(() => {
 	user.value = getUser()
 	
 	if (!user.value) {
-		alert('사용자 정보를 불러올 수 없습니다.')
+        message.warning('사용자 정보를 불러올 수 없습니다.')
 		router.push('/home')
 	}
 })

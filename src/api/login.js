@@ -130,6 +130,114 @@ export default {
 			throw error
 		}
 	},
+
+	/**
+	 * 이메일 회원가입 (닉네임 + 이메일)
+	 * @param {{nickname: string, email: string}} payload
+	 * @returns {Promise}
+	 */
+	emailRegister: async function (payload) {
+		try {
+			const response = await http.post('/auth/email/register', payload)
+			if (response.access_token) {
+				setToken(response.access_token)
+			}
+			if (response.user) {
+				setUser(response.user)
+			}
+			return response
+		} catch (error) {
+			console.error('Email register error:', error)
+			throw error
+		}
+	},
+
+	/**
+	 * 이메일 로그인
+	 * @param {{email: string, password: string}} payload
+	 * @returns {Promise}
+	 */
+	emailLogin: async function (payload) {
+		try {
+			const response = await http.post('/auth/email/login', payload)
+			if (response.access_token) {
+				setToken(response.access_token)
+			}
+			if (response.user) {
+				setUser(response.user)
+			}
+			return response
+		} catch (error) {
+			console.error('Email login error:', error)
+			throw error
+		}
+	},
+
+	/**
+	 * 이메일 비밀번호 변경
+	 * @param {{current_password: string, new_password: string}} payload
+	 * @returns {Promise}
+	 */
+	emailChangePassword: async function (payload) {
+		try {
+			const response = await http.post('/auth/email/change-password', payload)
+			if (response) {
+				setUser(response)
+			}
+			return response
+		} catch (error) {
+			console.error('Email change password error:', error)
+			throw error
+		}
+	},
+
+	/**
+	 * 이메일 비밀번호 찾기 (임시 비밀번호 발송)
+	 * @param {{email: string}} payload
+	 * @returns {Promise}
+	 */
+	emailForgotPassword: async function (payload) {
+		try {
+			const response = await http.post('/auth/email/forgot-password', payload)
+			return response
+		} catch (error) {
+			console.error('Email forgot password error:', error)
+			throw error
+		}
+	},
+
+	/**
+	 * 내 계정 이메일 인증코드 발송
+	 * @param {{email: string}} payload
+	 * @returns {Promise<{success: boolean, message: string, ttl_seconds: number}>}
+	 */
+	sendMyEmailVerificationCode: async function (payload) {
+		try {
+			const response = await http.post('/users/me/email-verification/send', payload)
+			return response
+		} catch (error) {
+			console.error('Send email verification code error:', error)
+			throw error
+		}
+	},
+
+	/**
+	 * 내 계정 이메일 인증코드 확인 및 이메일 등록
+	 * @param {{email: string, code: string}} payload
+	 * @returns {Promise}
+	 */
+	confirmMyEmailVerificationCode: async function (payload) {
+		try {
+			const response = await http.post('/users/me/email-verification/confirm', payload)
+			if (response) {
+				setUser(response)
+			}
+			return response
+		} catch (error) {
+			console.error('Confirm email verification code error:', error)
+			throw error
+		}
+	},
 	
 	/**
 	 * 현재 로그인한 사용자 정보 조회

@@ -33,7 +33,7 @@
 				</button>
 			</div>
 			<!-- 햄버거 메뉴 버튼 (모바일만 표시) -->
-			<div class="header-right-item mobile-menu-btn">
+			<div v-if="!hideLnb" class="header-right-item mobile-menu-btn">
 				<button class="hamburger-btn" @click="toggleMobileMenu" :class="{ 'active': isMobileMenuOpen }" title="메뉴">
 					<span class="hamburger-line"></span>
 					<span class="hamburger-line"></span>
@@ -44,7 +44,7 @@
 	</header>
 	
 	<!-- PC용 좌측 고정 GNB -->
-	<nav class="gnb-area gnb-desktop">
+	<nav v-if="!hideLnb" class="gnb-area gnb-desktop">
 		<ul class="gnb-list">
 			<li class="gnb-item">
 				<router-link class="btn-gnb" active-class="on" to="/gameresult">회차 결과</router-link>
@@ -96,8 +96,8 @@
 	</nav>
 
 	<!-- 모바일용 슬라이드 메뉴 -->
-	<div class="mobile-menu-overlay" :class="{ 'active': isMobileMenuOpen }" @click="closeMobileMenu"></div>
-	<nav class="gnb-mobile" :class="{ 'active': isMobileMenuOpen }">
+	<div v-if="!hideLnb" class="mobile-menu-overlay" :class="{ 'active': isMobileMenuOpen }" @click="closeMobileMenu"></div>
+	<nav v-if="!hideLnb" class="gnb-mobile" :class="{ 'active': isMobileMenuOpen }">
 		<div class="mobile-menu-header">
 			<h3>메뉴</h3>
 			<button class="mobile-menu-close" @click="closeMobileMenu" title="닫기">
@@ -170,14 +170,11 @@
 <script setup>
 import { computed, onMounted, ref, onUnmounted, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { NModal } from 'naive-ui'
 import { usePremiumStore } from '@/stores/PremiumStore'
-import { useEventStore } from '@/stores/EventStore'
 import { isAuthenticated, getUser } from '@/utils/auth'
 
 const router = useRouter()
 const route = useRoute()
-const eventStore = useEventStore();
 
 const premiumStore = usePremiumStore();
 
@@ -186,6 +183,9 @@ const isMobileMenuOpen = ref(false)
 // 고객센터 메뉴 열림 상태
 const isCustomerCenterOpen = ref(false)
 const isMobileCustomerCenterOpen = ref(false)
+
+const hideLnbRoutes = new Set(['/email-login', '/email-register'])
+const hideLnb = computed(() => hideLnbRoutes.has(route.path))
 
 // 고객센터 관련 경로인지 확인
 const isCustomerCenterRoute = computed(() => {
@@ -225,17 +225,7 @@ const handlePremiumStatus = (event) => {
 
 // 계정 정보 팝업 호출
 function openAccountPopup() {
-	//console.log("계정 정보");
-	eventStore.emit('popup',{
-		id:"account",
-		title:"계정 정보",
-		onClose:onAccountPopupClose,
-	});
-}
-
-//  계정 정보 팝업 닫기 핸들러.
-function onAccountPopupClose(e){
-	//console.log("계정 정보 팝업 닫기 :",e);
+	router.push('/account')
 }
 
 // AI 분석 클릭 핸들러

@@ -10,6 +10,7 @@
 		<div class="btn-area btn-area-center">
 			<button class="btn-primary btn-small" @click="$emit('close')">닫기</button>
 			<button class="btn-primary btn-small" @click="onAllApply">전체적용</button>
+			<button class="btn-primary btn-small" @click="onExcludePreviousDrawAll">이전 회차 전체 제외</button>
 		</div>
 	</div>
 </template>
@@ -167,6 +168,37 @@
 		exceptionStore.setNumbers(uniqueNumbers);
 		// 팝업 닫기 이벤트 emit
 		emit("close");
+	}
+
+	function onExcludePreviousDrawAll() {
+		const draws = drwStore.getNumbers();
+		if (!draws || draws.length === 0) {
+			return;
+		}
+
+		// 최신 회차(=지난주 회차) 1건 선택
+		const latestDraw = [...draws].sort((a, b) => Number(b.drwNo) - Number(a.drwNo))[0];
+		if (!latestDraw) {
+			return;
+		}
+
+		const prevDrawNumbers = [
+			Number(latestDraw.drwtNo1),
+			Number(latestDraw.drwtNo2),
+			Number(latestDraw.drwtNo3),
+			Number(latestDraw.drwtNo4),
+			Number(latestDraw.drwtNo5),
+			Number(latestDraw.drwtNo6),
+		].filter((num) => Number.isFinite(num));
+
+		// 제외번호 후보에 병합 (중복 제거)
+		exceptionNumbers.value = [...new Set([...exceptionNumbers.value, ...prevDrawNumbers])];
+
+		const msg = `${latestDraw.drwNo}회차 전체 번호 제외: ${prevDrawNumbers.join(", ")}`;
+		const existsMsg = messages.value.includes(msg);
+		if (!existsMsg) {
+			messages.value.push(msg);
+		}
 	}
 
 </script>

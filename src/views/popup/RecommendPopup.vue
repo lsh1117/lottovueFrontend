@@ -90,6 +90,7 @@
 
 <script setup>
 	import { onMounted, onUnmounted, ref, computed, watch } from "vue";
+	import { useRouter } from "vue-router";
 	import { NModal } from "naive-ui";
 	import { useCalculateStore } from "@/stores/CalculateStore";
 	import { useExceptionStore } from "@/stores/ExceptionStore";
@@ -123,8 +124,7 @@
 		return user?.plan === 'pro' || user?.plan === 'max';
 	});
 	
-	// EventStore 가져오기
-	const eventStore = useEventStore();
+	const router = useRouter();
 
 	// Pinia store 가져오기
 	const exceptionStore = useExceptionStore();
@@ -336,14 +336,7 @@
 	
 	// 계정 정보 팝업 열기 (프로버전 업그레이드)
 	function openAccountPopup() {
-		eventStore.emit('popup', {
-			id: 'account',
-			title: '계정 정보',
-			onClose: () => {
-				// 팝업 닫힌 후 Plan 상태 다시 확인 (computed로 자동 업데이트됨)
-				checkRecommendCount();
-			}
-		});
+		router.push('/account');
 	}
 	
 	// pickHistory를 로드하여 화면에 표시

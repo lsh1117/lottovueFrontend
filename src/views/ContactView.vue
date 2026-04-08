@@ -52,6 +52,7 @@
 		<section class="section section-area fixed-bottom">
 			<div class="btn-area btn-area-center">
 				<button class="btn-primary btn-large" @click="openRecommendPopup" >번호 생성</button>
+				<button class="btn-primary btn-large" @click="openAIRecommendPopup" >AI번호생성</button>
 				<button class="btn-primary btn-large" @click="openMyNumberPopup" >내번호보기</button>
 			</div>
 		</section>
@@ -61,20 +62,28 @@
 <script setup>
 	import { computed, onMounted } from 'vue';
 	import { useRouter } from 'vue-router';
+	import { useDialog, useMessage } from 'naive-ui';
 	import { useEventStore } from '@/stores/EventStore';
 	import { useExceptionStore } from "@/stores/ExceptionStore";
 	import { useFixedStore } from "@/stores/FixedStore";
 	import { useRecommendStore } from "@/stores/RecommendStore";
+	import { useMyPickStore } from "@/stores/MyPickStore";
 	import { useCalculateStore } from "@/stores/CalculateStore";
 	import { useDrwStore } from "@/stores/DrwStore";
-	import { isAuthenticated } from '@/utils/auth';
+	import { isAuthenticated, setUser } from '@/utils/auth';
+	import { getAIRecommendationNumbers } from '@/api/lotto';
+	import { createUserRecommendation } from '@/api/recommendation';
+	import http from '@/api/base';
 
 	const router = useRouter();
+	const dialog = useDialog();
+	const message = useMessage();
 
 	const eventStore = useEventStore();
 	const exceptionStore = useExceptionStore();
 	const fixedStore = useFixedStore();
 	const recommendStore = useRecommendStore();
+	const myPickStore = useMyPickStore();
 	const calculateStore = useCalculateStore();
 	// Pinia store 가져오기
 	const drwStore = useDrwStore();
@@ -167,6 +176,14 @@
 		return Math.floor((n - 1) / 10) + 1;
 	}
 
+	function getNextDrwNo() {
+		const numbers = drwStore.getNumbers();
+		if (numbers && numbers.length > 0 && numbers[0]?.drwNo) {
+			return Number(numbers[0].drwNo) + 1;
+		}
+		return 1;
+	}
+
 	// AI 분석 팝업 호출
 	function openRecommendPopup() {
 		//console.log("AI 분석 팝업 호출");
@@ -183,6 +200,55 @@
 			id:"recommend",
 			title:"번호 생성",
 		});
+	}
+
+	async function openAIRecommendPopup() {
+		if (!isAuthenticated()) {
+			dialog.warning({
+				title: '로그인 필요',
+				content: 'AI번호생성 기능은 로그인 후 이용 가능합니다. 계정 정보에서 로그인해주세요.',
+				positiveText: '확인'
+			});
+			return;
+		}
+
+		try {
+			const updatedUser = await http.post('/users/me/deduct-credits?amount=1');
+			if (updatedUser) {
+				setUser(updatedUser);
+				window.dispatchEvent(new CustomEvent('lottovue:userUpdated'));
+			}
+
+			const aiResult = await getAIRecommendationNumbers(100);
+			const numbers = (aiResult?.numbers || []).map((n) => Number(n)).sort((a, b) => a - b);
+			if (numbers.length !== 6) {
+				throw new Error('AI 추천번호 생성 결과가 올바르지 않습니다.');
+			}
+
+			const numberObjs = numbers.map((n) => ({ number: n }));
+			const drwNo = Number(aiResult?.drw_no || getNextDrwNo());
+
+			recommendStore.addRecommend(numberObjs, drwNo);
+			myPickStore.addMyPick(numberObjs, drwNo);
+			await createUserRecommendation({
+				drw_no: drwNo,
+				no1: numbers[0],
+				no2: numbers[1],
+				no3: numbers[2],
+				no4: numbers[3],
+				no5: numbers[4],
+				no6: numbers[5],
+			});
+
+			dialog.success({
+				title: `AI 추천번호 생성 완료 (${drwNo}회차)`,
+				content: numbers.join(', '),
+				positiveText: '확인'
+			});
+		} catch (error) {
+			console.error('AI번호생성 실패:', error);
+			message.error(error.response?.data?.detail || error.message || 'AI번호 생성 중 오류가 발생했습니다.');
+		}
 	}
 
 	// 내번호 보기 화면으로 이동

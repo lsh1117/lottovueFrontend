@@ -39,3 +39,15 @@ export const getAIRecommendation = async (statisticsData) => {
 	})
 }
 
+/**
+ * 통계 기반 AI 추천번호 6개 생성
+ * @param {number} recentWindow - 최근 통계 반영 회차 수 (기본 100)
+ * @returns {Promise} 추천번호 응답
+ */
+export const getAIRecommendationNumbers = async (recentWindow = 100) => {
+	return await http.get('/lotto/ai/recommendation-numbers', {
+		params: { recent_window: recentWindow },
+		timeout: 30000
+	})
+}
+

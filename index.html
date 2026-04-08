@@ -45,13 +45,18 @@
   <!-- Canonical URL -->
   <link rel="canonical" href="https://lottovue.co.kr/">
 
-  <!-- External Scripts -->
+  <!-- External Scripts (AdSense는 홈 등 콘텐츠 페이지에서만 지연 로드 — 저콘텐츠 화면 정책 위험 완화) -->
   <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7539747702104892" crossorigin="anonymous"></script>
   <link rel="stylesheet" type="text/css" href="./assets/css/app.css">
 </head>
 
 <body>
+  <noscript>
+    <p style="padding:16px;font-family:sans-serif;line-height:1.5;">
+      로또뷰는 로또 당첨 번호 통계, AI 분석, 번호 생성·저장 등을 제공하는 서비스입니다.
+      원활한 이용을 위해 JavaScript를 활성화해 주세요.
+    </p>
+  </noscript>
   <div id="app" class="wrap"></div>
   <script type="module" src="src/main.js"></script>
 </body>

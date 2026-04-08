@@ -13,6 +13,7 @@
 
 <script setup>
 import { onMounted, onBeforeUnmount, ref } from 'vue'
+import { ensureAdSenseScript } from '@/utils/adsenseScript'
 
 const props = defineProps({
   // AdSense 클라이언트 ID (필수)
@@ -65,35 +66,18 @@ function initializeAd() {
   }
 }
 
-// AdSense 스크립트 로드 확인 및 초기화
-function checkAndInitAd() {
-  // adsbygoogle이 이미 로드되어 있으면 바로 초기화
-  if (window.adsbygoogle) {
-    initializeAd()
-  } else {
-    // 스크립트가 로드될 때까지 대기
-    const checkInterval = setInterval(() => {
-      if (window.adsbygoogle) {
-        clearInterval(checkInterval)
-        initializeAd()
-      }
-    }, 100)
-
-    // 5초 후에도 로드되지 않으면 타임아웃
-    setTimeout(() => {
-      clearInterval(checkInterval)
-      if (!adsInitialized.value) {
-        console.warn('AdSense 스크립트 로드 타임아웃')
-      }
-    }, 5000)
+async function loadScriptAndInit() {
+  try {
+    await ensureAdSenseScript(props.adClient)
+    setTimeout(() => initializeAd(), 0)
+  } catch {
+    console.warn('AdSense 스크립트를 불러오지 못했습니다.')
   }
 }
 
 onMounted(() => {
-  // 컴포넌트가 마운트된 후 약간의 지연을 두고 광고 초기화
-  // Vue의 DOM 업데이트가 완료된 후 실행되도록 함
   setTimeout(() => {
-    checkAndInitAd()
+    loadScriptAndInit()
   }, 100)
 })
 

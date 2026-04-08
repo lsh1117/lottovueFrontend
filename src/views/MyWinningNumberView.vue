@@ -25,13 +25,11 @@
 					<div class="recommend-list">
 						<table class="table-list">
 							<colgroup>
-								<col style="width:20%">
-								<col style="width:65%">
+								<col style="width:85%">
 								<col style="width:15%">
 							</colgroup>
 							<thead>
 								<tr>
-									<th><span>회차</span></th>
 									<th><span>번호</span></th>
 									<th><span>결과</span></th>
 								</tr>
@@ -44,7 +42,6 @@
 									<td colspan="3" class="empty-cell">저장된 번호가 없습니다.</td>
 								</tr>
 								<tr v-else v-for="recommend in myPickList" :key="recommend">
-									<td><span>{{ recommend.drw }}</span><span>회</span></td>
 									<td>
 										<div class="ball-area">
 											<ul class="ball-list">
@@ -64,78 +61,82 @@
 				</article>
 
 				<!-- 당첨금 확인 -->
-				<article class="article-area">
-					<table class="table-item">
-						<colgroup>
-							<col style="width:30%">
-							<col style="width:35%">
-							<col style="width:35%">
-						</colgroup>
-						<tbody>
-							<tr>
-								<th><span>1등</span></th>
-								<td><span>{{ no1 }}</span></td>
-								<td>
-									<span v-if="currentDrawResult && currentDrawResult.first_winamnt_per_game">
-										{{ formatCurrency(no1 * currentDrawResult.first_winamnt_per_game) }}
-									</span>
-									<span v-else>별도 확인 필요</span>
-									<span v-if="currentDrawResult && currentDrawResult.first_winamnt_per_game">원</span>
-								</td>
-							</tr>
-							<tr>
-								<th><span>2등</span></th>
-								<td><span>{{ no2 }}</span></td>
-								<td>
-									<span v-if="currentDrawResult && currentDrawResult.second_winamnt_per_game">
-										{{ formatCurrency(no2 * currentDrawResult.second_winamnt_per_game) }}
-									</span>
-									<span v-else>별도 확인 필요</span>
-									<span v-if="currentDrawResult && currentDrawResult.second_winamnt_per_game">원</span>
-								</td>
-							</tr>
-							<tr>
-								<th><span>3등</span></th>
-								<td><span>{{ no3 }}</span></td>
-								<td>
-									<span v-if="currentDrawResult && currentDrawResult.third_winamnt_per_game">
-										{{ formatCurrency(no3 * currentDrawResult.third_winamnt_per_game) }}
-									</span>
-									<span v-else>별도 확인 필요</span>
-									<span v-if="currentDrawResult && currentDrawResult.third_winamnt_per_game">원</span>
-								</td>
-							</tr>
-							<tr>
-								<th><span>4등</span></th>
-								<td><span>{{ no4 }}</span></td>
-								<td>
-									<span v-if="currentDrawResult && currentDrawResult.fourth_winamnt_per_game">
-										{{ formatCurrency(no4 * currentDrawResult.fourth_winamnt_per_game) }}
-									</span>
-									<span v-else>{{ formatCurrency(no4 * $getWinamnt(4)) }}</span>
-									<span>원</span>
-								</td>
-							</tr>
-							<tr>
-								<th><span>5등</span></th>
-								<td><span>{{ no5 }}</span></td>
-								<td>
-									<span v-if="currentDrawResult && currentDrawResult.fifth_winamnt_per_game">
-										{{ formatCurrency(no5 * currentDrawResult.fifth_winamnt_per_game) }}
-									</span>
-									<span v-else>{{ formatCurrency(no5 * $getWinamnt(5)) }}</span>
-									<span>원</span>
-								</td>
-							</tr>
-							<tr>
-								<th><span>꽝</span></th>
-								<td><span>{{ no6 }}</span></td>
-								<td>
-									<span>0</span>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+				<article ref="prizeSectionRef" class="article-area">
+					<n-collapse v-model:expanded-names="prizeCollapseNames">
+						<n-collapse-item name="prize-summary" title="당첨금 확인">
+							<table class="table-item">
+								<colgroup>
+									<col style="width:30%">
+									<col style="width:35%">
+									<col style="width:35%">
+								</colgroup>
+								<tbody>
+									<tr>
+										<th><span>1등</span></th>
+										<td><span>{{ no1 }}</span></td>
+										<td>
+											<span v-if="currentDrawResult && currentDrawResult.first_winamnt_per_game">
+												{{ formatCurrency(no1 * currentDrawResult.first_winamnt_per_game) }}
+											</span>
+											<span v-else>별도 확인 필요</span>
+											<span v-if="currentDrawResult && currentDrawResult.first_winamnt_per_game">원</span>
+										</td>
+									</tr>
+									<tr>
+										<th><span>2등</span></th>
+										<td><span>{{ no2 }}</span></td>
+										<td>
+											<span v-if="currentDrawResult && currentDrawResult.second_winamnt_per_game">
+												{{ formatCurrency(no2 * currentDrawResult.second_winamnt_per_game) }}
+											</span>
+											<span v-else>별도 확인 필요</span>
+											<span v-if="currentDrawResult && currentDrawResult.second_winamnt_per_game">원</span>
+										</td>
+									</tr>
+									<tr>
+										<th><span>3등</span></th>
+										<td><span>{{ no3 }}</span></td>
+										<td>
+											<span v-if="currentDrawResult && currentDrawResult.third_winamnt_per_game">
+												{{ formatCurrency(no3 * currentDrawResult.third_winamnt_per_game) }}
+											</span>
+											<span v-else>별도 확인 필요</span>
+											<span v-if="currentDrawResult && currentDrawResult.third_winamnt_per_game">원</span>
+										</td>
+									</tr>
+									<tr>
+										<th><span>4등</span></th>
+										<td><span>{{ no4 }}</span></td>
+										<td>
+											<span v-if="currentDrawResult && currentDrawResult.fourth_winamnt_per_game">
+												{{ formatCurrency(no4 * currentDrawResult.fourth_winamnt_per_game) }}
+											</span>
+											<span v-else>{{ formatCurrency(no4 * $getWinamnt(4)) }}</span>
+											<span>원</span>
+										</td>
+									</tr>
+									<tr>
+										<th><span>5등</span></th>
+										<td><span>{{ no5 }}</span></td>
+										<td>
+											<span v-if="currentDrawResult && currentDrawResult.fifth_winamnt_per_game">
+												{{ formatCurrency(no5 * currentDrawResult.fifth_winamnt_per_game) }}
+											</span>
+											<span v-else>{{ formatCurrency(no5 * $getWinamnt(5)) }}</span>
+											<span>원</span>
+										</td>
+									</tr>
+									<tr>
+										<th><span>꽝</span></th>
+										<td><span>{{ no6 }}</span></td>
+										<td>
+											<span>0</span>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</n-collapse-item>
+					</n-collapse>
 				</article>
 
 				<!-- 총 당첨금 -->
@@ -164,12 +165,13 @@
 		ref,
 		getCurrentInstance,
 		computed,
-		watch
+		watch,
+		nextTick
 	} from "vue";
 	import {
 		useDrwStore
 	} from "@/stores/DrwStore";
-	import { NSelect } from "naive-ui";
+	import { NCollapse, NCollapseItem, NSelect } from "naive-ui";
 	import { getDraws, getDrawByNumber } from "@/api/lotto";
 	import { getUserRecommendations } from "@/api/recommendation";
 	import { useEventStore } from '@/stores/EventStore';
@@ -273,6 +275,8 @@
 	const no4 = ref(0);
 	const no5 = ref(0);
 	const no6 = ref(0);
+	const prizeCollapseNames = ref(["prize-summary"]);
+	const prizeSectionRef = ref(null);
 
 	const totalWon = ref(0);
 
@@ -514,6 +518,18 @@
 		// 숫자를 문자열로 변환하고 정규식을 이용하여 3자리마다 ',' 삽입
 		return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 	}
+
+	watch(
+		() => prizeCollapseNames.value,
+		async (names) => {
+			if (!Array.isArray(names) || !names.includes("prize-summary")) return;
+			await nextTick();
+			if (prizeSectionRef.value && typeof prizeSectionRef.value.scrollIntoView === "function") {
+				prizeSectionRef.value.scrollIntoView({ behavior: "smooth", block: "start" });
+			}
+		},
+		{ deep: true }
+	);
 
     onMounted(async () => {
 		// 회차 목록 가져오기

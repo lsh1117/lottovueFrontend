@@ -1,5 +1,13 @@
 <template>
 	<div class="ContactView">
+		<div v-if="isGeneratingAI" class="ai-loading-overlay">
+			<n-spin size="large">
+				<template #description>
+					AI 번호 생성 중입니다. 잠시만 기다려주세요...
+				</template>
+			</n-spin>
+		</div>
+
 		<section class="section section-area">
 			<div class="section-header">
 				<h4 class="title-big">고정번호</h4>
@@ -60,9 +68,9 @@
 </template>
 
 <script setup>
-	import { computed, onMounted } from 'vue';
+	import { computed, onMounted, ref } from 'vue';
 	import { useRouter } from 'vue-router';
-	import { useDialog, useMessage } from 'naive-ui';
+	import { NSpin, useDialog, useMessage } from 'naive-ui';
 	import { useEventStore } from '@/stores/EventStore';
 	import { useExceptionStore } from "@/stores/ExceptionStore";
 	import { useFixedStore } from "@/stores/FixedStore";
@@ -78,6 +86,7 @@
 	const router = useRouter();
 	const dialog = useDialog();
 	const message = useMessage();
+	const isGeneratingAI = ref(false);
 
 	const eventStore = useEventStore();
 	const exceptionStore = useExceptionStore();
@@ -212,6 +221,7 @@
 			return;
 		}
 
+		isGeneratingAI.value = true;
 		try {
 			const updatedUser = await http.post('/users/me/deduct-credits?amount=1');
 			if (updatedUser) {
@@ -248,6 +258,8 @@
 		} catch (error) {
 			console.error('AI번호생성 실패:', error);
 			message.error(error.response?.data?.detail || error.message || 'AI번호 생성 중 오류가 발생했습니다.');
+		} finally {
+			isGeneratingAI.value = false;
 		}
 	}
 
@@ -326,3 +338,16 @@
 		// 로그인 체크 제거됨
 	});
 </script>
+
+<style scoped>
+.ai-loading-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 9999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(0, 0, 0, 0.45);
+	backdrop-filter: blur(2px);
+}
+</style>

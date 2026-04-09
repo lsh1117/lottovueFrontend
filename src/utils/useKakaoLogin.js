@@ -10,7 +10,7 @@ export const kakaoLogin = () => {
 		}
 
 		window.Kakao.Auth.login({
-			scope: 'profile_nickname,account_email', // 요청 권한
+			scope: 'profile_nickname', // 최소 요청 권한
 			success: (authObj) => {
 				//console.log('Kakao authentication successful:', authObj);
 				

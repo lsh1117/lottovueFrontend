@@ -20,8 +20,8 @@ export default {
 	 * @returns {string} 백엔드 카카오 회원가입 리다이렉트 API URL
 	 */
 	getKakaoSignupRedirectUrl: function () {
-		// 회원가입 시 이메일 정보 동의(account_email)까지 요청하도록 scope 전달
-		const scope = encodeURIComponent('profile_nickname account_email')
+		// account_email scope가 비활성인 앱에서도 동작하도록 최소 scope만 요청
+		const scope = encodeURIComponent('profile_nickname')
 		const url = `${http.defaults.baseURL}auth/kakao/signup/redirect?scope=${scope}`
 		//console.log('카카오 회원가입 API 호출:', url)
 		return url

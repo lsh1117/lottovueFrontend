@@ -296,7 +296,7 @@ function isUpgradePath(fromPlan, toPlan) {
 }
 
 const goToRegister = () => {
-	router.push('/email-register')
+	router.push({ path: '/email-register', query: { redirect: '/plan-upgrade' } })
 }
 
 // Plan 업그레이드 함수 (다운그레이드는 UI·API 모두 차단)

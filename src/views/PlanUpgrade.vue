@@ -70,14 +70,12 @@
                                     <text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">free</text>
                                 </svg>
                             </div>
-                            <h3 class="plan-title">Free Plan</h3>
-                            <p class="plan-price">무료</p>
+                            <h3 class="plan-title">{{ planInfo.free.name }}</h3>
+                            <p class="plan-price">{{ planInfo.free.price_text || planInfo.free.priceText }}</p>
                         </div>
                         <div class="plan-features">
                             <ul>
-                                <li>회차별 최대 <strong>2개</strong>까지 생성 번호 저장</li>
-                                <li>주간 크레딧: <strong>2개</strong> (크레딧 1개 = 랜덤번호 1개 생성)</li>
-                                <li>모든 통계 기능</li>
+                                <li v-for="feature in freeFeatures" :key="`upgrade-free-${feature}`" v-html="feature"></li>
                             </ul>
                         </div>
                         <div class="plan-action">
@@ -90,12 +88,20 @@
                                 현재 Plan
                             </button>
                             <button
-                                v-else
+                                v-else-if="user"
                                 type="button"
                                 class="btn-secondary btn-large"
                                 disabled
                             >
                                 다운그레이드 불가
+                            </button>
+                            <button
+                                v-else
+                                type="button"
+                                class="btn-primary btn-large"
+                                @click="goToRegister"
+                            >
+                                회원가입
                             </button>
                         </div>
                     </div>
@@ -123,15 +129,12 @@
                                     <text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">pro</text>
                                 </svg>
                             </div>
-                            <h3 class="plan-title">Pro Plan</h3>
-                            <p class="plan-price">월 990원</p>
+                            <h3 class="plan-title">{{ planInfo.pro.name }}</h3>
+                            <p class="plan-price">{{ planInfo.pro.price_text || planInfo.pro.priceText }}</p>
                         </div>
                         <div class="plan-features">
                             <ul>
-                                <li>회차별 최대 <strong>100개</strong>까지 생성 번호 저장</li>
-                                <li>주간 크레딧: <strong>100개</strong> (크레딧 1개 = 랜덤번호 1개 생성)</li>
-                                <li>모든 통계 기능</li>
-                                <li>통계 기반 AI 분석 기능</li>
+                                <li v-for="feature in proFeatures" :key="`upgrade-pro-${feature}`" v-html="feature"></li>
                             </ul>
                         </div>
                         <div class="plan-action">
@@ -160,6 +163,15 @@
                             >
                                 {{ isUpgrading ? '처리 중...' : '구독하기' }}
                             </button>
+                            <button
+                                v-else
+                                type="button"
+                                class="btn-primary btn-large"
+                                @click="upgradePlan('pro')"
+                                :disabled="isUpgrading"
+                            >
+                                {{ isUpgrading ? '처리 중...' : '구독하기' }}
+                            </button>
                         </div>
                     </div>
 
@@ -179,15 +191,12 @@
                                     <text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">max</text>
                                 </svg>
                             </div>
-                            <h3 class="plan-title">Max Plan</h3>
-                            <p class="plan-price">월 4,990원</p>
+                            <h3 class="plan-title">{{ planInfo.max.name }}</h3>
+                            <p class="plan-price">{{ planInfo.max.price_text || planInfo.max.priceText }}</p>
                         </div>
                         <div class="plan-features">
                             <ul>
-                                <li>회차별 최대 <strong>1000개</strong>까지 생성 번호 저장</li>
-                                <li>주간 크레딧: <strong>1000개</strong> (크레딧 1개 = 랜덤번호 1개 생성)</li>
-                                <li>모든 통계 기능</li>
-                                <li>통계 기반 AI 분석 기능</li>
+                                <li v-for="feature in maxFeatures" :key="`upgrade-max-${feature}`" v-html="feature"></li>
                             </ul>
                         </div>
                         <div class="plan-action">
@@ -227,15 +236,12 @@
                                     <text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">credit</text>
                                 </svg>
                             </div>
-                            <h3 class="plan-title">크레딧 추가 구매</h3>
-                            <p class="plan-price">2,500원</p>
+                            <h3 class="plan-title">{{ creditProduct.name }}</h3>
+                            <p class="plan-price">{{ creditProduct.price_text || creditProduct.priceText }}</p>
                         </div>
                         <div class="plan-features">
                             <ul>
-                                <li>크레딧 <strong>500개</strong> 추가 구매</li>
-                                <li>크레딧 1개 = 랜덤번호 1개 생성</li>
-                                <li>소멸되지 않는 크레딧</li>
-                                <li>언제든지 사용 가능</li>
+                                <li v-for="feature in creditProduct.features" :key="`upgrade-credit-${feature}`" v-html="feature"></li>
                             </ul>
                         </div>
                         <div class="plan-action">
@@ -256,15 +262,30 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useMessage } from 'naive-ui'
 import { getUser, isAuthenticated } from '@/utils/auth'
+import planApi from '@/api/plan'
+import {
+	CREDIT_PRODUCT as LOCAL_CREDIT_PRODUCT,
+	PLAN_INFO as LOCAL_PLAN_INFO,
+	withCreditUnit,
+} from '@/constants/plan'
 
 const router = useRouter()
 const message = useMessage()
 const user = ref(null)
 const isUpgrading = ref(false)
+const planCatalog = ref({
+	plans: LOCAL_PLAN_INFO,
+	credit_product: LOCAL_CREDIT_PRODUCT,
+})
+const planInfo = computed(() => planCatalog.value?.plans || LOCAL_PLAN_INFO)
+const creditProduct = computed(() => planCatalog.value?.credit_product || LOCAL_CREDIT_PRODUCT)
+const freeFeatures = computed(() => withCreditUnit(planInfo.value.free?.features || []))
+const proFeatures = computed(() => withCreditUnit(planInfo.value.pro?.features || []))
+const maxFeatures = computed(() => withCreditUnit(planInfo.value.max?.features || []))
 
 const PLAN_ORDER = { free: 0, pro: 1, max: 2 }
 
@@ -272,6 +293,10 @@ function isUpgradePath(fromPlan, toPlan) {
 	const from = PLAN_ORDER[fromPlan] ?? -1
 	const to = PLAN_ORDER[toPlan] ?? -1
 	return to > from
+}
+
+const goToRegister = () => {
+	router.push('/email-register')
 }
 
 // Plan 업그레이드 함수 (다운그레이드는 UI·API 모두 차단)
@@ -282,7 +307,7 @@ const upgradePlan = async (plan) => {
 
 	if (!user.value) {
         message.warning('로그인이 필요합니다.')
-		router.push('/home')
+		router.push({ path: '/email-login', query: { redirect: '/plan-upgrade' } })
 		return
 	}
 
@@ -316,7 +341,7 @@ const purchaseCredits = async () => {
 
 	if (!user.value) {
         message.warning('로그인이 필요합니다.')
-		router.push('/home')
+		router.push({ path: '/email-login', query: { redirect: '/plan-upgrade' } })
 		return
 	}
 
@@ -335,20 +360,20 @@ const purchaseCredits = async () => {
 }
 
 onMounted(() => {
-	// 로그인 체크
-	if (!isAuthenticated()) {
-        message.warning('Plan 업그레이드는 로그인 사용자만 이용 가능합니다.')
-		router.push('/home')
-		return
+	// 비로그인 사용자도 플랜 정보 열람 가능 (구매/구독 시 로그인 필요)
+	if (isAuthenticated()) {
+		user.value = getUser()
 	}
-	
-	// 저장된 사용자 정보 확인
-	user.value = getUser()
-	
-	if (!user.value) {
-        message.warning('사용자 정보를 불러올 수 없습니다.')
-		router.push('/home')
-	}
+	planApi
+		.getCatalog()
+		.then((catalog) => {
+			if (catalog?.plans && catalog?.credit_product) {
+				planCatalog.value = catalog
+			}
+		})
+		.catch(() => {
+			// API 실패 시 로컬 상수 폴백 유지
+		})
 })
 </script>
 

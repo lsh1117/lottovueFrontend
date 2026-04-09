@@ -99,6 +99,11 @@ const form = reactive({
 	password: '',
 })
 
+const getPostLoginRedirectPath = () => {
+	const redirectPath = route.query?.redirect
+	return typeof redirectPath === 'string' && redirectPath.startsWith('/') ? redirectPath : '/home'
+}
+
 const handleLogin = async () => {
 	error.value = ''
 
@@ -115,7 +120,7 @@ const handleLogin = async () => {
 		})
 		window.dispatchEvent(new CustomEvent('lottovue:userUpdated'))
 		message.success('로그인되었습니다.')
-		router.push('/home')
+		router.push(getPostLoginRedirectPath())
 	} catch (err) {
 		error.value = err.response?.data?.detail || '로그인에 실패했습니다.'
 	} finally {
@@ -160,7 +165,7 @@ const handleKakaoLogin = () => {
 						} else {
 							message.success('카카오 로그인이 완료되었습니다.')
 						}
-						router.push('/home')
+						router.push(getPostLoginRedirectPath())
 					} else {
 						error.value = '사용자 정보를 가져오는데 실패했습니다.'
 					}

@@ -23,14 +23,12 @@
 								<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">free</text>
 							</svg>
 						</div>
-						<h3 class="plan-title">Free Plan</h3>
-						<p class="plan-price">무료</p>
+						<h3 class="plan-title">{{ planInfo.free.name }}</h3>
+						<p class="plan-price">{{ planInfo.free.price_text || planInfo.free.priceText }}</p>
 					</div>
 					<div class="plan-features">
 						<ul>
-							<li>회차별 최대 <strong>2개</strong>까지 생성 번호 저장</li>
-							<li>주간 크레딧: <strong>2개</strong></li>
-							<li>모든 통계 기능</li>
+							<li v-for="feature in planInfo.free.features" :key="`home-free-${feature}`" v-html="feature"></li>
 						</ul>
 					</div>
 					<div class="plan-action">
@@ -57,15 +55,12 @@
 								<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">pro</text>
 							</svg>
 						</div>
-						<h3 class="plan-title">Pro Plan</h3>
-						<p class="plan-price">월 990원</p>
+						<h3 class="plan-title">{{ planInfo.pro.name }}</h3>
+						<p class="plan-price">{{ planInfo.pro.price_text || planInfo.pro.priceText }}</p>
 					</div>
 					<div class="plan-features">
 						<ul>
-							<li>회차별 최대 <strong>100개</strong>까지 생성 번호 저장</li>
-							<li>주간 크레딧: <strong>100개</strong></li>
-							<li>모든 통계 기능</li>
-							<li>통계 기반 AI 분석 기능</li>
+							<li v-for="feature in planInfo.pro.features" :key="`home-pro-${feature}`" v-html="feature"></li>
 						</ul>
 					</div>
 					<div class="plan-action">
@@ -91,15 +86,12 @@
 								<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">max</text>
 							</svg>
 						</div>
-						<h3 class="plan-title">Max Plan</h3>
-						<p class="plan-price">월 4,990원</p>
+						<h3 class="plan-title">{{ planInfo.max.name }}</h3>
+						<p class="plan-price">{{ planInfo.max.price_text || planInfo.max.priceText }}</p>
 					</div>
 					<div class="plan-features">
 						<ul>
-							<li>회차별 최대 <strong>1000개</strong>까지 생성 번호 저장</li>
-							<li>주간 크레딧: <strong>1000개</strong></li>
-							<li>모든 통계 기능</li>
-							<li>통계 기반 AI 분석 기능</li>
+							<li v-for="feature in planInfo.max.features" :key="`home-max-${feature}`" v-html="feature"></li>
 						</ul>
 					</div>
 					<div class="plan-action">
@@ -125,15 +117,12 @@
 								<text x="40" y="16" font-family="Arial, sans-serif" font-size="18" font-weight="700" text-anchor="middle" dominant-baseline="middle" fill="white">credit</text>
 							</svg>
 						</div>
-						<h3 class="plan-title">크레딧 추가 구매</h3>
-						<p class="plan-price">2,500원</p>
+						<h3 class="plan-title">{{ creditProduct.name }}</h3>
+						<p class="plan-price">{{ creditProduct.price_text || creditProduct.priceText }}</p>
 					</div>
 					<div class="plan-features">
 						<ul>
-							<li>크레딧 <strong>500개</strong> 추가 구매</li>
-							<li>크레딧 1개 = 랜덤번호 1개 생성</li>
-							<li>소멸되지 않는 크레딧</li>
-							<li>언제든지 사용 가능</li>
+							<li v-for="feature in creditProduct.features" :key="`home-credit-${feature}`" v-html="feature"></li>
 						</ul>
 					</div>
 					<div class="plan-action">
@@ -148,7 +137,17 @@
 </template>
 
 <script setup>
+import { computed, onMounted, ref } from 'vue'
+import planApi from '@/api/plan'
+import { CREDIT_PRODUCT as LOCAL_CREDIT_PRODUCT, PLAN_INFO as LOCAL_PLAN_INFO } from '@/constants/plan'
+
 const emit = defineEmits(['plan-upgrade', 'credit-purchase']);
+const planCatalog = ref({
+	plans: LOCAL_PLAN_INFO,
+	credit_product: LOCAL_CREDIT_PRODUCT,
+})
+const planInfo = computed(() => planCatalog.value?.plans || LOCAL_PLAN_INFO)
+const creditProduct = computed(() => planCatalog.value?.credit_product || LOCAL_CREDIT_PRODUCT)
 
 function handlePlanUpgrade() {
 	emit('plan-upgrade');
@@ -157,5 +156,18 @@ function handlePlanUpgrade() {
 function handleCreditPurchase() {
 	emit('credit-purchase');
 }
+
+onMounted(() => {
+	planApi
+		.getCatalog()
+		.then((catalog) => {
+			if (catalog?.plans && catalog?.credit_product) {
+				planCatalog.value = catalog
+			}
+		})
+		.catch(() => {
+			// API 실패 시 로컬 상수 폴백 유지
+		})
+})
 </script>
 

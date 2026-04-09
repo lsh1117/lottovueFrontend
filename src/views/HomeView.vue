@@ -8,7 +8,7 @@
 				<p class="hero-description">
 					로또뷰는 통계 기반 분석과 AI 분석 기능을 통해<br>
 					더 나은 로또 번호 선택을 도와드립니다.
-				</p>
+				</p> 
 			</div>
 		</section>
 
@@ -23,38 +23,38 @@
 			</div>
 			<div class="section-body">
 				<div class="features-grid">
-					<div class="feature-card">
+					<button type="button" class="feature-card feature-card-button" @click="goToStatistics">
 						<div class="feature-icon">📊</div>
 						<h3 class="feature-title">통계 분석</h3>
 						<p class="feature-description">
 							과거 당첨 번호를 기반으로 한<br>
 							다양한 통계 분석 제공
 						</p>
-					</div>
-					<div class="feature-card">
+					</button>
+					<button type="button" class="feature-card feature-card-button" @click="goToAiAnalysis">
 						<div class="feature-icon">🤖</div>
 						<h3 class="feature-title">AI 분석</h3>
 						<p class="feature-description">
 							통계 기반 AI 분석을 통한<br>
 							스마트한 번호 분석
 						</p>
-					</div>
-					<div class="feature-card">
+					</button>
+					<button type="button" class="feature-card feature-card-button" @click="goToMyWinningNumber">
 						<div class="feature-icon">💾</div>
 						<h3 class="feature-title">번호 저장</h3>
 						<p class="feature-description">
 							생성한 번호를 저장하고<br>
 							관리할 수 있습니다
 						</p>
-					</div>
-					<div class="feature-card">
+					</button>
+					<button type="button" class="feature-card feature-card-button" @click="goToGameResult">
 						<div class="feature-icon">🎯</div>
 						<h3 class="feature-title">당첨 결과 확인</h3>
 						<p class="feature-description">
 							최신 당첨 결과를 확인하고<br>
 							내 번호와 비교해보세요
 						</p>
-					</div>
+					</button>
 				</div>
 			</div>
 		</section>
@@ -84,11 +84,35 @@
 	function goToCreditPurchase() {
 		router.push('/credit-purchase');
 	}
+
+	function goToStatistics() {
+		router.push('/statistics');
+	}
+
+	function goToAiAnalysis() {
+		router.push('/contact');
+	}
+
+	function goToMyWinningNumber() {
+		router.push('/my-winning-number');
+	}
+
+	function goToGameResult() {
+		router.push('/gameResult');
+	}
 </script>
 
 <style scoped>
 .home-ad-section {
 	padding-top: 0.5rem;
 	padding-bottom: 0;
+}
+
+.feature-card-button {
+	width: 100%;
+	text-align: left;
+	background: transparent;
+	border: none;
+	cursor: pointer;
 }
 </style>

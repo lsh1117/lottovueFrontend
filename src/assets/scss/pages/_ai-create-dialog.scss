@@ -1,0 +1,15 @@
+.ai-create-dialog{
+    .content-area{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+    }
+    .input-area{
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top:10px;
+    }
+}

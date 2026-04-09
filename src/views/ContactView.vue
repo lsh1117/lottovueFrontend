@@ -1,11 +1,7 @@
 <template>
 	<div class="ContactView">
 		<div v-if="isGeneratingAI" class="ai-loading-overlay">
-			<n-spin size="large">
-				<template #description>
-					AI 번호 생성 중입니다. 잠시만 기다려주세요...
-				</template>
-			</n-spin>
+			<n-spin size="large"></n-spin>
 		</div>
 
 		<section class="section section-area">
@@ -68,9 +64,9 @@
 </template>
 
 <script setup>
-	import { computed, onMounted, ref } from 'vue';
+	import { computed, h, onMounted, ref } from 'vue';
 	import { useRouter } from 'vue-router';
-	import { NSpin, useDialog, useMessage } from 'naive-ui';
+	import { NInputNumber, NSpin, useDialog, useMessage } from 'naive-ui';
 	import { useEventStore } from '@/stores/EventStore';
 	import { useExceptionStore } from "@/stores/ExceptionStore";
 	import { useFixedStore } from "@/stores/FixedStore";
@@ -87,6 +83,10 @@
 	const dialog = useDialog();
 	const message = useMessage();
 	const isGeneratingAI = ref(false);
+	const aiDialogCount = ref(1);
+	const aiDialogResults = ref([]);
+	const aiDialogError = ref('');
+	const aiDialogGenerating = ref(false);
 
 	const eventStore = useEventStore();
 	const exceptionStore = useExceptionStore();
@@ -220,45 +220,131 @@
 			});
 			return;
 		}
+		aiDialogCount.value = 1;
+		aiDialogResults.value = [];
+		aiDialogError.value = '';
+		aiDialogGenerating.value = false;
 
+		const dialogReactive = dialog.create({
+			title: 'AI번호생성',
+			class: 'ai-create-dialog',
+			content: () =>
+				h('div', { 
+					class: 'content-area'
+					}, [
+					h('div', { 
+					 	class: 'input-area'
+					}, [
+						h('span', { style: 'font-size:14px;' }, '생성 개수'),
+						h(NInputNumber, {
+							value: aiDialogCount.value,
+							min: 1,
+							max: 10,
+							step: 1,
+							size: 'small',
+							style: 'width:120px;',
+							'onUpdate:value': (v) => {
+								aiDialogCount.value = v ?? 1;
+							},
+						}),
+						h('span', { style: 'font-size:12px;opacity:0.8;' }, '(최대 10개)'),
+					]),
+					h(
+						'button',
+						{
+							class: 'btn-primary btn-small',
+							style: 'width:110px;',
+							disabled: aiDialogGenerating.value,
+							onClick: async () => {
+								await generateAINumbersInDialog();
+							},
+						},
+						aiDialogGenerating.value ? '생성 중...' : '생성하기',
+					),
+					aiDialogError.value
+						? h('div', { style: 'color:#ef4444;font-size:13px;white-space:pre-wrap;' }, aiDialogError.value)
+						: null,
+					aiDialogResults.value.length > 0
+						? h(
+								'div',
+								{
+									style:
+										'font-size:13px;line-height:1.6;max-height:260px;overflow:auto;border:1px solid #334155;padding:8px;border-radius:6px;',
+								},
+								aiDialogResults.value.map((set, idx) =>
+									h('div', { style: 'margin-bottom:10px;' }, [
+										h(
+											'ul',
+											{ class: 'ball-list' },
+											set.numbers.map((number) =>
+												h('li', { class: 'ball-item' }, [
+													h(
+														'span',
+														{ class: ['ball-645', `ball-${getGroup(number)}`] },
+														String(number),
+													),
+												]),
+											),
+										),
+									]),
+								),
+						  )
+						: null,
+				]),
+			onPositiveClick: () => {
+				dialogReactive.destroy();
+			},
+			onNegativeClick: () => {
+				dialogReactive.destroy();
+			},
+		});
+	}
+
+	async function generateAINumbersInDialog() {
+		const generateCount = Math.max(1, Math.min(10, Number(aiDialogCount.value) || 1));
+		aiDialogCount.value = generateCount;
+		aiDialogError.value = '';
+		aiDialogGenerating.value = true;
 		isGeneratingAI.value = true;
 		try {
-			const updatedUser = await http.post('/users/me/deduct-credits?amount=1');
+			const updatedUser = await http.post(`/users/me/deduct-credits?amount=${generateCount}`);
 			if (updatedUser) {
 				setUser(updatedUser);
 				window.dispatchEvent(new CustomEvent('lottovue:userUpdated'));
 			}
 
-			const aiResult = await getAIRecommendationNumbers(100);
-			const numbers = (aiResult?.numbers || []).map((n) => Number(n)).sort((a, b) => a - b);
-			if (numbers.length !== 6) {
-				throw new Error('AI 추천번호 생성 결과가 올바르지 않습니다.');
+			const generatedSets = [];
+			for (let i = 0; i < generateCount; i++) {
+				const aiResult = await getAIRecommendationNumbers(100);
+				const numbers = (aiResult?.numbers || []).map((n) => Number(n)).sort((a, b) => a - b);
+				if (numbers.length !== 6) {
+					throw new Error('AI 추천번호 생성 결과가 올바르지 않습니다.');
+				}
+
+				const numberObjs = numbers.map((n) => ({ number: n }));
+				const drwNo = Number(aiResult?.drw_no || getNextDrwNo());
+
+				recommendStore.addRecommend(numberObjs, drwNo);
+				myPickStore.addMyPick(numberObjs, drwNo);
+				await createUserRecommendation({
+					drw_no: drwNo,
+					no1: numbers[0],
+					no2: numbers[1],
+					no3: numbers[2],
+					no4: numbers[3],
+					no5: numbers[4],
+					no6: numbers[5],
+				});
+
+				generatedSets.push({ drwNo, numbers });
 			}
 
-			const numberObjs = numbers.map((n) => ({ number: n }));
-			const drwNo = Number(aiResult?.drw_no || getNextDrwNo());
-
-			recommendStore.addRecommend(numberObjs, drwNo);
-			myPickStore.addMyPick(numberObjs, drwNo);
-			await createUserRecommendation({
-				drw_no: drwNo,
-				no1: numbers[0],
-				no2: numbers[1],
-				no3: numbers[2],
-				no4: numbers[3],
-				no5: numbers[4],
-				no6: numbers[5],
-			});
-
-			dialog.success({
-				title: `AI 추천번호 생성 완료 (${drwNo}회차)`,
-				content: numbers.join(', '),
-				positiveText: '확인'
-			});
+			aiDialogResults.value = generatedSets;
 		} catch (error) {
 			console.error('AI번호생성 실패:', error);
-			message.error(error.response?.data?.detail || error.message || 'AI번호 생성 중 오류가 발생했습니다.');
+			aiDialogError.value = error.response?.data?.detail || error.message || 'AI번호 생성 중 오류가 발생했습니다.';
 		} finally {
+			aiDialogGenerating.value = false;
 			isGeneratingAI.value = false;
 		}
 	}

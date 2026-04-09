@@ -28,3 +28,15 @@ ul{
         list-style: disc;
     }
 }
+
+.ball-list{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    li{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+    }
+}

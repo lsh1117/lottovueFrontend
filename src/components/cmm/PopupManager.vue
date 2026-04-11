@@ -32,50 +32,38 @@
 
 	function onPopupCall(e) {
 		// 팝업 호출 이벤트 핸들러
-		//console.log(" 팝업 호출 :", e);
-		const popupData = popupList[e.id];
-		if (!popupData) {
+		const base = popupList[e.id];
+		if (!base) {
 			console.error(`팝업 키 '${e.id}'는 popupList에 정의되어 있지 않습니다.`)
 			return
 		}
 
 		// 같은 id의 팝업이 이미 열려있는지 확인하고 닫기
 		// (특히 aiRecommendation 같은 경우 업데이트를 위해 기존 팝업을 닫아야 함)
-		// 원본 id를 저장하여 같은 팝업을 추적
 		const originalId = e.id;
-		
-		// 같은 originalId를 가진 팝업 찾기 (뒤에서부터 찾아서 가장 최근 것부터 닫기)
+
 		for (let i = popups.length - 1; i >= 0; i--) {
 			if (popups[i].originalId === originalId) {
 				closePopup(i);
-				break; // 첫 번째로 찾은 것만 닫기
+				break;
 			}
 		}
 
-		// 팝업 인터페이스 값 할당.
-		if(e.title){
-			popupData.title = e.title;
+		// popupList 원본을 직접 수정하지 않도록 복사 (options/title 등이 다음 호출에 남지 않게)
+		const popupData = {
+			...base,
+			options: { ...(base.options || {}) },
+			originalId,
+		};
+
+		if (e.title) popupData.title = e.title;
+		if (e.type) popupData.type = e.type;
+		if (e.onConfirm) popupData.onConfirm = e.onConfirm;
+		if (e.onCancel) popupData.onCancel = e.onCancel;
+		if (e.options) {
+			popupData.options = { ...popupData.options, ...e.options };
 		}
 
-		if(e.type){
-			popupData.type = e.type;
-		}
-
-		if(e.onConfirm){
-			popupData.onConfirm = e.onConfirm;
-		}
-
-		if(e.onCancel){
-			popupData.onCancel = e.onCancel;
-		}
-
-		if(e.options){
-			popupData.options = e.options;
-		}
-		
-		// 원본 id 저장
-		popupData.originalId = originalId;
-		
 		openPopup(popupData);
 	}
 

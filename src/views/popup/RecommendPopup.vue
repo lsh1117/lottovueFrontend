@@ -1,10 +1,16 @@
 <template>
-	<div>
+	<div class="recommend-popup-root">
 		<!-- 히스토리 표시 안내 메시지 -->
 		<div v-if="showingHistory" class="history-notice">
 			<p>{{ _nextDrw }}회차에 저장된 생성 번호 목록 (총 {{ currentPickCount }}개)</p>
 		</div>
 		
+		<div v-if="isGeneratingAI" class="ai-generating-overlay">
+			<n-spin size="large">
+				<template #description>AI 번호 생성 중...</template>
+			</n-spin>
+		</div>
+
 		<!-- 번호 개수 선택 영역 (히스토리 모드가 아닐 때만 표시) -->
 		<div v-if="!showingHistory && recommends.length === 0" class="pick-count-selector">
 			<div class="selector-header">
@@ -19,11 +25,11 @@
 						type="number" 
 						v-model.number="selectedCount" 
 						:min="1" 
-						:max="maxSelectableCount"
+						:max="effectiveMaxSelectableCount"
 						class="count-input"
 						@input="validateCount"
 					/>
-					<span class="count-hint">최대 {{ maxSelectableCount }}개까지 선택 가능</span>
+					<span class="count-hint">최대 {{ effectiveMaxSelectableCount }}개까지 선택 가능</span>
 				</div>
 				<div class="cost-info">
 					<p>사용 크레딧: <strong>{{ selectedCount }}</strong>개</p>
@@ -34,9 +40,9 @@
 				<button 
 					class="btn-primary btn-large" 
 					@click="handleGenerateRecommend"
-					:disabled="selectedCount <= 0 || selectedCount > maxSelectableCount || selectedCount > userCredits"
+					:disabled="selectedCount <= 0 || selectedCount > effectiveMaxSelectableCount || selectedCount > userCredits || isGeneratingAI"
 				>
-					생성 번호 생성
+					{{ generateMode === 'ai' ? 'AI 번호 생성' : '번호 생성' }}
 				</button>
 			</div>
 		</div>
@@ -91,7 +97,7 @@
 <script setup>
 	import { onMounted, onUnmounted, ref, computed, watch } from "vue";
 	import { useRouter } from "vue-router";
-	import { NModal } from "naive-ui";
+	import { NModal, NSpin } from "naive-ui";
 	import { useCalculateStore } from "@/stores/CalculateStore";
 	import { useExceptionStore } from "@/stores/ExceptionStore";
 	import { useFixedStore } from "@/stores/FixedStore";
@@ -100,11 +106,23 @@
 	import { useDrwStore } from "@/stores/DrwStore";
 	import { useEventStore } from "@/stores/EventStore";
 	import { createUserRecommendation } from "@/api/recommendation";
+	import { getAIRecommendationNumbers } from "@/api/lotto";
 	import { getUser, setUser } from "@/utils/auth";
 	import http from "@/api/base";
 
+	const props = defineProps({
+		/** normal: 통계 기반 랜덤, ai: AI 통계 추천 API */
+		generateMode: {
+			type: String,
+			default: "normal",
+			validator: (v) => ["normal", "ai"].includes(v),
+		},
+	});
+
 	// emit 정의
 	const emit = defineEmits(['close']);
+
+	const isGeneratingAI = ref(false);
 
 	// 한도 초과 모달 표시 상태
 	const showLimitModal = ref(false);
@@ -238,6 +256,14 @@
 		return Math.min(planMax, creditsMax);
 	});
 
+	/** AI 모드일 때는 최대 10개까지 */
+	const effectiveMaxSelectableCount = computed(() => {
+		if (props.generateMode === "ai") {
+			return Math.min(10, maxSelectableCount.value);
+		}
+		return maxSelectableCount.value;
+	});
+
 	// 생성 번호 갯수 정의
 	let _recommendCnt = 0;
 
@@ -258,8 +284,8 @@
 		if (selectedCount.value < 1) {
 			selectedCount.value = 1;
 		}
-		if (selectedCount.value > maxSelectableCount.value) {
-			selectedCount.value = maxSelectableCount.value;
+		if (selectedCount.value > effectiveMaxSelectableCount.value) {
+			selectedCount.value = effectiveMaxSelectableCount.value;
 		}
 		if (selectedCount.value > userCredits.value) {
 			selectedCount.value = userCredits.value;
@@ -278,8 +304,8 @@
 			return;
 		}
 
-		if (selectedCount.value > maxSelectableCount.value) {
-			alert(`최대 ${maxSelectableCount.value}개까지 선택 가능합니다.`);
+		if (selectedCount.value > effectiveMaxSelectableCount.value) {
+			alert(`최대 ${effectiveMaxSelectableCount.value}개까지 선택 가능합니다.`);
 			return;
 		}
 
@@ -294,12 +320,52 @@
 				window.dispatchEvent(new CustomEvent('lottovue:userUpdated'));
 			}
 
-			// 생성 번호 생성
 			_recommendCnt = selectedCount.value;
-			await createRecommend();
+			if (props.generateMode === "ai") {
+				await createAIRecommend();
+			} else {
+				await createRecommend();
+			}
 		} catch (error) {
 			console.error('크레딧 차감 실패:', error);
 			alert(error.response?.data?.detail || '크레딧 차감 중 오류가 발생했습니다.');
+		}
+	}
+
+	async function createAIRecommend() {
+		isGeneratingAI.value = true;
+		try {
+			for (let i = 0; i < _recommendCnt; i++) {
+				const aiResult = await getAIRecommendationNumbers(100);
+				const nums = (aiResult?.numbers || []).map((n) => Number(n)).sort((a, b) => a - b);
+				if (nums.length !== 6) {
+					throw new Error("AI 추천번호 생성 결과가 올바르지 않습니다.");
+				}
+				const numberObjs = nums.map((n) => ({ number: n }));
+				const drwNo = Number(aiResult?.drw_no || _nextDrw.value);
+
+				const _recommend = { numbers: numberObjs };
+				recommends.value.push(_recommend);
+				recommendStore.addRecommend(numberObjs, drwNo);
+				myPickStore.addMyPick(numberObjs, drwNo);
+
+				await createUserRecommendation({
+					drw_no: drwNo,
+					no1: nums[0],
+					no2: nums[1],
+					no3: nums[2],
+					no4: nums[3],
+					no5: nums[4],
+					no6: nums[5],
+				});
+			}
+			saved.value = Array(recommends.value.length).fill(true);
+			allSaved.value = true;
+		} catch (e) {
+			console.error("AI 번호 생성 실패:", e);
+			alert(e.response?.data?.detail || e.message || "AI 번호 생성 중 오류가 발생했습니다.");
+		} finally {
+			isGeneratingAI.value = false;
 		}
 	}
 
@@ -564,6 +630,23 @@
 </script>
 
 <style scoped>
+.recommend-popup-root {
+	position: relative;
+	min-height: 120px;
+}
+
+.ai-generating-overlay {
+	position: absolute;
+	inset: 0;
+	z-index: 20;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(255, 255, 255, 0.75);
+	backdrop-filter: blur(2px);
+	border-radius: inherit;
+}
+
 .history-notice {
 	background-color: #f0f8ff;
 	border: 2px solid #4a90e2;

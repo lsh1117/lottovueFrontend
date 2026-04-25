@@ -18,6 +18,10 @@
 							@update:value="updateResult"
 						/>
 					</div>
+					<div class="btn-area" v-if="myPickList.length > 0">
+						<button class="btn-primary btn-small" :disabled="loadingRecommendations || myPickList.length === 0" @click="downloadExcel">번호 목록 엑셀 다운로드</button>
+
+					</div>
 				</article>
 
 				<!-- 결과 목록 -->
@@ -171,7 +175,8 @@
 	import {
 		useDrwStore
 	} from "@/stores/DrwStore";
-	import { NCollapse, NCollapseItem, NSelect } from "naive-ui";
+	import { NButton, NCollapse, NCollapseItem, NSelect } from "naive-ui";
+	import * as XLSX from "xlsx";
 	import { getDraws, getDrawByNumber } from "@/api/lotto";
 	import { getUserRecommendations } from "@/api/recommendation";
 	import { useEventStore } from '@/stores/EventStore';
@@ -517,6 +522,35 @@
 	function formatCurrency(amount) {
 		// 숫자를 문자열로 변환하고 정규식을 이용하여 3자리마다 ',' 삽입
 		return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+	}
+
+	function downloadExcel() {
+		if (!Array.isArray(myPickList.value) || myPickList.value.length === 0) return;
+
+		const rows = myPickList.value.map((item, index) => {
+			const sortedNumbers = (item.numbers || [])
+				.map((n) => Number(n.number))
+				.sort((a, b) => a - b);
+
+			return {
+				순번: index + 1,
+				회차: item.drw,
+				번호1: sortedNumbers[0] ?? "",
+				번호2: sortedNumbers[1] ?? "",
+				번호3: sortedNumbers[2] ?? "",
+				번호4: sortedNumbers[3] ?? "",
+				번호5: sortedNumbers[4] ?? "",
+				번호6: sortedNumbers[5] ?? "",
+				결과: item.result ? `${item.no}등` : "미추첨",
+			};
+		});
+
+		const worksheet = XLSX.utils.json_to_sheet(rows);
+		const workbook = XLSX.utils.book_new();
+		XLSX.utils.book_append_sheet(workbook, worksheet, "번호목록");
+
+		const drwLabel = selectedDrwNo.value ? `${selectedDrwNo.value}회` : "전체";
+		XLSX.writeFile(workbook, `내당첨번호_${drwLabel}.xlsx`);
 	}
 
 	watch(

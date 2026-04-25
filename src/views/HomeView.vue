@@ -1,6 +1,6 @@
 <template>
 	<div class="HomeView">
-		<!-- 히어로 섹션: 로또뷰 소개 (광고보다 먼저 두어 게시자 콘텐츠 우선 노출) -->
+		<!-- 히어로 섹션 -->
 		<section class="section section-area hero-section">
 			<div class="section-header">
 				<h1 class="hero-title">로또뷰</h1>
@@ -10,10 +10,6 @@
 					더 나은 로또 번호 선택을 도와드립니다.
 				</p> 
 			</div>
-		</section>
-
-		<section v-if="adSenseHomeSlot" class="section section-area home-ad-section">
-			<AdSenseDisplay :ad-slot="adSenseHomeSlot" wrapper-class="home-top-ad" />
 		</section>
 
 		<!-- 주요 기능 소개 -->
@@ -70,13 +66,9 @@
 
 <script setup>
 	import { useRouter } from "vue-router";
-	import PlansSection from "@/components/home/PlansSection.vue";
-	import AdSenseDisplay from "@/components/cmm/AdSenseDisplay.vue";
 
 	const router = useRouter();
 
-	const adSenseHomeSlot = import.meta.env.VITE_ADSENSE_HOME_SLOT || "";
-	
 	function goToPlanUpgrade() {
 		router.push('/plan-upgrade');
 	}
@@ -103,11 +95,6 @@
 </script>
 
 <style scoped>
-.home-ad-section {
-	padding-top: 0.5rem;
-	padding-bottom: 0;
-}
-
 .feature-card-button {
 	width: 100%;
 	text-align: left;

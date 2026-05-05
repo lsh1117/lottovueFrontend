@@ -183,7 +183,6 @@
 	import {
 		useDrwStore
 	} from "@/stores/DrwStore";
-	import { useMyPickStore } from "@/stores/MyPickStore";
 	import { NButton, NCollapse, NCollapseItem, NSelect } from "naive-ui";
 	import * as XLSX from "xlsx";
 	import { getDraws, getDrawByNumber } from "@/api/lotto";
@@ -195,7 +194,6 @@
 
 	// 회차 정보
 	const drwStore = useDrwStore();
-	const myPickStore = useMyPickStore();
 	// 이벤트 스토어
 	const eventStore = useEventStore();
 
@@ -361,17 +359,10 @@
 			// API 응답을 myPickList 형식으로 변환
 			// API 응답: [{ id, drw_no, no1, no2, no3, no4, no5, no6, rank, ... }]
 			// myPickList 형식: [{ drw, numbers: [{ number }], result, no, ... }]
-			const localAIPickSignatures = new Set(
-				myPickStore
-					.getMyPicks(drwNo)
-					.filter((pick) => Boolean(pick.isAI))
-					.map((pick) => buildNumberSignature(pick.numbers))
-			);
-
 			myPickList.value = data.map(item => ({
 				id: item.id,
 				drw: item.drw_no,
-				isAI: resolveAIFlag(item, localAIPickSignatures),
+				isAI: Boolean(item.is_ai ?? item.isAi),
 				numbers: [
 					{ number: item.no1 },
 					{ number: item.no2 },
@@ -540,30 +531,6 @@
 	function formatCurrency(amount) {
 		// 숫자를 문자열로 변환하고 정규식을 이용하여 3자리마다 ',' 삽입
 		return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-	}
-
-	function buildNumberSignature(numbers) {
-		if (!Array.isArray(numbers)) return "";
-		return numbers
-			.map((n) => Number(n.number ?? n))
-			.filter((n) => !Number.isNaN(n))
-			.sort((a, b) => a - b)
-			.join("-");
-	}
-
-	function resolveAIFlag(item, localAIPickSignatures) {
-		const directFlag = item.is_ai ?? item.isAi;
-		if (directFlag !== undefined && directFlag !== null) {
-			return Boolean(directFlag);
-		}
-
-		const mode = (item.generate_mode || item.generateMode || "").toString().toLowerCase();
-		if (mode === "ai") {
-			return true;
-		}
-
-		const signature = buildNumberSignature([item.no1, item.no2, item.no3, item.no4, item.no5, item.no6]);
-		return localAIPickSignatures.has(signature);
 	}
 
 	function downloadExcel() {

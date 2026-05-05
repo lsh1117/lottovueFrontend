@@ -505,7 +505,8 @@
 					no3: nums[2],
 					no4: nums[3],
 					no5: nums[4],
-					no6: nums[5]
+					no6: nums[5],
+					is_ai: false,
 				};
 				
 				await createUserRecommendation(recommendationData);
@@ -557,7 +558,8 @@
 					no3: nums[2],
 					no4: nums[3],
 					no5: nums[4],
-					no6: nums[5]
+					no6: nums[5],
+					is_ai: false,
 				};
 				
 				await createUserRecommendation(recommendationData);

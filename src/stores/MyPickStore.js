@@ -12,11 +12,13 @@ export const useMyPickStore = defineStore('MyPickStore', {
 		],
 	}),
 	actions: {
-		addMyPick(numbers, drw) {
+		addMyPick(numbers, drw, options = {}) {
+			const { isAI = false } = options;
 			const _MyPickObj = {
 				"numbers": numbers,
 				"writeDate": getFormattedDate(),
-				"drw": drw
+				"drw": drw,
+				"isAI": Boolean(isAI),
 			}
 
 			this.collections.push(_MyPickObj);

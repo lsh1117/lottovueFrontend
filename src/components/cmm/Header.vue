@@ -173,6 +173,7 @@ const router = useRouter()
 const route = useRoute()
 
 const premiumStore = usePremiumStore();
+const currentUser = ref(getUser())
 
 // 모바일 메뉴 상태
 const isMobileMenuOpen = ref(false)
@@ -201,13 +202,13 @@ watch(() => [route.path, route.query.group], () => {
 
 // 사용자 Plan 가져오기
 const userPlan = computed(() => {
-	const user = getUser()
+	const user = currentUser.value
 	return user?.plan || 'free'
 })
 
 // 잔여 크레딧 가져오기
 const userCredits = computed(() => {
-	const user = getUser()
+	const user = currentUser.value
 	return user?.credits ?? null
 })
 
@@ -292,7 +293,7 @@ function goToHome() {
 
 // 사용자 정보 업데이트 이벤트 리스너
 const handleUserUpdated = () => {
-	// 사용자 정보가 업데이트되면 computed가 자동으로 반영됨
+	currentUser.value = getUser()
 }
 
 onMounted(() => {
@@ -300,10 +301,13 @@ onMounted(() => {
 	window.addEventListener('lottovue:premium', handlePremiumStatus)
 	// Listen for user updated event
 	window.addEventListener('lottovue:userUpdated', handleUserUpdated)
+	handleUserUpdated()
 })
 
 onUnmounted(() => {
 	// 컴포넌트 언마운트 시 body overflow 초기화
 	document.body.style.overflow = ''
+	window.removeEventListener('lottovue:premium', handlePremiumStatus)
+	window.removeEventListener('lottovue:userUpdated', handleUserUpdated)
 })
 </script>

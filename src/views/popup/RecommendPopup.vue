@@ -347,7 +347,7 @@
 				const _recommend = { numbers: numberObjs };
 				recommends.value.push(_recommend);
 				recommendStore.addRecommend(numberObjs, drwNo);
-				myPickStore.addMyPick(numberObjs, drwNo);
+				myPickStore.addMyPick(numberObjs, drwNo, { isAI: true });
 
 				await createUserRecommendation({
 					drw_no: drwNo,
@@ -357,6 +357,7 @@
 					no4: nums[3],
 					no5: nums[4],
 					no6: nums[5],
+					is_ai: true,
 				});
 			}
 			saved.value = Array(recommends.value.length).fill(true);
@@ -491,7 +492,7 @@
 			if(nums.length !== 6) return;
 			
 			const numbersForStore = nums.map(n => ({ number: n }));
-			myPickStore.addMyPick(numbersForStore, _nextDrw.value);
+			myPickStore.addMyPick(numbersForStore, _nextDrw.value, { isAI: false });
 			
 			//console.log('pickHistory에 번호 저장 saveToHistory:', nums);
 			
@@ -545,7 +546,7 @@
             
 			// 로컬 myPickStore에 저장 (정렬된 번호 객체 배열로 저장)
 			const numbersForStore = nums.map(n => ({ number: n }))
-			myPickStore.addMyPick(numbersForStore, _nextDrw.value)
+			myPickStore.addMyPick(numbersForStore, _nextDrw.value, { isAI: false })
 			
 			// 백엔드 API에 저장
 			try {

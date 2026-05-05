@@ -29,23 +29,28 @@
 					<div class="recommend-list">
 						<table class="table-list">
 							<colgroup>
-								<col style="width:85%">
+								<col style="width:10%">
+								<col style="width:60%">
+								<col style="width:15%">
 								<col style="width:15%">
 							</colgroup>
 							<thead>
 								<tr>
+									<th><span>순번</span></th>
 									<th><span>번호</span></th>
+									<th><span>생성유형</span></th>
 									<th><span>결과</span></th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr v-if="loadingRecommendations">
-									<td colspan="3" class="empty-cell">분석번호를 불러오는 중...</td>
+									<td colspan="4" class="empty-cell">분석번호를 불러오는 중...</td>
 								</tr>
 								<tr v-else-if="myPickList.length === 0">
-									<td colspan="3" class="empty-cell">저장된 번호가 없습니다.</td>
+									<td colspan="4" class="empty-cell">저장된 번호가 없습니다.</td>
 								</tr>
-								<tr v-else v-for="recommend in myPickList" :key="recommend">
+								<tr v-else v-for="(recommend, index) in myPickList" :key="recommend.id || index">
+									<td><span>{{ index + 1 }}</span></td>
 									<td>
 										<div class="ball-area">
 											<ul class="ball-list">
@@ -55,6 +60,9 @@
 												</li>
 											</ul>
 										</div>
+									</td>
+									<td>
+										<span>{{ recommend.isAI ? "AI 생성" : "일반" }}</span>
 									</td>
 									<td v-if="recommend.result"><strong>{{recommend.no}}</strong><span>등</span></td>
 									<td v-else><span>미추첨</span></td>
@@ -175,6 +183,7 @@
 	import {
 		useDrwStore
 	} from "@/stores/DrwStore";
+	import { useMyPickStore } from "@/stores/MyPickStore";
 	import { NButton, NCollapse, NCollapseItem, NSelect } from "naive-ui";
 	import * as XLSX from "xlsx";
 	import { getDraws, getDrawByNumber } from "@/api/lotto";
@@ -186,6 +195,7 @@
 
 	// 회차 정보
 	const drwStore = useDrwStore();
+	const myPickStore = useMyPickStore();
 	// 이벤트 스토어
 	const eventStore = useEventStore();
 
@@ -351,9 +361,17 @@
 			// API 응답을 myPickList 형식으로 변환
 			// API 응답: [{ id, drw_no, no1, no2, no3, no4, no5, no6, rank, ... }]
 			// myPickList 형식: [{ drw, numbers: [{ number }], result, no, ... }]
+			const localAIPickSignatures = new Set(
+				myPickStore
+					.getMyPicks(drwNo)
+					.filter((pick) => Boolean(pick.isAI))
+					.map((pick) => buildNumberSignature(pick.numbers))
+			);
+
 			myPickList.value = data.map(item => ({
 				id: item.id,
 				drw: item.drw_no,
+				isAI: resolveAIFlag(item, localAIPickSignatures),
 				numbers: [
 					{ number: item.no1 },
 					{ number: item.no2 },
@@ -524,6 +542,30 @@
 		return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 	}
 
+	function buildNumberSignature(numbers) {
+		if (!Array.isArray(numbers)) return "";
+		return numbers
+			.map((n) => Number(n.number ?? n))
+			.filter((n) => !Number.isNaN(n))
+			.sort((a, b) => a - b)
+			.join("-");
+	}
+
+	function resolveAIFlag(item, localAIPickSignatures) {
+		const directFlag = item.is_ai ?? item.isAi;
+		if (directFlag !== undefined && directFlag !== null) {
+			return Boolean(directFlag);
+		}
+
+		const mode = (item.generate_mode || item.generateMode || "").toString().toLowerCase();
+		if (mode === "ai") {
+			return true;
+		}
+
+		const signature = buildNumberSignature([item.no1, item.no2, item.no3, item.no4, item.no5, item.no6]);
+		return localAIPickSignatures.has(signature);
+	}
+
 	function downloadExcel() {
 		if (!Array.isArray(myPickList.value) || myPickList.value.length === 0) return;
 
@@ -535,6 +577,7 @@
 			return {
 				순번: index + 1,
 				회차: item.drw,
+				생성유형: item.isAI ? "AI" : "일반",
 				번호1: sortedNumbers[0] ?? "",
 				번호2: sortedNumbers[1] ?? "",
 				번호3: sortedNumbers[2] ?? "",
@@ -578,4 +621,21 @@
 		openWarningPopup();
     });
 </script>
+
+<style scoped>
+.recommend-label-area {
+	margin-bottom: 6px;
+}
+
+.recommend-label-ai {
+	display: inline-block;
+	padding: 2px 8px;
+	border-radius: 999px;
+	background-color: #e8f2ff;
+	color: #1f64d1;
+	font-size: 12px;
+	font-weight: 700;
+	line-height: 1.4;
+}
+</style>
 

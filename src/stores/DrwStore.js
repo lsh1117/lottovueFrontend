@@ -9,7 +9,31 @@ export const useDrwStore = defineStore('drwStore', {
 	}),
 	actions: {
 		setNumbers(numbers) {
-			this.numbers = numbers; // 선택된 번호를 저장
+			if (!Array.isArray(numbers)) {
+				this.numbers = [];
+				return;
+			}
+			this.numbers = numbers.map((draw) => {
+				if (!draw) return null;
+				const drwNo = draw.drwNo ?? draw.drw_no;
+				const drwtNo1 = draw.drwtNo1 ?? draw.drwt_no1;
+				if (drwNo == null || drwtNo1 == null) return null;
+				return {
+					drwNo,
+					drwNoDate: draw.drwNoDate ?? draw.drw_no_date,
+					drwtNo1,
+					drwtNo2: draw.drwtNo2 ?? draw.drwt_no2,
+					drwtNo3: draw.drwtNo3 ?? draw.drwt_no3,
+					drwtNo4: draw.drwtNo4 ?? draw.drwt_no4,
+					drwtNo5: draw.drwtNo5 ?? draw.drwt_no5,
+					drwtNo6: draw.drwtNo6 ?? draw.drwt_no6,
+					bnusNo: draw.bnusNo ?? draw.bnus_no,
+					totSellamnt: draw.totSellamnt ?? draw.tot_sellamnt,
+					firstWinamnt: draw.firstWinamnt ?? draw.first_winamnt,
+					firstPrzwnerCo: draw.firstPrzwnerCo ?? draw.first_przwner_co,
+					firstAccumamnt: draw.firstAccumamnt ?? draw.first_accumamnt,
+				};
+			}).filter(Boolean);
 		},
 		getDrwNo(no) {
 			return this.numbers.find(item => Number(item.drwNo) === Number(no));

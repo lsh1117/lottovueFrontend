@@ -20,7 +20,7 @@
 			<div class="section-footer">
 				<div class="btn-area btn-area-center">
 					<button class="btn-primary btn-small"  @click="openFixedPopup">변경</button>
-					<button class="btn-primary btn-small"  @click="openFixedRecommendPopup">분석 고정번호</button>
+					<button class="btn-primary btn-small" :disabled="drawsLoading" @click="openFixedRecommendPopup">분석 고정번호</button>
 				</div>
 			</div>
 		</section>
@@ -45,14 +45,14 @@
 			<div class="section-footer">
 				<div class="btn-area btn-area-center">
 					<button class="btn-primary btn-small" @click="openExceptionPopup">변경</button>
-					<button class="btn-primary btn-small" @click="openExceptionRecommendPopup">분석 제외번호</button>
+					<button class="btn-primary btn-small" :disabled="drawsLoading" @click="openExceptionRecommendPopup">분석 제외번호</button>
 				</div>
 			</div>
 		</section>
 		<section class="section section-area fixed-bottom">
 			<div class="btn-area btn-area-center">
-				<button class="btn-primary btn-large" @click="openRecommendPopup" >번호 생성</button>
-				<button class="btn-primary btn-large" @click="openAIRecommendPopup" >AI번호생성</button>
+				<button class="btn-primary btn-large" :disabled="drawsLoading" @click="openRecommendPopup">번호생성</button>
+				<button class="btn-primary btn-large" :disabled="drawsLoading" @click="openAIRecommendPopup">AI번호생성</button>
 				<button class="btn-primary btn-large" @click="openMyNumberPopup" >내번호보기</button>
 			</div>
 		</section>
@@ -67,6 +67,7 @@
 	import { useFixedStore } from "@/stores/FixedStore";
 	import { useCalculateStore } from "@/stores/CalculateStore";
 	import { useDrwStore } from "@/stores/DrwStore";
+	import { useDrawData } from '@/composables/useDrawData';
 	import { isAuthenticated } from '@/utils/auth';
 
 	const router = useRouter();
@@ -77,6 +78,27 @@
 	const calculateStore = useCalculateStore();
 	// Pinia store 가져오기
 	const drwStore = useDrwStore();
+	const { loading: drawsLoading, ensureDrawsLoaded, isDrawDataReady } = useDrawData();
+
+	async function requireDraws() {
+		try {
+			await ensureDrawsLoaded();
+			if (!isDrawDataReady(drwStore.numbers)) {
+				alert('당첨 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.');
+				return false;
+			}
+			return true;
+		} catch {
+			alert('당첨 정보를 불러오는데 실패했습니다. 네트워크를 확인한 뒤 다시 시도해 주세요.');
+			return false;
+		}
+	}
+
+	function ensureCalculateReady() {
+		if (calculateStore.getState() === false || calculateStore.getNumbers().length === 0) {
+			calculate();
+		}
+	}
 	
 	// 제외 번호 - computed로 변경하여 자동 반영
 	const exceptionNumbers = computed(() => exceptionStore.numbers);
@@ -105,8 +127,8 @@
 	}
 
 	// 분석 제외번호 팝업 호출
-	function openExceptionRecommendPopup() {
-		//console.log("분석 제외번호 보기");
+	async function openExceptionRecommendPopup() {
+		if (!(await requireDraws())) return;
 		eventStore.emit('popup',{
 			id:"exceptionRecommend",
 			title:"분석 제외번호 보기",
@@ -147,8 +169,8 @@
 	}
 
 	// 분석 고정번호 팝업 호출
-	function openFixedRecommendPopup() {
-		//console.log("분석 고정번호 보기");
+	async function openFixedRecommendPopup() {
+		if (!(await requireDraws())) return;
 		eventStore.emit('popup',{
 			id:"fixedRecommend",
 			title:"분석 고정번호 보기",
@@ -167,15 +189,13 @@
 	}
 
 	// 번호 생성 팝업 (통계 기반)
-	function openRecommendPopup() {
+	async function openRecommendPopup() {
 		if (!isAuthenticated()) {
 			alert('번호 생성 기능은 로그인 후 이용 가능합니다.\n계정 정보에서 로그인해주세요.');
 			return;
 		}
-
-		if(calculateStore.getState() === false) {
-			calculate();
-		}
+		if (!(await requireDraws())) return;
+		ensureCalculateReady();
 		eventStore.emit('popup',{
 			id:"recommend",
 			title:"번호 생성",
@@ -183,14 +203,13 @@
 		});
 	}
 
-	function openAIRecommendPopup() {
+	async function openAIRecommendPopup() {
 		if (!isAuthenticated()) {
 			alert('AI번호생성 기능은 로그인 후 이용 가능합니다.\n계정 정보에서 로그인해주세요.');
 			return;
 		}
-		if(calculateStore.getState() === false) {
-			calculate();
-		}
+		if (!(await requireDraws())) return;
+		ensureCalculateReady();
 		eventStore.emit('popup',{
 			id:"recommend",
 			title:"AI 번호 생성",
@@ -268,8 +287,7 @@
 		calculateStore.setNumbers(calculateNumbers);
 	}
 
-	// 로그인 체크 제거 - 비로그인 사용자도 번호 생성 화면 이용 가능
 	onMounted(() => {
-		// 로그인 체크 제거됨
+		ensureDrawsLoaded().catch(() => {});
 	});
 </script>

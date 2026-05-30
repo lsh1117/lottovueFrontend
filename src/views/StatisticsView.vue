@@ -119,15 +119,15 @@
 	import EvenAndOddNotAppearInSuccession from "@/components/stt/EvenAndOddNotAppearInSuccession.vue"; // 짝수홀수 연속 미등장 컴포넌트 가져오기
 	import EvenAndOddNotAppearInSuccessionUntil from "@/components/stt/EvenAndOddNotAppearInSuccessionUntil.vue"; // 짝수홀수 현재까지 연속 미등장 컴포넌트 가져오기
 	import { useDrwStore } from "@/stores/DrwStore"
-	import { getDraws, getAIRecommendation } from "@/api/lotto"
+	import { getAIRecommendation } from "@/api/lotto"
+	import { useDrawData } from "@/composables/useDrawData"
 	import { isAuthenticated, getUser } from '@/utils/auth'
 	import { useEventStore } from '@/stores/EventStore'
 
 	const router = useRouter()
 	const drwStore = useDrwStore()
 	const eventStore = useEventStore()
-	const loading = ref(false)
-	const error = ref(null)
+	const { loading, error, ensureDrawsLoaded } = useDrawData()
 	const aiLoading = ref(false)
 	const aiError = ref(null)
 	const aiRecommendationData = ref({
@@ -210,73 +210,6 @@
 		}
 	})
 
-	// 백엔드 응답(snake_case)을 DrwStore 형식(camelCase)으로 변환
-	function convertToCamelCase(draw) {
-		return {
-			drwNo: draw.drw_no,
-			drwNoDate: draw.drw_no_date,
-			drwtNo1: draw.drwt_no1,
-			drwtNo2: draw.drwt_no2,
-			drwtNo3: draw.drwt_no3,
-			drwtNo4: draw.drwt_no4,
-			drwtNo5: draw.drwt_no5,
-			drwtNo6: draw.drwt_no6,
-			bnusNo: draw.bnus_no,
-			totSellamnt: draw.tot_sellamnt,
-			firstWinamnt: draw.first_winamnt,
-			firstPrzwnerCo: draw.first_przwner_co,
-			firstAccumamnt: draw.first_accumamnt,
-		}
-	}
-
-	// 모든 당첨 정보 가져오기 (1회차부터 최근 회차까지)
-	async function fetchAllDraws() {
-		loading.value = true
-		error.value = null
-		try {
-			//console.log('모든 당첨 정보 요청 시작...')
-			
-			// 한 번에 최대 1000개까지 가져올 수 있으므로, 여러 번 호출하여 모든 데이터 가져오기
-			let allDraws = []
-			let skip = 0
-			const limit = 1000
-			let hasMore = true
-
-			while (hasMore) {
-				const data = await getDraws(skip, limit)
-				if (data && data.length > 0) {
-					allDraws = allDraws.concat(data)
-					skip += data.length
-					
-					// 가져온 데이터가 limit보다 적으면 마지막 페이지
-					if (data.length < limit) {
-						hasMore = false
-					}
-				} else {
-					hasMore = false
-				}
-			}
-
-			//console.log(`총 ${allDraws.length}개의 당첨 정보를 가져왔습니다.`)
-
-			// 회차번호 오름차순 정렬 (1회차부터)
-			allDraws.sort((a, b) => a.drw_no - b.drw_no)
-
-			// camelCase로 변환
-			const convertedDraws = allDraws.map(convertToCamelCase)
-
-			// DrwStore에 설정
-			drwStore.setNumbers(convertedDraws)
-			
-			//console.log('DrwStore에 당첨 정보 설정 완료')
-		} catch (err) {
-			console.error('당첨 정보를 가져오는데 실패했습니다:', err)
-			error.value = err.response?.data?.detail || err.message || '데이터를 불러올 수 없습니다.'
-		} finally {
-			loading.value = false
-		}
-	}
-
 	// 통계 데이터를 JSON으로 수집하는 함수
 	function collectStatisticsData() {
 		const numbers = drwStore.getNumbers()
@@ -284,8 +217,11 @@
 			throw new Error('당첨 정보가 없습니다.')
 		}
 
+		const sortedByLatest = [...numbers].sort((a, b) => Number(b.drwNo) - Number(a.drwNo))
+		const last100Draws = sortedByLatest.slice(0, 100)
+
 		// 최신 회차 정보
-		const latestDraw = numbers[0]
+		const latestDraw = sortedByLatest[0]
 		const nextDrwNo = Number(latestDraw.drwNo) + 1
 
 		// 전체 통계 데이터 수집
@@ -311,7 +247,7 @@
 			total_appear: drwStore.getTotalAppear(numbers),
 
 			// 번호별 등장 횟수 (최근 100회)
-			last_100_appear: drwStore.getTotalAppear(numbers.slice(0, 100)),
+			last_100_appear: drwStore.getTotalAppear(last100Draws),
 
 			// 연속 등장 통계
 			appear_in_succession: drwStore.getAppearInSuccession(numbers),
@@ -338,7 +274,7 @@
 			even_odd_not_appear_in_succession_until: drwStore.getEvenAndOddNotAppearInSuccessionUntil(numbers),
 
 			// 최근 10회차 당첨번호
-			recent_10_draws: numbers.slice(0, 10).map(draw => ({
+			recent_10_draws: sortedByLatest.slice(0, 10).map(draw => ({
 				drw_no: draw.drwNo,
 				drw_no_date: draw.drwNoDate,
 				numbers: [
@@ -401,6 +337,7 @@
 		}
 
 		try {
+			await ensureDrawsLoaded()
 			// 통계 데이터 수집
 			const statisticsData = collectStatisticsData()
 			
@@ -475,8 +412,11 @@
 	}
 
 	onMounted(async () => {
-		// 로그인 체크 제거 - 비로그인 사용자도 통계 화면 이용 가능
-		await fetchAllDraws()
+		try {
+			await ensureDrawsLoaded()
+		} catch (err) {
+			console.error('당첨 정보를 가져오는데 실패했습니다:', err)
+		}
 	})
 
 </script>

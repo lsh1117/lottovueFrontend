@@ -40,7 +40,14 @@
 							</n-button>
 
 							<n-space vertical :size="8">
-								<n-button type="warning" block :loading="kakaoLoading" @click="handleKakaoLogin">
+								<n-button
+									class="kakao-login-btn"
+									block
+									:loading="kakaoLoading"
+									color="#f4dc00"
+									text-color="#000000"
+									@click="handleKakaoLogin"
+								>
 									카카오 로그인
 								</n-button>
 							</n-space>

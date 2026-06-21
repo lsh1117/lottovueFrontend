@@ -48,7 +48,22 @@
 									text-color="#000000"
 									@click="handleKakaoLogin"
 								>
-									카카오 로그인
+									<span class="kakao-login-btn__content">
+										<svg
+											class="kakao-login-btn__icon"
+											width="20"
+											height="20"
+											viewBox="0 0 24 24"
+											aria-hidden="true"
+											xmlns="http://www.w3.org/2000/svg"
+										>
+											<path
+												fill="currentColor"
+												d="M12 3c5.799 0 10.5 3.664 10.5 8.185 0 4.068-3.715 7.498-8.667 8.048l-1.424 2.616a.75.75 0 0 1-1.31-.006l-1.424-2.61C5.715 18.683 1.5 15.253 1.5 11.185 1.5 6.664 6.201 3 12 3z"
+											/>
+										</svg>
+										카카오 로그인
+									</span>
 								</n-button>
 							</n-space>
 
@@ -255,5 +270,16 @@ onMounted(() => {
 .login-card {
 	max-width: 520px;
 	margin: 0 auto;
+}
+
+.kakao-login-btn__content {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+}
+
+.kakao-login-btn__icon {
+	flex-shrink: 0;
 }
 </style>

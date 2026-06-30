@@ -22,12 +22,12 @@
 					<label for="pickCount">뽑을 개수:</label>
 					<input 
 						id="pickCount"
-						type="number" 
-						v-model.number="selectedCount" 
-						:min="1" 
-						:max="effectiveMaxSelectableCount"
+						type="text"
+						inputmode="numeric"
+						pattern="[0-9]*"
+						v-model="pickCountInput"
 						class="count-input"
-						@input="validateCount"
+						@blur="onPickCountBlur"
 					/>
 					<span class="count-hint">최대 {{ effectiveMaxSelectableCount }}개까지 선택 가능</span>
 				</div>
@@ -227,8 +227,13 @@
 		return user?.credits ?? 0;
 	});
 
-	// 선택한 번호 개수
-	const selectedCount = ref(1);
+	// 선택한 번호 개수 (입력 중 빈 값 허용)
+	const pickCountInput = ref('1');
+	const selectedCount = computed(() => {
+		if (pickCountInput.value === '') return 0;
+		const parsed = parseInt(pickCountInput.value, 10);
+		return Number.isNaN(parsed) ? 0 : parsed;
+	});
 
 	// Plan별 최대 선택 가능한 개수
 	const planMaxCount = computed(() => {
@@ -279,17 +284,26 @@
 		}
 	}
 
-	// 개수 유효성 검사
-	function validateCount() {
-		if (selectedCount.value < 1) {
-			selectedCount.value = 1;
+	// 포커스 이탈 시 개수 정리 (빈 값이면 0, 범위 초과 시 상한 적용)
+	function onPickCountBlur() {
+		if (pickCountInput.value.trim() === '') {
+			pickCountInput.value = '0';
+			return;
 		}
-		if (selectedCount.value > effectiveMaxSelectableCount.value) {
-			selectedCount.value = effectiveMaxSelectableCount.value;
+
+		let count = parseInt(pickCountInput.value, 10);
+		if (Number.isNaN(count) || count < 0) {
+			pickCountInput.value = '0';
+			return;
 		}
-		if (selectedCount.value > userCredits.value) {
-			selectedCount.value = userCredits.value;
+
+		if (count > effectiveMaxSelectableCount.value) {
+			count = effectiveMaxSelectableCount.value;
 		}
+		if (count > userCredits.value) {
+			count = userCredits.value;
+		}
+		pickCountInput.value = String(count);
 	}
 
 	// 생성 번호 생성 처리
@@ -616,7 +630,7 @@
 		maxPickCount.value = planMaxCount.value;
 		
 		// 초기 선택 개수 설정 (크레딧이 있으면 1개, 없으면 0개)
-		selectedCount.value = userCredits.value > 0 ? 1 : 0;
+		pickCountInput.value = userCredits.value > 0 ? '1' : '0';
 		
 		checkRecommendCount();
 		// 자동 생성하지 않고 사용자가 선택하도록 변경

@@ -65,9 +65,8 @@
 	import { useEventStore } from '@/stores/EventStore';
 	import { useExceptionStore } from "@/stores/ExceptionStore";
 	import { useFixedStore } from "@/stores/FixedStore";
-	import { useCalculateStore } from "@/stores/CalculateStore";
-	import { useDrwStore } from "@/stores/DrwStore";
 	import { useDrawData } from '@/composables/useDrawData';
+	import { useStatisticsCalculate } from '@/composables/useStatisticsCalculate';
 	import { isAuthenticated } from '@/utils/auth';
 
 	const router = useRouter();
@@ -75,15 +74,13 @@
 	const eventStore = useEventStore();
 	const exceptionStore = useExceptionStore();
 	const fixedStore = useFixedStore();
-	const calculateStore = useCalculateStore();
-	// Pinia store 가져오기
-	const drwStore = useDrwStore();
-	const { loading: drawsLoading, ensureDrawsLoaded, isDrawDataReady } = useDrawData();
+	const { loading: drawsLoading } = useDrawData();
+	const { ensureStatisticsReady } = useStatisticsCalculate();
 
 	async function requireDraws() {
 		try {
-			await ensureDrawsLoaded();
-			if (!isDrawDataReady(drwStore.numbers)) {
+			const ready = await ensureStatisticsReady();
+			if (!ready) {
 				alert('당첨 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.');
 				return false;
 			}
@@ -94,12 +91,6 @@
 		}
 	}
 
-	function ensureCalculateReady() {
-		if (calculateStore.getState() === false || calculateStore.getNumbers().length === 0) {
-			calculate();
-		}
-	}
-	
 	// 제외 번호 - computed로 변경하여 자동 반영
 	const exceptionNumbers = computed(() => exceptionStore.numbers);
 	
@@ -195,7 +186,6 @@
 			return;
 		}
 		if (!(await requireDraws())) return;
-		ensureCalculateReady();
 		eventStore.emit('popup',{
 			id:"recommend",
 			title:"번호 생성",
@@ -209,7 +199,6 @@
 			return;
 		}
 		if (!(await requireDraws())) return;
-		ensureCalculateReady();
 		eventStore.emit('popup',{
 			id:"recommend",
 			title:"AI 번호 생성",
@@ -227,67 +216,11 @@
 		router.push('/my-winning-number');
 	}
 
-	function calculate(){
-		calculateStore.setState(true);
-		// 전체 번호
-		let calculateNumbers = [];
-
-		// 등장 횟수
-		let appearNumber = drwStore.getTotalAppear(drwStore.numbers);
-		appearNumber.sort((a, b) => b.count - a.count);
-		const appearCnt = appearNumber[0].count;
-		appearNumber.forEach((item) => {
-			const _cnt = appearCnt - item.count;
-			for(let i=0;i<_cnt;i++){
-				calculateNumbers.push(item.number);
-			}
-		});
-
-		// 현재까지 연속 미등장 횟수
-		let notAppearInSuccessionUntil = drwStore.getNotAppearInSuccessionUntil(drwStore.numbers);
-		notAppearInSuccessionUntil.sort((a, b) => b.count - a.count);
-		notAppearInSuccessionUntil.forEach((item) => {
-			for(let i=0;i<item.count;i++){
-				calculateNumbers.push(item.number);
-			}
-		});
-
-		// 현재까지 구간별 연속 미등장 횟수
-		let GroupnotAppearInSuccessionUntil = drwStore.getGroupNotAppearInSuccessionUntil(drwStore.numbers);
-		GroupnotAppearInSuccessionUntil.sort((a, b) => b.count - a.count);
-		GroupnotAppearInSuccessionUntil.forEach((item) => {
-			if(item.count > 0){
-				// 가중치
-				const _marginRate = item.count * 10;
-				const _cnt = (item.number<5)?10:5;
-				// 구간번호
-				for( let j=0;j<_cnt;j++){
-					const _number = ( (item.number - 1) * 10 ) +(j+1);
-					// 가중치 만큼 추가.
-					for(let i=0;i<_marginRate;i++){
-						calculateNumbers.push(_number);
-					}
-				}
-			}
-		});
-
-		// 최근 100회 등장 횟수/
-		/*
-		let _lastNumbers = drwStore.getTotalAppear( drwStore.numbers.slice(0,100) );
-		_lastNumbers.sort((a, b) => b.count - a.count);
-		const lastCnt = _lastNumbers[0].count;
-		_lastNumbers.forEach((item) => {
-			const _cnt = lastCnt - item.count;
-			for(let i=0;i<_cnt;i++){
-				calculateNumbers.push(item.number);
-			}
-		});
-		*/
-
-		calculateStore.setNumbers(calculateNumbers);
-	}
-
-	onMounted(() => {
-		ensureDrawsLoaded().catch(() => {});
+	onMounted(async () => {
+		try {
+			await ensureStatisticsReady();
+		} catch (err) {
+			console.error('당첨/통계 데이터 로드 실패:', err);
+		}
 	});
 </script>

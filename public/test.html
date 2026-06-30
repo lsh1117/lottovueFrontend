@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="로또뷰 미리보기 - 스마트한 로또 번호 분석과 AI 분석 서비스">
+  <title>로또뷰 미리보기</title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #f5f5f5;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+    }
+
+    .page {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      min-height: 100dvh;
+    }
+
+    .page-header {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 16px;
+      background-color: #ffffff;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .page-header__title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #222222;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .page-header__link {
+      flex-shrink: 0;
+      font-size: 13px;
+      color: #4caf50;
+      text-decoration: none;
+    }
+
+    .page-header__link:hover {
+      text-decoration: underline;
+    }
+
+    .iframe-wrap {
+      position: relative;
+      flex: 1;
+      width: 100%;
+      min-height: 0;
+      background-color: #ffffff;
+    }
+
+    .iframe-wrap iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .iframe-fallback {
+      display: none;
+      padding: 24px 16px;
+      text-align: center;
+      line-height: 1.6;
+      color: #555555;
+    }
+
+    @media (max-width: 480px) {
+      .page-header {
+        padding: 8px 12px;
+      }
+
+      .page-header__title {
+        font-size: 14px;
+      }
+
+      .page-header__link {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <header class="page-header">
+      <h1 class="page-header__title">로또뷰 미리보기</h1>
+      <a class="page-header__link" href="https://lottovue.co.kr/" target="_blank" rel="noopener noreferrer">
+        새 창에서 열기
+      </a>
+    </header>
+
+    <main class="iframe-wrap">
+      <iframe
+        src="https://lottovue.co.kr/"
+        title="로또뷰 - 스마트한 로또 번호 분석과 AI 분석 서비스"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        allow="fullscreen"
+      ></iframe>
+      <p class="iframe-fallback">
+        iframe을 표시할 수 없습니다.
+        <a href="https://lottovue.co.kr/" target="_blank" rel="noopener noreferrer">로또뷰 바로가기</a>
+      </p>
+    </main>
+  </div>
+</body>
+
+</html>
